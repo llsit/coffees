@@ -34,19 +34,16 @@ public class login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-
-        if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(login.this, main.class));
-            finish();
-        }
-
         final EditText inputEmail = findViewById(R.id.email);
         final EditText inputPassword = findViewById(R.id.password);
         final ProgressBar progressBar = findViewById(R.id.progressBar);
         Button btnLogin = findViewById(R.id.btn_login);
 
         auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(login.this, main.class));
+            finish();
+        }
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +79,7 @@ public class login extends AppCompatActivity {
                                     } else {
                                         Toast.makeText(login.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
-                                } else {
+                               } else {
                                     Intent intent = new Intent(login.this, main.class);
                                     startActivity(intent);
                                     finish();
@@ -91,28 +88,8 @@ public class login extends AppCompatActivity {
                         });
             }
         });
+
+
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
