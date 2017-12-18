@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -31,9 +32,6 @@ public class main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-
         Button btn_logout = findViewById(R.id.btn_logout);
 
         auth = FirebaseAuth.getInstance();
@@ -42,6 +40,8 @@ public class main extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
+                auth.signOut();
+                LoginManager.getInstance().logOut();
                 Intent intent = new Intent(main.this, login.class);
                 startActivity(intent);
                 finish();
