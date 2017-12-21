@@ -9,21 +9,58 @@
     <LinearLayout
         android:id="@+id/layoutmain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="661dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="-2dp">
 
-
-        <TextView
-            android:id="@+id/textView"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorWhite"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <Button
-            android:id="@+id/btn_logout"
+        <FrameLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign out" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorGray">
+
+            <!--<TextView-->
+                <!--android:id="@+id/textView"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="TextView"-->
+                <!--android:textSize="50dp" />-->
+
+            <!--<Button-->
+                <!--android:id="@+id/btn_logout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="400dp"-->
+                <!--android:text="Sign out" />-->
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="150dp"
+                android:text="TextView"
+                android:textSize="30dp" />
+
+        </FrameLayout>
+        <android.support.design.widget.BottomNavigationView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/buttom_nav"
+            android:background="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_gravity="start"
+            app:menu="@menu/my_navigation_items" />
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -44,8 +44,6 @@ public class login extends AppCompatActivity {
 
     private static final String TAG = "FacebookLogin";
 
-    private String password;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +73,6 @@ public class login extends AppCompatActivity {
             public void onClick(View v) {
                 String email = inputEmail.getText().toString();
                 String password = inputPassword.getText().toString();
-
                 signIn( email, password);
             }
         });
@@ -113,7 +110,6 @@ public class login extends AppCompatActivity {
 
     }
 
-
     private void signIn(String email, final String password) {
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
@@ -150,7 +146,6 @@ public class login extends AppCompatActivity {
                     }
                 });
     }
-
 
     @Override
     public void onStart() {
