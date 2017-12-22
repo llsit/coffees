@@ -21,7 +21,7 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class main extends AppCompatActivity implements ProfileFragment.OnFragmentInteractionListener{
+public class main extends AppCompatActivity implements ProfileFragment.OnFragmentInteractionListener,NearbyFragment.OnFragmentInteractionListener{
 
     private FirebaseAuth auth;
     private Button btn_logout;
@@ -40,7 +40,7 @@ public class main extends AppCompatActivity implements ProfileFragment.OnFragmen
 
         //btn_logout = findViewById(R.id.btn_logout);
         //textView = findViewById(R.id.textView);
-        text = findViewById(R.id.text);
+        //text = findViewById(R.id.text);
         mBottomNav = findViewById(R.id.buttom_nav);
 
         auth = FirebaseAuth.getInstance();
@@ -60,7 +60,7 @@ public class main extends AppCompatActivity implements ProfileFragment.OnFragmen
 //            }
 //        });
 
-        text.setText("Home");
+        //text.setText("Home");
         BottomNavigationViewHelper.disableShiftMode(mBottomNav);
         mBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -70,18 +70,24 @@ public class main extends AppCompatActivity implements ProfileFragment.OnFragmen
                 // return true if you want the item to be displayed as the selected item
                 switch (item.getItemId()) {
                     case R.id.action_home:
-                        text.setText("Home");
+                        //text.setText("Home");
                         //mBottomNav.setItemTextColor(ContextCompat.getColorStateList(main.this, R.color.colorAccent));
                         break;
                     case R.id.action_search:
-                        text.setText("Search");
+                        //text.setText("Search");
                         //mBottomNav.setItemIconTintList(ContextCompat.getColorStateList(main.this, R.color.color_profile));
                         break;
                     case R.id.action_nearby:
-                        text.setText("Nearby");
+                        //text.setText("Nearby");
+                        NearbyFragment nearby = new NearbyFragment();
+                        FragmentManager manager_nearby = getSupportFragmentManager();
+                        android.support.v4.app.FragmentTransaction nb = manager_nearby.beginTransaction();
+                        nb.replace(R.id.myFragment, nearby);
+                        nb.addToBackStack(null);
+                        nb.commit();
                         break;
                     case R.id.action_favorite:
-                        text.setText("Favorite");
+                        //text.setText("Favorite");
                         break;
                     case R.id.action_profile:
                         //text.setText("Profile");
