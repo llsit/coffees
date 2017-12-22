@@ -168,13 +168,14 @@ public class login extends AppCompatActivity {
         // [START_EXCLUDE silent]
         //showProgressDialog();
         // [END_EXCLUDE]
-
+        progressBar.setVisibility(View.VISIBLE);
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            progressBar.setVisibility(View.GONE);
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = auth.getCurrentUser();

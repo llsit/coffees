@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +39,7 @@ public class register extends AppCompatActivity {
     private Button buttonSignup;
 
     private TextView textViewSignIn;
-
+    private ProgressBar progressBar2;
     private FirebaseAuth auth;
 
     private DatabaseReference mDatabase;
@@ -59,13 +60,16 @@ public class register extends AppCompatActivity {
         editTextName = findViewById(R.id.editTextName);
         editTextEmail =  findViewById(R.id.editTextEmail);
         editTextPassword =  findViewById(R.id.editTextPassword);
-        textViewSignIn = findViewById(R.id.textViewSignIn);
+        textViewSignIn = findViewById(R.id.textViewSignin);
+        progressBar2 = findViewById(R.id.progressBar2);
 
         buttonSignup =  findViewById(R.id.buttonSignup);
+
 
         buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar2.setVisibility(View.VISIBLE);
                 email = editTextEmail.getText().toString();
                 password = editTextPassword.getText().toString();
                 mname = editTextName.getText().toString();
@@ -74,6 +78,7 @@ public class register extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 //checking if success
+                                progressBar2.setVisibility(View.GONE);
                                 if(task.isSuccessful()){
                                     //Success
 //                                    Toast.makeText(register.this, "Register Success", Toast.LENGTH_SHORT).show();
@@ -109,6 +114,7 @@ public class register extends AppCompatActivity {
         Toast.makeText(register.this, "Register Success", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(register.this, login.class);
         startActivity(intent);
+        finish();
     }
 
 }

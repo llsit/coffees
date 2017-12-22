@@ -12,78 +12,85 @@
         android:layout_height="659dp"
         android:layout_centerVertical="true"
         android:orientation="vertical"
-        android:padding="30dp">
+        android:padding="25dp">
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="Sign Up"
-            android:textColor="@color/colorOrange"
+            android:textColor="@color/colorAccent"
             android:textSize="33dp"
             android:textStyle="bold" />
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/full_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
             <EditText
                 android:id="@+id/editTextName"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Full Name"
+                android:layout_margin="15dp"
+                android:hint="Enter Name"
                 android:inputType="textPersonName" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/email_address"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
             <EditText
-                android:id="@+id/editTextEmail"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Email Address"
-                android:inputType="textEmailAddress" />
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:hint="Enter email"
+            android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/editTextPassword"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
             <EditText
-                android:id="@+id/create_new_password"
-                android:layout_width="fill_parent"
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Password"
+                android:layout_margin="15dp"
+                android:hint="Enter password"
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/buttonSignup"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@color/colorOrange"
-            android:text="Sign Up"
-            android:textColor="@color/colorWhite" />
+            android:layout_margin="15dp"
+            android:text="Signup"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/colorAccent"/>
 
         <TextView
-            android:id="@+id/textViewSignIn"
+            android:id="@+id/textViewSignin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:text="Already Registered? Signin Here"
             android:textAlignment="center" />
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone" />
+
 
     </LinearLayout>
 
