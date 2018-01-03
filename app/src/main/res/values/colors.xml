@@ -10,6 +10,6 @@
     <color name="color_home">#ff6600</color>
     <color name="color_search">#33cc33</color>
     <color name="color_search_near">#ffcc00</color>
-    <color name="color_favorite">#ff0000</color>
+    <color name="colorRed">#ff0000</color>
     <color name="color_profile">#3333cc</color>
 </resources>

@@ -1,64 +1,89 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.nuts.coffee9.ProfileFragment">
+    tools:context="com.example.nuts.coffee9.login">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/ic_profile"
-        android:orientation="horizontal"
-        android:padding="8dp" >
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="10dp">
 
-        <ImageView
-            android:id="@+id/account_picture"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:adjustViewBounds="false"
-            android:contentDescription="Test"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_favorite" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:orientation="vertical" >
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorWhite"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            tools:ignore="NotSibling,RtlHardcoded,UselessParent">
+
+            <ImageView
+                android:id="@+id/pic"
+                android:layout_width="match_parent"
+                android:layout_height="188dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="24dp"
+                android:contentDescription="@string/logo"
+                app:srcCompat="@mipmap/pic_profile" />
 
             <TextView
-                android:id="@+id/account_name"
-                android:layout_width="wrap_content"
+                android:id="@+id/display_name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/primary_text_light"
-                android:textStyle="bold" />
+                android:layout_below="@+id/pic"
+                android:layout_marginTop="25dp"
+                android:paddingLeft="16dp"
+                android:text="name"
+                android:textSize="25dp" />
 
             <TextView
-                android:id="@+id/account_email"
-                android:layout_width="wrap_content"
+                android:id="@+id/display_email"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_light" />
-        </LinearLayout>
-    </LinearLayout>
+                android:layout_below="@+id/display_name"
+                android:layout_marginTop="25dp"
+                android:paddingLeft="16dp"
+                android:text="email"
+                android:textSize="25dp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginTop="24dp"
-        android:gravity="center_horizontal"
-        android:text="welcome"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+            <TextView
+                android:id="@+id/display_birthdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/display_email"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="25dp"
+                android:paddingLeft="16dp"
+                android:text="birthdate"
+                android:textSize="25dp" />
 
-    <Button
-        android:id="@+id/sign_out"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/display_birthdate"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="14dp"
+                android:paddingLeft="16dp"
+                android:background="@color/mdtp_white"
+                android:padding="12dp"
+                android:text="@string/logout"
+                android:textColor="@color/colorRed" />
 
-        android:text="ok"
-        android:textColor="@android:color/white" />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="20dp"
+                android:visibility="gone" />
 
-</FrameLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

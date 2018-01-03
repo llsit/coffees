@@ -20,7 +20,19 @@
             android:background="@color/colorWhite"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_gravity="center" />
+        </android.support.v7.widget.Toolbar>
+
+
+
 
         <FrameLayout
             android:id="@+id/myFragment"
@@ -30,30 +42,9 @@
             android:background="@color/colorGray"
             tools:layout="@layout/fragment_profile">
 
-            <!--<TextView-->
-                <!--android:id="@+id/textView"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="TextView"-->
-                <!--android:textSize="50dp" />-->
-
-            <!--<Button-->
-                <!--android:id="@+id/btn_logout"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="400dp"-->
-                <!--android:text="Sign out" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/text"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_margin="150dp"-->
-
-                <!--android:text="TextView"-->
-                <!--android:textSize="30dp" />-->
-
         </FrameLayout>
+
+
         <android.support.design.widget.BottomNavigationView
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
