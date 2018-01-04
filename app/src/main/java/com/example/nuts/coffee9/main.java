@@ -1,6 +1,7 @@
 package com.example.nuts.coffee9;
 
 
+import android.annotation.SuppressLint;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,19 +23,18 @@ public class main extends AppCompatActivity implements ProfileFragment.OnFragmen
 
 
     private TextView mTitle;
-    private Toolbar myToolbar;
-    private BottomNavigationView mBottomNav;
-    private ActionBar ab;
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myToolbar = findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        ab = getSupportActionBar();
+        ActionBar ab = getSupportActionBar();
 
-        mBottomNav = findViewById(R.id.buttom_nav);
+        BottomNavigationView mBottomNav = findViewById(R.id.buttom_nav);
 
         HomeFragment home = new HomeFragment();
         FragmentManager manager_home = getSupportFragmentManager();
@@ -46,7 +46,9 @@ public class main extends AppCompatActivity implements ProfileFragment.OnFragmen
         //text.setText("Home");
         //ab.setTitle("Home");
         //myToolbar.setTitleMargin(450,1,1,1);
-        ab.setDisplayShowTitleEnabled(false);
+        if (ab != null) {
+            ab.setDisplayShowTitleEnabled(false);
+        }
         mTitle = myToolbar.findViewById(R.id.toolbar_title);
         mTitle.setText("Home");
         BottomNavigationViewHelper.disableShiftMode(mBottomNav);
@@ -60,7 +62,6 @@ public class main extends AppCompatActivity implements ProfileFragment.OnFragmen
                 switch (item.getItemId()) {
                     case R.id.action_home:
                         mTitle.setText("Home");
-                        //ab.setTitle("Home");
                         HomeFragment home = new HomeFragment();
                         FragmentManager manager_home = getSupportFragmentManager();
                         android.support.v4.app.FragmentTransaction hm = manager_home.beginTransaction();
@@ -69,8 +70,6 @@ public class main extends AppCompatActivity implements ProfileFragment.OnFragmen
                         hm.commit();
                         break;
                     case R.id.action_search:
-                        //text.setText("Search");
-                        //ab.setTitle("Search");
                         mTitle.setText("Search");
                         SearchFragment search = new SearchFragment();
                         FragmentManager manager_search = getSupportFragmentManager();
@@ -80,8 +79,6 @@ public class main extends AppCompatActivity implements ProfileFragment.OnFragmen
                         sh.commit();
                         break;
                     case R.id.action_nearby:
-                        //text.setText("Nearby");
-                        //ab.setTitle("Nearby");
                         mTitle.setText("Nearby");
                         NearbyFragment nearby = new NearbyFragment();
                         FragmentManager manager_nearby = getSupportFragmentManager();
@@ -91,8 +88,6 @@ public class main extends AppCompatActivity implements ProfileFragment.OnFragmen
                         nb.commit();
                         break;
                     case R.id.action_favorite:
-                        //text.setText("Favorite");
-                        //ab.setTitle("Favorite");
                         mTitle.setText("Favorite");
                         FavoriteFragment favorite = new FavoriteFragment();
                         FragmentManager manager_favorite = getSupportFragmentManager();
@@ -102,8 +97,6 @@ public class main extends AppCompatActivity implements ProfileFragment.OnFragmen
                         fv.commit();
                         break;
                     case R.id.action_profile:
-                        //text.setText("Profile");
-                        //ab.setTitle("Profile");
                         mTitle.setText("Profile");
                         ProfileFragment profile = new ProfileFragment();
                         FragmentManager manager = getSupportFragmentManager();
@@ -116,9 +109,6 @@ public class main extends AppCompatActivity implements ProfileFragment.OnFragmen
                 return true;
             }
         });
-
-
-
     }
 
 
