@@ -106,6 +106,7 @@ public class main extends AppCompatActivity implements ProfileFragment.OnFragmen
                         ft.commit();
                         break;
                 }
+
                 return true;
             }
         });
