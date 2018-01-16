@@ -79,7 +79,7 @@ public class SearchFragment extends Fragment {
                 FragmentManager manager_addShop = getFragmentManager();
                 assert manager_addShop != null;
                 android.support.v4.app.FragmentTransaction as = manager_addShop.beginTransaction();
-                as.add(R.id.myFragment, addShop);
+                as.add(R.id.Fragment, addShop);
                 as.addToBackStack(null);
                 as.commit();
             }

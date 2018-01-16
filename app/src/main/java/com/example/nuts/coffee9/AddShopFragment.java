@@ -27,14 +27,20 @@ public class AddShopFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_shop, container, false);
         // Inflate the layout for this fragment
 
+
         return view;
     }
+    public void onBackPressed() {
+        //this is only needed if you have specific things
+        //that you want to do when the user presses the back button.
+        /* your specific things...*/
+    }
+
 
 }
