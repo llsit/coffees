@@ -10,9 +10,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
+import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
+import com.codetroopers.betterpickers.datepicker.DatePicker;
+import com.codetroopers.betterpickers.datepicker.DatePickerBuilder;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -20,24 +25,26 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.lang.reflect.Member;
+import java.util.Calendar;
 
 
 public class register extends AppCompatActivity {
 
     //defining view objects
-    private EditText editTextName,editTextEmail,editTextPassword;
+    private EditText editTextName,editTextEmail,editTextPassword,editTextDate;
 
     private Button buttonSignup;
 
-    private TextView textViewSignin;
-
+    private TextView textViewSignIn;
+    private ProgressBar progressBar2;
     private FirebaseAuth auth;
 
     private DatabaseReference mDatabase;
 
-    private String id,email,password,mname;
+    private String id,email,password,mname,mdate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,13 +60,16 @@ public class register extends AppCompatActivity {
         editTextName = findViewById(R.id.editTextName);
         editTextEmail =  findViewById(R.id.editTextEmail);
         editTextPassword =  findViewById(R.id.editTextPassword);
-        textViewSignin = findViewById(R.id.textViewSignin);
+        textViewSignIn = findViewById(R.id.textViewSignin);
+        progressBar2 = findViewById(R.id.progressBar2);
 
         buttonSignup =  findViewById(R.id.buttonSignup);
+
 
         buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar2.setVisibility(View.VISIBLE);
                 email = editTextEmail.getText().toString();
                 password = editTextPassword.getText().toString();
                 mname = editTextName.getText().toString();
@@ -68,6 +78,7 @@ public class register extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 //checking if success
+                                progressBar2.setVisibility(View.GONE);
                                 if(task.isSuccessful()){
                                     //Success
 //                                    Toast.makeText(register.this, "Register Success", Toast.LENGTH_SHORT).show();
@@ -84,6 +95,15 @@ public class register extends AppCompatActivity {
                         });
             }
         });
+
+        textViewSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(register.this, login.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void Newmember(String uemail, String mid, String name) {
@@ -94,6 +114,7 @@ public class register extends AppCompatActivity {
         Toast.makeText(register.this, "Register Success", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(register.this, login.class);
         startActivity(intent);
+        finish();
     }
 
 }

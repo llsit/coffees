@@ -44,8 +44,6 @@ public class login extends AppCompatActivity {
 
     private static final String TAG = "FacebookLogin";
 
-    private String password;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +73,6 @@ public class login extends AppCompatActivity {
             public void onClick(View v) {
                 String email = inputEmail.getText().toString();
                 String password = inputPassword.getText().toString();
-
                 signIn( email, password);
             }
         });
@@ -112,7 +109,6 @@ public class login extends AppCompatActivity {
 // ...
 
     }
-
 
     private void signIn(String email, final String password) {
         if (TextUtils.isEmpty(email)) {
@@ -151,7 +147,6 @@ public class login extends AppCompatActivity {
                 });
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -173,13 +168,14 @@ public class login extends AppCompatActivity {
         // [START_EXCLUDE silent]
         //showProgressDialog();
         // [END_EXCLUDE]
-
+        progressBar.setVisibility(View.VISIBLE);
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            progressBar.setVisibility(View.GONE);
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = auth.getCurrentUser();

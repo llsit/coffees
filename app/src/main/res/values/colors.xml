@@ -2,6 +2,14 @@
 <resources>
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#414535</color>
+    <color name="colorGray">#e6e6e6</color>
     <color name="colorAccent">#ffa500</color>
+    <color name="colorWhite">#FFFFFF</color>
     <color name="colorAccentDark">#009FFD</color>
+    <color name="colorOrange">#ff6600</color>
+    <color name="color_home">#ff6600</color>
+    <color name="color_search">#33cc33</color>
+    <color name="color_search_near">#ffcc00</color>
+    <color name="colorRed">#ff0000</color>
+    <color name="color_profile">#3333cc</color>
 </resources>
