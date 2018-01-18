@@ -23,15 +23,6 @@
             android:paddingRight="16dp"
             tools:ignore="NotSibling,RtlHardcoded,UselessParent">
 
-            <ImageView
-                android:id="@+id/pic"
-                android:layout_width="match_parent"
-                android:layout_height="188dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="24dp"
-                android:contentDescription="@string/logo"
-                app:srcCompat="@mipmap/pic_profile" />
-
 
             <TextView
                 android:id="@+id/display_name"
