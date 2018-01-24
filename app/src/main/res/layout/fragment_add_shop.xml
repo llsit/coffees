@@ -5,13 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.nuts.coffee9.AddShopFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:background="@color/colorWhite"
-        android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
+    <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarAddShop"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -27,15 +22,58 @@
             android:textColor="@color/colorPrimary"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:layout_gravity="center" />
-        </android.support.v7.widget.Toolbar>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="50sp"
-            android:background="@color/colorAccent"
-            android:text="@string/hello_blank_fragment" />
+    </android.support.v7.widget.Toolbar>
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/colorWhite"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:id="@+id/nameshop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/nameshop"
+                    android:inputType="textLongMessage" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:id="@+id/Addressshop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/address"
+                    android:inputType="textLongMessage" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:id="@+id/detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/detail"
+                    android:inputType="textLongMessage" />
+            </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
-
 
 </FrameLayout>

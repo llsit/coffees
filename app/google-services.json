@@ -59,6 +59,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "683709922364-mlvvgfn4d3m5gcobeip4ofoif3b01jot.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nuts.coffee9",
+            "certificate_hash": "d32a5456e5367a64b64e33e5c393e5f7b52c1c6b"
+          }
+        },
+        {
           "client_id": "683709922364-h4pgelgikd41a2edn9f0986r8qov3bc4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -40,7 +40,7 @@ public class ProfileFragment extends Fragment {
         TextView display_name = view.findViewById(R.id.display_name);
         TextView display_email = view.findViewById(R.id.display_email);
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
+        final FirebaseAuth auth = FirebaseAuth.getInstance();
 
         FirebaseUser currentUser = auth.getCurrentUser();
 
@@ -51,9 +51,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Logout",Toast.LENGTH_SHORT).show();
-//                auth.signOut();
-//                Intent intent = new Intent(getActivity(), login.class);
-//                startActivity(intent);
+                auth.signOut();
+                Intent intent = new Intent(getActivity(), login.class);
+                startActivity(intent);
             }
         });
 

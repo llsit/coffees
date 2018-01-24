@@ -42,28 +42,21 @@ public class AddShopFragment extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add Coffee Shop");
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         return view;
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
 
-            case android.R.id.home:
-                AddShopFragment addShop = new AddShopFragment();
-                FragmentManager manager_addShop = getFragmentManager();
-                assert manager_addShop != null;
-                android.support.v4.app.FragmentTransaction as = manager_addShop.beginTransaction();
-                as.remove(addShop);
-                //as.addToBackStack(null);
-                as.commit();
-                return true;
-        }
-        return false;
-    }
     public void onBackPressed() {
         //this is only needed if you have specific things
         //that you want to do when the user presses the back button.
         /* your specific things...*/
+
+        getActivity().onBackPressed();
     }
 
 }

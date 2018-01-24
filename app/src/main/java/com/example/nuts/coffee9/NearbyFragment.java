@@ -1,12 +1,29 @@
 package com.example.nuts.coffee9;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import static android.widget.Toast.LENGTH_SHORT;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 /**
@@ -17,11 +34,15 @@ import android.view.ViewGroup;
  * Use the {@link NearbyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NearbyFragment extends Fragment {
+public class NearbyFragment extends Fragment implements OnMapReadyCallback{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+
+    MapView mMapView;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -63,8 +84,33 @@ public class NearbyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_nearby, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_nearby, container, false);
+//        mMapView = view.findViewById(R.id.mapView);
+//        SupportMapFragment mapFragment = (SupportMapFragment)getFragmentManager().findFragmentById(R.id.mapView);
+//
+//        mapFragment.getMapAsync(this);
+        return view;
+    }
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+//        MapsInitializer.initialize(getContext());
+//        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//
+//        googleMap.addMarker(new MarkerOptions().position(new LatLng(48.689247,-74.044502)).title("State of Liberty").snippet("Hello World."));
+//        CameraPosition Liberty = CameraPosition.builder().target(new LatLng(48.689247,-74.044502)).zoom(16).bearing(0).tilt(45).build();
+//        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Liberty));
+
+//        LatLng thai = new LatLng(37.422,-122.084);
+//        googleMap.addMarker(new MarkerOptions().position(thai).title("Marker thai"));
+//        googleMap.moveCamera((CameraUpdateFactory.newLatLng(thai)));
+        LatLng sydney = new LatLng(-33.852, 151.211);
+        googleMap.addMarker(new MarkerOptions().position(sydney)
+                .title("Marker in Sydney"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -90,6 +136,8 @@ public class NearbyFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this
