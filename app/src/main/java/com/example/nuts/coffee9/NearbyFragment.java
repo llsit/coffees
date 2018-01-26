@@ -34,7 +34,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Use the {@link NearbyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NearbyFragment extends Fragment implements OnMapReadyCallback{
+public class NearbyFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -42,6 +42,7 @@ public class NearbyFragment extends Fragment implements OnMapReadyCallback{
 
 
     MapView mMapView;
+    private  GoogleMap googleMap;
 
 
     // TODO: Rename and change types of parameters
@@ -86,31 +87,75 @@ public class NearbyFragment extends Fragment implements OnMapReadyCallback{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nearby, container, false);
         // Inflate the layout for this fragment
-//        mMapView = view.findViewById(R.id.mapView);
-//        SupportMapFragment mapFragment = (SupportMapFragment)getFragmentManager().findFragmentById(R.id.mapView);
-//
-//        mapFragment.getMapAsync(this);
+        mMapView = view.findViewById(R.id.mapView);
+
+        mMapView.onCreate(savedInstanceState);
+        mMapView.onResume();
+
+
+
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // adding marker
+        mMapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap mMap) {
+                googleMap = mMap;
+
+                // For showing a move to my location button
+                if (ActivityCompat.checkSelfPermission(getActivity(),
+                        android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED && ActivityCompat.
+                        checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                googleMap.setMyLocationEnabled(true);
+
+                // For dropping a marker at a point on the Map
+                LatLng sydney = new LatLng(18.7871934, 98.9802959);
+                googleMap.addMarker(new MarkerOptions().position(sydney).title("Chiang Mai").snippet("This is Chiang Mai"));
+
+                // For zooming automatically to the location of the marker
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+        });
         return view;
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMapView.onResume();
+    }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-//        MapsInitializer.initialize(getContext());
-//        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-//
-//        googleMap.addMarker(new MarkerOptions().position(new LatLng(48.689247,-74.044502)).title("State of Liberty").snippet("Hello World."));
-//        CameraPosition Liberty = CameraPosition.builder().target(new LatLng(48.689247,-74.044502)).zoom(16).bearing(0).tilt(45).build();
-//        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Liberty));
+    public void onPause() {
+        super.onPause();
+        mMapView.onPause();
+    }
 
-//        LatLng thai = new LatLng(37.422,-122.084);
-//        googleMap.addMarker(new MarkerOptions().position(thai).title("Marker thai"));
-//        googleMap.moveCamera((CameraUpdateFactory.newLatLng(thai)));
-        LatLng sydney = new LatLng(-33.852, 151.211);
-        googleMap.addMarker(new MarkerOptions().position(sydney)
-                .title("Marker in Sydney"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+    }
 
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mMapView.onLowMemory();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
