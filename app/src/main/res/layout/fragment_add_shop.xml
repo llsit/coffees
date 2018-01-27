@@ -74,6 +74,89 @@
                     android:inputType="textLongMessage" />
             </android.support.design.widget.TextInputLayout>
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Location"
+                    android:inputType="textLongMessage" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:id="@+id/time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Time hour"
+                    android:inputType="textLongMessage" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="6sp"
+                    android:layout_marginBottom="10sp"
+                    android:hint="Price" />
+
+                <RadioGroup
+                    android:id="@+id/radioPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0-100"
+                        android:checked="true"
+                        android:paddingRight="12dp"/>
+
+                    <RadioButton
+                        android:id="@+id/mid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="101-150"
+                        android:paddingRight="15dp"/>
+
+                    <RadioButton
+                        android:id="@+id/max"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="151-200" />
+
+                </RadioGroup>
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_marginTop="30sp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:theme="@style/PrimaryFlatButton"
+                android:background="@color/colorAccent"
+                android:padding="15sp"
+                android:drawableLeft="@drawable/ic_add"
+                android:layout_gravity="center"
+                android:text="Add" />
     </LinearLayout>
 
 </FrameLayout>
