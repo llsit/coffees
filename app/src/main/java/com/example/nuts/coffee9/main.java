@@ -16,8 +16,7 @@ import android.widget.TextView;
 import com.example.nuts.coffee9.affterlogin.NearByFragment;
 
 
-public class main extends AppCompatActivity implements ProfileFragment.OnFragmentInteractionListener,
-        SearchFragment.OnFragmentInteractionListener,FavoriteFragment.OnFragmentInteractionListener,HomeFragment.OnFragmentInteractionListener{
+public class main extends AppCompatActivity {
 
 
     private TextView mTitle;
@@ -100,12 +99,6 @@ public class main extends AppCompatActivity implements ProfileFragment.OnFragmen
                 return true;
             }
         });
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 }
 
