@@ -1,4 +1,4 @@
-package com.example.nuts.coffee9;
+package com.example.nuts.coffee9.beforlogin;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -10,10 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nuts.coffee9.R;
+import com.example.nuts.coffee9.main.main;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;

@@ -1,12 +1,9 @@
-package com.example.nuts.coffee9;
+package com.example.nuts.coffee9.beforlogin;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,10 +11,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
-import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter;
-import com.codetroopers.betterpickers.datepicker.DatePicker;
-import com.codetroopers.betterpickers.datepicker.DatePickerBuilder;
+import com.example.nuts.coffee9.R;
+import com.example.nuts.coffee9.main.member;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,10 +20,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-
-import java.lang.reflect.Member;
-import java.util.Calendar;
 
 
 public class register extends AppCompatActivity {

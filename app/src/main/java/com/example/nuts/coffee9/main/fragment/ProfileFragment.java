@@ -1,4 +1,4 @@
-package com.example.nuts.coffee9;
+package com.example.nuts.coffee9.main.fragment;
 
 
 import android.annotation.SuppressLint;
@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nuts.coffee9.R;
+import com.example.nuts.coffee9.beforlogin.login;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

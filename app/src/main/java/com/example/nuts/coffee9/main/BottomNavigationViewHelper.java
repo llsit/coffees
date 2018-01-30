@@ -1,4 +1,4 @@
-package com.example.nuts.coffee9;
+package com.example.nuts.coffee9.main;
 
 /** Created by nuts on 12/21/2017.
  **/

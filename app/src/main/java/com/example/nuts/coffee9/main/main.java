@@ -1,7 +1,6 @@
-package com.example.nuts.coffee9;
+package com.example.nuts.coffee9.main;
 import android.annotation.SuppressLint;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -13,6 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.nuts.coffee9.main.fragment.FavoriteFragment;
+import com.example.nuts.coffee9.main.fragment.HomeFragment;
+import com.example.nuts.coffee9.main.fragment.ProfileFragment;
+import com.example.nuts.coffee9.R;
+import com.example.nuts.coffee9.main.fragment.SearchFragment;
 import com.example.nuts.coffee9.affterlogin.NearByFragment;
 
 

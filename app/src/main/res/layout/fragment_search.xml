@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorGray"
-    tools:context="com.example.nuts.coffee9.SearchFragment">
+    tools:context="com.example.nuts.coffee9.main.fragment.SearchFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
