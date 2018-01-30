@@ -1,17 +1,13 @@
 package com.example.nuts.coffee9;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -39,8 +35,8 @@ public class login extends AppCompatActivity {
     private EditText inputEmail,inputPassword;
     private Button btnLogin;
     private TextView link_signup;
-    private ProgressBar progressBar;
     private CallbackManager mCallbackManager;
+    private ProgressDialog progressDialog;
 
     private static final String TAG = "FacebookLogin";
 
@@ -48,10 +44,10 @@ public class login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        progressDialog = ProgressDialog.show(this, "", "Please wait ...", true, false);
 
         inputEmail = findViewById(R.id.email);
         inputPassword = findViewById(R.id.password);
-        progressBar = findViewById(R.id.progressBar);
         link_signup = findViewById(R.id.link_signup);
         btnLogin = findViewById(R.id.btn_login);
         //Button btnfacebook = findViewById(R.id.login_facebook);
@@ -71,9 +67,7 @@ public class login extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = inputEmail.getText().toString();
-                String password = inputPassword.getText().toString();
-                signIn( email, password);
+                signIn( inputEmail, inputPassword);
             }
         });
 
@@ -110,18 +104,28 @@ public class login extends AppCompatActivity {
 
     }
 
-    private void signIn(String email, final String password) {
+    private void signIn(EditText inputEmail, final EditText inputPassword) {
+        String email = inputEmail.getText().toString();
+        final String password = inputPassword.getText().toString();
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            inputEmail.setError(getString(R.string.error_email_require));
+            //Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (!(email.contains("@"))){
+            inputEmail.setError(getString(R.string.err_email_invalid));
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+            inputPassword.setError(getString(R.string.err_pass_require));
+            //Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+            return;
+        } else if(password.length() < 6){
+            inputPassword.setError(getString(R.string.err_pass_too_short));
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
+        progressDialog.show();
 
         //authenticate user
         auth.signInWithEmailAndPassword(email, password)
@@ -131,9 +135,9 @@ public class login extends AppCompatActivity {
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        progressBar.setVisibility(View.GONE);
                         if (!task.isSuccessful()) {
                             // there was an error
+                            if (progressDialog.isShowing()) progressDialog.dismiss();
                             if (password.length() < 6) {
                                 inputPassword.setError(getString(R.string.minimum_password));
                             } else {
@@ -165,17 +169,13 @@ public class login extends AppCompatActivity {
     }
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
-        // [START_EXCLUDE silent]
-        //showProgressDialog();
-        // [END_EXCLUDE]
-        progressBar.setVisibility(View.VISIBLE);
+        progressDialog.show();
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            progressBar.setVisibility(View.GONE);
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = auth.getCurrentUser();
@@ -192,7 +192,7 @@ public class login extends AppCompatActivity {
                 });
     }
     private void updateUI(FirebaseUser user) {
-        //hideProgressDialog();
+        if (progressDialog.isShowing()) progressDialog.dismiss();
         if (user != null) {
             Intent intent = new Intent(login.this, main.class);
             startActivity(intent);
