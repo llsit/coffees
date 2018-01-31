@@ -17,7 +17,7 @@ import com.cmu.nuts.coffee9.main.fragment.HomeFragment;
 import com.cmu.nuts.coffee9.main.fragment.ProfileFragment;
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.fragment.SearchFragment;
-import com.cmu.nuts.coffee9.affterlogin.NearByFragment;
+import com.cmu.nuts.coffee9.main.fragment.NearByFragment;
 
 
 public class main extends AppCompatActivity {
