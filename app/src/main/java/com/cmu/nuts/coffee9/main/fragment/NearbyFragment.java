@@ -1,4 +1,4 @@
-package com.example.nuts.coffee9.main.fragment;
+package com.cmu.nuts.coffee9.main.fragment;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;

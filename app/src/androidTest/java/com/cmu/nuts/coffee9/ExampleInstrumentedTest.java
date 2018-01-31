@@ -1,4 +1,4 @@
-package com.example.nuts.coffee9;
+package com.cmu.nuts.coffee9;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

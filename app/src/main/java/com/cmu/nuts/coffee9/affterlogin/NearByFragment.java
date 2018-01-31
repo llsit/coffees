@@ -1,4 +1,4 @@
-package com.example.nuts.coffee9.affterlogin;
+package com.cmu.nuts.coffee9.affterlogin;
 
 
 import android.Manifest;
@@ -6,12 +6,11 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;

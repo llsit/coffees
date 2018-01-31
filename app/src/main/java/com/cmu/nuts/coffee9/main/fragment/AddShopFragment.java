@@ -1,4 +1,4 @@
-package com.example.nuts.coffee9.main.fragment;
+package com.cmu.nuts.coffee9.main.fragment;
 
 
 import android.app.Activity;
@@ -16,8 +16,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.example.nuts.coffee9.R;
-import com.example.nuts.coffee9.main.addDataShop;
+import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.addDataShop;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;

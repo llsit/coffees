@@ -1,4 +1,4 @@
-package com.example.nuts.coffee9.main;
+package com.cmu.nuts.coffee9.main;
 import com.google.firebase.database.IgnoreExtraProperties;
 /**
  * Created by nuts on 12/19/2017.

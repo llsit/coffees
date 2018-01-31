@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.nuts.coffee9">
+    package="com.cmu.nuts.coffee9">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".beforlogin.login"
+            android:name="com.cmu.nuts.coffee9.beforlogin.login"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".main.main"
+            android:name="com.cmu.nuts.coffee9.main.main"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -53,7 +53,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".beforlogin.register"
+            android:name="com.cmu.nuts.coffee9.beforlogin.register"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar"/>
 

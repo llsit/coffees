@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.nuts.coffee9.affterlogin.NearByFragment">
+    tools:context="com.cmu.nuts.coffee9.affterlogin.NearByFragment">
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"

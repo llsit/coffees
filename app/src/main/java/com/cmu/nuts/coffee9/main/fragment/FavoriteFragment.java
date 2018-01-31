@@ -1,5 +1,4 @@
-package com.example.nuts.coffee9.main.fragment;
-
+package com.cmu.nuts.coffee9.main.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,27 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.R;
 
+public class FavoriteFragment extends Fragment {
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class HomeFragment extends Fragment {
-
-
-    public HomeFragment() {
+    public FavoriteFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_favorite, container, false);
 
         return view;
     }
-
 }

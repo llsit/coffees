@@ -1,4 +1,4 @@
-package com.example.nuts.coffee9;
+package com.cmu.nuts.coffee9;
 
 import org.junit.Test;
 

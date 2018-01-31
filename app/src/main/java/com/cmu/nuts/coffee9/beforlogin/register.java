@@ -1,4 +1,4 @@
-package com.example.nuts.coffee9.beforlogin;
+package com.cmu.nuts.coffee9.beforlogin;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nuts.coffee9.R;
-import com.example.nuts.coffee9.main.member;
+import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.member;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
