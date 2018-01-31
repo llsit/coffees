@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:hint="Enter Name"
+                android:hint="@string/name"
                 android:inputType="textPersonName" />
         </android.support.design.widget.TextInputLayout>
 
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:hint="Enter email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:hint="Enter password"
+                android:hint="@string/password"
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="Signup"
+            android:text="@string/title_activity_sign_up"
             android:textColor="@color/colorPrimary"
             android:background="@color/colorAccent"/>
 
@@ -80,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="Already Registered? Signin Here"
+            android:text="@string/acc_yet"
             android:textAlignment="center" />
 
         <ProgressBar

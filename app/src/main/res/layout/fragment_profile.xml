@@ -19,44 +19,49 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:background="@color/colorWhite"
+            android:paddingBottom="25dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             tools:ignore="NotSibling,RtlHardcoded,UselessParent">
 
-
+            <ImageView
+                android:id="@+id/img_profile"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:src="@drawable/com_facebook_profile_picture_blank_square"
+                android:textAlignment="center"/>
             <TextView
                 android:id="@+id/display_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/pic"
+                android:layout_height="30dp"
+                android:layout_below="@+id/img_profile"
                 android:layout_marginTop="25dp"
                 android:paddingLeft="16dp"
-                android:text="@string/name"
-                android:textSize="25sp"
+                android:text="@string/loading_name"
+                android:textSize="20sp"
                 tools:ignore="RtlSymmetry" />
 
             <TextView
                 android:id="@+id/display_email"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_below="@+id/display_name"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="15dp"
                 android:paddingLeft="16dp"
-                android:text="@string/email"
-                android:textSize="25sp"
+                android:text="@string/loading_email"
+                android:textSize="20sp"
                 tools:ignore="RtlSymmetry" />
 
 
             <TextView
                 android:id="@+id/display_birthdate"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_below="@+id/display_email"
-                android:layout_marginBottom="24dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="15dp"
                 android:paddingLeft="16dp"
-                android:text="@string/birthdate"
-                android:textSize="25sp"
+                android:text="@string/birth_date"
+                android:textSize="20sp"
                 tools:ignore="RtlSymmetry" />
 
 
@@ -75,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="40dp"
             android:background="@color/mdtp_white"
             android:padding="12dp"
             android:paddingStart="16dp"
