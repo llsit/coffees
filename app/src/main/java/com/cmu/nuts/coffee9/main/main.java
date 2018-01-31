@@ -14,10 +14,10 @@ import android.widget.TextView;
 
 import com.cmu.nuts.coffee9.main.fragment.FavoriteFragment;
 import com.cmu.nuts.coffee9.main.fragment.HomeFragment;
+import com.cmu.nuts.coffee9.main.fragment.NearByFragment;
 import com.cmu.nuts.coffee9.main.fragment.ProfileFragment;
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.fragment.SearchFragment;
-import com.cmu.nuts.coffee9.affterlogin.NearByFragment;
 
 
 public class main extends AppCompatActivity {

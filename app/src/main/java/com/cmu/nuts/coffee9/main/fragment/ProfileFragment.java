@@ -15,13 +15,18 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.beforlogin.login;
+import com.cmu.nuts.coffee9.main.model.Member;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ProfileFragment extends Fragment {
 
     public Button btn_logout;
@@ -30,6 +35,12 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
+    private FirebaseAuth auth;
+    private FirebaseUser currentUser;
+    private DatabaseReference databaseReference;
+    private ValueEventListener valueEventListener;
+    TextView display_email;
+    TextView display_name;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -37,28 +48,57 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view =  inflater.inflate(R.layout.fragment_profile, container, false);
-        //btn_logout = getActivity().findViewById(R.id.btn_logout);
+        ButterKnife.bind(this, view);
         btn_logout = view.findViewById(R.id.btn_logout);
-        TextView display_name = view.findViewById(R.id.display_name);
-        TextView display_email = view.findViewById(R.id.display_email);
+        display_name = view.findViewById(R.id.display_name);
+        display_email = view.findViewById(R.id.display_email);
 
-        final FirebaseAuth auth = FirebaseAuth.getInstance();
-
-        FirebaseUser currentUser = auth.getCurrentUser();
-
-        assert currentUser != null;
-        display_email.setText("Email : " + currentUser.getEmail());
-        display_name.setText("Name : " + currentUser.getDisplayName());
-        btn_logout.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Logout",Toast.LENGTH_SHORT).show();
-                auth.signOut();
-                Intent intent = new Intent(getActivity(), login.class);
-                startActivity(intent);
-            }
-        });
-
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+        databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child("Member").child(currentUser.getUid());
         return view;
+    }
+
+    @OnClick(R.id.btn_logout) public void logout(){
+        signOut();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Member member = dataSnapshot.getValue(Member.class);
+                display_email.setText("Email : ".concat(member.getEmail()));
+                display_name.setText("Name : ".concat(member.getName()));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getActivity(), "Failed to load member data!",
+                        Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        databaseReference.addListenerForSingleValueEvent(listener);
+        valueEventListener = listener;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (valueEventListener != null){
+            databaseReference.removeEventListener(valueEventListener);
+        }
+    }
+
+    private void signOut(){
+        Toast.makeText(getActivity(), "Logout",Toast.LENGTH_SHORT).show();
+        auth.signOut();
+        Intent intent = new Intent(getActivity(), login.class);
+        startActivity(intent);
     }
 }

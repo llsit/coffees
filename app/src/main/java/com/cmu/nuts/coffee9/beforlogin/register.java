@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
-import com.cmu.nuts.coffee9.main.member;
+import com.cmu.nuts.coffee9.main.model.Member;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -72,11 +72,8 @@ public class register extends AppCompatActivity {
                                 progressBar2.setVisibility(View.GONE);
                                 if(task.isSuccessful()){
                                     //Success
-//                                    Toast.makeText(register.this, "Register Success", Toast.LENGTH_SHORT).show();
                                     FirebaseUser mid = task.getResult().getUser();
-//                                    uemail = mid.getEmail();
-                                    id = mid.getUid();
-                                    Newmember(email,id,mname);
+                                    newMember(mid);
                                 }else{
                                     //display some message here
                                     Toast.makeText(register.this,"Registration Error",Toast.LENGTH_LONG).show();
@@ -97,15 +94,22 @@ public class register extends AppCompatActivity {
 
     }
 
-    private void Newmember(String uemail, String mid, String name) {
+    private void newMember(FirebaseUser mid) {
 
-        member user = new member(name, uemail);
-        mDatabase.child("member").child(mid).setValue(user);
+        Member user = new Member(mid.getUid(), mname, mid.getEmail(),
+                isEmpty(String.valueOf(mid.getPhotoUrl())), String.valueOf(mid.getProviders()));
+        mDatabase.child("Member").child(mid.getUid()).setValue(user);
 
-        Toast.makeText(register.this, "Register Success", Toast.LENGTH_SHORT).show();
+        Toast.makeText(register.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(register.this, login.class);
         startActivity(intent);
         finish();
+    }
+
+    private String isEmpty(String item){
+        if (item == null || item.isEmpty()){
+            return "";
+        } else return item;
     }
 
 }
