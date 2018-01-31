@@ -1,4 +1,4 @@
-package com.cmu.nuts.coffee9.affterlogin;
+package com.cmu.nuts.coffee9.main.fragment;
 
 
 import android.Manifest;
