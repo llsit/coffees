@@ -2,6 +2,7 @@ package com.cmu.nuts.coffee9.main.fragment;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.beforlogin.login;
+import com.cmu.nuts.coffee9.main.SettingsActivity;
 import com.cmu.nuts.coffee9.main.model.Member;
 import com.cmu.nuts.coffee9.utillity.TimeManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,11 +27,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,12 +44,13 @@ public class ProfileFragment extends Fragment {
     private FirebaseUser currentUser;
     private DatabaseReference databaseReference;
     private ValueEventListener valueEventListener;
+    private Activity activity;
 
     @BindView(R.id.display_name) TextView display_email;
     @BindView(R.id.display_email) TextView display_name;
     @BindView(R.id.display_uid) TextView display_uid;
     @BindView(R.id.display_reg_date) TextView display_reg;
-    @BindView(R.id.btn_profile_edit) Button btn_edit;
+    @BindView(R.id.btn_settings) Button btn_settings;
     @BindView(R.id.progressBar_profile) ProgressBar progressBar;
 
     @SuppressLint("SetTextI18n")
@@ -62,6 +60,7 @@ public class ProfileFragment extends Fragment {
 
         View view =  inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
+        activity = getActivity();
         btn_logout = view.findViewById(R.id.btn_logout);
 
         auth = FirebaseAuth.getInstance();
@@ -75,6 +74,11 @@ public class ProfileFragment extends Fragment {
         signOut();
     }
 
+    @OnClick(R.id.btn_settings) public void settings(){
+        Intent intent = new Intent(activity, SettingsActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -82,7 +86,7 @@ public class ProfileFragment extends Fragment {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                btn_edit.setVisibility(View.VISIBLE);
+                btn_settings.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
                 TimeManager timeManager = new TimeManager();
                 Member member = dataSnapshot.getValue(Member.class);
@@ -94,7 +98,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), "Failed to load member data!",
+                Toast.makeText(activity, "Failed to load member data!",
                         Toast.LENGTH_SHORT).show();
             }
         };

@@ -2,6 +2,7 @@ package com.cmu.nuts.coffee9.main;
 import android.annotation.SuppressLint;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -11,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.cmu.nuts.coffee9.beforlogin.login;
 import com.cmu.nuts.coffee9.main.fragment.FavoriteFragment;
 import com.cmu.nuts.coffee9.main.fragment.HomeFragment;
 import com.cmu.nuts.coffee9.main.fragment.NearByFragment;
@@ -108,6 +111,30 @@ public class main extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private int state = 0;
+    @Override
+    public void onBackPressed() {
+        switch (state){
+            case 0 : {
+                Toast.makeText(this, "Press back again to exit",Toast.LENGTH_SHORT).show();
+                state = 1;
+                Handler handler = new Handler();
+                Runnable run = new Runnable() {
+                    @Override
+                    public void run() {
+                        state = 0;
+                    }
+                };
+                handler.postDelayed(run, 2000);
+                break;
+            }
+            case 1 : {
+                finish();
+                break;
+            }
+        }
     }
 }
 

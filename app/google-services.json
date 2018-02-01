@@ -101,6 +101,37 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683709922364:android:5b717e47cc6a81d4",
+        "android_client_info": {
+          "package_name": "com.cmu.nuts.coffee9"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "683709922364-tqpo2e726nns3raopknmjlsuhth8eocd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcvSDS7FWmtU5RsQ4JWBhNg8j0eJtv3Fk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"
