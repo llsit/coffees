@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,8 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.display_email) TextView display_name;
     @BindView(R.id.display_uid) TextView display_uid;
     @BindView(R.id.display_reg_date) TextView display_reg;
+    @BindView(R.id.btn_profile_edit) Button btn_edit;
+    @BindView(R.id.progressBar_profile) ProgressBar progressBar;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -79,6 +82,8 @@ public class ProfileFragment extends Fragment {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                btn_edit.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
                 TimeManager timeManager = new TimeManager();
                 Member member = dataSnapshot.getValue(Member.class);
                 display_email.setText("Email : ".concat(member.getEmail()));

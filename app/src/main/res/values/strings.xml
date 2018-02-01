@@ -41,5 +41,6 @@
     <string name="loading_name">Name : loading … </string>
     <string name="loading_reg">Joined : loading … </string>
     <string name="loading_uid">UID : loading … </string>
+    <string name="profile_edit">Edit</string>
 
 </resources>
