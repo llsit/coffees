@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 
 public class register extends AppCompatActivity {
@@ -95,10 +102,11 @@ public class register extends AppCompatActivity {
     }
 
     private void newMember(FirebaseUser mid) {
-
         Member user = new Member(mid.getUid(), mname, mid.getEmail(),
-                isEmpty(String.valueOf(mid.getPhotoUrl())), String.valueOf(mid.getProviders()));
-        mDatabase.child("Member").child(mid.getUid()).setValue(user);
+                String.valueOf(mid.getPhotoUrl()), String.valueOf(mid.getProviders()),
+                "", mid.getMetadata().getCreationTimestamp());
+
+        mDatabase.child(Member.tag).child(mid.getUid()).setValue(user);
 
         Toast.makeText(register.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(register.this, login.class);
