@@ -1,10 +1,12 @@
 package com.cmu.nuts.coffee9.beforlogin;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -28,12 +30,10 @@ public class register extends AppCompatActivity {
     //defining view objects
     private EditText editTextName,editTextEmail,editTextPassword,editTextDate;
 
-    private ProgressBar progressBar2;
+    private ProgressBar progressBar;
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
 
-    private String email;
-    private String password;
     private String name;
 
     @Override
@@ -48,7 +48,7 @@ public class register extends AppCompatActivity {
         editTextName = findViewById(R.id.editTextName);
         editTextEmail =  findViewById(R.id.editTextEmail);
         editTextPassword =  findViewById(R.id.editTextPassword);
-        progressBar2 = findViewById(R.id.progressBar2);
+        progressBar = findViewById(R.id.progressBar2);
     }
 
     @OnClick(R.id.textViewSignin) public void signIn(){
@@ -57,16 +57,23 @@ public class register extends AppCompatActivity {
     }
 
     @OnClick(R.id.buttonSignup) public void signUp(){
-        progressBar2.setVisibility(View.VISIBLE);
-        email = editTextEmail.getText().toString();
-        password = editTextPassword.getText().toString();
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            assert imm != null;
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+        String email = editTextEmail.getText().toString();
+        String password = editTextPassword.getText().toString();
         name = editTextName.getText().toString();
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(register.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //checking if success
-                        progressBar2.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
                         if(task.isSuccessful()){
                             //Success
                             FirebaseUser mid = task.getResult().getUser();
