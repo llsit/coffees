@@ -4,12 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
@@ -21,12 +18,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class register extends AppCompatActivity {
@@ -34,75 +28,60 @@ public class register extends AppCompatActivity {
     //defining view objects
     private EditText editTextName,editTextEmail,editTextPassword,editTextDate;
 
-    private Button buttonSignup;
-
-    private TextView textViewSignIn;
     private ProgressBar progressBar2;
     private FirebaseAuth auth;
-
     private DatabaseReference mDatabase;
 
-    private String id,email,password,mname,mdate;
+    private String email;
+    private String password;
+    private String name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ButterKnife.bind(this);
 
         auth = FirebaseAuth.getInstance();
-
-        //database
-
-//        final FirebaseUser members = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         editTextName = findViewById(R.id.editTextName);
         editTextEmail =  findViewById(R.id.editTextEmail);
         editTextPassword =  findViewById(R.id.editTextPassword);
-        textViewSignIn = findViewById(R.id.textViewSignin);
         progressBar2 = findViewById(R.id.progressBar2);
+    }
 
-        buttonSignup =  findViewById(R.id.buttonSignup);
+    @OnClick(R.id.textViewSignin) public void signIn(){
+        Intent intent = new Intent(register.this, login.class);
+        startActivity(intent);
+    }
 
+    @OnClick(R.id.buttonSignup) public void signUp(){
+        progressBar2.setVisibility(View.VISIBLE);
+        email = editTextEmail.getText().toString();
+        password = editTextPassword.getText().toString();
+        name = editTextName.getText().toString();
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(register.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        //checking if success
+                        progressBar2.setVisibility(View.GONE);
+                        if(task.isSuccessful()){
+                            //Success
+                            FirebaseUser mid = task.getResult().getUser();
+                            newMember(mid);
+                        }else{
+                            //display some message here
+                            Toast.makeText(register.this,"Registration Error",Toast.LENGTH_LONG).show();
+                        }
 
-        buttonSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar2.setVisibility(View.VISIBLE);
-                email = editTextEmail.getText().toString();
-                password = editTextPassword.getText().toString();
-                mname = editTextName.getText().toString();
-                auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(register.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                //checking if success
-                                progressBar2.setVisibility(View.GONE);
-                                if(task.isSuccessful()){
-                                    //Success
-                                    FirebaseUser mid = task.getResult().getUser();
-                                    newMember(mid);
-                                }else{
-                                    //display some message here
-                                    Toast.makeText(register.this,"Registration Error",Toast.LENGTH_LONG).show();
-                                }
-
-                            }
-                        });
-            }
-        });
-
-        textViewSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(register.this, login.class);
-                startActivity(intent);
-            }
-        });
-
+                    }
+                });
     }
 
     private void newMember(FirebaseUser mid) {
-        Member user = new Member(mid.getUid(), mname, mid.getEmail(),
+        Member user = new Member(mid.getUid(), name, mid.getEmail(),
                 String.valueOf(mid.getPhotoUrl()), String.valueOf(mid.getProviders()),
                 "", mid.getMetadata().getCreationTimestamp());
 
@@ -112,12 +91,6 @@ public class register extends AppCompatActivity {
         Intent intent = new Intent(register.this, login.class);
         startActivity(intent);
         finish();
-    }
-
-    private String isEmpty(String item){
-        if (item == null || item.isEmpty()){
-            return "";
-        } else return item;
     }
 
 }
