@@ -67,7 +67,7 @@ public class ProfileFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("Member").child(currentUser.getUid());
+                .child(Member.tag).child(currentUser.getUid());
         return view;
     }
 
@@ -112,7 +112,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void signOut(){
-        Toast.makeText(getActivity(), "Logout",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Logging out",Toast.LENGTH_SHORT).show();
         auth.signOut();
         Intent intent = new Intent(getActivity(), login.class);
         startActivity(intent);
