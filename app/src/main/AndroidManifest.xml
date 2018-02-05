@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.cmu.nuts.coffee9.beforlogin.login"
+            android:name=".beforlogin.login"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -24,17 +24,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.cmu.nuts.coffee9.main.main"
+            android:name=".main.main"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_api_key"/>
+            android:value="@string/google_maps_api_key" />
 
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -53,9 +52,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.cmu.nuts.coffee9.beforlogin.register"
+            android:name=".beforlogin.register"
             android:label="@string/title_activity_register"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".main.SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
+
 </manifest>

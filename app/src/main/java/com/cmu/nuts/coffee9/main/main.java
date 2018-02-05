@@ -2,6 +2,7 @@ package com.cmu.nuts.coffee9.main;
 import android.annotation.SuppressLint;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -11,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.cmu.nuts.coffee9.beforlogin.login;
 import com.cmu.nuts.coffee9.main.fragment.FavoriteFragment;
 import com.cmu.nuts.coffee9.main.fragment.HomeFragment;
 import com.cmu.nuts.coffee9.main.fragment.NearByFragment;
@@ -59,42 +62,47 @@ public class main extends AppCompatActivity {
                 // return true if you want the item to be displayed as the selected item
                 switch (item.getItemId()) {
                     case R.id.action_home:
-                        mTitle.setText("Home");
+                        mTitle.setText(getString(R.string.menu_home));
                         HomeFragment home = new HomeFragment();
                         FragmentManager manager_home = getSupportFragmentManager();
                         FragmentTransaction hm = manager_home.beginTransaction();
+                        hm.setCustomAnimations(R.anim.slide_up_in_from_buttom, R.anim.slide_up_out);
                         hm.replace(R.id.myFragment, home);
                         hm.commit();
                         break;
                     case R.id.action_search:
-                        mTitle.setText("Search");
+                        mTitle.setText(getString(R.string.menu_search));
                         SearchFragment search = new SearchFragment();
                         FragmentManager manager_search = getSupportFragmentManager();
                         FragmentTransaction sh = manager_search.beginTransaction();
+                        sh.setCustomAnimations(R.anim.slide_up_in_from_buttom, R.anim.slide_up_out);
                         sh.replace(R.id.myFragment, search);
                         sh.commit();
                         break;
                     case R.id.action_nearby:
-                        mTitle.setText("Nearby");
+                        mTitle.setText(getString(R.string.menu_search_near));
                         NearByFragment nearby = new NearByFragment();
                         FragmentManager manager_nearby = getSupportFragmentManager();
                         FragmentTransaction nb = manager_nearby.beginTransaction();
+                        nb.setCustomAnimations(R.anim.slide_up_in_from_buttom, R.anim.slide_up_out);
                         nb.replace(R.id.myFragment, nearby);
                         nb.commit();
                         break;
                     case R.id.action_favorite:
-                        mTitle.setText("Favorite");
+                        mTitle.setText(getString(R.string.menu_favorite));
                         FavoriteFragment favorite = new FavoriteFragment();
                         FragmentManager manager_favorite = getSupportFragmentManager();
                         FragmentTransaction fv = manager_favorite.beginTransaction();
+                        fv.setCustomAnimations(R.anim.slide_up_in_from_buttom, R.anim.slide_up_out);
                         fv.replace(R.id.myFragment, favorite);
                         fv.commit();
                         break;
                     case R.id.action_profile:
-                        mTitle.setText("Profile");
+                        mTitle.setText(getString(R.string.menu_profile));
                         ProfileFragment profile = new ProfileFragment();
                         FragmentManager manager = getSupportFragmentManager();
                         FragmentTransaction ft = manager.beginTransaction();
+                        ft.setCustomAnimations(R.anim.slide_up_in_from_buttom, R.anim.slide_up_out);
                         ft.replace(R.id.myFragment, profile);
                         ft.commit();
                         break;
@@ -103,6 +111,30 @@ public class main extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private int state = 0;
+    @Override
+    public void onBackPressed() {
+        switch (state){
+            case 0 : {
+                Toast.makeText(this, "Press back again to exit",Toast.LENGTH_SHORT).show();
+                state = 1;
+                Handler handler = new Handler();
+                Runnable run = new Runnable() {
+                    @Override
+                    public void run() {
+                        state = 0;
+                    }
+                };
+                handler.postDelayed(run, 2000);
+                break;
+            }
+            case 1 : {
+                finish();
+                break;
+            }
+        }
     }
 }
 

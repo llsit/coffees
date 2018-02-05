@@ -1,5 +1,8 @@
 package com.cmu.nuts.coffee9.main.model;
 import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.util.Map;
+
 /**
  * Created by nuts on 12/19/2017.
  **/
@@ -10,17 +13,33 @@ public class Member {
     public String email;
     public String photoUrl;
     public String provider;
+    public String birthDate;
+    public String regDate;
+
+    public static String tag = "Member";
 
     public Member() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public Member(String uid, String name, String email, String photoUrl, String provider) {
+    public Member(String uid, String name, String email, String photoUrl, String provider, String birthDate, String regDate) {
         this.uid = uid;
         this.name = name;
         this.email = email;
         this.photoUrl = photoUrl;
         this.provider = provider;
+        this.birthDate = birthDate;
+        this.regDate = regDate;
+    }
+
+    public Member(String uid, String mname, String email, String photoUrl, String provider, String birthDate, long regDate) {
+        this.uid = uid;
+        this.name = mname;
+        this.email = email;
+        this.photoUrl = photoUrl;
+        this.provider = provider;
+        this.birthDate = birthDate;
+        this.regDate = String.valueOf(regDate);
     }
 
     public String getUid() {
@@ -61,5 +80,29 @@ public class Member {
 
     public void setProvider(String provider) {
         this.provider = provider;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(String regDate) {
+        this.regDate = regDate;
+    }
+
+    public static String getTag() {
+        return tag;
+    }
+
+    public static void setTag(String tag) {
+        Member.tag = tag;
     }
 }
