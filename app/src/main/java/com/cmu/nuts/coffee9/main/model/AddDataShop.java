@@ -1,10 +1,10 @@
-package com.cmu.nuts.coffee9.main;
+package com.cmu.nuts.coffee9.main.model;
 
 /*
  * Created by nuts on 1/27/2018.
  */
 
-public class addDataShop {
+public class AddDataShop {
     public String nameshop;
     public String Addressshop;
     public String detail,authorID;
@@ -12,11 +12,11 @@ public class addDataShop {
 
 
 
-    public addDataShop() {
+    public AddDataShop() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public addDataShop(String nameshop, String Addressshop,String detail,String authorID) {
+    public AddDataShop(String nameshop, String Addressshop, String detail, String authorID) {
         this.nameshop = nameshop;
         this.Addressshop = Addressshop;
         this.detail = detail;

@@ -17,7 +17,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
-import com.cmu.nuts.coffee9.main.addDataShop;
+import com.cmu.nuts.coffee9.main.model.AddDataShop;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -104,7 +104,7 @@ public class AddShopFragment extends Fragment {
                 authorID = user.getUid();
                 coffee_ID = mDatabase.push().getKey();
 
-                addDataShop shopData = new addDataShop(name, addressshop,Detail,authorID);
+                AddDataShop shopData = new AddDataShop(name, addressshop,Detail,authorID);
                 mDatabase.child("coffee_shop").child(coffee_ID).setValue(shopData);
 
                 Toast.makeText(getActivity(), "Add Success", Toast.LENGTH_SHORT).show();

@@ -14,13 +14,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cmu.nuts.coffee9.beforlogin.login;
 import com.cmu.nuts.coffee9.main.fragment.FavoriteFragment;
 import com.cmu.nuts.coffee9.main.fragment.HomeFragment;
 import com.cmu.nuts.coffee9.main.fragment.NearByFragment;
 import com.cmu.nuts.coffee9.main.fragment.ProfileFragment;
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.fragment.SearchFragment;
+import com.cmu.nuts.coffee9.main.material.BottomNavigationViewHelper;
 
 
 public class main extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package com.cmu.nuts.coffee9.main;
+package com.cmu.nuts.coffee9.main.material;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

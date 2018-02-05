@@ -1,4 +1,4 @@
-package com.cmu.nuts.coffee9.main;
+package com.cmu.nuts.coffee9.main.material;
 
 /** Created by nuts on 12/21/2017.
  **/

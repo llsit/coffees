@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.material.AppCompatPreferenceActivity;
 
 import java.util.List;
 
