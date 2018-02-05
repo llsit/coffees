@@ -8,7 +8,7 @@
         android:id="@+id/messages_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white_overlay"
+        android:background="@color/colorGray"
         android:clipToPadding="false"
         android:padding="5dp"
         android:scrollbars="vertical"

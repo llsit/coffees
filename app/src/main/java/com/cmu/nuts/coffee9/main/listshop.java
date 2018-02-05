@@ -5,4 +5,12 @@ package com.cmu.nuts.coffee9.main;
  */
 
 public class listshop {
+
+    private string nameshop;
+    public listshop(){
+
+    }
+    public listshop(string nameshop){
+
+    }
 }
