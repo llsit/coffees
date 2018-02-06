@@ -5,7 +5,7 @@
     tools:context="com.cmu.nuts.coffee9.main.fragment.HomeFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/messages_list"
+        android:id="@+id/shop_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorGray"
