@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.beforlogin.login;
 import com.cmu.nuts.coffee9.main.SettingsActivity;
-import com.cmu.nuts.coffee9.main.model.Member;
+import com.cmu.nuts.coffee9.model.Member;
 import com.cmu.nuts.coffee9.utillity.TimeManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

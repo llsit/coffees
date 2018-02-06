@@ -1,20 +1,18 @@
-package com.cmu.nuts.coffee9.main.model;
+package com.cmu.nuts.coffee9.model;
 import com.google.firebase.database.IgnoreExtraProperties;
-
-import java.util.Map;
 
 /**
  * Created by nuts on 12/19/2017.
  **/
 @IgnoreExtraProperties
 public class Member {
-    public String uid;
-    public String name;
-    public String email;
-    public String photoUrl;
-    public String provider;
-    public String birthDate;
-    public String regDate;
+    private String uid;
+    private String name;
+    private String email;
+    private String photoUrl;
+    private String provider;
+    private String birthDate;
+    private String regDate;
 
     public static String tag = "Member";
 
