@@ -1,27 +1,32 @@
 package com.cmu.nuts.coffee9.model;
+import org.parceler.Parcel;
 
 /**
  * Created by tcdm053 on 31/1/2561.
  */
 
+@Parcel
 public class Shop {
     private String sid;
     private String name;
     private String address;
     private String detail;
-    private String locationl;
+    private String location;
     private String open_houre;
     private String price;
     private String uid;
 
-    public static String tag = "Shop";
+    public static String tag = "coffee_shop";
 
-    public Shop(String sid, String name, String address, String detail, String locationl, String open_houre, String price, String uid) {
+    public Shop() {
+    }
+
+    public Shop(String sid, String name, String address, String detail, String location, String open_houre, String price, String uid) {
         this.sid = sid;
         this.name = name;
         this.address = address;
         this.detail = detail;
-        this.locationl = locationl;
+        this.location = location;
         this.open_houre = open_houre;
         this.price = price;
         this.uid = uid;
@@ -59,12 +64,12 @@ public class Shop {
         this.detail = detail;
     }
 
-    public String getLocationl() {
-        return locationl;
+    public String getLocation() {
+        return location;
     }
 
-    public void setLocationl(String locationl) {
-        this.locationl = locationl;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getOpen_houre() {
@@ -89,13 +94,5 @@ public class Shop {
 
     public void setUid(String uid) {
         this.uid = uid;
-    }
-
-    public static String getTag() {
-        return tag;
-    }
-
-    public static void setTag(String tag) {
-        Shop.tag = tag;
     }
 }
