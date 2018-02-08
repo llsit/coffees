@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,7 +118,13 @@ public class AddShopFragment extends Fragment {
     }
 
     public void onBackPressed() {
-        getActivity().onBackPressed();
+//        SearchFragment searchFragment = new SearchFragment();
+//        FragmentManager manager_addShop = getFragmentManager();
+//        assert manager_addShop != null;
+//        FragmentTransaction as = manager_addShop.beginTransaction();
+//        as.add(R.id.myFragment, searchFragment);
+//        as.addToBackStack(null);
+//        as.commit();
     }
 
 }
