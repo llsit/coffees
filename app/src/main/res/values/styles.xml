@@ -22,4 +22,12 @@
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
+
+    <style name="button_round_style">
+        <item name="android:background">@drawable/custom_border_round</item>
+    </style>
+
+    <style name="button_square_style">
+        <item name="android:background">@drawable/custom_border_square</item>
+    </style>
 </resources>

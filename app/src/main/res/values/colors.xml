@@ -34,6 +34,7 @@
     <color name="color_black">#000000</color>
     <color name="color_white">#FFFFFF</color>
     <color name="color_gray">#424242</color>
+    <color name="color_deep_gray">#cccccc</color>
     <color name="color_silver">#D8D8D8</color>
     <color name="color_light_gray">#e6e6e6</color>
     <color name="silver_gray">#cccccc</color>
