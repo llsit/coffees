@@ -1,7 +1,6 @@
 package com.cmu.nuts.coffee9.main;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -15,9 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.adapter.ShopRecyclerAdapter;
@@ -87,7 +87,7 @@ public class main extends AppCompatActivity {
 
         HomeFragment home = new HomeFragment();
         FragmentManager manager_home = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction hm = manager_home.beginTransaction();
+        FragmentTransaction hm = manager_home.beginTransaction();
         hm.replace(R.id.myFragment, home);
         hm.addToBackStack(null);
         hm.commit();
@@ -100,6 +100,7 @@ public class main extends AppCompatActivity {
         mTitle = myToolbar.findViewById(R.id.toolbar_title);
         mTitle.setText(getString(R.string.menu_home));
         BottomNavigationViewHelper.disableShiftMode(mBottomNav);
+        final Animation shake = AnimationUtils.loadAnimation(this, R.anim.fade_in_smooth);
 
         /////////////////////////////////////////////////////////////////////////////////////////
         mBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -132,7 +133,7 @@ public class main extends AppCompatActivity {
                         SearchFragment search = new SearchFragment();
                         FragmentManager manager_search = getSupportFragmentManager();
                         FragmentTransaction sh = manager_search.beginTransaction();
-                        sh.setCustomAnimations(R.anim.slide_up_in_from_buttom, R.anim.slide_up_out);
+//                        sh.setCustomAnimations(R.anim.fade_in_smooth, R.anim.fade_out);
                         sh.replace(R.id.myFragment, search);
                         sh.commit();
                         break;
@@ -143,7 +144,6 @@ public class main extends AppCompatActivity {
                         NearByFragment nearby = new NearByFragment();
                         FragmentManager manager_nearby = getSupportFragmentManager();
                         FragmentTransaction nb = manager_nearby.beginTransaction();
-                        nb.setCustomAnimations(R.anim.slide_up_in_from_buttom, R.anim.slide_up_out);
                         nb.replace(R.id.myFragment, nearby);
                         nb.commit();
                         break;
@@ -154,7 +154,6 @@ public class main extends AppCompatActivity {
                         FavoriteFragment favorite = new FavoriteFragment();
                         FragmentManager manager_favorite = getSupportFragmentManager();
                         FragmentTransaction fv = manager_favorite.beginTransaction();
-                        fv.setCustomAnimations(R.anim.slide_up_in_from_buttom, R.anim.slide_up_out);
                         fv.replace(R.id.myFragment, favorite);
                         fv.commit();
                         break;
@@ -165,7 +164,6 @@ public class main extends AppCompatActivity {
                         ProfileFragment profile = new ProfileFragment();
                         FragmentManager manager = getSupportFragmentManager();
                         FragmentTransaction ft = manager.beginTransaction();
-                        ft.setCustomAnimations(R.anim.slide_up_in_from_buttom, R.anim.slide_up_out);
                         ft.replace(R.id.myFragment, profile);
                         ft.commit();
                         break;
