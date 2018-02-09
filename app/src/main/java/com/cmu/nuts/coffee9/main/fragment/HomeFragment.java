@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.adapter.ShopRecyclerAdapter;
-import com.cmu.nuts.coffee9.main.main;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -73,11 +72,16 @@ public class HomeFragment extends Fragment {
                 shops = new ArrayList<>();
                 for (DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()){
                     Shop value = dataSnapshot1.getValue(Shop.class);
-                    Shop shop = new Shop();
                     String sid = value.getSid();
                     String name = value.getName();
-                    shop.setSid(sid);
-                    shop.setName(name);
+                    String address = value.getAddress();
+                    String detail = value.getDetail();
+                    String location = value.getLocation();
+                    String open_time = value.getOpen_houre();
+                    String price = value.getPrice();
+                    String uid = value.getUid();
+
+                    Shop shop = new Shop(sid, name, address, detail, location, open_time, price, uid);
                     shops.add(shop);
                 }
                 setRecyclerView();

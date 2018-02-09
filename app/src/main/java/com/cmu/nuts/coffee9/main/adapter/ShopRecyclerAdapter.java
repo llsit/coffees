@@ -1,11 +1,13 @@
 package com.cmu.nuts.coffee9.main.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.model.Shop;
@@ -33,10 +35,20 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
     }
 
     @Override
-    public void onBindViewHolder(ShopHolder holder, int position) {
-        Shop shop = shops.get(position);
+    public void onBindViewHolder(ShopHolder holder, final int position) {
+        final Shop shop = shops.get(position);
         holder.tv_sid.setText(shop.getSid());
         holder.tv_name.setText(shop.getName());
+        holder.tv_detail.setText(shop.getDetail());
+        holder.tv_open_time.setText(shop.getOpen_houre());
+        holder.tv_price.setText(shop.getPrice());
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //open new Activity that show Shop content
+                Toast.makeText(context, position + " name : " + shop.getName(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -55,13 +67,27 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
     }
 
     class ShopHolder extends RecyclerView.ViewHolder{
+        CardView cardView;
         TextView tv_sid;
         TextView tv_name;
+        TextView tv_detail;
+        TextView tv_open_time;
+        TextView tv_price;
+        TextView tv_address;
+        TextView tv_uid;
+        TextView tv_location;
 
         ShopHolder(View itemView){
             super(itemView);
             tv_sid = itemView.findViewById(R.id.item_shop_sid);
             tv_name = itemView.findViewById(R.id.item_shop_name);
+            tv_detail = itemView.findViewById(R.id.item_shop_detail);
+            tv_open_time = itemView.findViewById(R.id.item_shop_open_time);
+            tv_price = itemView.findViewById(R.id.item_shop_price);
+            tv_address = itemView.findViewById(R.id.item_shop_address);
+            tv_uid = itemView.findViewById(R.id.item_shop_uid);
+            tv_location = itemView.findViewById(R.id.item_shop_location);
+            cardView = itemView.findViewById(R.id.item_shop_card_view);
         }
     }
 }
