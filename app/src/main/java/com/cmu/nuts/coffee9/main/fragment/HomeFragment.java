@@ -4,6 +4,7 @@ package com.cmu.nuts.coffee9.main.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +42,7 @@ public class HomeFragment extends Fragment {
     private DatabaseReference databaseReference;
     private List<Shop> shops;
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,9 +51,22 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         activity = getActivity();
         recyclerView = view.findViewById(R.id.home_recycler_view);
+        swipeRefreshLayout = view.findViewById(R.id.home_swipe_refresh_layout);
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference(Shop.tag);
+        getShopDatabase();
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getShopDatabase();
+            }
+        });
+
+        return view;
+    }
+
+    private void getShopDatabase(){
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -66,17 +81,15 @@ public class HomeFragment extends Fragment {
                     shops.add(shop);
                 }
                 setRecyclerView();
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w("Shop","Failed to get database", databaseError.toException());
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
-
-
-
-        return view;
     }
 
     private void setRecyclerView(){
@@ -86,5 +99,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(recyclerAdapter);
     }
+
+
 
 }
