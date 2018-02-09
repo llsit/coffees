@@ -56,8 +56,9 @@
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".main.SettingsActivity"
-            android:label="@string/title_activity_settings" />
+            android:name=".main.PreferencesActivity"
+            android:label="@string/title_activity_preferences"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

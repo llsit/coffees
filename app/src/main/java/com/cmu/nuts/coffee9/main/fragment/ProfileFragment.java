@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.beforlogin.login;
-import com.cmu.nuts.coffee9.main.SettingsActivity;
+import com.cmu.nuts.coffee9.main.PreferencesActivity;
 import com.cmu.nuts.coffee9.model.Member;
 import com.cmu.nuts.coffee9.utillity.TimeManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -75,7 +75,7 @@ public class ProfileFragment extends Fragment {
     }
 
     @OnClick(R.id.btn_settings) public void settings(){
-        Intent intent = new Intent(activity, SettingsActivity.class);
+        Intent intent = new Intent(activity, PreferencesActivity.class);
         startActivity(intent);
     }
 
