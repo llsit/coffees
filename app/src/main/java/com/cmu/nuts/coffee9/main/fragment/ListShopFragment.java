@@ -30,7 +30,7 @@ public class ListShopFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list_shop, container, false);
-        mlist = view.findViewById(R.id.shop_list);
+        mlist = view.findViewById(R.id.messages_list);
         mlist.setHasFixedSize(true);
         mlist.setLayoutManager(new LinearLayoutManager(getActivity()));
 
