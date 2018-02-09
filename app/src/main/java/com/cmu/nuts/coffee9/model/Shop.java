@@ -7,14 +7,14 @@ import org.parceler.Parcel;
 
 @Parcel
 public class Shop {
-    private String sid;
-    private String name;
-    private String address;
-    private String detail;
-    private String location;
-    private String open_houre;
-    private String price;
-    private String uid;
+    String sid;
+    String name;
+    String address;
+    String detail;
+    String location;
+    String open_houre;
+    String price;
+    String uid;
 
     public static String tag = "coffee_shop";
 
