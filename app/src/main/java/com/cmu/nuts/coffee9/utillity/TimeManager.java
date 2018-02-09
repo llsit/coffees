@@ -15,13 +15,17 @@ public class TimeManager {
     }
 
     public String epochConverter(Long epoch){
-        Date date = new Date(epoch);
-        DateFormat format = new SimpleDateFormat("EEE, d MMM yyyy");
-        format.setTimeZone(TimeZone.getTimeZone("GMT/UTC"));
-        String formatted = format.format(date);
-        System.out.println(formatted);
-        format.setTimeZone(TimeZone.getTimeZone("Thailand/Bangkok"));
-        formatted = format.format(date);
-        return formatted;
+        if(epoch != null){
+            Date date = new Date(epoch);
+            DateFormat format = new SimpleDateFormat("EEE, d MMM yyyy");
+            format.setTimeZone(TimeZone.getTimeZone("GMT/UTC"));
+            String formatted = format.format(date);
+            System.out.println(formatted);
+            format.setTimeZone(TimeZone.getTimeZone("Thailand/Bangkok"));
+            formatted = format.format(date);
+            return formatted;
+        }else {
+            return "something wrong!";
+        }
     }
 }
