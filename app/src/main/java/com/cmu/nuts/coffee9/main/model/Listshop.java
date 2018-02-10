@@ -8,12 +8,12 @@ public class Listshop {
 
     private String nameshop;
     private String detail;
-    private String Addressshop;
+    private String address;
 
-    public Listshop(String nameshop, String detail, String Addressshop) {
+    public Listshop(String nameshop, String detail, String address) {
         this.nameshop = nameshop;
         this.detail = detail;
-        this.Addressshop = Addressshop;
+        this.address = address;
 
     }
 
@@ -36,11 +36,11 @@ public class Listshop {
         this.detail = detail;
     }
 
-    public String getAddressshop() {
-        return Addressshop;
+    public String getaddress() {
+        return address;
     }
 
     public void setAddressshop(String addressshop) {
-        Addressshop = addressshop;
+        address = addressshop;
     }
 }
