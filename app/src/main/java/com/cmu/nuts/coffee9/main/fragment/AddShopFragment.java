@@ -88,10 +88,10 @@ public class AddShopFragment extends Fragment {
         detail = view.findViewById(R.id.detail);
         location = view.findViewById(R.id.location);
         open_hour = view.findViewById(R.id.open_hour);
-        max = view.findViewById(R.id.max);
-        mid = view.findViewById(R.id.mid);
-        min = view.findViewById(R.id.min);
-        price = view.findViewById(R.id.radioPrice);
+        //max = view.findViewById(R.id.max);
+        //mid = view.findViewById(R.id.mid);
+        //min = view.findViewById(R.id.min);
+        //price = view.findViewById(R.id.radioPrice);
         btn_add = view.findViewById(R.id.btn_add);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
