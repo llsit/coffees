@@ -109,7 +109,7 @@ public class login extends AppCompatActivity {
         String email = inputEmail.getText().toString();
         final String password = inputPassword.getText().toString();
         if (TextUtils.isEmpty(email)) {
-            inputEmail.setError(getString(R.string.error_email_require));
+            inputEmail.setError(getString(R.string.err_email_require));
             //Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
             return;
         } else if (!(email.contains("@"))){
