@@ -73,7 +73,6 @@ public class main extends AppCompatActivity {
                         break;
                     case R.id.action_search:
                         mTitle.setText(getString(R.string.menu_search));
-                        fragmentContainer.setVisibility(View.VISIBLE);
                         SearchFragment search = new SearchFragment();
                         FragmentManager manager_search = getSupportFragmentManager();
                         FragmentTransaction sh = manager_search.beginTransaction();
@@ -83,7 +82,6 @@ public class main extends AppCompatActivity {
                         break;
                     case R.id.action_nearby:
                         mTitle.setText(getString(R.string.menu_search_near));
-                        fragmentContainer.setVisibility(View.VISIBLE);
                         NearByFragment nearby = new NearByFragment();
                         FragmentManager manager_nearby = getSupportFragmentManager();
                         FragmentTransaction nb = manager_nearby.beginTransaction();
@@ -92,7 +90,6 @@ public class main extends AppCompatActivity {
                         break;
                     case R.id.action_favorite:
                         mTitle.setText(getString(R.string.menu_favorite));
-                        fragmentContainer.setVisibility(View.VISIBLE);
                         FavoriteFragment favorite = new FavoriteFragment();
                         FragmentManager manager_favorite = getSupportFragmentManager();
                         FragmentTransaction fv = manager_favorite.beginTransaction();
@@ -101,7 +98,6 @@ public class main extends AppCompatActivity {
                         break;
                     case R.id.action_profile:
                         mTitle.setText(getString(R.string.menu_profile));
-                        fragmentContainer.setVisibility(View.VISIBLE);
                         ProfileFragment profile = new ProfileFragment();
                         FragmentManager manager = getSupportFragmentManager();
                         FragmentTransaction ft = manager.beginTransaction();
