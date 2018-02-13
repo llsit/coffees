@@ -33,6 +33,7 @@
                 app:civ_border_width="2dp"
                 android:paddingTop="20dp"
                 android:textAlignment="center"
+                android:clickable="false"
                 app:civ_border_color="#FF000000"/>
 
             <TextView
@@ -46,6 +47,19 @@
                 android:textSize="20sp"
                 tools:ignore="RtlSymmetry" />
 
+            <EditText
+                android:id="@+id/edt_display_name"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@+id/img_profile"
+                android:layout_marginTop="25dp"
+                android:paddingLeft="16dp"
+                android:text="@string/loading_name"
+                android:textSize="20sp"
+                android:visibility="gone"
+                android:background="@drawable/custom_border_round"
+                tools:ignore="RtlSymmetry" />
+
             <TextView
                 android:id="@+id/display_email"
                 android:layout_width="match_parent"
@@ -54,6 +68,19 @@
                 android:layout_marginTop="15dp"
                 android:paddingLeft="16dp"
                 android:text="@string/loading_email"
+                android:textSize="20sp"
+                tools:ignore="RtlSymmetry" />
+
+            <EditText
+                android:id="@+id/edt_display_email"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@+id/display_name"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="16dp"
+                android:visibility="gone"
+                android:text="@string/loading_email"
+                android:background="@drawable/custom_border_round"
                 android:textSize="20sp"
                 tools:ignore="RtlSymmetry" />
 
@@ -68,6 +95,15 @@
                 android:text="@string/birth_date"
                 android:textSize="20sp"
                 tools:ignore="RtlSymmetry" />
+
+            <com.codetroopers.betterpickers.datepicker.DatePicker
+                android:id="@+id/dpk_birth_date"
+                android:layout_below="@+id/display_email"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="wrap_content">
+
+            </com.codetroopers.betterpickers.datepicker.DatePicker>
 
             <TextView
                 android:id="@+id/display_reg_date"
@@ -98,11 +134,11 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginEnd="80dp"
                 android:layout_marginTop="20dp"
-                android:textColor="@color/color_pastel_blue"
+                android:textColor="@color/color_pastel_green"
                 android:background="@drawable/custom_border_round"
-                android:text="@string/txt_edit"
-
+                android:text="@string/save_label"
                 android:visibility="invisible"/>
+
             <ProgressBar
                 android:id="@+id/progressBar_profile"
                 android:layout_below="@+id/display_uid"
