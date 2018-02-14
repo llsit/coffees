@@ -13,3 +13,5 @@
 \.idea/modules\.xml
 
 app/build\.gradle
+
+\.idea/shelf/
