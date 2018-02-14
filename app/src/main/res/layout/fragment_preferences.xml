@@ -2,14 +2,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white_alpha"
     tools:context="com.cmu.nuts.coffee9.preferences.fragment.PreferencesFragment"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/relate_pref_title"
-        android:background="@color/color_white"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_pref_title"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorWhite"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
         <ImageView
             android:id="@+id/title_img_pref"
             android:src="@drawable/ic_back"
@@ -24,20 +30,24 @@
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white_overlay"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/pref_menu_height"
-        android:padding="3dp"
-        android:background="@color/white_overlay"
+        android:layout_height="100dp"
+        android:padding="5dp"
+        android:background="@color/color_white"
         android:id="@+id/pref_privacy">
         <ImageView
             android:id="@+id/pref_pri_img"
-            android:layout_width="60dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:padding="3dp"
+            android:padding="5dp"
             android:layout_marginEnd="5dp"
             android:layout_alignParentStart="true"
             android:src="@drawable/img_share"/>
@@ -46,7 +56,7 @@
             android:layout_toEndOf="@+id/pref_pri_img"
             android:layout_toStartOf="@+id/pref_pri_switch"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="35dp"
             android:textStyle="bold"
             android:gravity="bottom"
             android:text="@string/pref_title_social_recommendations"/>
@@ -56,7 +66,7 @@
             android:layout_toEndOf="@+id/pref_pri_img"
             android:layout_toStartOf="@+id/pref_pri_switch"
             android:layout_width="wrap_content"
-            android:layout_height="44dp"
+            android:layout_height="55dp"
             android:text="@string/pref_description_social_recommendations"/>
 
         <Switch
@@ -71,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/pref_menu_height"
         android:padding="3dp"
-        android:background="@color/colorWhite"
+        android:background="@color/color_light_gray"
         android:id="@+id/pref_profile">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/pref_profile_img"
@@ -103,7 +113,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/pref_menu_height"
         android:padding="3dp"
-        android:background="@color/white_overlay"
+        android:background="@color/color_white"
         android:id="@+id/pref_account">
         <ImageView
             android:id="@+id/pref_account_img"
@@ -136,7 +146,7 @@
         android:id="@+id/pref_language"
         android:layout_width="match_parent"
         android:layout_height="@dimen/pref_menu_height"
-        android:background="@color/color_white"
+        android:background="@color/color_light_gray"
         android:padding="3dp">
 
         <ImageView
@@ -170,7 +180,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/pref_menu_height"
         android:padding="3dp"
-        android:background="@color/white_overlay"
+        android:background="@color/color_white"
         android:id="@+id/pref_term">
         <ImageView
             android:id="@+id/pref_term_img"
@@ -202,7 +212,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/pref_menu_height"
         android:padding="3dp"
-        android:background="@color/color_white"
+        android:background="@color/color_light_gray"
         android:id="@+id/pref_about">
         <ImageView
             android:id="@+id/pref_about_img"
@@ -233,11 +243,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="201dp"
         android:padding="5dp">
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -246,6 +252,4 @@
             android:text="@string/app_copy_right"
             android:textSize="12sp" />
     </RelativeLayout>
-
-
 </LinearLayout>
