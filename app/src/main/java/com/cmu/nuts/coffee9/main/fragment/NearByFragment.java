@@ -39,9 +39,12 @@ public class NearByFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_near_by, container, false);
 
         mMapView = view.findViewById(R.id.mapView);
-        mMapView.onCreate(savedInstanceState);
-
-        mMapView.onResume(); // needed to get the map to display immediately
+        try {
+            mMapView.onCreate(savedInstanceState);
+            mMapView.onResume(); // needed to get the map to display immediately
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
