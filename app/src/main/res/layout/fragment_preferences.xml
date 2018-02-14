@@ -42,7 +42,7 @@
             android:layout_height="match_parent"
             android:padding="5dp"
             android:layout_alignParentStart="true"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/img_share"/>
         <TextView
             android:id="@+id/pref_pri_title"
             android:layout_toEndOf="@+id/pref_pri_img"
@@ -74,13 +74,13 @@
         android:padding="3dp"
         android:background="@color/colorWhite"
         android:id="@+id/pref_profile">
-        <ImageView
+        <android.support.v4.widget.CircleImageView
             android:id="@+id/pref_profile_img"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:padding="3dp"
             android:layout_alignParentStart="true"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/img_user"/>
         <TextView
             android:id="@+id/pref_profile_title"
             android:layout_toEndOf="@+id/pref_profile_img"
@@ -111,7 +111,7 @@
             android:layout_height="match_parent"
             android:padding="3dp"
             android:layout_alignParentStart="true"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/img_user"/>
 
         <TextView
             android:id="@+id/pref_account_title"
@@ -144,7 +144,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:padding="3dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/img_global" />
 
         <TextView
             android:id="@+id/pref_language_title"
@@ -176,7 +176,7 @@
             android:layout_height="match_parent"
             android:padding="3dp"
             android:layout_alignParentStart="true"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/img_shield"/>
         <TextView
             android:id="@+id/pref_term_title"
             android:layout_toEndOf="@+id/pref_term_img"
@@ -207,7 +207,7 @@
             android:layout_height="match_parent"
             android:padding="3dp"
             android:layout_alignParentStart="true"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/img_quation"/>
         <TextView
             android:id="@+id/pref_about_title"
             android:layout_toEndOf="@+id/pref_about_img"
