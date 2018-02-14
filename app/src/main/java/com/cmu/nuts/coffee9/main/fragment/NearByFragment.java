@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,15 +72,19 @@ public class NearByFragment extends Fragment {
                     return;
                 }
 
+                Log.d("Google maps","Permission granted");
                 googleMap.setMyLocationEnabled(true);
 
                 // For dropping a marker at a point on the Map
                 LatLng cmu = new LatLng(18.8037401, 98.9525114);
+                Log.d("Google maps","Lat long are " + cmu.toString());
                 googleMap.addMarker(new MarkerOptions().position(cmu).title("CMU").snippet("Computer Science"));
-
+                Log.d("Google maps","Add marker");
                 // For zooming automatically to the location of the marker
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(17).build();
+                Log.d("Google maps","Camera zoom");
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                Log.d("Google maps","Let's fun");
             }
         });
 
