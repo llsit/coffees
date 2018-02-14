@@ -44,6 +44,7 @@ public class NearByFragment extends Fragment {
             mMapView.onCreate(savedInstanceState);
             mMapView.onResume(); // needed to get the map to display immediately
         } catch (Exception e){
+            Log.e("Google maps error", "The error is " + e.getMessage());
             e.printStackTrace();
         }
 
