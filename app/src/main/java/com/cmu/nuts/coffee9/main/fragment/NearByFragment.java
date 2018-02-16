@@ -2,7 +2,9 @@ package com.cmu.nuts.coffee9.main.fragment;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -10,8 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -21,8 +25,14 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.SmartLocation;
+import io.nlopez.smartlocation.location.config.LocationAccuracy;
+import io.nlopez.smartlocation.location.config.LocationParams;
+import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider;
 
-public class NearByFragment extends Fragment {
+
+public class NearByFragment extends Fragment implements OnLocationUpdatedListener {
 
 
     public NearByFragment() {
@@ -31,6 +41,8 @@ public class NearByFragment extends Fragment {
 
     MapView mMapView;
     private GoogleMap googleMap;
+    private GoogleApiClient googleApiClient;
+    private Activity activity;
 
 
     @Override
@@ -38,7 +50,7 @@ public class NearByFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_near_by, container, false);
-
+        activity = getActivity();
         mMapView = view.findViewById(R.id.mapView);
         try {
             mMapView.onCreate(savedInstanceState);
@@ -49,7 +61,7 @@ public class NearByFragment extends Fragment {
         }
 
         try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
+            MapsInitializer.initialize(activity.getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,54 +72,121 @@ public class NearByFragment extends Fragment {
                 googleMap = mMap;
 
                 int REQUEST_CODE_ASK_PERMISSIONS = 123;
-                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
                             REQUEST_CODE_ASK_PERMISSIONS);
                     return;
                 }
 
-                if (ActivityCompat.checkSelfPermission(getActivity(),
+                if (ActivityCompat.checkSelfPermission(activity,
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION},
                             REQUEST_CODE_ASK_PERMISSIONS);
                     return;
                 }
 
-                Log.d("Google maps","Permission granted");
                 googleMap.setMyLocationEnabled(true);
-
                 // For dropping a marker at a point on the Map
                 LatLng cmu = new LatLng(18.8037401, 98.9525114);
-                Log.d("Google maps","Lat long are " + cmu.toString());
                 googleMap.addMarker(new MarkerOptions().position(cmu).title("CMU").snippet("Computer Science"));
-                Log.d("Google maps","Add marker");
                 // For zooming automatically to the location of the marker
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(17).build();
-                Log.d("Google maps","Camera zoom");
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                Log.d("Google maps","Let's fun");
             }
         });
-
         return view;
+    }
+
+    private void setMaps(final double latitude, final double longitude){
+        mMapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap mMap) {
+                googleMap = mMap;
+
+                int REQUEST_CODE_ASK_PERMISSIONS = 123;
+                if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+                            REQUEST_CODE_ASK_PERMISSIONS);
+                    return;
+                }
+
+                if (ActivityCompat.checkSelfPermission(activity,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION},
+                            REQUEST_CODE_ASK_PERMISSIONS);
+                    return;
+                }
+
+                googleMap.setMyLocationEnabled(true);
+                // For dropping a marker at a point on the Map
+                LatLng cmu = new LatLng(latitude, longitude);
+                googleMap.addMarker(new MarkerOptions().position(cmu).title("Here").snippet("My location"));
+                // For zooming automatically to the location of the marker
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(17).build();
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(SmartLocation.with(activity).location().state().locationServicesEnabled()) {
+            LocationParams params = new LocationParams.Builder()
+                    .setAccuracy(LocationAccuracy.HIGH)
+                    .setInterval(2500)
+                    .setDistance(10)
+                    .build();
+            SmartLocation.with(activity)
+                    .location()
+                    .config(params)
+                    .start(this);
+        } else {
+            locationServiceUnavailable();
+        }
+    }
+
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        SmartLocation.with(activity)
+                .location()
+                .stop();
+    }
+
+    @Override
+    public void onLocationUpdated(Location location) {
+        setMaps(location.getLatitude(), location.getLongitude());
+    }
+
+    private void locationServiceUnavailable() {
+        Toast.makeText(activity,"Location service unavailable, Please turn it on",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mMapView.onResume();
+        SmartLocation.with(activity)
+                .location()
+                .start(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mMapView.onPause();
+        SmartLocation.with(activity)
+                .location()
+                .stop();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mMapView.onDestroy();
+        SmartLocation.with(activity)
+                .location()
+                .stop();
     }
 
     @Override
@@ -115,5 +194,4 @@ public class NearByFragment extends Fragment {
         super.onLowMemory();
         mMapView.onLowMemory();
     }
-
 }
