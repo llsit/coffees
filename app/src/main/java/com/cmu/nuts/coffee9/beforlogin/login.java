@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.main;
+import com.cmu.nuts.coffee9.utillity.LanguageManager;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -38,6 +39,7 @@ public class login extends AppCompatActivity {
     private TextView link_signup;
     private CallbackManager mCallbackManager;
     private ProgressDialog progressDialog;
+    private LanguageManager languageManager;
 
     private static final String TAG = "FacebookLogin";
 
@@ -45,6 +47,8 @@ public class login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        languageManager = new LanguageManager(this);
+        languageManager.setApplicationLanguage();
         progressDialog = ProgressDialog.show(this, "", "Please wait ...", true, false);
 
         inputEmail = findViewById(R.id.email);
