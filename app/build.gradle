@@ -70,7 +70,6 @@ def test = dependence {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:support-v4:27.0.2'
     android()
     google()
     firebase()

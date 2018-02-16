@@ -50,4 +50,12 @@ public class PreferencesFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
+    @OnClick(R.id.pref_language) public void onLanguage(){
+        LanguageFragment languageFragment = new LanguageFragment();
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.pref_container, languageFragment);
+        transaction.commit();
+    }
+
 }

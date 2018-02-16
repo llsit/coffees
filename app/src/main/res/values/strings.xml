@@ -11,6 +11,8 @@
     <string name="err_pass_require">Password is required</string>
     <string name="err_pass_too_short">Password is too short</string>
 
+    <string name="txt_language_english">English</string>
+    <string name="txt_language_thailand">Thai</string>
     <string name="txt_add_coffee_shop">Add Coffee Shop</string>
     <string name="txt_edit">Edit</string>
     <string name="action_settings">Settings</string>
