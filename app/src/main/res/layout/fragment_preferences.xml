@@ -80,14 +80,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/pref_menu_height"
-        android:padding="3dp"
+        android:padding="@dimen/pref_menu_padding"
         android:background="@color/color_light_gray"
         android:id="@+id/pref_profile">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/pref_profile_img"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:padding="3dp"
+            android:padding="@dimen/pref_menu_padding"
             android:layout_marginEnd="5dp"
             android:layout_alignParentStart="true"
             android:src="@drawable/img_user"/>
@@ -112,14 +112,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/pref_menu_height"
-        android:padding="3dp"
+        android:padding="@dimen/pref_menu_padding"
         android:background="@color/color_white"
         android:id="@+id/pref_account">
         <ImageView
             android:id="@+id/pref_account_img"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:padding="3dp"
+            android:padding="@dimen/pref_menu_padding"
             android:layout_marginEnd="5dp"
             android:layout_alignParentStart="true"
             android:src="@drawable/img_user"/>
@@ -146,15 +146,15 @@
         android:id="@+id/pref_language"
         android:layout_width="match_parent"
         android:layout_height="@dimen/pref_menu_height"
-        android:background="@color/color_light_gray"
-        android:padding="3dp">
+        android:padding="@dimen/pref_menu_padding"
+        android:background="@color/color_light_gray">
 
         <ImageView
             android:id="@+id/pref_language_img"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
-            android:padding="3dp"
+            android:padding="@dimen/pref_menu_padding"
             android:layout_marginEnd="5dp"
             android:src="@drawable/img_global" />
 
@@ -179,14 +179,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/pref_menu_height"
-        android:padding="3dp"
+        android:padding="@dimen/pref_menu_padding"
         android:background="@color/color_white"
         android:id="@+id/pref_term">
         <ImageView
             android:id="@+id/pref_term_img"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:padding="3dp"
+            android:padding="@dimen/pref_menu_padding"
             android:layout_marginEnd="5dp"
             android:layout_alignParentStart="true"
             android:src="@drawable/img_shield"/>
@@ -211,14 +211,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/pref_menu_height"
-        android:padding="3dp"
+        android:padding="@dimen/pref_menu_padding"
         android:background="@color/color_light_gray"
         android:id="@+id/pref_about">
         <ImageView
             android:id="@+id/pref_about_img"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:padding="3dp"
+            android:padding="@dimen/pref_menu_padding"
             android:layout_marginEnd="5dp"
             android:layout_alignParentStart="true"
             android:src="@drawable/img_question"/>
