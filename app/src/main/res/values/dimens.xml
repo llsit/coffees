@@ -1,4 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="pref_menu_height">70dp</dimen>
+    <dimen name="pref_menu_padding">5dp</dimen>
 </resources>

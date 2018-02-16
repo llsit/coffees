@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,8 +58,8 @@ public class ProfileWithEditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_with_edit, container, false);
-
         ButterKnife.bind(this, view);
+
         activity = getActivity();
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
@@ -105,6 +107,14 @@ public class ProfileWithEditFragment extends Fragment {
         if (valueEventListener != null){
             databaseReference.removeEventListener(valueEventListener);
         }
+    }
+
+    @OnClick(R.id.profile_edit_img_pref) public void onBack(){
+        PreferencesFragment preferencesFragment = new PreferencesFragment();
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.pref_container, preferencesFragment);
+        transaction.commit();
     }
 
     private void signOut(){
