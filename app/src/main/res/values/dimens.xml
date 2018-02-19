@@ -2,4 +2,12 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="pref_menu_height">70dp</dimen>
     <dimen name="pref_menu_padding">5dp</dimen>
+    <dimen name="range_2">2dp</dimen>
+    <dimen name="range_5">5dp</dimen>
+    <dimen name="range_8">8dp</dimen>
+    <dimen name="range_10">10dp</dimen>
+    <dimen name="range_12">12dp</dimen>
+    <dimen name="range_15">15dp</dimen>
+    <dimen name="range_18">18dp</dimen>
+    <dimen name="range_20">20dp</dimen>
 </resources>
