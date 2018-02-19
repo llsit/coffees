@@ -16,6 +16,9 @@ public class AddDataShop {
     private String open_hour;
     private String price;
 
+    public AddDataShop(){
+        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    }
 
     public AddDataShop(String name, String addressshop, String detail, String authorID, EditText location, EditText open_hour, RadioButton price) {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -31,14 +34,6 @@ public class AddDataShop {
         this.price = price;
     }
 
-    public String get์ame() {
-        return name;
-    }
-
-    public void setname(String nameshop) {
-        this.name = nameshop;
-    }
-
     public String getName() {
         return name;
     }
@@ -47,16 +42,7 @@ public class AddDataShop {
         this.name = name;
     }
 
-    public String getOpen_hour() {
-        return open_hour;
-    }
-
-    public void setOpen_hour(String open_hour) {
-        this.open_hour = open_hour;
-    }
-
     public String getAddress() {
-
         return address;
     }
 
@@ -88,12 +74,12 @@ public class AddDataShop {
         this.location = location;
     }
 
-    public String getOpen_houre() {
+    public String getOpen_hour() {
         return open_hour;
     }
 
-    public void setOpen_houre(String open_houre) {
-        this.open_hour = open_houre;
+    public void setOpen_hour(String open_hour) {
+        this.open_hour = open_hour;
     }
 
     public String getPrice() {
