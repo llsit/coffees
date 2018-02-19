@@ -1,4 +1,5 @@
 package com.cmu.nuts.coffee9.main;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,8 +9,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -20,13 +21,14 @@ import com.cmu.nuts.coffee9.main.fragment.NearByFragment;
 import com.cmu.nuts.coffee9.main.fragment.ProfileFragment;
 import com.cmu.nuts.coffee9.main.fragment.SearchFragment;
 import com.cmu.nuts.coffee9.main.material.BottomNavigationViewHelper;
+import com.cmu.nuts.coffee9.preferences.fragment.ProfileWithEditFragment;
 
 
 public class main extends AppCompatActivity {
 
     private TextView mTitle;
     private FrameLayout fragmentContainer;
-
+    private MenuItem edit;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -53,6 +55,9 @@ public class main extends AppCompatActivity {
         }
         mTitle = myToolbar.findViewById(R.id.toolbar_title);
         mTitle.setText(getString(R.string.menu_home));
+
+        
+
         BottomNavigationViewHelper.disableShiftMode(mBottomNav);
 
         /////////////////////////////////////////////////////////////////////////////////////////
@@ -62,9 +67,11 @@ public class main extends AppCompatActivity {
                 // handle desired action here
                 // One possibility of action is to replace the contents above the nav bar
                 // return true if you want the item to be displayed as the selected item
+
                 switch (item.getItemId()) {
                     case R.id.action_home:
                         mTitle.setText(getString(R.string.menu_home));
+                        edit.setVisible(false);
                         HomeFragment home = new HomeFragment();
                         FragmentManager manager_home = getSupportFragmentManager();
                         FragmentTransaction hm = manager_home.beginTransaction();
@@ -73,6 +80,7 @@ public class main extends AppCompatActivity {
                         break;
                     case R.id.action_search:
                         mTitle.setText(getString(R.string.menu_search));
+                        edit.setVisible(false);
                         SearchFragment search = new SearchFragment();
                         FragmentManager manager_search = getSupportFragmentManager();
                         FragmentTransaction sh = manager_search.beginTransaction();
@@ -82,6 +90,7 @@ public class main extends AppCompatActivity {
                         break;
                     case R.id.action_nearby:
                         mTitle.setText(getString(R.string.menu_search_near));
+                        edit.setVisible(false);
                         NearByFragment nearby = new NearByFragment();
                         FragmentManager manager_nearby = getSupportFragmentManager();
                         FragmentTransaction nb = manager_nearby.beginTransaction();
@@ -90,6 +99,7 @@ public class main extends AppCompatActivity {
                         break;
                     case R.id.action_favorite:
                         mTitle.setText(getString(R.string.menu_favorite));
+                        edit.setVisible(false);
                         FavoriteFragment favorite = new FavoriteFragment();
                         FragmentManager manager_favorite = getSupportFragmentManager();
                         FragmentTransaction fv = manager_favorite.beginTransaction();
@@ -103,7 +113,14 @@ public class main extends AppCompatActivity {
                         FragmentTransaction ft = manager.beginTransaction();
                         ft.replace(R.id.myFragment, profile);
                         ft.commit();
+                        edit.setVisible(true);
                         break;
+                    case R.id.editProfile:
+                        ProfileWithEditFragment editprofile = new ProfileWithEditFragment();
+                        FragmentManager manager_editprofile = getSupportFragmentManager();
+                        FragmentTransaction ep = manager_editprofile.beginTransaction();
+                        ep.replace(R.id.myFragment, editprofile);
+                        ep.commit();
                 }
 
                 return true;
@@ -111,6 +128,13 @@ public class main extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_profile, menu);
+        edit = menu.findItem(R.id.editProfile);
+        return true;
+    }
 //    private int state = 0;
 //    @Override
 //    public void onBackPressed() {
