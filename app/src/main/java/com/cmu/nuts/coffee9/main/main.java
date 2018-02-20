@@ -1,6 +1,7 @@
 package com.cmu.nuts.coffee9.main;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -21,7 +22,7 @@ import com.cmu.nuts.coffee9.main.fragment.NearByFragment;
 import com.cmu.nuts.coffee9.main.fragment.ProfileFragment;
 import com.cmu.nuts.coffee9.main.fragment.SearchFragment;
 import com.cmu.nuts.coffee9.main.material.BottomNavigationViewHelper;
-import com.cmu.nuts.coffee9.preferences.fragment.ProfileWithEditFragment;
+import com.cmu.nuts.coffee9.preferences.PreferencesActivity;
 
 
 public class main extends AppCompatActivity {
@@ -125,7 +126,7 @@ public class main extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_profile, menu);
-        edit = menu.findItem(R.id.editProfile);
+        edit = menu.findItem(R.id.setting);
         return true;
     }
 
@@ -133,13 +134,10 @@ public class main extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.editProfile:
+            case R.id.setting:
                 // Code you want run when activity is clicked
-                ProfileWithEditFragment editprofile = new ProfileWithEditFragment();
-                FragmentManager manager_editprofile = getSupportFragmentManager();
-                FragmentTransaction ep = manager_editprofile.beginTransaction();
-                ep.replace(R.id.Fragment, editprofile);
-                ep.commit();
+                Intent intent = new Intent(main.this, PreferencesActivity.class);
+                startActivity(intent);
                 return true;
 
             default:
