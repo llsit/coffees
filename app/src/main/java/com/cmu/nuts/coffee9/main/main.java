@@ -127,14 +127,6 @@ public class main extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_profile, menu);
         edit = menu.findItem(R.id.setting);
         edit.setVisible(false);
-        edit.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent = new Intent(main.this, PreferencesActivity.class);
-                startActivity(intent);
-                return false;
-            }
-        });
         return true;
     }
 
@@ -152,30 +144,5 @@ public class main extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-//    private int state = 0;
-//    @Override
-//    public void onBackPressed() {
-//
-//        switch (state){
-//            case 0 : {
-//                Toast.makeText(this, "Press back again to exit",Toast.LENGTH_SHORT).show();
-//                state = 1;
-//                Handler handler = new Handler();
-//                Runnable run = new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        state = 0;
-//                    }
-//                };
-//                handler.postDelayed(run, 2000);
-//                break;
-//            }
-//            case 1 : {
-//                finish();
-//                break;
-//            }
-//        }
-//    }
 }
 
