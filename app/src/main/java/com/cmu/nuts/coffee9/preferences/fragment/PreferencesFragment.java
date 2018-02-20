@@ -32,8 +32,8 @@ public class PreferencesFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_preferences, container, false);
         ButterKnife.bind(this, view);
-
         activity = getActivity();
+        onProfile();
         return view;
     }
 
@@ -49,13 +49,13 @@ public class PreferencesFragment extends Fragment {
         fragmentTransaction.replace(R.id.pref_container, profileWithEditFragment);
         fragmentTransaction.commit();
     }
-
-    @OnClick(R.id.pref_language) public void onLanguage(){
-        LanguageFragment languageFragment = new LanguageFragment();
-        FragmentManager manager = getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.pref_container, languageFragment);
-        transaction.commit();
-    }
+//
+//    @OnClick(R.id.pref_language) public void onLanguage(){
+//        LanguageFragment languageFragment = new LanguageFragment();
+//        FragmentManager manager = getFragmentManager();
+//        FragmentTransaction transaction = manager.beginTransaction();
+//        transaction.replace(R.id.pref_container, languageFragment);
+//        transaction.commit();
+//    }
 
 }
