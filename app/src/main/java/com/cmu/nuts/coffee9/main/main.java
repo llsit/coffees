@@ -56,8 +56,6 @@ public class main extends AppCompatActivity {
         mTitle = myToolbar.findViewById(R.id.toolbar_title);
         mTitle.setText(getString(R.string.menu_home));
 
-        
-
         BottomNavigationViewHelper.disableShiftMode(mBottomNav);
 
         /////////////////////////////////////////////////////////////////////////////////////////
@@ -108,19 +106,14 @@ public class main extends AppCompatActivity {
                         break;
                     case R.id.action_profile:
                         mTitle.setText(getString(R.string.menu_profile));
+                        edit.setVisible(true);
                         ProfileFragment profile = new ProfileFragment();
                         FragmentManager manager = getSupportFragmentManager();
                         FragmentTransaction ft = manager.beginTransaction();
                         ft.replace(R.id.myFragment, profile);
                         ft.commit();
-                        edit.setVisible(true);
+
                         break;
-                    case R.id.editProfile:
-                        ProfileWithEditFragment editprofile = new ProfileWithEditFragment();
-                        FragmentManager manager_editprofile = getSupportFragmentManager();
-                        FragmentTransaction ep = manager_editprofile.beginTransaction();
-                        ep.replace(R.id.myFragment, editprofile);
-                        ep.commit();
                 }
 
                 return true;
@@ -135,6 +128,25 @@ public class main extends AppCompatActivity {
         edit = menu.findItem(R.id.editProfile);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.editProfile:
+                // Code you want run when activity is clicked
+                ProfileWithEditFragment editprofile = new ProfileWithEditFragment();
+                FragmentManager manager_editprofile = getSupportFragmentManager();
+                FragmentTransaction ep = manager_editprofile.beginTransaction();
+                ep.replace(R.id.Fragment, editprofile);
+                ep.commit();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 //    private int state = 0;
 //    @Override
 //    public void onBackPressed() {
