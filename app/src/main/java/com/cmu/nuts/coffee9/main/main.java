@@ -142,13 +142,10 @@ public class main extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.editProfile:
+            case R.id.setting:
                 // Code you want run when activity is clicked
-                ProfileWithEditFragment editprofile = new ProfileWithEditFragment();
-                FragmentManager manager_editprofile = getSupportFragmentManager();
-                FragmentTransaction ep = manager_editprofile.beginTransaction();
-                ep.replace(R.id.Fragment, editprofile);
-                ep.commit();
+                Intent intent = new Intent(main.this, PreferencesActivity.class);
+                startActivity(intent);
                 return true;
 
             default:
