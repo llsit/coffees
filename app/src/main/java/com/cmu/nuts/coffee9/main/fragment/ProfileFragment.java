@@ -70,10 +70,6 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    @OnClick(R.id.btn_logout) public void logout(){
-        signOut();
-    }
-
     @OnClick(R.id.btn_settings) public void settings(){
         Intent intent = new Intent(activity, PreferencesActivity.class);
         startActivity(intent);
@@ -113,12 +109,5 @@ public class ProfileFragment extends Fragment {
         if (valueEventListener != null){
             databaseReference.removeEventListener(valueEventListener);
         }
-    }
-
-    private void signOut(){
-        Toast.makeText(getActivity(), "Logging out",Toast.LENGTH_SHORT).show();
-        auth.signOut();
-        Intent intent = new Intent(getActivity(), login.class);
-        startActivity(intent);
     }
 }

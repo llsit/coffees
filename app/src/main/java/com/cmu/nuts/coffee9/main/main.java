@@ -1,6 +1,7 @@
 package com.cmu.nuts.coffee9.main;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -21,13 +22,13 @@ import com.cmu.nuts.coffee9.main.fragment.NearByFragment;
 import com.cmu.nuts.coffee9.main.fragment.ProfileFragment;
 import com.cmu.nuts.coffee9.main.fragment.SearchFragment;
 import com.cmu.nuts.coffee9.main.material.BottomNavigationViewHelper;
+import com.cmu.nuts.coffee9.preferences.PreferencesActivity;
 import com.cmu.nuts.coffee9.preferences.fragment.ProfileWithEditFragment;
 
 
 public class main extends AppCompatActivity {
 
     private TextView mTitle;
-    private FrameLayout fragmentContainer;
     private MenuItem edit;
 
     @SuppressLint("SetTextI18n")
@@ -41,7 +42,6 @@ public class main extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
 
         BottomNavigationView mBottomNav = findViewById(R.id.bottom_nav);
-        fragmentContainer = findViewById(R.id.myFragment);
 
         HomeFragment home = new HomeFragment();
         FragmentManager manager_home = getSupportFragmentManager();
@@ -126,6 +126,15 @@ public class main extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_profile, menu);
         edit = menu.findItem(R.id.editProfile);
+        edit.setVisible(false);
+        edit.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(main.this, PreferencesActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
         return true;
     }
 

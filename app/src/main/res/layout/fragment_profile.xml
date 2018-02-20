@@ -116,21 +116,5 @@
                 android:layout_marginTop="20dp"
                 android:visibility="visible" />
         </RelativeLayout>
-
-        <Button
-            android:id="@+id/btn_logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:padding="12dp"
-            android:paddingStart="16dp"
-            android:text="@string/logout"
-            android:textColor="@color/colorRed"
-            android:background="@drawable/custom_border_round"
-            tools:ignore="RtlSymmetry" />
-
     </android.support.v7.widget.LinearLayoutCompat>
 </ScrollView>
