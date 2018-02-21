@@ -103,6 +103,17 @@ public class ProfileFragment extends Fragment {
         valueEventListener = listener;
     }
 
+    @OnClick(R.id.profile_btn_logout) public void onLogOut(){
+        signOut();
+    }
+
+    private void signOut(){
+        Toast.makeText(getActivity(), "Logging out",Toast.LENGTH_SHORT).show();
+        auth.signOut();
+        Intent intent = new Intent(getActivity(), login.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onStop() {
         super.onStop();
