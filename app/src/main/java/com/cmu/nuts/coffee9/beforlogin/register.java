@@ -2,6 +2,7 @@ package com.cmu.nuts.coffee9.beforlogin;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -14,12 +15,22 @@ import android.widget.Toast;
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.model.Member;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnPausedListener;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,12 +39,16 @@ import butterknife.OnClick;
 public class register extends AppCompatActivity {
 
     //defining view objects
-    private EditText editTextName,editTextEmail,editTextPassword,editTextDate;
+    private EditText editTextName, editTextEmail, editTextPassword, editTextDate;
 
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
 
+    FirebaseStorage storage;
+    StorageReference storageRef;
+    UploadTask uploadTask;
+    private Uri filePath;
     private String name;
 
     @Override
@@ -46,20 +61,22 @@ public class register extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         editTextName = findViewById(R.id.editTextName);
-        editTextEmail =  findViewById(R.id.editTextEmail);
-        editTextPassword =  findViewById(R.id.editTextPassword);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
         progressBar = findViewById(R.id.progressBar2);
     }
 
-    @OnClick(R.id.textViewSignin) public void signIn(){
+    @OnClick(R.id.textViewSignin)
+    public void signIn() {
         Intent intent = new Intent(register.this, login.class);
         startActivity(intent);
     }
 
-    @OnClick(R.id.buttonSignup) public void signUp(){
+    @OnClick(R.id.buttonSignup)
+    public void signUp() {
         View view = this.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             assert imm != null;
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
@@ -74,13 +91,14 @@ public class register extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //checking if success
                         progressBar.setVisibility(View.GONE);
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             //Success
                             FirebaseUser mid = task.getResult().getUser();
                             newMember(mid);
-                        }else{
+                            uploadImage();
+                        } else {
                             //display some message here
-                            Toast.makeText(register.this,"Registration Error",Toast.LENGTH_LONG).show();
+                            Toast.makeText(register.this, "Registration Error", Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -98,6 +116,46 @@ public class register extends AppCompatActivity {
         Intent intent = new Intent(register.this, login.class);
         startActivity(intent);
         finish();
+    }
+
+    private void uploadImage() {
+
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+
+        Uri file = Uri.fromFile(new File("drawable/img_user.png"));
+
+        StorageMetadata metadata = new StorageMetadata.Builder()
+                .setContentType("image/png")
+                .build();
+        // Upload the file and metadata
+        uploadTask = storageRef.child("drawable/img_user.png").putFile(file,metadata);
+
+        uploadTask
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                System.out.println("Upload is " + progress + "% done");
+            }
+        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
+                System.out.println("Upload is paused");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // Handle successful uploads on complete
+                Uri downloadUrl = taskSnapshot.getMetadata().getDownloadUrl();
+                Toast.makeText(register.this, "Uploaded", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }
