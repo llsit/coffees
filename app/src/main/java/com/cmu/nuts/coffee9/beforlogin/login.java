@@ -133,27 +133,31 @@ public class login extends AppCompatActivity {
         progressDialog.show();
 
         //authenticate user
-        auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(login.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            // there was an error
-                            if (progressDialog.isShowing()) progressDialog.dismiss();
-                            if (password.length() < 6) {
-                                inputPassword.setError(getString(R.string.minimum_password));
+        try {
+            auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(login.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            // If sign in fails, display a message to the user. If sign in succeeds
+                            // the auth state listener will be notified and logic to handle the
+                            // signed in user can be handled in the listener.
+                            if (!task.isSuccessful()) {
+                                // there was an error
+                                if (progressDialog.isShowing()) progressDialog.dismiss();
+                                if (password.length() < 6) {
+                                    inputPassword.setError(getString(R.string.minimum_password));
+                                } else {
+                                    Toast.makeText(login.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                                }
                             } else {
-                                Toast.makeText(login.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                                FirebaseUser user = auth.getCurrentUser();
+                                updateUI(user);
                             }
-                        } else {
-                            FirebaseUser user = auth.getCurrentUser();
-                            updateUI(user);
                         }
-                    }
-                });
+                    });
+        }catch (Exception e){
+            Toast.makeText(login.this, getString(R.string.auth_failed) + " with error " + e, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
