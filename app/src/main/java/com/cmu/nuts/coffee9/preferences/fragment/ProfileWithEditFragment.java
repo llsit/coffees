@@ -3,6 +3,9 @@ package com.cmu.nuts.coffee9.preferences.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.beforlogin.login;
 import com.cmu.nuts.coffee9.model.Member;
+import com.cmu.nuts.coffee9.utillity.ImageManager;
 import com.cmu.nuts.coffee9.utillity.TimeManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,9 +31,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ProfileWithEditFragment extends Fragment {
 
@@ -49,6 +59,7 @@ public class ProfileWithEditFragment extends Fragment {
     @BindView(R.id.display_email) TextView display_name;
     @BindView(R.id.display_uid) TextView display_uid;
     @BindView(R.id.display_reg_date) TextView display_reg;
+    @BindView(R.id.img_profile) CircleImageView img_profile;
     @BindView(R.id.btn_settings)
     Button btn_settings;
     @BindView(R.id.progressBar_profile)
@@ -67,6 +78,27 @@ public class ProfileWithEditFragment extends Fragment {
                 .child(Member.tag).child(currentUser.getUid());
 
         return view;
+    }
+
+    private Uri path;
+    private final int SELECT_PHOTO = 1;
+    @OnClick(R.id.img_profile) public void onProfile(){
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, SELECT_PHOTO);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case SELECT_PHOTO:
+                if(resultCode == RESULT_OK){
+                    path = data.getData();
+                    ImageManager imageManager = new ImageManager(activity);
+                    imageManager.uploadImage(path.getPath());
+                }
+        }
     }
 
     @OnClick(R.id.btn_logout) public void logout(){
