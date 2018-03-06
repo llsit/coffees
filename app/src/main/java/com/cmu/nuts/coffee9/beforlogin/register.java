@@ -95,7 +95,6 @@ public class register extends AppCompatActivity {
                             //Success
                             FirebaseUser mid = task.getResult().getUser();
                             newMember(mid);
-                            uploadImage();
                         } else {
                             //display some message here
                             Toast.makeText(register.this, "Registration Error", Toast.LENGTH_LONG).show();
@@ -117,45 +116,4 @@ public class register extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-    private void uploadImage() {
-
-        storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReference();
-
-        Uri file = Uri.fromFile(new File("drawable/img_user.png"));
-
-        StorageMetadata metadata = new StorageMetadata.Builder()
-                .setContentType("image/png")
-                .build();
-        // Upload the file and metadata
-        uploadTask = storageRef.child("drawable/img_user.png").putFile(file,metadata);
-
-        uploadTask
-                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                System.out.println("Upload is " + progress + "% done");
-            }
-        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
-                System.out.println("Upload is paused");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // Handle successful uploads on complete
-                Uri downloadUrl = taskSnapshot.getMetadata().getDownloadUrl();
-                Toast.makeText(register.this, "Uploaded", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
 }
