@@ -3,8 +3,6 @@ package com.cmu.nuts.coffee9.preferences.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,9 +28,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -99,10 +94,6 @@ public class ProfileWithEditFragment extends Fragment {
                     imageManager.uploadImage(path.getPath());
                 }
         }
-    }
-
-    @OnClick(R.id.btn_logout) public void logout(){
-        signOut();
     }
 
     @Override

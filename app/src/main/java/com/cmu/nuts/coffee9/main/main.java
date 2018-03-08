@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.cmu.nuts.coffee9.R;
@@ -23,7 +22,6 @@ import com.cmu.nuts.coffee9.main.fragment.ProfileFragment;
 import com.cmu.nuts.coffee9.main.fragment.SearchFragment;
 import com.cmu.nuts.coffee9.main.material.BottomNavigationViewHelper;
 import com.cmu.nuts.coffee9.preferences.PreferencesActivity;
-import com.cmu.nuts.coffee9.preferences.fragment.ProfileWithEditFragment;
 
 
 public class main extends AppCompatActivity {
@@ -126,7 +124,7 @@ public class main extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_profile, menu);
         edit = menu.findItem(R.id.setting);
-        edit.setVisible(false);
+        edit.setVisible(true);
         return true;
     }
 

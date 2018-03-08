@@ -16,9 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
-import com.cmu.nuts.coffee9.beforlogin.login;
-import com.cmu.nuts.coffee9.preferences.PreferencesActivity;
 import com.cmu.nuts.coffee9.model.Member;
+import com.cmu.nuts.coffee9.preferences.PreferencesActivity;
 import com.cmu.nuts.coffee9.utillity.TimeManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,8 +32,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ProfileFragment extends Fragment {
-
-    public Button btn_logout;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -61,7 +58,7 @@ public class ProfileFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
         activity = getActivity();
-        btn_logout = view.findViewById(R.id.btn_logout);
+
 
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
@@ -103,16 +100,6 @@ public class ProfileFragment extends Fragment {
         valueEventListener = listener;
     }
 
-    @OnClick(R.id.profile_btn_logout) public void onLogOut(){
-        signOut();
-    }
-
-    private void signOut(){
-        Toast.makeText(getActivity(), "Logging out",Toast.LENGTH_SHORT).show();
-        auth.signOut();
-        Intent intent = new Intent(getActivity(), login.class);
-        startActivity(intent);
-    }
 
     @Override
     public void onStop() {
