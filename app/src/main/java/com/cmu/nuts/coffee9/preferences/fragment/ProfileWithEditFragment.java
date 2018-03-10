@@ -12,12 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
-import com.cmu.nuts.coffee9.beforlogin.login;
 import com.cmu.nuts.coffee9.model.Member;
 import com.cmu.nuts.coffee9.utillity.ImageManager;
 import com.cmu.nuts.coffee9.utillity.TimeManager;
@@ -49,9 +49,8 @@ public class ProfileWithEditFragment extends Fragment {
     private ValueEventListener valueEventListener;
     private Activity activity;
 
-    @BindView(R.id.display_name)
-    TextView display_email;
-    @BindView(R.id.display_email) TextView display_name;
+    @BindView(R.id.edt_display_name) EditText display_name;
+    @BindView(R.id.edt_display_email) TextView display_email;
     @BindView(R.id.display_uid) TextView display_uid;
     @BindView(R.id.display_reg_date) TextView display_reg;
     @BindView(R.id.img_profile) CircleImageView img_profile;
@@ -107,8 +106,8 @@ public class ProfileWithEditFragment extends Fragment {
                 progressBar.setVisibility(View.INVISIBLE);
                 TimeManager timeManager = new TimeManager();
                 Member member = dataSnapshot.getValue(Member.class);
-                display_email.setText("Email : ".concat(member.getEmail()));
-                display_name.setText("Name : ".concat(member.getName()));
+                display_email.setText(member.getEmail());
+                display_name.setText((member.getName()));
                 display_reg.setText("Joined : ".concat(timeManager.epochConverter(Long.valueOf(member.getRegDate()))));
                 display_uid.setText("UID : ".concat(member.getUid()));
             }
@@ -140,11 +139,5 @@ public class ProfileWithEditFragment extends Fragment {
         transaction.commit();
     }
 
-    private void signOut(){
-        Toast.makeText(getActivity(), "Logging out",Toast.LENGTH_SHORT).show();
-        auth.signOut();
-        Intent intent = new Intent(getActivity(), login.class);
-        startActivity(intent);
-    }
 
 }

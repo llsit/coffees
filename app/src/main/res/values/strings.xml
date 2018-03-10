@@ -62,6 +62,7 @@
     </string>
 
     <string name="pref_title_profile">Profile</string>
+    <string name="pref_title_edit_profile">Edit Profile</string>
     <string name="pref_default_display_name">John Smith</string>
     <string name="pref_title_account">Account</string>
     <string name="pref_title_language">Language</string>
