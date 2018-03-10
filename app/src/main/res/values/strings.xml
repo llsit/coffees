@@ -42,7 +42,7 @@
     <string name="address">Address</string>
     <string name="detail">Detail</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="name">name</string>
+    <string name="name">Name</string>
     <string name="birth_date">Birth date : loading … </string>
     <string name="loading_email">Email : loading … </string>
     <string name="loading_name">Name : loading … </string>

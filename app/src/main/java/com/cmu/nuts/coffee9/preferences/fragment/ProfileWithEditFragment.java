@@ -54,8 +54,7 @@ public class ProfileWithEditFragment extends Fragment {
     @BindView(R.id.display_uid) TextView display_uid;
     @BindView(R.id.display_reg_date) TextView display_reg;
     @BindView(R.id.img_profile) CircleImageView img_profile;
-    @BindView(R.id.btn_settings)
-    Button btn_settings;
+    @BindView(R.id.btn_settings) Button btn_settings;
     @BindView(R.id.progressBar_profile)
     ProgressBar progressBar;
 
@@ -72,6 +71,10 @@ public class ProfileWithEditFragment extends Fragment {
                 .child(Member.tag).child(currentUser.getUid());
 
         return view;
+    }
+
+    @OnClick(R.id.btn_settings) public void onBtnSetting(){
+
     }
 
     private Uri path;
