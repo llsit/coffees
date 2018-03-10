@@ -49,12 +49,18 @@ public class ProfileWithEditFragment extends Fragment {
     private ValueEventListener valueEventListener;
     private Activity activity;
 
-    @BindView(R.id.edt_display_name) EditText display_name;
-    @BindView(R.id.edt_display_email) TextView display_email;
-    @BindView(R.id.display_uid) TextView display_uid;
-    @BindView(R.id.display_reg_date) TextView display_reg;
-    @BindView(R.id.img_profile) CircleImageView img_profile;
-    @BindView(R.id.btn_settings) Button btn_settings;
+    @BindView(R.id.edt_display_name)
+    EditText display_name;
+    @BindView(R.id.edt_display_email)
+    EditText display_email;
+    @BindView(R.id.display_uid)
+    TextView display_uid;
+    @BindView(R.id.display_reg_date)
+    TextView display_reg;
+    @BindView(R.id.img_profile)
+    CircleImageView img_profile;
+    @BindView(R.id.btn_done)
+    Button btn_done;
     @BindView(R.id.progressBar_profile)
     ProgressBar progressBar;
 
@@ -70,16 +76,20 @@ public class ProfileWithEditFragment extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference()
                 .child(Member.tag).child(currentUser.getUid());
 
+        //updateProfile();
         return view;
     }
 
-    @OnClick(R.id.btn_settings) public void onBtnSetting(){
-
-    }
+//    @OnClick(R.id.btn_settings)
+//    public void onBtnSetting() {
+//
+//    }
 
     private Uri path;
     private final int SELECT_PHOTO = 1;
-    @OnClick(R.id.img_profile) public void onProfile(){
+
+    @OnClick(R.id.img_profile)
+    public void onProfile() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, SELECT_PHOTO);
@@ -88,9 +98,9 @@ public class ProfileWithEditFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
+        switch (requestCode) {
             case SELECT_PHOTO:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     path = data.getData();
                     ImageManager imageManager = new ImageManager(activity);
                     imageManager.uploadImage(path.getPath());
@@ -105,7 +115,7 @@ public class ProfileWithEditFragment extends Fragment {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                btn_settings.setVisibility(View.VISIBLE);
+                btn_done.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
                 TimeManager timeManager = new TimeManager();
                 Member member = dataSnapshot.getValue(Member.class);
@@ -129,18 +139,32 @@ public class ProfileWithEditFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if (valueEventListener != null){
+        if (valueEventListener != null) {
             databaseReference.removeEventListener(valueEventListener);
         }
     }
 
-    @OnClick(R.id.profile_edit_img_pref) public void onBack(){
+    @OnClick(R.id.profile_edit_img_pref)
+    public void onBack() {
         PreferencesFragment preferencesFragment = new PreferencesFragment();
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.pref_container, preferencesFragment);
         transaction.commit();
     }
+
+    @OnClick(R.id.btn_done)
+    public void updateProfile() {
+        String name = display_name.getText().toString();
+        String email = display_email.getText().toString();
+        String personId = currentUser.getUid();
+        databaseReference.child(personId).child("name").setValue(name);
+        databaseReference.child(personId).child("email").setValue(email);
+
+        Toast.makeText(activity, "Success to edit member data!",
+                Toast.LENGTH_SHORT).show();
+    }
+
 
 
 }
