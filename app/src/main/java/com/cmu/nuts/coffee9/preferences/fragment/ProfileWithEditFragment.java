@@ -49,18 +49,12 @@ public class ProfileWithEditFragment extends Fragment {
     private ValueEventListener valueEventListener;
     private Activity activity;
 
-    @BindView(R.id.edt_display_name)
-    EditText display_name;
-    @BindView(R.id.edt_display_email)
-    EditText display_email;
-    @BindView(R.id.display_uid)
-    TextView display_uid;
-    @BindView(R.id.display_reg_date)
-    TextView display_reg;
-    @BindView(R.id.img_profile)
-    CircleImageView img_profile;
-    @BindView(R.id.btn_done)
-    Button btn_done;
+    @BindView(R.id.edt_display_name) EditText display_name;
+    @BindView(R.id.edt_display_email) TextView display_email;
+    @BindView(R.id.display_uid) TextView display_uid;
+    @BindView(R.id.display_reg_date) TextView display_reg;
+    @BindView(R.id.img_profile) CircleImageView img_profile;
+    @BindView(R.id.btn_done) Button btn_settings;
     @BindView(R.id.progressBar_profile)
     ProgressBar progressBar;
 
@@ -80,10 +74,7 @@ public class ProfileWithEditFragment extends Fragment {
         return view;
     }
 
-//    @OnClick(R.id.btn_settings)
-//    public void onBtnSetting() {
-//
-//    }
+    @OnClick(R.id.btn_done) public void onBtnSetting(){
 
     private Uri path;
     private final int SELECT_PHOTO = 1;
@@ -152,19 +143,4 @@ public class ProfileWithEditFragment extends Fragment {
         transaction.replace(R.id.pref_container, preferencesFragment);
         transaction.commit();
     }
-
-    @OnClick(R.id.btn_done)
-    public void updateProfile() {
-        String name = display_name.getText().toString();
-        String email = display_email.getText().toString();
-        String personId = currentUser.getUid();
-        databaseReference.child(personId).child("name").setValue(name);
-        databaseReference.child(personId).child("email").setValue(email);
-
-        Toast.makeText(activity, "Success to edit member data!",
-                Toast.LENGTH_SHORT).show();
-    }
-
-
-
 }

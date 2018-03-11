@@ -1,5 +1,6 @@
 package com.cmu.nuts.coffee9.main.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -35,7 +36,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
     }
 
     @Override
-    public void onBindViewHolder(ShopHolder holder, final int position) {
+    public void onBindViewHolder(ShopHolder holder, @SuppressLint("RecyclerView") final int position) {
         final Shop shop = shops.get(position);
         holder.tv_sid.setText(shop.getSid());
         holder.tv_name.setText(shop.getName());

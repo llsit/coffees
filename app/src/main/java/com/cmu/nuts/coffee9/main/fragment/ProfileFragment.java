@@ -47,7 +47,7 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.display_email) TextView display_name;
     @BindView(R.id.display_uid) TextView display_uid;
     @BindView(R.id.display_reg_date) TextView display_reg;
-    @BindView(R.id.btn_settings) Button btn_settings;
+    @BindView(R.id.btn_done) Button btn_settings;
     @BindView(R.id.progressBar_profile) ProgressBar progressBar;
 
     @SuppressLint("SetTextI18n")
@@ -67,7 +67,7 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    @OnClick(R.id.btn_settings) public void settings(){
+    @OnClick(R.id.btn_done) public void settings(){
         Intent intent = new Intent(activity, PreferencesActivity.class);
         startActivity(intent);
     }
