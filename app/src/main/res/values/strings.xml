@@ -6,6 +6,9 @@
     <string name="fb_login_protocol_scheme" translatable="false">fb645410309182352</string>
     <string name="google_maps_api_key" translatable="false">AIzaSyAYjmyaEry9hJfmhNiZg98nM1z3EIx-dVE</string>
 
+    <string name="back">Back</string>
+
+
     <string name="err_email_require">Email address is required</string>
     <string name="err_email_invalid">Invalid Email address</string>
     <string name="err_pass_require">Password is required</string>
@@ -132,5 +135,6 @@
     <string name="txt_rang_over_200">151-200</string>
     <string name="txt_time_hour">Time hour</string>
     <string name="txt_location">Location</string>
+    <string name="title_activity_data_shop">DataShopActivity</string>
 
 </resources>

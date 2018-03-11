@@ -65,7 +65,11 @@
         <activity
             android:name=".preferences.PreferencesActivity"
             android:label="@string/title_activity_preferences"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".main.DataShopActivity"
+            android:label="@string/title_activity_data_shop"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

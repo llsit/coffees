@@ -1,7 +1,9 @@
 package com.cmu.nuts.coffee9.main.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.DataShopActivity;
 import com.cmu.nuts.coffee9.model.Shop;
 
 import java.util.List;
@@ -23,6 +26,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
 
     private List<Shop> shops;
     private Context context;
+    Activity content;
 
     public ShopRecyclerAdapter(List<Shop> shops, Context context){
         this.shops = shops;
@@ -38,16 +42,24 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
     @Override
     public void onBindViewHolder(ShopHolder holder, @SuppressLint("RecyclerView") final int position) {
         final Shop shop = shops.get(position);
+
         holder.tv_sid.setText(shop.getSid());
         holder.tv_name.setText(shop.getName());
         holder.tv_detail.setText(shop.getDetail());
         holder.tv_open_time.setText(shop.getOpen_houre());
         holder.tv_price.setText(shop.getPrice());
+
+
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //open new Activity that show Shop content
-                Toast.makeText(context, position + " name : " + shop.getName(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, position + " name : " + shop.getSid(), Toast.LENGTH_LONG).show();
+                Intent i = new Intent(content, DataShopActivity.class);
+                String userID = null;
+                userID = shop.getSid();
+                i.putExtra("userID", userID);
             }
         });
     }
