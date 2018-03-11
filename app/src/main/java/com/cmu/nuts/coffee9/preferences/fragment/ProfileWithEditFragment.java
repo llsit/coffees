@@ -70,17 +70,16 @@ public class ProfileWithEditFragment extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference()
                 .child(Member.tag).child(currentUser.getUid());
 
-        //updateProfile();
         return view;
     }
 
     @OnClick(R.id.btn_done) public void onBtnSetting(){
 
+    }
+
     private Uri path;
     private final int SELECT_PHOTO = 1;
-
-    @OnClick(R.id.img_profile)
-    public void onProfile() {
+    @OnClick(R.id.img_profile) public void onProfile(){
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, SELECT_PHOTO);
@@ -89,9 +88,9 @@ public class ProfileWithEditFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
+        switch(requestCode) {
             case SELECT_PHOTO:
-                if (resultCode == RESULT_OK) {
+                if(resultCode == RESULT_OK){
                     path = data.getData();
                     ImageManager imageManager = new ImageManager(activity);
                     imageManager.uploadImage(path.getPath());
@@ -106,7 +105,7 @@ public class ProfileWithEditFragment extends Fragment {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                btn_done.setVisibility(View.VISIBLE);
+                btn_settings.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
                 TimeManager timeManager = new TimeManager();
                 Member member = dataSnapshot.getValue(Member.class);
@@ -130,13 +129,12 @@ public class ProfileWithEditFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if (valueEventListener != null) {
+        if (valueEventListener != null){
             databaseReference.removeEventListener(valueEventListener);
         }
     }
 
-    @OnClick(R.id.profile_edit_img_pref)
-    public void onBack() {
+    @OnClick(R.id.profile_edit_img_pref) public void onBack(){
         PreferencesFragment preferencesFragment = new PreferencesFragment();
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
