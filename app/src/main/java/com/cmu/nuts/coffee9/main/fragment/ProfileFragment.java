@@ -83,10 +83,11 @@ public class ProfileFragment extends Fragment {
                 progressBar.setVisibility(View.INVISIBLE);
                 TimeManager timeManager = new TimeManager();
                 Member member = dataSnapshot.getValue(Member.class);
-                display_email.setText("Email : ".concat(member.getEmail()));
-                display_name.setText("Name : ".concat(member.getName()));
-                display_reg.setText("Joined : ".concat(timeManager.epochConverter(Long.valueOf(member.getRegDate()))));
-                display_uid.setText("UID : ".concat(member.getUid()));
+                assert member != null;
+                display_email.setText(activity.getString(R.string.txt_email_prompt).concat(member.getEmail()));
+                display_name.setText(activity.getString(R.string.txt_name_prompt).concat(member.getName()));
+                display_reg.setText(activity.getString(R.string.txt_reg_prompt).concat(timeManager.epochConverter(Long.valueOf(member.getRegDate()))));
+                display_uid.setText(activity.getString(R.string.txt_uid_prompt).concat(member.getUid()));
             }
 
             @Override

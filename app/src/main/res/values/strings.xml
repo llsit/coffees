@@ -43,11 +43,11 @@
     <string name="detail">Detail</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name">Name</string>
-    <string name="birth_date">Birth date : loading … </string>
-    <string name="loading_email">Email : loading … </string>
-    <string name="loading_name">Name : loading … </string>
-    <string name="loading_reg">Joined : loading … </string>
-    <string name="loading_uid">UID : loading … </string>
+    <string name="txt_birth_date_prompt">Birth date : </string>
+    <string name="txt_email_prompt">Email : </string>
+    <string name="txt_name_prompt">Name : </string>
+    <string name="txt_reg_prompt">Joined : </string>
+    <string name="txt_uid_prompt">UID : </string>
     <string name="btn_message_preferences">Preferences</string>
     <string name="title_activity_preferences">Preferences</string>
 
