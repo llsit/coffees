@@ -54,7 +54,7 @@ public class ProfileWithEditFragment extends Fragment {
     @BindView(R.id.display_uid) TextView display_uid;
     @BindView(R.id.display_reg_date) TextView display_reg;
     @BindView(R.id.img_profile) CircleImageView img_profile;
-    @BindView(R.id.btn_done) Button btn_settings;
+    @BindView(R.id.btn_edit_done) Button btn_settings;
     @BindView(R.id.progressBar_profile)
     ProgressBar progressBar;
 
@@ -71,10 +71,6 @@ public class ProfileWithEditFragment extends Fragment {
                 .child(Member.tag).child(currentUser.getUid());
 
         return view;
-    }
-
-    @OnClick(R.id.btn_done) public void onBtnSetting(){
-
     }
 
     private Uri path;
@@ -111,8 +107,8 @@ public class ProfileWithEditFragment extends Fragment {
                 Member member = dataSnapshot.getValue(Member.class);
                 display_email.setText(member.getEmail());
                 display_name.setText((member.getName()));
-                display_reg.setText("Joined : ".concat(timeManager.epochConverter(Long.valueOf(member.getRegDate()))));
-                display_uid.setText("UID : ".concat(member.getUid()));
+                display_reg.setText(activity.getString(R.string.txt_reg_prompt).concat(timeManager.epochConverter(Long.valueOf(member.getRegDate()))));
+                display_uid.setText(activity.getString(R.string.txt_uid_prompt).concat(member.getUid()));
             }
 
             @Override
@@ -137,8 +133,22 @@ public class ProfileWithEditFragment extends Fragment {
     @OnClick(R.id.profile_edit_img_pref) public void onBack(){
         PreferencesFragment preferencesFragment = new PreferencesFragment();
         FragmentManager manager = getFragmentManager();
+        assert manager != null;
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.pref_container, preferencesFragment);
         transaction.commit();
+    }
+
+    @OnClick(R.id.btn_edit_done) public void updateProfile() {
+        String name = display_name.getText().toString();
+        String email = display_email.getText().toString();
+        String personId = currentUser.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child(Member.tag).child(personId);
+        databaseReference.child("name").setValue(name);
+        databaseReference.child("email").setValue(email);
+
+        Toast.makeText(activity, "Update Successfully!",
+                Toast.LENGTH_SHORT).show();
     }
 }
