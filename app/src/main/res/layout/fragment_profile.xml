@@ -44,7 +44,7 @@
                 android:layout_below="@+id/img_profile"
                 android:layout_marginTop="25dp"
                 android:paddingLeft="16dp"
-                android:text="@string/loading_name"
+                android:text="@string/txt_name_prompt"
                 android:textSize="20sp"
                 tools:ignore="RtlSymmetry" />
 
@@ -55,7 +55,7 @@
                 android:layout_below="@+id/display_name"
                 android:layout_marginTop="15dp"
                 android:paddingLeft="16dp"
-                android:text="@string/loading_email"
+                android:text="@string/txt_email_prompt"
                 android:textSize="20sp"
                 tools:ignore="RtlSymmetry" />
 
@@ -67,7 +67,7 @@
                 android:layout_below="@+id/display_email"
                 android:layout_marginTop="15dp"
                 android:paddingLeft="16dp"
-                android:text="@string/birth_date"
+                android:text="@string/txt_birth_date_prompt"
                 android:textSize="20sp"
                 tools:ignore="RtlSymmetry" />
 
@@ -78,7 +78,7 @@
                 android:layout_below="@+id/display_birth_date"
                 android:layout_marginTop="15dp"
                 android:paddingLeft="16dp"
-                android:text="@string/loading_reg"
+                android:text="@string/txt_reg_prompt"
                 android:textSize="15sp"
                 tools:ignore="RtlSymmetry" />
 
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/display_reg_date"
                 android:paddingLeft="16dp"
-                android:text="@string/loading_uid"
+                android:text="@string/txt_uid_prompt"
                 android:textSize="15sp"
                 tools:ignore="RtlSymmetry" />
 
@@ -103,7 +103,6 @@
                 android:textColor="@color/color_pastel_blue"
                 android:background="@drawable/custom_border_round"
                 android:text="@string/btn_message_preferences"
-
                 android:visibility="invisible"/>
             <ProgressBar
                 android:id="@+id/progressBar_profile"
