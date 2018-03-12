@@ -23,7 +23,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
-import com.cmu.nuts.coffee9.main.model.AddDataShop;
+import com.cmu.nuts.coffee9.model.Shop;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -71,7 +71,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_shop, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         // Inflate the layout for this fragment
         Toolbar toolbar = view.findViewById(R.id.toolbarAddShop);
         toolbar.setTitle(getString(R.string.txt_add_coffee_shop));
@@ -118,13 +118,19 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
                 open = open_hour.getText().toString();
 
                 switch (radio_price.getCheckedRadioButtonId()) {
-                    case R.id.rdo_min: prices = activity.getString(R.string.txt_rang_0_100); break;
-                    case R.id.rdo_mid: prices = activity.getString(R.string.txt_rang_101_200); break;
-                    case R.id.rdo_max: prices = activity.getString(R.string.txt_rang_over_200); break;
+                    case R.id.rdo_min:
+                        prices = activity.getString(R.string.txt_rang_0_100);
+                        break;
+                    case R.id.rdo_mid:
+                        prices = activity.getString(R.string.txt_rang_101_200);
+                        break;
+                    case R.id.rdo_max:
+                        prices = activity.getString(R.string.txt_rang_over_200);
+                        break;
                 }
 
 
-                AddDataShop shopData = new AddDataShop(name, addressshop, Detail, authorID, locat, open, prices);
+                Shop shopData = new Shop(coffee_ID, name, addressshop, Detail, locat, open, prices, authorID);
                 mDatabase.child("coffee_shop").child(coffee_ID).setValue(shopData);
 
                 Toast.makeText(getActivity(), "Add Success", Toast.LENGTH_SHORT).show();
@@ -133,13 +139,13 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
         });
     }
 
-    private void setMaps(View view, Bundle savedInstanceState){
+    private void setMaps(View view, Bundle savedInstanceState) {
         mMapView = view.findViewById(R.id.add_shp_map_view);
 
         try {
             mMapView.onCreate(savedInstanceState);
             mMapView.onResume(); // needed to get the map to display immediately
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e("Google maps error", "The error is " + e.getMessage());
             e.printStackTrace();
         }
@@ -157,14 +163,14 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
 
                 int REQUEST_CODE_ASK_PERMISSIONS = 123;
                 if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                             REQUEST_CODE_ASK_PERMISSIONS);
                     return;
                 }
 
                 if (ActivityCompat.checkSelfPermission(activity,
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION},
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                             REQUEST_CODE_ASK_PERMISSIONS);
                     return;
                 }
@@ -180,7 +186,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
         });
     }
 
-    private void setMaps(final double latitude, final double longitude){
+    private void setMaps(final double latitude, final double longitude) {
         location.setEnabled(true);
         location.setText(String.valueOf(latitude) + " ," + String.valueOf(longitude));
         location.setEnabled(false);
@@ -191,14 +197,14 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
 
                 int REQUEST_CODE_ASK_PERMISSIONS = 123;
                 if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                             REQUEST_CODE_ASK_PERMISSIONS);
                     return;
                 }
 
                 if (ActivityCompat.checkSelfPermission(activity,
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION},
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                             REQUEST_CODE_ASK_PERMISSIONS);
                     return;
                 }
@@ -215,13 +221,13 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
     }
 
     private void locationServiceUnavailable() {
-        Toast.makeText(activity,"Location service unavailable, Please turn it on",Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "Location service unavailable, Please turn it on", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        if(SmartLocation.with(activity).location().state().locationServicesEnabled()) {
+        if (SmartLocation.with(activity).location().state().locationServicesEnabled()) {
             LocationParams params = new LocationParams.Builder()
                     .setAccuracy(LocationAccuracy.HIGH)
                     .setInterval(2500)

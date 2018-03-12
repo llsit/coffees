@@ -1,18 +1,23 @@
 package com.cmu.nuts.coffee9.main;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 
 import com.cmu.nuts.coffee9.R;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 public class DataShopActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private ImageView back;
+
+
+    @BindView(R.id.data_shop_img_back)
+    ImageView btn_back_data_shop;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,21 +25,11 @@ public class DataShopActivity extends AppCompatActivity {
         setContentView(R.layout.activity_data_shop);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_data_shop_title);
         setSupportActionBar(toolbar);
-
-        Bundle bundle = getIntent().getExtras();
-        String userID = bundle.getString("userID");
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        viewPager = (ViewPager) findViewById(R.id.viewpager_data_shop);
-        setupViewPager(viewPager);
-
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+
+    @OnClick(R.id.data_shop_img_back) public void OnBack(){
+        finish();
     }
 
 }
