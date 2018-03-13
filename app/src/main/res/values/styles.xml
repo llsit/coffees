@@ -30,4 +30,14 @@
     <style name="button_square_style">
         <item name="android:background">@drawable/custom_border_square</item>
     </style>
+
+    <style name="MyTabLayoutStyle" parent="Base.Widget.Design.TabLayout">
+        <item name="tabSelectedTextColor">#ffffff</item>
+        <item name="tabTextAppearance">@style/MyTabText</item>
+    </style>
+
+    <style name="MyTabText" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textColor">#eeeeee</item>
+    </style>
+
 </resources>
