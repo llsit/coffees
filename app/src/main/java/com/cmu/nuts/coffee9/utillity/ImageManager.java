@@ -1,27 +1,31 @@
 package com.cmu.nuts.coffee9.utillity;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.support.annotation.NonNull;
-import android.widget.ImageView;
+import android.util.Log;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.model.Member;
+import com.cmu.nuts.coffee9.preferences.PreferencesActivity;
 import com.cmu.nuts.coffee9.utillity.sharedstring.FirebaseKey;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by tcdm053 on 28/2/2561.
@@ -31,39 +35,57 @@ public class ImageManager {
     private Activity activity;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private FirebaseDatabase firebaseDatabase;
+    private FirebaseStorage storage;
+
     private UploadTask uploadTask;
 
-    private FirebaseStorage storage;
     private StorageReference storageRef;
+    private DatabaseReference databaseRef;
     public ImageManager(Activity activity){
         this.activity = activity;
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         storage = FirebaseStorage.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+
         storageRef = storage.getReference();
+
+        databaseRef = FirebaseDatabase.getInstance().getReference()
+                .child(Member.tag).child(firebaseUser.getUid());
     }
 
-    CircleImageView image;
-    public void uploadImage(String path){
+    public void uploadImage(Uri path){
+        final ProgressDialog progress = ProgressDialog.show(activity, "Upload Task",
+                "Starting upload", true);
+        progress.show();
         StorageReference riversRef = storageRef.child(FirebaseKey.img_profile_key).child(firebaseUser.getUid());
-        uploadTask = riversRef.putFile(Uri.parse(path));
+        Log.d("Upload", "Uploading" + firebaseUser.getDisplayName() + " name " + path.toString());
         // Register observers to listen for when the download is done or if it fails
-        uploadTask.addOnFailureListener(new OnFailureListener() {
+        uploadTask = riversRef.putFile(path);
+
+        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                progress.setMessage("Uploading " + ((taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount())*100) + "%");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
-                Toast.makeText(activity,"Upload fail", Toast.LENGTH_SHORT).show();
+                progress.dismiss();
+                Log.e("onFailure",exception.getMessage());
+                Toast.makeText(activity,"Upload fail, cause by " + exception.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Toast.makeText(activity,"Upload successfully", Toast.LENGTH_SHORT).show();
-                image = activity.findViewById(R.id.img_profile);
+                progress.dismiss();
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                Glide.with(activity)
-                        .load(downloadUrl)
-                        .into(image);
+                databaseRef.child("photoUrl").setValue("https://firebasestorage.googleapis.com"+downloadUrl.getPath());
+                Intent intent = new Intent(activity, PreferencesActivity.class);
+                activity.startActivity(intent);
+                activity.finish();
             }
         });
     }

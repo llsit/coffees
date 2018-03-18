@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.model.Member;
+import com.cmu.nuts.coffee9.utillity.ImageManager;
 import com.cmu.nuts.coffee9.utillity.TimeManager;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.features.ReturnMode;
@@ -32,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -56,8 +58,7 @@ public class ProfileWithEditFragment extends Fragment {
     @BindView(R.id.display_reg_date) TextView display_reg;
     @BindView(R.id.img_profile) CircleImageView img_profile;
     @BindView(R.id.btn_edit_done) Button btn_settings;
-    @BindView(R.id.progressBar_profile)
-    ProgressBar progressBar;
+    @BindView(R.id.progressBar_profile) ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,13 +86,16 @@ public class ProfileWithEditFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, final int resultCode, Intent data) {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-            Image image = ImagePicker.getFirstImageOrNull(data);
-            img_profile.setImageURI(Uri.parse(image.getPath()));
+            Image imageFile = ImagePicker.getFirstImageOrNull(data);
+            img_profile.setImageURI(Uri.parse(imageFile.getPath()));
+            Toast.makeText(activity,"Picked image "+ imageFile.getPath(), Toast.LENGTH_SHORT).show();
+            if (imageFile.getPath() != null){
+                ImageManager imageManager = new ImageManager(activity);
+                imageManager.uploadImage(Uri.fromFile(new File(imageFile.getPath())));
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-
 
     @Override
     public void onStart() {
@@ -100,14 +104,14 @@ public class ProfileWithEditFragment extends Fragment {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                btn_settings.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.INVISIBLE);
                 TimeManager timeManager = new TimeManager();
                 Member member = dataSnapshot.getValue(Member.class);
                 display_email.setText(member.getEmail());
                 display_name.setText((member.getName()));
                 display_reg.setText(activity.getString(R.string.txt_reg_prompt).concat(timeManager.epochConverter(Long.valueOf(member.getRegDate()))));
                 display_uid.setText(activity.getString(R.string.txt_uid_prompt).concat(member.getUid()));
+                btn_settings.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -146,7 +150,6 @@ public class ProfileWithEditFragment extends Fragment {
                 .child(Member.tag).child(personId);
         databaseReference.child("name").setValue(name);
         databaseReference.child("email").setValue(email);
-
         Toast.makeText(activity, "Update Successfully!",
                 Toast.LENGTH_SHORT).show();
     }
