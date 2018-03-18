@@ -17,14 +17,14 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <ImageView
-            android:id="@+id/title_img_pref"
+            android:id="@+id/img_pref_back"
             android:src="@drawable/ic_back"
             android:layout_width="50dp"
             android:layout_height="match_parent" />
         <TextView
             android:id="@+id/pref_title_txt"
             android:text="@string/title_activity_preferences"
-            android:layout_toEndOf="@+id/title_img_pref"
+            android:layout_toEndOf="@+id/img_pref_back"
             android:gravity="center_vertical"
             android:textSize="20sp"
             android:textStyle="bold"

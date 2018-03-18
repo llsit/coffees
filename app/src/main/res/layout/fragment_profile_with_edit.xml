@@ -63,7 +63,8 @@
                 android:visibility="invisible"
                 app:layout_anchorGravity="bottom|right|end" />
 
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/img_profile"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
