@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,10 +11,8 @@ import android.widget.Toast;
 import com.cmu.nuts.coffee9.model.Member;
 import com.cmu.nuts.coffee9.preferences.PreferencesActivity;
 import com.cmu.nuts.coffee9.utillity.sharedstring.FirebaseKey;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -24,8 +21,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.io.File;
 
 /**
  * Created by tcdm053 on 28/2/2561.
@@ -82,7 +77,7 @@ public class ImageManager {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 progress.dismiss();
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                databaseRef.child("photoUrl").setValue("https://firebasestorage.googleapis.com"+downloadUrl.getPath());
+                databaseRef.child("photoUrl").setValue(downloadUrl);
                 Intent intent = new Intent(activity, PreferencesActivity.class);
                 activity.startActivity(intent);
                 activity.finish();
