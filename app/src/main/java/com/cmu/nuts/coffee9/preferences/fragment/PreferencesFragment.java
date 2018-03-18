@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cmu.nuts.coffee9.R;
-import com.cmu.nuts.coffee9.main.fragment.AddShopFragment;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -37,7 +36,7 @@ public class PreferencesFragment extends Fragment {
         return view;
     }
 
-    @OnClick(R.id.title_img_pref) public void onBack(){
+    @OnClick(R.id.img_pref_back) public void onBack(){
         activity.finish();
     }
 
@@ -50,12 +49,24 @@ public class PreferencesFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
+    @OnClick(R.id.pref_account) public void onAccout(){
+
+    }
+
     @OnClick(R.id.pref_language) public void onLanguage(){
         LanguageFragment languageFragment = new LanguageFragment();
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.pref_container, languageFragment);
         transaction.commit();
+    }
+
+    @OnClick(R.id.pref_term) public void onTerm(){
+
+    }
+
+    @OnClick(R.id.pref_about) public void onAbout(){
+
     }
 
 }
