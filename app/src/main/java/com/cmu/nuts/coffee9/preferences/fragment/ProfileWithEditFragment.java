@@ -3,6 +3,7 @@ package com.cmu.nuts.coffee9.preferences.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,8 +20,10 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.model.Member;
-import com.cmu.nuts.coffee9.utillity.ImageManager;
 import com.cmu.nuts.coffee9.utillity.TimeManager;
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.features.ReturnMode;
+import com.esafirm.imagepicker.model.Image;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,8 +36,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static android.app.Activity.RESULT_OK;
 
 public class ProfileWithEditFragment extends Fragment {
 
@@ -73,26 +74,24 @@ public class ProfileWithEditFragment extends Fragment {
         return view;
     }
 
-    private Uri path;
-    private final int SELECT_PHOTO = 1;
     @OnClick(R.id.img_profile) public void onProfile(){
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent, SELECT_PHOTO);
+        ImagePicker.create(this).returnMode(ReturnMode.ALL).folderMode(true)
+                .toolbarFolderTitle("Folder").toolbarImageTitle("Tap to select")
+                .toolbarArrowColor(Color.BLUE).single().limit(1)
+                .showCamera(true).imageDirectory("Camera").enableLog(true)
+                .start();
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
-            case SELECT_PHOTO:
-                if(resultCode == RESULT_OK){
-                    path = data.getData();
-                    ImageManager imageManager = new ImageManager(activity);
-                    imageManager.uploadImage(path.getPath());
-                }
+    public void onActivityResult(int requestCode, final int resultCode, Intent data) {
+        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            Image image = ImagePicker.getFirstImageOrNull(data);
+            img_profile.setImageURI(Uri.parse(image.getPath()));
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
+
+
 
     @Override
     public void onStart() {
