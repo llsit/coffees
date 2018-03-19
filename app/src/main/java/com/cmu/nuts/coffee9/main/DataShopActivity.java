@@ -2,17 +2,32 @@ package com.cmu.nuts.coffee9.main;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.cmu.nuts.coffee9.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DataShopActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+
+    private SectionsPageAdapter mSectionsPageAdapter;
+
+    private ViewPager mViewPager;
+
     private ImageView back;
-    //@BindView(R.id.data_shop_img_back) ImageView btn_back_data_shop;
+
+    private Toolbar toolbar;
 
 
     @Override
@@ -20,40 +35,66 @@ public class DataShopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_shop);
 
-//        back = findViewById(R.id.btn_back_data_shop);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_data_shop_title);
-//        setSupportActionBar(toolbar);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Log.d(TAG, "onCreate: Starting.");
+
+        mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = findViewById(R.id.container);
+        setupViewPager(mViewPager);
+
+        toolbar = findViewById(R.id.toolbar_data_shop);
         setSupportActionBar(toolbar);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
 
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
+        back = findViewById(R.id.data_shop_back);
+
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onClick(View v) {
+                finish();
             }
         });
+
+    }
+    private void setupViewPager(ViewPager viewPager) {
+        SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
+        adapter.addFragment(new DetailDataShopFragment(), "Detail");
+        adapter.addFragment(new ReviewDataShopFragment(), "Review");
+        adapter.addFragment(new ImageDataShopFragment(), "Image");
+        viewPager.setAdapter(adapter);
     }
 
+    public class SectionsPageAdapter extends FragmentPagerAdapter {
 
-//    @OnClick(R.id.data_shop_img_back) public void OnBack(){
-//        Toast.makeText(DataShopActivity.this, "Failed",
-//                Toast.LENGTH_SHORT).show();
-//        finish();
-//    }
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        public SectionsPageAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+    }
 
 }
