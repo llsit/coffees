@@ -61,15 +61,7 @@
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_back" />
-
-                <TextView
-                    android:id="@+id/profile_edit__title_txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="@string/pref_title_edit_profile"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>

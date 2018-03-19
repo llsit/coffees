@@ -47,13 +47,13 @@ public class main extends AppCompatActivity {
         hm.replace(R.id.myFragment, home);
         hm.addToBackStack(null);
         hm.commit();
-
+        //
         if (ab != null) {
             ab.setDisplayShowTitleEnabled(false);
         }
         mTitle = myToolbar.findViewById(R.id.toolbar_title);
         mTitle.setText(getString(R.string.menu_home));
-
+        //edit.setVisible(false);
         BottomNavigationViewHelper.disableShiftMode(mBottomNav);
 
         /////////////////////////////////////////////////////////////////////////////////////////
@@ -124,7 +124,7 @@ public class main extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_profile, menu);
         edit = menu.findItem(R.id.setting);
-        edit.setVisible(true);
+        edit.setVisible(false);
         return true;
     }
 
