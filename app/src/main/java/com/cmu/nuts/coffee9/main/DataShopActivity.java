@@ -42,38 +42,38 @@ public class DataShopActivity extends AppCompatActivity {
         mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(R.id.container);
+        mViewPager = findViewById(R.id.htab_viewpager);
         setupViewPager(mViewPager);
 
-        toolbar = findViewById(R.id.toolbar_data_shop);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        back = findViewById(R.id.data_shop_back);
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        Intent intent = getIntent();
-        String shop_ID = intent.getStringExtra("shopID");
-
-
-        TextView text = findViewById(R.id.id_shopID);
-
-        text.setText(shop_ID);
-
-        String shopid = "123";
-        Bundle bundle = new Bundle();
-        bundle.putString("message", shopid);
-        //set Fragmentclass Arguments
-        DetailDataShopFragment fragobj = new DetailDataShopFragment();
-        fragobj.setArguments(bundle);
+//
+//        back = findViewById(R.id.data_shop_back);
+//
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
+//
+//        Intent intent = getIntent();
+//        String shop_ID = intent.getStringExtra("shopID");
+//
+//
+//        TextView text = findViewById(R.id.id_shopID);
+//
+//        text.setText(shop_ID);
+//
+//        String shopid = "123";
+//        Bundle bundle = new Bundle();
+//        bundle.putString("message", shopid);
+//        //set Fragmentclass Arguments
+//        DetailDataShopFragment fragobj = new DetailDataShopFragment();
+//        fragobj.setArguments(bundle);
 
 //        Bundle bundle = new Bundle();
 //        bundle.putString("shopID", "tab111111");
