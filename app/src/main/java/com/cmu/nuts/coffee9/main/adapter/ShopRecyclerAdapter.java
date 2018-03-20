@@ -3,6 +3,7 @@ package com.cmu.nuts.coffee9.main.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.DataShopActivity;
+import com.cmu.nuts.coffee9.main.DetailDataShopFragment;
 import com.cmu.nuts.coffee9.model.Shop;
 
 import java.util.List;
@@ -21,12 +23,12 @@ import java.util.List;
  * Created by Jaylers on 07-Feb-18.
  */
 
-public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapter.ShopHolder>{
+public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapter.ShopHolder> {
 
     private List<Shop> shops;
     private Context context;
 
-    public ShopRecyclerAdapter(List<Shop> shops, Context context){
+    public ShopRecyclerAdapter(List<Shop> shops, Context context) {
         this.shops = shops;
         this.context = context;
     }
@@ -53,10 +55,17 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
                 //open new Activity that show Shop content
                 Toast.makeText(context, position + " name : " + shop.getSid(), Toast.LENGTH_LONG).show();
                 Intent i = new Intent(v.getContext(), DataShopActivity.class);
-                String userID = null;
-                userID = shop.getSid();
-                i.putExtra("userID", userID);
+                String shopID;
+                shopID = shop.getSid();
+                i.putExtra("shopID", shopID);
                 v.getContext().startActivity(i);
+
+
+
+//                Intent intent = new Intent(getActivity().getBaseContext(),
+//                        TargetActivity.class);
+//                intent.putExtra("message", message);
+//                getActivity().startActivity(intent);
 //                Intent i = new Intent(context..this, DataShopActivity.class);
 //                //                String userID = null;
 ////                userID = shop.getSid();
@@ -70,18 +79,18 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
     public int getItemCount() {
         int arr = 0;
         try {
-            if (shops.size() == 0){
+            if (shops.size() == 0) {
                 arr = 0;
             } else {
                 arr = shops.size();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return arr;
     }
 
-    class ShopHolder extends RecyclerView.ViewHolder{
+    class ShopHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView tv_sid;
         TextView tv_name;
@@ -92,7 +101,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         TextView tv_uid;
         TextView tv_location;
 
-        ShopHolder(View itemView){
+        ShopHolder(View itemView) {
             super(itemView);
             tv_sid = itemView.findViewById(R.id.item_shop_sid);
             tv_name = itemView.findViewById(R.id.item_shop_name);

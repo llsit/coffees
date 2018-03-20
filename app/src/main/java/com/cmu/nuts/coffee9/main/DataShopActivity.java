@@ -1,5 +1,6 @@
 package com.cmu.nuts.coffee9.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.cmu.nuts.coffee9.R;
 
@@ -58,7 +60,31 @@ public class DataShopActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = getIntent();
+        String shop_ID = intent.getStringExtra("shopID");
+
+
+        TextView text = findViewById(R.id.id_shopID);
+
+        text.setText(shop_ID);
+
+        String shopid = "123";
+        Bundle bundle = new Bundle();
+        bundle.putString("message", shopid);
+        //set Fragmentclass Arguments
+        DetailDataShopFragment fragobj = new DetailDataShopFragment();
+        fragobj.setArguments(bundle);
+
+//        Bundle bundle = new Bundle();
+//        bundle.putString("shopID", "tab111111");
+//        //set Fragmentclass Arguments
+//        DetailDataShopFragment fragobj = new DetailDataShopFragment();
+//        fragobj.setArguments(bundle);
+        //Bundle bundle = getIntent().getBundleExtra("shopID");
+
+
     }
+
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new DetailDataShopFragment(), "Detail");
