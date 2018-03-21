@@ -31,6 +31,7 @@ public class DataShopActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 
+    private String shop_ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,18 +51,18 @@ public class DataShopActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-//
-//        back = findViewById(R.id.data_shop_back);
-//
-//        back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
-//
-//        Intent intent = getIntent();
-//        String shop_ID = intent.getStringExtra("shopID");
+
+        back = findViewById(R.id.data_shop_back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        Intent intent = getIntent();
+        shop_ID = intent.getStringExtra("shopID");
 //
 //
 //        TextView text = findViewById(R.id.id_shopID);
@@ -101,6 +102,12 @@ public class DataShopActivity extends AppCompatActivity {
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
+            String shopid = "123";
+            Bundle bundle = new Bundle();
+            bundle.putString("message", shopid);
+            //set Fragmentclass Arguments
+            DetailDataShopFragment fragobj = new DetailDataShopFragment();
+            fragobj.setArguments(bundle);
         }
 
         public SectionsPageAdapter(FragmentManager fm) {
@@ -114,7 +121,26 @@ public class DataShopActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return mFragmentList.get(position);
+            Fragment fragment = null;
+            switch (position) {
+                case 0:
+                    fragment = new DetailDataShopFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("shop_ID", shop_ID);
+                    fragment.setArguments(bundle);
+                    break;
+                case 1:
+                    fragment = new ReviewDataShopFragment();
+                    break;
+                case 2:
+                    fragment = new ImageDataShopFragment();
+                    break;
+                default:
+                    fragment = null;
+                    break;
+            }
+            return fragment;
+            //return mFragmentList.get(position);
         }
 
         @Override

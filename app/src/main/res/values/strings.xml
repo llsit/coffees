@@ -7,7 +7,7 @@
     <string name="google_maps_api_key" translatable="false">AIzaSyAYjmyaEry9hJfmhNiZg98nM1z3EIx-dVE</string>
 
     <string name="back">Back</string>
-
+    <string name="name_data_shop">Name </string>
 
     <string name="err_email_require">Email address is required</string>
     <string name="err_email_invalid">Invalid Email address</string>
