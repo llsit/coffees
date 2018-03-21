@@ -63,6 +63,7 @@ def library = dependence {
     compile 'com.jakewharton:butterknife:8.8.1'
     compile 'org.parceler:parceler-api:1.1.9'
     compile 'com.akexorcist:localizationactivity:1.2.2'
+    compile 'com.github.clans:fab:1.6.4'
     compile('io.nlopez.smartlocation:library:3.3.3') {
         transitive = false
     }

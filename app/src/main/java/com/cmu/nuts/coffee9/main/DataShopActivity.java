@@ -13,11 +13,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
+
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class DataShopActivity extends AppCompatActivity {
 
@@ -32,6 +38,9 @@ public class DataShopActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     private String shop_ID;
+
+    private FloatingActionMenu fam;
+    private FloatingActionButton fabDelete, fabAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,7 @@ public class DataShopActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -63,27 +73,59 @@ public class DataShopActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         shop_ID = intent.getStringExtra("shopID");
-//
-//
-//        TextView text = findViewById(R.id.id_shopID);
-//
-//        text.setText(shop_ID);
-//
-//        String shopid = "123";
-//        Bundle bundle = new Bundle();
-//        bundle.putString("message", shopid);
-//        //set Fragmentclass Arguments
-//        DetailDataShopFragment fragobj = new DetailDataShopFragment();
-//        fragobj.setArguments(bundle);
 
-//        Bundle bundle = new Bundle();
-//        bundle.putString("shopID", "tab111111");
-//        //set Fragmentclass Arguments
-//        DetailDataShopFragment fragobj = new DetailDataShopFragment();
-//        fragobj.setArguments(bundle);
-        //Bundle bundle = getIntent().getBundleExtra("shopID");
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
 
+
+        fabAdd = (FloatingActionButton) findViewById(R.id.fab2);
+        fabDelete = (FloatingActionButton) findViewById(R.id.fab3);
+
+        fam = (FloatingActionMenu) findViewById(R.id.fab_menu);
+
+        //handling menu status (open or close)
+        fam.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+            @Override
+            public void onMenuToggle(boolean opened) {
+                if (opened) {
+                    showToast("Menu is opened");
+                } else {
+                    showToast("Menu is closed");
+                }
+            }
+        });
+
+        //handling each floating action button clicked
+        fabDelete.setOnClickListener(onButtonClick());
+
+        fabAdd.setOnClickListener(onButtonClick());
+
+        fam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (fam.isOpened()) {
+                    fam.close(true);
+                }
+            }
+        });
+
+    }
+    private View.OnClickListener onButtonClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view == fabAdd) {
+                    showToast("Button Add clicked");
+                } else if (view == fabDelete) {
+                    showToast("Button Delete clicked");
+                } 
+                fam.close(true);
+            }
+        };
+    }
+
+    private void showToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -148,5 +190,7 @@ public class DataShopActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
     }
+
+
 
 }
