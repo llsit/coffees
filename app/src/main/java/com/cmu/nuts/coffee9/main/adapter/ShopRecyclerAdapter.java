@@ -61,17 +61,6 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
                 i.putExtra("shopID", shopID);
                 v.getContext().startActivity(i);
 
-
-
-//                Intent intent = new Intent(getActivity().getBaseContext(),
-//                        TargetActivity.class);
-//                intent.putExtra("message", message);
-//                getActivity().startActivity(intent);
-//                Intent i = new Intent(context..this, DataShopActivity.class);
-//                //                String userID = null;
-////                userID = shop.getSid();
-////                i.putExtra("userID", userID);
-//                context.startActivity(i);
             }
         });
     }

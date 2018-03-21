@@ -40,7 +40,7 @@ public class DataShopActivity extends AppCompatActivity {
     private String shop_ID;
 
     private FloatingActionMenu fam;
-    private FloatingActionButton fabDelete, fabAdd;
+    private FloatingActionButton fabReview, fabAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,14 +74,11 @@ public class DataShopActivity extends AppCompatActivity {
         Intent intent = getIntent();
         shop_ID = intent.getStringExtra("shopID");
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
+        fabAdd = findViewById(R.id.data_shop_add_image);
+        fabReview = findViewById(R.id.data_shop_review);
 
-
-        fabAdd = (FloatingActionButton) findViewById(R.id.fab2);
-        fabDelete = (FloatingActionButton) findViewById(R.id.fab3);
-
-        fam = (FloatingActionMenu) findViewById(R.id.fab_menu);
+        fam = findViewById(R.id.fab_menu);
 
         //handling menu status (open or close)
         fam.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
@@ -96,7 +93,7 @@ public class DataShopActivity extends AppCompatActivity {
         });
 
         //handling each floating action button clicked
-        fabDelete.setOnClickListener(onButtonClick());
+        fabReview.setOnClickListener(onButtonClick());
 
         fabAdd.setOnClickListener(onButtonClick());
 
@@ -116,9 +113,10 @@ public class DataShopActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (view == fabAdd) {
                     showToast("Button Add clicked");
-                } else if (view == fabDelete) {
-                    showToast("Button Delete clicked");
-                } 
+                } else if (view == fabReview) {
+                    Intent intent = new Intent(DataShopActivity.this,Review.class);
+                    startActivity(intent);
+                }
                 fam.close(true);
             }
         };
