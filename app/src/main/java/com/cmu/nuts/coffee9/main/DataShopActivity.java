@@ -10,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 
+import com.cmu.nuts.coffee9.model.Shop;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -33,7 +36,7 @@ public class DataShopActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
 
-    private ImageView back;
+    private ImageView backdata;
 
     private Toolbar toolbar;
 
@@ -62,9 +65,9 @@ public class DataShopActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        back = findViewById(R.id.data_shop_back);
+        backdata = findViewById(R.id.data_shop_back);
 
-        back.setOnClickListener(new View.OnClickListener() {
+        backdata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -114,7 +117,8 @@ public class DataShopActivity extends AppCompatActivity {
                 if (view == fabAdd) {
                     showToast("Button Add clicked");
                 } else if (view == fabReview) {
-                    Intent intent = new Intent(DataShopActivity.this,Review.class);
+                    Intent intent = new Intent(DataShopActivity.this,ReviewActivity.class);
+                    intent.putExtra("shopID", shop_ID);
                     startActivity(intent);
                 }
                 fam.close(true);
@@ -142,12 +146,6 @@ public class DataShopActivity extends AppCompatActivity {
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
-            String shopid = "123";
-            Bundle bundle = new Bundle();
-            bundle.putString("message", shopid);
-            //set Fragmentclass Arguments
-            DetailDataShopFragment fragobj = new DetailDataShopFragment();
-            fragobj.setArguments(bundle);
         }
 
         public SectionsPageAdapter(FragmentManager fm) {
