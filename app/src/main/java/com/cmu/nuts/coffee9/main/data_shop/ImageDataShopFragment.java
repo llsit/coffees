@@ -1,4 +1,4 @@
-package com.cmu.nuts.coffee9.main;
+package com.cmu.nuts.coffee9.main.data_shop;
 
 
 import android.os.Bundle;
@@ -12,10 +12,10 @@ import com.cmu.nuts.coffee9.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ReviewDataShopFragment extends Fragment {
+public class ImageDataShopFragment extends Fragment {
 
 
-    public ReviewDataShopFragment() {
+    public ImageDataShopFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class ReviewDataShopFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_review_data_shop, container, false);
+        return inflater.inflate(R.layout.fragment_image_data_shop, container, false);
     }
 
 }

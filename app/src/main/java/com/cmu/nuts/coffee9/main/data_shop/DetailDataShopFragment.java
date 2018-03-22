@@ -1,4 +1,4 @@
-package com.cmu.nuts.coffee9.main;
+package com.cmu.nuts.coffee9.main.data_shop;
 
 
 import android.os.Bundle;

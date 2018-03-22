@@ -3,19 +3,16 @@ package com.cmu.nuts.coffee9.main.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
-import com.cmu.nuts.coffee9.main.DataShopActivity;
-import com.cmu.nuts.coffee9.main.DetailDataShopFragment;
+import com.cmu.nuts.coffee9.main.data_shop.DataShopActivity;
 import com.cmu.nuts.coffee9.model.Shop;
 
 import java.util.List;

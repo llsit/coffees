@@ -1,4 +1,4 @@
-package com.cmu.nuts.coffee9.main;
+package com.cmu.nuts.coffee9.main.review;
 
 import android.content.Intent;
 import android.os.Bundle;
