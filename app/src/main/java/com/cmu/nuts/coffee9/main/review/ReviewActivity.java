@@ -27,7 +27,6 @@ public class ReviewActivity extends AppCompatActivity {
 
     private MenuItem post;
     private ImageView back;
-    private String rate;
     private TextView descript;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference mDatabase;
@@ -66,22 +65,22 @@ public class ReviewActivity extends AppCompatActivity {
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 switch ((int) ratingBar.getRating()) {
                     case 1:
-                        rate = "1";
+                        star = "1";
                         break;
                     case 2:
-                        rate = "2";
+                        star = "2";
                         break;
                     case 3:
-                        rate = "3";
+                        star = "3";
                         break;
                     case 4:
-                        rate = "4";
+                        star = "4";
                         break;
                     case 5:
-                        rate = "5";
+                        star = "5";
                         break;
                     default:
-                        rate = "0";
+                        star = "0";
                 }
             }
         });
@@ -123,7 +122,7 @@ public class ReviewActivity extends AppCompatActivity {
         img_url = "null";
         Intent intent = getIntent();
         sid = intent.getParcelableExtra("shopID");
-        star = rate;
+        
 
         Review review = new Review(rid, uid, sid, detail, img_url, datetime,star);
         mDatabase.child("review").child(rid).setValue(review);
