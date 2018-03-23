@@ -18,6 +18,7 @@ import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.model.Review;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -50,7 +51,7 @@ public class ReviewActivity extends AppCompatActivity {
             }
         });
 
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         rating();
 
 
@@ -100,11 +101,11 @@ public class ReviewActivity extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.post:
-                //addReview();
+                addReview();
                 // Code you want run when activity is clicked
 //                Intent intent = new Intent(Review.this, PreferencesActivity.class);
 //                startActivity(intent);
-                Toast.makeText(this, "Add Review Success", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Add Review Success", Toast.LENGTH_SHORT).show();
                 return true;
 
             default:
@@ -113,6 +114,7 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     public void addReview() {
+
         descript = findViewById(R.id.edt_name_des);
         datetime = DateFormat.getDateTimeInstance().format(new Date());
         uid = FirebaseAuth.getInstance().getUid();
@@ -121,12 +123,13 @@ public class ReviewActivity extends AppCompatActivity {
         img_url = "null";
         Intent intent = getIntent();
         sid = intent.getParcelableExtra("shopID");
-        //sid = getIntent().getStringExtra("shopID");
-        //sid = "1";
+
         Review review = new Review(rid, uid, sid, detail, img_url, datetime);
         mDatabase.child("review").child(rid).setValue(review);
 
         Toast.makeText(this, "Add Review Success", Toast.LENGTH_SHORT).show();
+
+        finish();
     }
 
 }
