@@ -11,19 +11,32 @@ public class Review {
     private String detail;
     private String img_url;
     private String datetime;
+    private String star;
 
     public static String tag = "Review";
 
     public Review() {
     }
 
-    public Review(String rid, String uid, String sid, String detail, String img_url, String datetime) {
+
+
+    public static String getTag() {
+        return tag;
+    }
+
+    public static void setTag(String tag) {
+        Review.tag = tag;
+    }
+
+    public Review(String rid, String uid, String sid, String detail, String img_url, String datetime, String star) {
         this.rid = rid;
         this.uid = uid;
         this.sid = sid;
         this.detail = detail;
         this.img_url = img_url;
         this.datetime = datetime;
+        this.star = star;
+
     }
 
     public String getRid() {
@@ -72,5 +85,13 @@ public class Review {
 
     public void setDatetime(String datetime) {
         this.datetime = datetime;
+    }
+
+    public String getStar() {
+        return star;
+    }
+
+    public void setStar(String star) {
+        this.star = star;
     }
 }

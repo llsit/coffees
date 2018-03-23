@@ -32,7 +32,7 @@ public class ReviewActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private DatabaseReference mDatabase;
 
-    String rid, uid, sid, detail, img_url, datetime;
+    String rid, uid, sid, detail, img_url, datetime,star;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,8 +123,9 @@ public class ReviewActivity extends AppCompatActivity {
         img_url = "null";
         Intent intent = getIntent();
         sid = intent.getParcelableExtra("shopID");
+        star = rate;
 
-        Review review = new Review(rid, uid, sid, detail, img_url, datetime);
+        Review review = new Review(rid, uid, sid, detail, img_url, datetime,star);
         mDatabase.child("review").child(rid).setValue(review);
 
         Toast.makeText(this, "Add Review Success", Toast.LENGTH_SHORT).show();
