@@ -122,7 +122,7 @@ public class ReviewActivity extends AppCompatActivity {
         img_url = "null";
         Intent intent = getIntent();
         sid = intent.getParcelableExtra("shopID");
-        
+
 
         Review review = new Review(rid, uid, sid, detail, img_url, datetime,star);
         mDatabase.child("review").child(rid).setValue(review);

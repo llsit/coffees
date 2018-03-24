@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/android_card_view_example3"
+        android:id="@+id/item_review_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp">
@@ -19,7 +19,7 @@
             android:padding="16dp">
 
             <ImageView
-                android:id="@+id/cardview_image3"
+                android:id="@+id/item_review_image"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_alignParentTop="true"
@@ -27,44 +27,72 @@
                 android:src="@drawable/ic_profile" />
 
             <TextView
-                android:id="@+id/cardview_list_title3"
+                android:id="@+id/item_review_name_reviewer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/cardview_image3"
+                android:layout_toEndOf="@+id/item_review_image"
                 android:paddingBottom="5dp"
                 android:text="Viral Android"
                 android:textSize="24sp" />
+
             <RatingBar
-                android:id="@+id/ratingBar"
+                android:id="@+id/item_review_ratingBar"
+                style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/cardview_list_title3"
-                android:layout_toEndOf="@+id/cardview_image3"
-                style="?android:attr/ratingBarStyleSmall"
+                android:layout_below="@+id/item_review_name_reviewer"
+                android:layout_toEndOf="@+id/item_review_image"
                 android:numStars="5"
-                android:stepSize="1.0"
                 android:rating="3.0"
-                />
+                android:stepSize="1.0" />
 
             <TextView
-                android:id="@+id/short_description3"
+                android:id="@+id/item_review_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ratingBar"
-                android:layout_toEndOf="@+id/cardview_image3"
+                android:layout_below="@+id/item_review_ratingBar"
+                android:layout_toEndOf="@+id/item_review_image"
                 android:text="Free android tutorials and examples for beginners and expert."
                 android:textColor="#8b8b8b" />
 
-            <ImageView
-                android:id="@+id/comment"
+            <TextView
+                android:id="@+id/item_review_datetime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:layout_below="@+id/short_description3"
+                android:layout_below="@+id/item_review_description"
                 android:layout_marginTop="12sp"
+                android:layout_toEndOf="@+id/item_review_image"
+                android:text="12.00 : 12/03/2061"
+                android:textColor="#8b8b8b" />
+
+            <ImageView
+                android:id="@+id/item_reivew_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_comment_black_24dp"/>
+                android:layout_below="@+id/item_review_description"
+                android:layout_marginTop="12sp"
+                android:src="@drawable/ic_comment_black_24dp" />
+
+            <TextView
+                android:id="@+id/item_review_uid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_review_ratingBar"
+                android:layout_toEndOf="@+id/item_review_image"
+                android:text="Free android tutorials and examples for beginners and expert."
+                android:textColor="#8b8b8b"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/item_review_sid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_review_ratingBar"
+                android:layout_toEndOf="@+id/item_review_image"
+                android:text="Free android tutorials and examples for beginners and expert."
+                android:textColor="#8b8b8b"
+                android:visibility="gone"/>
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

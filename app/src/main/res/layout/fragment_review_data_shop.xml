@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="No Review"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        android:visibility="gone"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/review_swipe_refresh_layout"

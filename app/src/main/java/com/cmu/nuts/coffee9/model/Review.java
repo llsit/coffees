@@ -15,7 +15,7 @@ public class Review {
 
     public static String tag = "Review";
 
-    public Review() {
+    public Review(String rid, String uid, String detail, String img_url, String datetime, String star) {
     }
 
 
