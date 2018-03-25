@@ -77,6 +77,10 @@
         <activity
             android:name=".main.comment.commentActivity"
             android:label="@string/title_activity_comment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".main.review.review_display_activity"
+            android:label="@string/title_activity_review_display_activity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

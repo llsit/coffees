@@ -138,5 +138,6 @@
     <string name="title_activity_data_shop">DataShopActivity</string>
     <string name="title_activity_review">Review</string>
     <string name="title_activity_comment">commentActivity</string>
+    <string name="title_activity_review_display_activity">review_display_activity</string>
 
 </resources>
