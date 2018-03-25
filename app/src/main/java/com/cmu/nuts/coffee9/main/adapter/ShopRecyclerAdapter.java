@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * Created by Jaylers on 07-Feb-18.
- */
+ **/
 
 public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapter.ShopHolder> {
 

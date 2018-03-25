@@ -37,7 +37,6 @@ public class HomeFragment extends Fragment {
     }
 
     private Activity activity;
-    private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private List<Shop> shops;
     private RecyclerView recyclerView;
@@ -51,7 +50,7 @@ public class HomeFragment extends Fragment {
         activity = getActivity();
         recyclerView = view.findViewById(R.id.home_recycler_view);
         swipeRefreshLayout = view.findViewById(R.id.home_swipe_refresh_layout);
-        database = FirebaseDatabase.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference(Shop.tag);
         getShopDatabase();
 
@@ -72,6 +71,7 @@ public class HomeFragment extends Fragment {
                 shops = new ArrayList<>();
                 for (DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()){
                     Shop value = dataSnapshot1.getValue(Shop.class);
+                    assert value != null;
                     String sid = value.getSid();
                     String name = value.getName();
                     String address = value.getAddress();
@@ -103,7 +103,5 @@ public class HomeFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(recyclerAdapter);
     }
-
-
 
 }

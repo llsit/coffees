@@ -16,9 +16,7 @@ import android.view.ViewGroup;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.adapter.ReviewRecyclerAdapter;
-import com.cmu.nuts.coffee9.main.adapter.ShopRecyclerAdapter;
 import com.cmu.nuts.coffee9.model.Review;
-import com.cmu.nuts.coffee9.model.Shop;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,7 +51,7 @@ public class ReviewDataShopFragment extends Fragment {
         recyclerView = view.findViewById(R.id.review_recycler_view);
         swipeRefreshLayout = view.findViewById(R.id.review_swipe_refresh_layout);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference(Shop.tag);
+        databaseReference = database.getReference(Review.tag);
         getReviewDatabase();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -80,6 +78,7 @@ public class ReviewDataShopFragment extends Fragment {
                     String uid = value.getUid();
                     String star = value.getStar();
                     String img_url = value.getImg_url();
+
                     Review reviews = new Review(rid, uid, sid, detail, img_url, datetime, star);
                     review.add(reviews);
                 }
