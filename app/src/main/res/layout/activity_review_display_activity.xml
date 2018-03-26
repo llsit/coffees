@@ -88,6 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/item_review_ratingBar"
+                android:layout_marginBottom="10sp"
                 android:layout_marginTop="12sp"
                 android:layout_toEndOf="@+id/display_review_image"
                 android:text="Free android tutorials and examples for beginners and expert."
@@ -95,6 +96,7 @@
 
 
         </RelativeLayout>
+
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottom_nav_view"
             android:layout_width="match_parent"

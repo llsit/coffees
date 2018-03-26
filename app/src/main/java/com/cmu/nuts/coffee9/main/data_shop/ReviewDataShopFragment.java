@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.R.layout.simple_list_item_1;
+import static java.lang.String.valueOf;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,9 +54,9 @@ public class ReviewDataShopFragment extends Fragment {
 
     private ListView listView;
     private FirebaseDatabase firebaseDatabase;
-    private ArrayList<String> arrayList = new ArrayList<>();
+    private ArrayList<String> arrayList;
     private ArrayAdapter<String> arrayAdapter;
-
+    private Review review;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -65,7 +66,7 @@ public class ReviewDataShopFragment extends Fragment {
         activity = getActivity();
 //        recyclerView = view.findViewById(R.id.review_recycler_view);
 //        swipeRefreshLayout = view.findViewById(R.id.review_swipe_refresh_layout);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference(Review.tag);
 //        getReviewDatabase();
 //
@@ -75,13 +76,75 @@ public class ReviewDataShopFragment extends Fragment {
 //                getReviewDatabase();
 //            }
 //        });
-
         listView = view.findViewById(R.id.listview);
+        review = new Review();
+        arrayList = new ArrayList<>();
+        arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.item_review_list, arrayList);
+
+
         //textViewPersons = (TextView) findViewById(R.id.textViewPersons);
 
-        Toast.makeText(getContext(), "TEXT", Toast.LENGTH_LONG).show();
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-        
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+
+                    review = item.getValue(Review.class);
+                    arrayList.add(review.getDetail() + " Wow ");
+                }
+                listView.setAdapter(arrayAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+//        databaseReference.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                Toast.makeText(getContext(), "TEXT", Toast.LENGTH_LONG).show();
+//
+//                for (DataSnapshot item : dataSnapshot.getChildren()) {
+//
+//                    Review value = dataSnapshot.getValue(Review.class);
+//
+//                    arrayList.add(value.getDetail());
+//
+//
+//
+//                    //arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, arrayList);
+//                    //listView.setAdapter(arrayAdapter);
+//                }
+//                arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, arrayList);
+//                listView.setAdapter(arrayAdapter);
+//
+//                arrayAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 //        databaseReference.addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(DataSnapshot dataSnapshot) {

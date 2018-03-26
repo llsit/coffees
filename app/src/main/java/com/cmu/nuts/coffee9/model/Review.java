@@ -18,6 +18,9 @@ public class Review {
     public Review(String rid, String uid, String detail, String img_url, String datetime, String star) {
     }
 
+    public Review() {
+
+    }
 
 
     public static String getTag() {
