@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.cmu.nuts.coffee9.R;
 
 import com.cmu.nuts.coffee9.main.review.ReviewActivity;
+import com.cmu.nuts.coffee9.main.review.review_display_activity;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -113,6 +114,8 @@ public class DataShopActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (view == fabAdd) {
                     showToast("Button Add clicked");
+                    Intent intent = new Intent(DataShopActivity.this,review_display_activity.class);
+                    startActivity(intent);
                 } else if (view == fabReview) {
                     Intent intent = new Intent(DataShopActivity.this,ReviewActivity.class);
                     intent.putExtra("shopID", shop_ID);
