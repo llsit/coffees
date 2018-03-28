@@ -9,7 +9,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_review"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="56dp"
         android:background="@color/colorWhite"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
@@ -77,6 +77,15 @@
                 tools:ignore="LabelFor,RtlSymmetry" />
 
         </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/sid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="test"
+            android:textSize="56dp"
+            android:visibility="gone"/>
 
 
     </android.support.v7.widget.LinearLayoutCompat>

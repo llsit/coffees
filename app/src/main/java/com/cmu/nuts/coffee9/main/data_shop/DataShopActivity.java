@@ -108,16 +108,17 @@ public class DataShopActivity extends AppCompatActivity {
         });
 
     }
+
     private View.OnClickListener onButtonClick() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (view == fabAdd) {
                     showToast("Button Add clicked");
-                    Intent intent = new Intent(DataShopActivity.this,review_display_activity.class);
+                    Intent intent = new Intent(DataShopActivity.this, review_display_activity.class);
                     startActivity(intent);
                 } else if (view == fabReview) {
-                    Intent intent = new Intent(DataShopActivity.this,ReviewActivity.class);
+                    Intent intent = new Intent(DataShopActivity.this, ReviewActivity.class);
                     intent.putExtra("shopID", shop_ID);
                     startActivity(intent);
                 }
@@ -169,6 +170,9 @@ public class DataShopActivity extends AppCompatActivity {
                     break;
                 case 1:
                     fragment = new ReviewDataShopFragment();
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putString("shop_ID", shop_ID);
+                    fragment.setArguments(bundle2);
                     break;
                 case 2:
                     fragment = new ImageDataShopFragment();
@@ -186,7 +190,6 @@ public class DataShopActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
     }
-
 
 
 }

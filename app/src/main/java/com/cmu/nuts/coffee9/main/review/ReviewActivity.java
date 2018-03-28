@@ -51,6 +51,13 @@ public class ReviewActivity extends AppCompatActivity {
         });
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        Intent intent = getIntent();
+        sid = intent.getStringExtra("shopID");
+//        TextView usid = findViewById(R.id.sid);
+//        if (sid != null) {
+//            usid.setText(sid);
+//        }
         rating();
 
 
@@ -100,6 +107,7 @@ public class ReviewActivity extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.post:
+
                 addReview();
                 // Code you want run when activity is clicked
 //                Intent intent = new Intent(Review.this, PreferencesActivity.class);
@@ -120,14 +128,12 @@ public class ReviewActivity extends AppCompatActivity {
         detail = descript.getText().toString();
         rid = mDatabase.push().getKey();
         img_url = "null";
-        Intent intent = getIntent();
-        sid = intent.getParcelableExtra("shopID");
 
 
         Review review = new Review(rid, uid, sid, detail, img_url, datetime,star);
         mDatabase.child("review").child(rid).setValue(review);
 
-        Toast.makeText(this, "Add Review Success", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Add Review Success" + sid, Toast.LENGTH_SHORT).show();
 
         finish();
     }
