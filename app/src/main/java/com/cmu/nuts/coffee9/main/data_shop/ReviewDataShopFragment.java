@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.model.Review;
@@ -87,14 +88,18 @@ public class ReviewDataShopFragment extends Fragment {
         mQueryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Review value = dataSnapshot.getValue(Review.class);
-                assert value != null;
-                String detail = value.getRid();
+                if (dataSnapshot.exists()){
+                    Review value = dataSnapshot.getValue(Review.class);
+                    assert value != null;
+                    String detail = value.getRid();
 ////                String title = bullet.getTitle();
-                text.setText(shopID);
-                arrayList.add(detail);
-                arrayAdapter = new ArrayAdapter<>(activity, R.layout.item_review_list, R.id.show, arrayList);
-                listView.setAdapter(arrayAdapter);
+                    text.setText(shopID);
+                    arrayList.add(detail);
+                    arrayAdapter = new ArrayAdapter<>(activity, R.layout.item_review_list, R.id.show, arrayList);
+                    listView.setAdapter(arrayAdapter);
+                } else {
+                    Toast.makeText(getContext(), "Something wrong, That is all we known ", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
