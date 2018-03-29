@@ -15,3 +15,5 @@
 app/build\.gradle
 
 \.idea/shelf/
+
+\.idea/caches/
