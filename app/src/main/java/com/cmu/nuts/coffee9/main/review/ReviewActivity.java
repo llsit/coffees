@@ -2,13 +2,10 @@ package com.cmu.nuts.coffee9.main.review;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -114,8 +111,8 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     public void addReview() {
-        if (!descript.getText().toString().isEmpty()){
-            descript = findViewById(R.id.edt_name_des);
+        descript = findViewById(R.id.edt_name_des);
+        if (descript.getText().length() > 10){
             datetime = DateFormat.getDateTimeInstance().format(new Date());
             uid = FirebaseAuth.getInstance().getUid();
             detail = descript.getText().toString();
