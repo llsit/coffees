@@ -23,6 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.DateFormat;
 import java.util.Date;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class ReviewActivity extends AppCompatActivity {
 
     private MenuItem post;
@@ -37,18 +40,10 @@ public class ReviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
+        ButterKnife.bind(this);
 
-        Toolbar mytoolbar = findViewById(R.id.toolbar_review);
-        setSupportActionBar(mytoolbar);
-
-        back = findViewById(R.id.review_back);
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        Toolbar myToolbar = findViewById(R.id.toolbar_review);
+        setSupportActionBar(myToolbar);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -63,10 +58,13 @@ public class ReviewActivity extends AppCompatActivity {
 
     }
 
+    @OnClick(R.id.review_back) public void onBack(){
+        finish();
+    }
+
 
     private void rating() {
         RatingBar mRatingBar = findViewById(R.id.stars_rating);
-
         mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
@@ -107,13 +105,8 @@ public class ReviewActivity extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.post:
-
-                addReview();
-                // Code you want run when activity is clicked
-//                Intent intent = new Intent(Review.this, PreferencesActivity.class);
-//                startActivity(intent);
-                //Toast.makeText(this, "Add Review Success", Toast.LENGTH_SHORT).show();
-                return true;
+               addReview();
+               return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -121,21 +114,18 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     public void addReview() {
-
-        descript = findViewById(R.id.edt_name_des);
-        datetime = DateFormat.getDateTimeInstance().format(new Date());
-        uid = FirebaseAuth.getInstance().getUid();
-        detail = descript.getText().toString();
-        rid = mDatabase.push().getKey();
-        img_url = "null";
-
-
-        Review review = new Review(rid, uid, sid, detail, img_url, datetime,star);
-        mDatabase.child("review").child(rid).setValue(review);
-
-        Toast.makeText(this, "Add Review Success" + sid, Toast.LENGTH_SHORT).show();
-
-        finish();
+        if (!descript.getText().toString().isEmpty()){
+            descript = findViewById(R.id.edt_name_des);
+            datetime = DateFormat.getDateTimeInstance().format(new Date());
+            uid = FirebaseAuth.getInstance().getUid();
+            detail = descript.getText().toString();
+            rid = mDatabase.push().getKey();
+            img_url = "null";
+            Review review = new Review(rid, uid, sid, detail, img_url, datetime, star);
+            mDatabase.child("review").child(sid).child(rid).setValue(review);
+            Toast.makeText(this, "Your Review is now published" + sid, Toast.LENGTH_SHORT).show();
+            finish();
+        } else { descript.setError("Your review is too shot"); }
     }
 
 }
