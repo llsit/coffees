@@ -82,7 +82,7 @@ public class ReviewDataShopFragment extends Fragment {
                 for (DataSnapshot reviewSnapshot: dataSnapshot.getChildren()) {
                     Review review = reviewSnapshot.getValue(Review.class);
                     if (Objects.requireNonNull(review).getRid() != null){
-                        arrayList.add(review.getRid());
+                        arrayList.add(review.getDetail());
                     } else {
                         Toast.makeText(getContext(), "Something wrong,We can't get the review right now." + shopID, Toast.LENGTH_LONG).show();
                     }
