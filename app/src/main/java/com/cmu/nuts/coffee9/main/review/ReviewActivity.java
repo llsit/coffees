@@ -46,19 +46,12 @@ public class ReviewActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         sid = intent.getStringExtra("shopID");
-//        TextView usid = findViewById(R.id.sid);
-//        if (sid != null) {
-//            usid.setText(sid);
-//        }
         rating();
-
-
     }
 
     @OnClick(R.id.review_back) public void onBack(){
         finish();
     }
-
 
     private void rating() {
         RatingBar mRatingBar = findViewById(R.id.stars_rating);
@@ -119,7 +112,7 @@ public class ReviewActivity extends AppCompatActivity {
             rid = mDatabase.push().getKey();
             img_url = "null";
             Review review = new Review(rid, uid, sid, detail, img_url, datetime, star);
-            mDatabase.child("review").child(sid).child(rid).setValue(review);
+            mDatabase.child(Review.tag).child(sid).child(rid).setValue(review);
             Toast.makeText(this, "Your Review is now published" + sid, Toast.LENGTH_SHORT).show();
             finish();
         } else { descript.setError("Your review is too shot"); }
