@@ -24,6 +24,7 @@ import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class DataShopActivity extends AppCompatActivity {
@@ -58,8 +59,7 @@ public class DataShopActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
@@ -75,38 +75,21 @@ public class DataShopActivity extends AppCompatActivity {
         Intent intent = getIntent();
         shop_ID = intent.getStringExtra("shopID");
 
-
         fabAdd = findViewById(R.id.data_shop_add_image);
         fabReview = findViewById(R.id.data_shop_review);
 
         fam = findViewById(R.id.fab_menu);
 
         //handling menu status (open or close)
-        fam.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
-            @Override
-            public void onMenuToggle(boolean opened) {
-                if (opened) {
-                    showToast("Menu is opened");
-                } else {
-                    showToast("Menu is closed");
-                }
-            }
-        });
-
         //handling each floating action button clicked
         fabReview.setOnClickListener(onButtonClick());
-
         fabAdd.setOnClickListener(onButtonClick());
-
         fam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (fam.isOpened()) {
-                    fam.close(true);
-                }
+                if (fam.isOpened()) { fam.close(true); }
             }
         });
-
     }
 
     private View.OnClickListener onButtonClick() {
@@ -144,12 +127,12 @@ public class DataShopActivity extends AppCompatActivity {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        public void addFragment(Fragment fragment, String title) {
+        void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
 
-        public SectionsPageAdapter(FragmentManager fm) {
+        SectionsPageAdapter(FragmentManager fm) {
             super(fm);
         }
 
