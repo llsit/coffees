@@ -22,44 +22,48 @@
 
             <ImageView
                 android:id="@+id/item_shop_img"
-                android:src="@drawable/logo"
                 android:layout_width="120dp"
-                android:padding="5dp"
+                android:layout_height="match_parent"
                 android:contentDescription="@string/app_name"
-                android:layout_height="match_parent" />
+                android:padding="5dp"
+                android:src="@drawable/logo" />
+
+
 
             <TextView
                 android:id="@+id/item_shop_name"
-                android:layout_toEndOf="@+id/item_shop_img"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/item_shop_img"
                 android:text="@string/app_name"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <ImageView
                 android:id="@+id/item_shop_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="false"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
                 android:src="@drawable/ic_mood"
-                android:visibility="gone"/>
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/item_shop_detail"
-                android:layout_toEndOf="@+id/item_shop_img"
-                android:layout_below="@+id/item_shop_name"
-                android:layout_above="@+id/item_shop_open_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_above="@+id/item_shop_open_time"
+                android:layout_below="@+id/item_shop_name"
+                android:layout_toEndOf="@+id/item_shop_img"
                 android:text="@string/app_name" />
 
             <TextView
                 android:id="@+id/item_shop_open_time"
-                android:layout_toEndOf="@+id/item_shop_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_toEndOf="@+id/item_shop_img"
                 android:text="@string/app_name" />
 
             <TextView
@@ -72,31 +76,55 @@
 
             <TextView
                 android:id="@+id/item_shop_sid"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name" />
+                android:text="@string/app_name"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/item_shop_address"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name" />
+                android:text="@string/app_name"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/item_shop_uid"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name" />
+                android:text="@string/app_name"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/item_shop_location"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name" />
+                android:text="@string/app_name"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.github.ivbaranov.mfb.MaterialFavoriteButton
+                android:id="@+id/love"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                app:mfb_animate_favorite="true"
+                app:mfb_animate_unfavorite="false"
+                app:mfb_bounce_duration="300"
+                app:mfb_color="black"
+                app:mfb_favorite_image="@drawable/ic_fav"
+                app:mfb_not_favorite_image="@drawable/ic_not_fav"
+                app:mfb_padding="12"
+                app:mfb_rotation_angle="360"
+                app:mfb_rotation_duration="400"
+                app:mfb_size="48"
+                app:mfb_type="heart" />
+
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

@@ -24,11 +24,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -83,6 +81,7 @@ public class ReviewDataShopFragment extends Fragment {
                     Review review = reviewSnapshot.getValue(Review.class);
                     if (Objects.requireNonNull(review).getRid() != null){
                         arrayList.add(review.getDetail());
+//                        arrayList.add(review.getDatetime());
                     } else {
                         Toast.makeText(getContext(), "Something wrong,We can't get the review right now." + shopID, Toast.LENGTH_LONG).show();
                     }
@@ -92,7 +91,7 @@ public class ReviewDataShopFragment extends Fragment {
                     data_shop_message.setVisibility(View.VISIBLE);
                 } else {
                     data_shop_message.setVisibility(View.GONE);
-                    arrayAdapter = new ArrayAdapter<>(activity, R.layout.item_review_list, R.id.show, arrayList);
+                    arrayAdapter = new ArrayAdapter<>(activity, R.layout.item_review_list, R.id.item_review_description, arrayList);
                     listView.setAdapter(arrayAdapter);
                 }
             }

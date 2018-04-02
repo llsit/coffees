@@ -67,6 +67,7 @@ def library = dependence {
     implementation 'com.akexorcist:localizationactivity:1.2.2'
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'me.zhanghai.android.materialratingbar:library:1.2.0'
+    implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.4'
 
     implementation('io.nlopez.smartlocation:library:3.3.3') {
         transitive = false
