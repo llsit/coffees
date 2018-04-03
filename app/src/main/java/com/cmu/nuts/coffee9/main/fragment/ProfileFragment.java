@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.beforlogin.login;
 import com.cmu.nuts.coffee9.model.Member;
 import com.cmu.nuts.coffee9.preferences.PreferencesActivity;
 import com.cmu.nuts.coffee9.utillity.TimeManager;
@@ -43,34 +44,57 @@ public class ProfileFragment extends Fragment {
     private ValueEventListener valueEventListener;
     private Activity activity;
 
-    @BindView(R.id.display_name) TextView display_email;
-    @BindView(R.id.display_email) TextView display_name;
-    @BindView(R.id.display_uid) TextView display_uid;
-    @BindView(R.id.display_reg_date) TextView display_reg;
-    @BindView(R.id.btn_done) Button btn_settings;
-    @BindView(R.id.progressBar_profile) ProgressBar progressBar;
+    private Button profile_btn_logout;
+
+    @BindView(R.id.display_name)
+    TextView display_email;
+    @BindView(R.id.display_email)
+    TextView display_name;
+    @BindView(R.id.display_uid)
+    TextView display_uid;
+    @BindView(R.id.display_reg_date)
+    TextView display_reg;
+    @BindView(R.id.btn_done)
+    Button btn_settings;
+    @BindView(R.id.progressBar_profile)
+    ProgressBar progressBar;
+
 
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view =  inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
         activity = getActivity();
 
-
+        btn_settings.setVisibility(View.INVISIBLE);
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference()
                 .child(Member.tag).child(currentUser.getUid());
+
+        profile_btn_logout = view.findViewById(R.id.profile_btn_logout);
+
+        profile_btn_logout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                auth.signOut();
+                Intent intent = new Intent(activity, login.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 
-    @OnClick(R.id.btn_done) public void settings(){
+    @OnClick(R.id.btn_done)
+    public void settings() {
         Intent intent = new Intent(activity, PreferencesActivity.class);
         startActivity(intent);
     }
+
 
     @Override
     public void onStart() {
@@ -79,7 +103,7 @@ public class ProfileFragment extends Fragment {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                btn_settings.setVisibility(View.VISIBLE);
+                btn_settings.setVisibility(View.INVISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
                 TimeManager timeManager = new TimeManager();
                 Member member = dataSnapshot.getValue(Member.class);
@@ -105,7 +129,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if (valueEventListener != null){
+        if (valueEventListener != null) {
             databaseReference.removeEventListener(valueEventListener);
         }
     }
