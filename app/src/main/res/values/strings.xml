@@ -54,6 +54,8 @@
     <string name="btn_message_preferences">Preferences</string>
     <string name="title_activity_preferences">Preferences</string>
 
+    <string name="txt_example_long_text">When we see an event, we start to make assumptions. We use the context in which we find ourselves to make sense of what we see, but some researchers have suggested that context can also affect what we hear. It’s a psychological phenomenon that is no stranger to the courts.</string>
+    <string name="txt_example_date_time">Mar 31, 2018 2:56:49 PM</string>
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->

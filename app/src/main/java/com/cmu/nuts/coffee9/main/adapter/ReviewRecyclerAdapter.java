@@ -37,7 +37,6 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
     @Override
     public void onBindViewHolder(ReviewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final Review review = reviews.get(position);
-
         holder.tv_sid.setText(review.getSid());
         holder.tv_rid.setText(review.getRid());
         holder.tv_detail.setText(review.getDetail());
@@ -89,14 +88,15 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
         @SuppressLint("WrongViewCast")
         ReviewHolder(View itemView) {
             super(itemView);
+            cardView = itemView.findViewById(R.id.item_review_card_view);
             tv_sid = itemView.findViewById(R.id.item_review_sid);
-            tv_datetime = itemView.findViewById(R.id.item_review_datetime);
+            tv_datetime = itemView.findViewById(R.id.item_shop_review_datetime);
             tv_detail = itemView.findViewById(R.id.item_review_description);
             tv_star = itemView.findViewById(R.id.item_review_ratingBar2);
             tv_userid = itemView.findViewById(R.id.item_review_uid);
             tv_rid = itemView.findViewById(R.id.item_review_rid);
-            tv_url = itemView.findViewById(R.id.url);
-            cardView = itemView.findViewById(R.id.item_review_cardview);
+            tv_url = itemView.findViewById(R.id.item_shop_review_url);
+
         }
     }
 }
