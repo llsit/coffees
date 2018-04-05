@@ -42,14 +42,14 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
         holder.tv_detail.setText(review.getDetail());
         holder.tv_datetime.setText(review.getDatetime());
         holder.tv_star.setText(String.valueOf(review.getStar()));
-        holder.tv_userid.setText(review.getUid());
+        holder.tv_uid.setText(review.getUid());
         holder.tv_url.setText(review.getImg_url());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //open new Activity that show Review content
-                Toast.makeText(context,  position +" name : " + review.getSid(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, position + " name : " + review.getSid(), Toast.LENGTH_LONG).show();
 //                Intent i = new Intent(v.getContext(), DataShopActivity.class);
 //                String shopID;
 //                shopID = review.getSid();
@@ -82,7 +82,7 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
         TextView tv_datetime;
         TextView tv_detail;
         TextView tv_star;
-        TextView tv_userid;
+        TextView tv_uid;
         TextView tv_url;
 
         @SuppressLint("WrongViewCast")
@@ -93,7 +93,7 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
             tv_datetime = itemView.findViewById(R.id.item_shop_review_datetime);
             tv_detail = itemView.findViewById(R.id.item_review_description);
             tv_star = itemView.findViewById(R.id.item_review_ratingBar2);
-            tv_userid = itemView.findViewById(R.id.item_review_uid);
+            tv_uid = itemView.findViewById(R.id.item_review_uid);
             tv_rid = itemView.findViewById(R.id.item_review_rid);
             tv_url = itemView.findViewById(R.id.item_shop_review_url);
 
