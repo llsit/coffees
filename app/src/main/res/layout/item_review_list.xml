@@ -44,7 +44,8 @@
                 android:layout_toEndOf="@+id/item_review_image"
                 android:numStars="5"
                 android:rating="3.0"
-                android:stepSize="1.0" />
+                android:stepSize="1.0"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/item_review_description"
@@ -69,7 +70,7 @@
                 android:id="@+id/item_reivew_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/item_review_description"
                 android:layout_marginTop="12sp"
                 android:src="@drawable/ic_comment_black_24dp" />
@@ -100,6 +101,16 @@
                 android:layout_toEndOf="@+id/item_review_image"
                 android:text="Free android tutorials and examples for beginners and expert."
                 android:textColor="#8b8b8b"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/item_review_ratingBar2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:visibility="gone"/>
         </RelativeLayout>
 

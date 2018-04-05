@@ -13,12 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.adapter.ReviewRecyclerAdapter;
 import com.cmu.nuts.coffee9.model.Review;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,21 +37,21 @@ import butterknife.ButterKnife;
 public class ReviewDataShopFragment extends Fragment {
 
     private static final String TAG = "REVIEW";
-    // List<Review> review;
     private Activity activity;
+    private DatabaseReference databaseReference;
+    private List<Review> reviews;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private DatabaseReference databaseReference;
     private String shopID;
 
     public ReviewDataShopFragment() {
         // Required empty public constructor
     }
 
-    private ListView listView;
-    private ArrayList<String> arrayList;
-    private ArrayAdapter arrayAdapter;
-    private Review review;
+//    private ListView listView;
+//    private ArrayList<String> arrayList;
+//    private ArrayAdapter arrayAdapter;
+//    private Review review;
     @BindView(R.id.data_shop_message) TextView data_shop_message;
 
     @Override
@@ -68,39 +67,53 @@ public class ReviewDataShopFragment extends Fragment {
             Toast.makeText(getContext(), "Something wrong, that all weknow", Toast.LENGTH_SHORT).show();
             activity.finish();
         }
-
-        listView = view.findViewById(R.id.data_shop_list_view);
-        arrayList = new ArrayList<>();
-
+        if (shopID == null ){
+            Toast.makeText(getContext(), "Something wrong", Toast.LENGTH_SHORT).show();
+        }
+        recyclerView = view.findViewById(R.id.review_recycler_view);
+        swipeRefreshLayout = view.findViewById(R.id.review_swipe_refresh_layout);
         databaseReference = FirebaseDatabase.getInstance().getReference(Review.tag).child(shopID);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onDataChange: "+ dataSnapshot.getChildrenCount());
-                for (DataSnapshot reviewSnapshot: dataSnapshot.getChildren()) {
-                    Review review = reviewSnapshot.getValue(Review.class);
-                    if (Objects.requireNonNull(review).getRid() != null){
-                        arrayList.add(review.getDetail());
-//                        arrayList.add(review.getDatetime());
-                    } else {
-                        Toast.makeText(getContext(), "Something wrong,We can't get the review right now." + shopID, Toast.LENGTH_LONG).show();
-                    }
-                }
+        getReviewDatabase();
 
-                if (arrayList.isEmpty()){
-                    data_shop_message.setVisibility(View.VISIBLE);
-                } else {
-                    data_shop_message.setVisibility(View.GONE);
-                    arrayAdapter = new ArrayAdapter<>(activity, R.layout.item_review_list, R.id.item_review_description, arrayList);
-                    listView.setAdapter(arrayAdapter);
-                }
-            }
-
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getContext(), "Error: , " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
+            public void onRefresh() {
+                getReviewDatabase();
             }
         });
+
+//        listView = view.findViewById(R.id.data_shop_list_view);
+//        arrayList = new ArrayList<>();
+//
+//        databaseReference = FirebaseDatabase.getInstance().getReference(Review.tag).child(shopID);
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                Log.d(TAG, "onDataChange: "+ dataSnapshot.getChildrenCount());
+//                for (DataSnapshot reviewSnapshot: dataSnapshot.getChildren()) {
+//                    Review review = reviewSnapshot.getValue(Review.class);
+//                    if (Objects.requireNonNull(review).getRid() != null){
+//                        arrayList.add(review.getDetail());
+////                        arrayList.add(review.getDatetime());
+//                    } else {
+//                        Toast.makeText(getContext(), "Something wrong,We can't get the review right now." + shopID, Toast.LENGTH_LONG).show();
+//                    }
+//                }
+//
+//                if (arrayList.isEmpty()){
+//                    data_shop_message.setVisibility(View.VISIBLE);
+//                } else {
+//                    data_shop_message.setVisibility(View.GONE);
+//                    arrayAdapter = new ArrayAdapter<>(activity, R.layout.item_review_list, R.id.item_review_description, arrayList);
+//                    listView.setAdapter(arrayAdapter);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Toast.makeText(getContext(), "Error: , " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
+//            }
+//        });
 
         return view;
     }
@@ -110,7 +123,7 @@ public class ReviewDataShopFragment extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //review = new ArrayList<>();
+                reviews = new ArrayList<>();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Review value = dataSnapshot1.getValue(Review.class);
                     assert value != null;
@@ -119,11 +132,18 @@ public class ReviewDataShopFragment extends Fragment {
                     String rid = value.getRid();
                     String detail = value.getDetail();
                     String uid = value.getUid();
-                    String star = value.getStar();
+                    String star = String.valueOf(value.getStar());
                     String img_url = value.getImg_url();
 
-                    Review reviews = new Review(rid, uid, sid, detail, img_url, datetime, star);
-                    //review.add(reviews);
+                    Review review = new Review(sid,uid,rid,detail,img_url,datetime,star);
+//                    review.setSid(sid);
+//                    review.setDatetime(datetime);
+//                    review.setRid(rid);
+//                    review.setDetail(detail);
+//                    review.setUid(uid);
+//                    review.setStar(star);
+//                    review.setImg_url(img_url);
+                    reviews.add(review);
                 }
                 setRecyclerView();
                 swipeRefreshLayout.setRefreshing(false);
@@ -138,11 +158,11 @@ public class ReviewDataShopFragment extends Fragment {
     }
 
     private void setRecyclerView() {
-        //ReviewRecyclerAdapter recyclerAdapter = new ReviewRecyclerAdapter(review, activity);
+        ReviewRecyclerAdapter recyclerAdapter = new ReviewRecyclerAdapter(reviews, activity);
         RecyclerView.LayoutManager recycle = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(recycle);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        //recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.setAdapter(recyclerAdapter);
     }
 
 }

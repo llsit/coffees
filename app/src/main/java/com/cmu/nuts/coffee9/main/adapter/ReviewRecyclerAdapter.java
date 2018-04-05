@@ -2,7 +2,6 @@ package com.cmu.nuts.coffee9.main.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,9 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
-import com.cmu.nuts.coffee9.main.data_shop.DataShopActivity;
 import com.cmu.nuts.coffee9.model.Review;
-
 
 import java.util.List;
 
@@ -45,8 +42,9 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
         holder.tv_rid.setText(review.getRid());
         holder.tv_detail.setText(review.getDetail());
         holder.tv_datetime.setText(review.getDatetime());
-        holder.tv_star.setText(review.getStar());
-        holder.tv_uid.setText(review.getUid());
+        holder.tv_star.setText(String.valueOf(review.getStar()));
+        holder.tv_userid.setText(review.getUid());
+        holder.tv_url.setText(review.getImg_url());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +83,8 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
         TextView tv_datetime;
         TextView tv_detail;
         TextView tv_star;
-        TextView tv_uid;
+        TextView tv_userid;
+        TextView tv_url;
 
         @SuppressLint("WrongViewCast")
         ReviewHolder(View itemView) {
@@ -93,9 +92,10 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
             tv_sid = itemView.findViewById(R.id.item_review_sid);
             tv_datetime = itemView.findViewById(R.id.item_review_datetime);
             tv_detail = itemView.findViewById(R.id.item_review_description);
-            tv_star = itemView.findViewById(R.id.item_review_ratingBar);
-            tv_uid = itemView.findViewById(R.id.item_review_uid);
+            tv_star = itemView.findViewById(R.id.item_review_ratingBar2);
+            tv_userid = itemView.findViewById(R.id.item_review_uid);
             tv_rid = itemView.findViewById(R.id.item_review_rid);
+            tv_url = itemView.findViewById(R.id.url);
             cardView = itemView.findViewById(R.id.item_review_cardview);
         }
     }
