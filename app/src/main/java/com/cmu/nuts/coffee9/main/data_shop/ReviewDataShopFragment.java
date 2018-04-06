@@ -95,6 +95,7 @@ public class ReviewDataShopFragment extends Fragment {
                     setRecyclerView(reviews);
                 } else {
                     recyclerView.setVisibility(View.GONE);
+                    swipeRefreshLayout.setRefreshing(false);
                     data_shop_message.setVisibility(View.VISIBLE);
                 }
             }
