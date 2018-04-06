@@ -43,7 +43,7 @@ public class DetailDataShopFragment extends Fragment {
             shopID = getArguments().getString("shop_ID");
             text = view.findViewById(R.id.location_shop);
 //
-            getdatashop(shopID);
+            getdatashop();
 
         }
 
@@ -53,7 +53,7 @@ public class DetailDataShopFragment extends Fragment {
         return view;
     }
 
-    public void getdatashop(String shopID){
+    public void getdatashop(){
 
         databaseReference = FirebaseDatabase.getInstance().getReference()
                 .child(Shop.tag).child(shopID);

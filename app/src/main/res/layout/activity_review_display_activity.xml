@@ -53,7 +53,7 @@
                 android:src="@drawable/ic_profile" />
 
             <TextView
-                android:id="@+id/displat_review_name_reviewer"
+                android:id="@+id/display_review_name_reviewer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -63,33 +63,33 @@
                 android:textSize="24sp" />
 
             <RatingBar
-                android:id="@+id/item_review_ratingBar"
+                android:id="@+id/display_review_ratingBar"
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/displat_review_name_reviewer"
+                android:layout_below="@+id/display_review_name_reviewer"
                 android:layout_toEndOf="@+id/display_review_image"
                 android:numStars="5"
                 android:rating="3.0"
                 android:stepSize="1.0" />
 
             <TextView
-                android:id="@+id/item_review_datetime"
+                android:id="@+id/display_review_datetime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/displat_review_name_reviewer"
+                android:layout_below="@+id/display_review_name_reviewer"
                 android:layout_marginStart="20sp"
-                android:layout_toEndOf="@+id/item_review_ratingBar"
+                android:layout_toEndOf="@+id/display_review_ratingBar"
                 android:text="12.00 : 12/03/2061"
                 android:textColor="#8b8b8b" />
 
             <TextView
-                android:id="@+id/item_review_description"
+                android:id="@+id/display_review_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/item_review_ratingBar"
+                android:layout_below="@+id/display_review_ratingBar"
                 android:layout_marginBottom="10sp"
-                android:layout_marginTop="12sp"
+                android:layout_marginTop="16sp"
                 android:layout_toEndOf="@+id/display_review_image"
                 android:text="Free android tutorials and examples for beginners and expert."
                 android:textColor="#8b8b8b" />

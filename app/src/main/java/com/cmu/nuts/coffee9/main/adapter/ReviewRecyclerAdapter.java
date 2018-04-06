@@ -2,16 +2,26 @@ package com.cmu.nuts.coffee9.main.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.review.review_display_activity;
+import com.cmu.nuts.coffee9.model.Member;
 import com.cmu.nuts.coffee9.model.Review;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -22,6 +32,7 @@ import java.util.List;
 public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAdapter.ReviewHolder> {
     private List<Review> reviews;
     private Context context;
+    private DatabaseReference mDatabase;
 
     public ReviewRecyclerAdapter(List<Review> reviews, Context context) {
         this.reviews = reviews;
@@ -35,27 +46,45 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
     }
 
     @Override
-    public void onBindViewHolder(ReviewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(final ReviewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final Review review = reviews.get(position);
+        //Member member = new Member();
         holder.tv_sid.setText(review.getSid());
         holder.tv_rid.setText(review.getRid());
         holder.tv_detail.setText(review.getDetail());
         holder.tv_datetime.setText(review.getDatetime());
-        holder.tv_star.setText(String.valueOf(review.getStar()));
+        holder.tv_star.setRating(Float.parseFloat(review.getStar()));
         holder.tv_uid.setText(review.getUid());
         holder.tv_url.setText(review.getImg_url());
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("Member").child(review.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Member member = dataSnapshot.getValue(Member.class);
+                assert member != null;
+                holder.tv_name.setText(member.getName());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("Shop", "Failed to get database", error.toException());
+            }
+        });
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //open new Activity that show Review content
                 Toast.makeText(context, position + " name : " + review.getSid(), Toast.LENGTH_LONG).show();
-//                Intent i = new Intent(v.getContext(), DataShopActivity.class);
-//                String shopID;
-//                shopID = review.getSid();
-//                i.putExtra("shopID", shopID);
-//                v.getContext().startActivity(i);
-
+                Intent i = new Intent(v.getContext(), review_display_activity.class);
+                String reviewID;
+                String shopID;
+                reviewID = review.getRid();
+                shopID = review.getSid();
+                i.putExtra("reviewID", reviewID);
+                i.putExtra("shopID",shopID);
+                v.getContext().startActivity(i);
             }
         });
     }
@@ -81,9 +110,10 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
         TextView tv_sid;
         TextView tv_datetime;
         TextView tv_detail;
-        TextView tv_star;
+        RatingBar tv_star;
         TextView tv_uid;
         TextView tv_url;
+        TextView tv_name;
 
         @SuppressLint("WrongViewCast")
         ReviewHolder(View itemView) {
@@ -92,10 +122,11 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
             tv_sid = itemView.findViewById(R.id.item_review_sid);
             tv_datetime = itemView.findViewById(R.id.item_shop_review_datetime);
             tv_detail = itemView.findViewById(R.id.item_review_description);
-            tv_star = itemView.findViewById(R.id.item_review_ratingBar2);
+            tv_star = itemView.findViewById(R.id.item_review_ratingBar);
             tv_uid = itemView.findViewById(R.id.item_review_uid);
             tv_rid = itemView.findViewById(R.id.item_review_rid);
             tv_url = itemView.findViewById(R.id.item_shop_review_url);
+            tv_name = itemView.findViewById(R.id.item_review_name_reviewer);
 
         }
     }
