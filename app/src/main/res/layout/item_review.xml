@@ -32,7 +32,7 @@
             <TextView
                 android:id="@+id/item_review_name_reviewer"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_toEndOf="@+id/item_review_image"
                 android:paddingBottom="5dp"
@@ -67,7 +67,8 @@
                 android:layout_marginTop="12sp"
                 android:layout_toEndOf="@+id/item_review_image"
                 android:text="@string/txt_example_date_time"
-                android:textColor="#8b8b8b" />
+                android:textColor="#8b8b8b"
+                android:layout_marginBottom="12sp"/>
 
             <ImageView
                 android:id="@+id/item_reivew_comment"
