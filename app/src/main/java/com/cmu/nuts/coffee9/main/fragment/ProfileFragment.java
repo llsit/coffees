@@ -27,10 +27,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
 
@@ -58,6 +60,7 @@ public class ProfileFragment extends Fragment {
     Button btn_settings;
     @BindView(R.id.progressBar_profile)
     ProgressBar progressBar;
+    @BindView(R.id.img_profile) CircleImageView img_profile;
 
 
     @SuppressLint("SetTextI18n")
@@ -112,6 +115,8 @@ public class ProfileFragment extends Fragment {
                 display_name.setText(activity.getString(R.string.txt_name_prompt).concat(member.getName()));
                 display_reg.setText(activity.getString(R.string.txt_reg_prompt).concat(timeManager.epochConverter(Long.valueOf(member.getRegDate()))));
                 display_uid.setText(activity.getString(R.string.txt_uid_prompt).concat(member.getUid()));
+//                img_profile.get()
+                Picasso.get().load(member.getPhotoUrl()).into(img_profile);
             }
 
             @Override

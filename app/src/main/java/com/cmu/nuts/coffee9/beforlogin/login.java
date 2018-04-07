@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.main;
+import com.cmu.nuts.coffee9.model.Member;
 import com.cmu.nuts.coffee9.utillity.LanguageManager;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -29,17 +30,22 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Objects;
 
 
 public class login extends AppCompatActivity {
 
     private FirebaseAuth auth;
-    private EditText inputEmail,inputPassword;
+    private EditText inputEmail, inputPassword;
     private Button btnLogin;
     private TextView link_signup;
     private CallbackManager mCallbackManager;
     private ProgressDialog progressDialog;
     private LanguageManager languageManager;
+    private DatabaseReference mDatabase;
 
     private static final String TAG = "FacebookLogin";
 
@@ -56,6 +62,7 @@ public class login extends AppCompatActivity {
         link_signup = findViewById(R.id.link_signup);
         btnLogin = findViewById(R.id.btn_login);
         //Button btnfacebook = findViewById(R.id.login_facebook);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         auth = FirebaseAuth.getInstance();
 
@@ -72,7 +79,7 @@ public class login extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signIn( inputEmail, inputPassword);
+                signIn(inputEmail, inputPassword);
             }
         });
 
@@ -116,7 +123,7 @@ public class login extends AppCompatActivity {
             inputEmail.setError(getString(R.string.err_email_require));
             //Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
             return;
-        } else if (!(email.contains("@"))){
+        } else if (!(email.contains("@"))) {
             inputEmail.setError(getString(R.string.err_email_invalid));
             return;
         }
@@ -125,7 +132,7 @@ public class login extends AppCompatActivity {
             inputPassword.setError(getString(R.string.err_pass_require));
             //Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
             return;
-        } else if(password.length() < 6){
+        } else if (password.length() < 6) {
             inputPassword.setError(getString(R.string.err_pass_too_short));
             return;
         }
@@ -155,7 +162,7 @@ public class login extends AppCompatActivity {
                             }
                         }
                     });
-        }catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(login.this, getString(R.string.auth_failed) + " with error " + e, Toast.LENGTH_LONG).show();
         }
     }
@@ -176,6 +183,7 @@ public class login extends AppCompatActivity {
         // Pass the activity result back to the Facebook SDK
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
         progressDialog.show();
@@ -188,7 +196,11 @@ public class login extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = auth.getCurrentUser();
-                            updateUI(user);
+                            if (user != null) {
+                                addMember(user);
+                                updateUI(user);
+                            }
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -200,14 +212,28 @@ public class login extends AppCompatActivity {
                     }
                 });
     }
+
+    private void addMember(FirebaseUser user) {
+        String uid = user.getUid();
+        String name = user.getDisplayName();
+        String email = user.getEmail();
+        String photoUrl = Objects.requireNonNull(user.getPhotoUrl()).toString();
+        String provider = Objects.requireNonNull(user.getProviders()).toString();
+        String birthdate = "";
+        String regDate = String.valueOf(Objects.requireNonNull(user.getMetadata()).getCreationTimestamp());
+
+        Member member = new Member(uid, name, email, photoUrl, provider, birthdate, regDate);
+
+        mDatabase.child(Member.tag).child(uid).setValue(member);
+
+    }
+
     private void updateUI(FirebaseUser user) {
         if (progressDialog.isShowing()) progressDialog.dismiss();
         if (user != null) {
             Intent intent = new Intent(login.this, main.class);
             startActivity(intent);
             finish();
-        } else {
-            Toast.makeText(login.this, "failed จบละ",Toast.LENGTH_SHORT).show();
         }
     }
 
