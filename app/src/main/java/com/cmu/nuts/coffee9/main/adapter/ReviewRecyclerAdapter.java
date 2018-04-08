@@ -48,7 +48,6 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
     @Override
     public void onBindViewHolder(final ReviewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final Review review = reviews.get(position);
-        //Member member = new Member();
         holder.tv_sid.setText(review.getSid());
         holder.tv_rid.setText(review.getRid());
         holder.tv_detail.setText(review.getDetail());

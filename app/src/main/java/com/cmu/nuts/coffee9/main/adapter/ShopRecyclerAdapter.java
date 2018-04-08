@@ -13,7 +13,13 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.data_shop.DataShopActivity;
+import com.cmu.nuts.coffee9.model.Favorite;
 import com.cmu.nuts.coffee9.model.Shop;
+import com.github.ivbaranov.mfb.MaterialFavoriteButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -25,6 +31,8 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
 
     private List<Shop> shops;
     private Context context;
+    private DatabaseReference mDatabase;
+    private FirebaseUser user;
 
     public ShopRecyclerAdapter(List<Shop> shops, Context context) {
         this.shops = shops;
@@ -46,6 +54,31 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         holder.tv_detail.setText(shop.getDetail());
         holder.tv_open_time.setText(shop.getOpen_houre());
         holder.tv_price.setText(shop.getPrice());
+        holder.tv_address.setText(shop.getAddress());
+        holder.tv_uid.setText(shop.getUid());
+        holder.tv_location.setText(shop.getLocation());
+
+        holder.tv_fav.setOnFavoriteChangeListener(
+                new MaterialFavoriteButton.OnFavoriteChangeListener() {
+                    @Override
+                    public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
+                        user = FirebaseAuth.getInstance().getCurrentUser();
+                        mDatabase = FirebaseDatabase.getInstance().getReference();
+                        String fid = mDatabase.push().getKey();
+                        String uid = user.getUid();
+                        String sid = shop.getSid();
+                        if (favorite) {
+                            Favorite fav = new Favorite(fid, uid, sid);
+                            mDatabase.child("Favorite").child(uid).child(fid).setValue(fav);
+                            Toast.makeText(context, "love it", Toast.LENGTH_LONG).show();
+                        } else {
+
+                            mDatabase.child("Favorite").child(uid).child(fid).removeValue();
+                            Toast.makeText(context, "not love", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +120,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         TextView tv_address;
         TextView tv_uid;
         TextView tv_location;
+        MaterialFavoriteButton tv_fav;
 
         ShopHolder(View itemView) {
             super(itemView);
@@ -99,6 +133,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
             tv_uid = itemView.findViewById(R.id.item_shop_uid);
             tv_location = itemView.findViewById(R.id.item_shop_location);
             cardView = itemView.findViewById(R.id.item_shop_card_view);
+            tv_fav = itemView.findViewById(R.id.love);
         }
     }
 }

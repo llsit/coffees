@@ -2,12 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cmu.nuts.coffee9.main.fragment.FavoriteFragment">
+    tools:context="com.cmu.nuts.coffee9.main.fragment.HomeFragment">
 
-    <TextView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/fav_swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Favorite"
-        android:textSize="50sp"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fav_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorGray"
+            android:clipToPadding="false"
+            android:padding="5dp"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/item_fav" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </FrameLayout>
