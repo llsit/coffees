@@ -81,6 +81,32 @@ public class ProfileWithEditFragment extends Fragment {
         currentUser = auth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference()
                 .child(Member.tag).child(currentUser.getUid());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                TimeManager timeManager = new TimeManager();
+                Member member = dataSnapshot.getValue(Member.class);
+                assert member != null;
+                display_email.setText(member.getEmail());
+                display_name.setText((member.getName()));
+                display_reg.setText(activity.getString(R.string.txt_reg_prompt).concat(timeManager.epochConverter(Long.valueOf(member.getRegDate()))));
+                display_uid.setText(activity.getString(R.string.txt_uid_prompt).concat(member.getUid()));
+                if (member.getPhotoUrl() != null) {
+                    Picasso.get()
+                            .load(member.getPhotoUrl())
+                            .placeholder(R.drawable.img_user)
+                            .error(R.drawable.img_user)
+                            .into(img_profile);
+                }
+                btn_settings.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(activity, "Failed to load member data!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
     }
@@ -92,7 +118,6 @@ public class ProfileWithEditFragment extends Fragment {
                 .toolbarArrowColor(Color.BLUE).single().limit(1)
                 .showCamera(true).imageDirectory("Camera").enableLog(true)
                 .start();
-
     }
 
     @Override
@@ -112,41 +137,11 @@ public class ProfileWithEditFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
-        ValueEventListener listener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                TimeManager timeManager = new TimeManager();
-                Member member = dataSnapshot.getValue(Member.class);
-                assert member != null;
-                display_email.setText(member.getEmail());
-                display_name.setText((member.getName()));
-                display_reg.setText(activity.getString(R.string.txt_reg_prompt).concat(timeManager.epochConverter(Long.valueOf(member.getRegDate()))));
-                display_uid.setText(activity.getString(R.string.txt_uid_prompt).concat(member.getUid()));
-                if (member.getPhotoUrl() != null) {
-                    Picasso.get().load(member.getPhotoUrl()).into(img_profile);
-                }
-                btn_settings.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(activity, "Failed to load member data!",
-                        Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        databaseReference.addListenerForSingleValueEvent(listener);
-        valueEventListener = listener;
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (valueEventListener != null) {
-            databaseReference.removeEventListener(valueEventListener);
-        }
     }
 
     @OnClick(R.id.profile_edit_img_pref)
@@ -168,7 +163,6 @@ public class ProfileWithEditFragment extends Fragment {
                 .child(Member.tag).child(personId);
         databaseReference.child("name").setValue(name);
         databaseReference.child("email").setValue(email);
-        Toast.makeText(activity, "Update Successfully!",
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "Update Successfully!", Toast.LENGTH_SHORT).show();
     }
 }

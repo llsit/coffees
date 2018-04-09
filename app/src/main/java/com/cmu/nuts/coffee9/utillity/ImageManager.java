@@ -28,23 +28,14 @@ import com.google.firebase.storage.UploadTask;
 
 public class ImageManager {
     private Activity activity;
-    private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
-    private FirebaseDatabase firebaseDatabase;
-    private FirebaseStorage storage;
-
-    private UploadTask uploadTask;
 
     private StorageReference storageRef;
     private DatabaseReference databaseRef;
     public ImageManager(Activity activity){
         this.activity = activity;
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-        storage = FirebaseStorage.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-
-        storageRef = storage.getReference();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        storageRef = FirebaseStorage.getInstance().getReference();
 
         databaseRef = FirebaseDatabase.getInstance().getReference()
                 .child(Member.tag).child(firebaseUser.getUid());
@@ -55,33 +46,33 @@ public class ImageManager {
                 "Starting upload", true);
         progress.show();
         StorageReference riversRef = storageRef.child(FirebaseKey.img_profile_key).child(firebaseUser.getUid());
-        Log.d("Upload", "Uploading" + firebaseUser.getDisplayName() + " name " + path.toString());
+        Log.d("Upload", "Uploading" + firebaseUser.getDisplayName() + " name " + path.getPath());
         // Register observers to listen for when the download is done or if it fails
-        uploadTask = riversRef.putFile(path);
+        UploadTask uploadTask = riversRef.putFile(path);
 
-        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                progress.setMessage("Uploading " + ((taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount())*100) + "%");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-                progress.dismiss();
-                Log.e("onFailure",exception.getMessage());
-                Toast.makeText(activity,"Upload fail, cause by " + exception.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                progress.dismiss();
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                databaseRef.child("photoUrl").setValue(downloadUrl);
-                Intent intent = new Intent(activity, PreferencesActivity.class);
-                activity.startActivity(intent);
-                activity.finish();
-            }
-        });
+        try {
+            uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    progress.setMessage("Uploading " + ((taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount())*100) + "%");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                    progress.dismiss();
+                    Log.e("onFailure",exception.getMessage());
+                    Toast.makeText(activity,"Upload fail, cause by " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progress.dismiss();
+                    databaseRef.child("photoUrl").setValue(taskSnapshot.getDownloadUrl().toString());
+                }
+            });
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

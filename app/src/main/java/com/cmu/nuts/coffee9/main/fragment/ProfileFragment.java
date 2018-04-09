@@ -116,7 +116,11 @@ public class ProfileFragment extends Fragment {
                 display_reg.setText(activity.getString(R.string.txt_reg_prompt).concat(timeManager.epochConverter(Long.valueOf(member.getRegDate()))));
                 display_uid.setText(activity.getString(R.string.txt_uid_prompt).concat(member.getUid()));
 //                img_profile.get()
-                Picasso.get().load(member.getPhotoUrl()).into(img_profile);
+                Picasso.get()
+                        .load(member.getPhotoUrl())
+                        .placeholder(R.drawable.img_user)
+                        .error(R.drawable.img_user)
+                        .into(img_profile);
             }
 
             @Override
