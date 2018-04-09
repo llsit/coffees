@@ -52,7 +52,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         holder.tv_sid.setText(shop.getSid());
         holder.tv_name.setText(shop.getName());
         holder.tv_detail.setText(shop.getDetail());
-        holder.tv_open_time.setText(shop.getOpen_houre());
+        holder.tv_open_time.setText(shop.getOpen_hour());
         holder.tv_price.setText(shop.getPrice());
         holder.tv_address.setText(shop.getAddress());
         holder.tv_uid.setText(shop.getUid());

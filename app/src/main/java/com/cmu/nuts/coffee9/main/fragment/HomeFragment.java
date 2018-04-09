@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment {
                     String address = value.getAddress();
                     String detail = value.getDetail();
                     String location = value.getLocation();
-                    String open_time = value.getOpen_houre();
+                    String open_time = value.getOpen_hour();
                     String price = value.getPrice();
                     String uid = value.getUid();
 

@@ -12,7 +12,7 @@ public class Shop {
     String address;
     String detail;
     String location;
-    String open_houre;
+    String open_hour;
     String price;
     String uid;
 
@@ -21,13 +21,13 @@ public class Shop {
     public Shop() {
     }
 
-    public Shop(String sid, String name, String address, String detail, String location, String open_houre, String price, String uid) {
+    public Shop(String sid, String name, String address, String detail, String location, String open_hour, String price, String uid) {
         this.sid = sid;
         this.name = name;
         this.address = address;
         this.detail = detail;
         this.location = location;
-        this.open_houre = open_houre;
+        this.open_hour = open_hour;
         this.price = price;
         this.uid = uid;
     }
@@ -72,12 +72,12 @@ public class Shop {
         this.location = location;
     }
 
-    public String getOpen_houre() {
-        return open_houre;
+    public String getOpen_hour() {
+        return open_hour;
     }
 
-    public void setOpen_houre(String open_houre) {
-        this.open_houre = open_houre;
+    public void setOpen_hour(String open_house) {
+        this.open_hour = open_hour;
     }
 
     public String getPrice() {

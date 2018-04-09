@@ -1,7 +1,6 @@
 package com.cmu.nuts.coffee9.main.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,12 +9,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.support.v7.widget.SearchView;
 import android.widget.TextView;
 
 import com.cmu.nuts.coffee9.R;
@@ -31,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class SearchFragment extends Fragment {
 
@@ -130,7 +127,7 @@ public class SearchFragment extends Fragment {
                     String address = value.getAddress();
                     String detail = value.getDetail();
                     String location = value.getLocation();
-                    String open_time = value.getOpen_houre();
+                    String open_time = value.getOpen_hour();
                     String price = value.getPrice();
                     String uid = value.getUid();
 

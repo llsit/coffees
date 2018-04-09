@@ -75,34 +75,39 @@ public class FavoriteFragment extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(uid);
         mDatabase.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Favorite fav = item.getValue(Favorite.class);
                     assert fav != null;
                     String sid = fav.getSid();
+//                    arr.add(sid);
+//                    Toast.makeText(getActivity(), arr, Toast.LENGTH_LONG).show();
                     databaseReference = FirebaseDatabase.getInstance().getReference(Shop.tag).child(sid);
                     databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
+                        public void onDataChange(DataSnapshot dataSnapshot2) {
                             shops = new ArrayList<>();
-                            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                                Shop value = dataSnapshot1.getValue(Shop.class);
-                                assert value != null;
-                                String sid = value.getSid();
-                                String name = value.getName();
-                                String address = value.getAddress();
-                                String detail = value.getDetail();
-                                String location = value.getLocation();
-                                String open_time = value.getOpen_houre();
-                                String price = value.getPrice();
-                                String uid = value.getUid();
+                            shops.clear();
+                            for (DataSnapshot item : dataSnapshot2.getChildren()) {
 
-                                Shop shop = new Shop(sid, name, address, detail, location, open_time, price, uid);
-                                shops.add(shop);
+                                Shop value = item.getValue(Shop.class);
+
+//                                String sid = value.getSid();
+//                                String name = value.getName();
+//                                String address = value.getAddress();
+//                                String detail = value.getDetail();
+//                                String location = value.getLocation();
+//                                String open_time = value.getOpen_hour();
+//                                String price = value.getPrice();
+//                                String uid = value.getUid();
+//
+//                                Shop shop = new Shop(sid, name, address, detail, location, open_time, price, uid);
+//                                shops.add(shop);
                             }
-                            setRecyclerView();
-                            swipeRefreshLayout.setRefreshing(false);
+//                            setRecyclerView();
+//                            swipeRefreshLayout.setRefreshing(false);
                         }
 
                         @Override
@@ -120,6 +125,46 @@ public class FavoriteFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+
+//        databaseReference = FirebaseDatabase.getInstance().getReference(Shop.tag).child(sid);
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot2) {
+//                shops = new ArrayList<>();
+//                for (DataSnapshot item : dataSnapshot2.getChildren()) {
+//                    Shop value = item.getValue(Shop.class);
+//
+//                    String name1 = null;
+//                    if (value != null) {
+//                        name1 = value.getName();
+//                        Toast.makeText(getActivity(), name1, Toast.LENGTH_LONG).show();
+//                    }else{
+//
+//                        Toast.makeText(getActivity(), item.getKey(), Toast.LENGTH_LONG).show();
+//                    }
+//
+//                    String sid = value.getSid();
+//                    String name = value.getName();
+//                    String address = value.getAddress();
+//                    String detail = value.getDetail();
+//                    String location = value.getLocation();
+//                    String open_time = value.getOpen_hour();
+//                    String price = value.getPrice();
+//                    String uid = value.getUid();
+//
+//                    Shop shop = new Shop(sid, name, address, detail, location, open_time, price, uid);
+//                    shops.add(shop);
+//                }
+//                setRecyclerView();
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.w("Shop", "Failed to get database", databaseError.toException());
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//        });
     }
 
     private void setRecyclerView() {

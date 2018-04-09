@@ -186,6 +186,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
         });
     }
 
+    @SuppressLint("SetTextI18n")
     private void setMaps(final double latitude, final double longitude) {
         location.setEnabled(true);
         location.setText(String.valueOf(latitude) + " ," + String.valueOf(longitude));
