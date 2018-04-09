@@ -37,7 +37,6 @@ public class FavoriteFragment extends Fragment {
     private Activity activity;
     private DatabaseReference databaseReference, mDatabase;
     private FirebaseDatabase database;
-    private List<Shop> shops;
     private RecyclerView recyclerView;
     String sid;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -50,124 +49,63 @@ public class FavoriteFragment extends Fragment {
         activity = getActivity();
         recyclerView = view.findViewById(R.id.fav_recycler_view);
         swipeRefreshLayout = view.findViewById(R.id.fav_swipe_refresh_layout);
-        getFavDatabase();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 getFavDatabase();
             }
         });
-
+        getFavDatabase();
         return view;
     }
 
     private void getFavDatabase() {
-
-
-        String uid = null;
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            uid = user.getUid();
-//            Toast.makeText(getActivity(), uid, Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getActivity(), "NULL", Toast.LENGTH_LONG).show();
-        }
+            mDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(user.getUid());
+            mDatabase.addValueEventListener(new ValueEventListener() {
 
-        mDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(uid);
-        mDatabase.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Favorite fav = item.getValue(Favorite.class);
-                    assert fav != null;
-                    String sid = fav.getSid();
-//                    arr.add(sid);
-//                    Toast.makeText(getActivity(), arr, Toast.LENGTH_LONG).show();
-                    databaseReference = FirebaseDatabase.getInstance().getReference(Shop.tag).child(sid);
-                    databaseReference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot2) {
-                            shops = new ArrayList<>();
-                            shops.clear();
-                            for (DataSnapshot item : dataSnapshot2.getChildren()) {
-
-                                Shop value = item.getValue(Shop.class);
-
-//                                String sid = value.getSid();
-//                                String name = value.getName();
-//                                String address = value.getAddress();
-//                                String detail = value.getDetail();
-//                                String location = value.getLocation();
-//                                String open_time = value.getOpen_hour();
-//                                String price = value.getPrice();
-//                                String uid = value.getUid();
-//
-//                                Shop shop = new Shop(sid, name, address, detail, location, open_time, price, uid);
-//                                shops.add(shop);
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot item : dataSnapshot.getChildren()) {
+                        Favorite fav = item.getValue(Favorite.class);
+                        assert fav != null;
+                        String sid = fav.getSid();
+                        databaseReference = FirebaseDatabase.getInstance().getReference(Shop.tag).child(sid);
+                        databaseReference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshotShop) {
+                                List<Shop> shops = new ArrayList<>();
+                                if (dataSnapshotShop.getChildrenCount() > 0){
+                                    Shop value = dataSnapshotShop.getValue(Shop.class);
+                                    shops.add(value);
+                                }
+                                setRecyclerView(shops);
+                                swipeRefreshLayout.setRefreshing(false);
                             }
-//                            setRecyclerView();
-//                            swipeRefreshLayout.setRefreshing(false);
-                        }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            Log.w("Shop", "Failed to get database", databaseError.toException());
-                            swipeRefreshLayout.setRefreshing(false);
-                        }
-                    });
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.w("Shop", "Failed to get database", databaseError.toException());
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("Shop", "Failed to get database", databaseError.toException());
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.w("Shop", "Failed to get database", databaseError.toException());
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
 
-//        databaseReference = FirebaseDatabase.getInstance().getReference(Shop.tag).child(sid);
-//        databaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot2) {
-//                shops = new ArrayList<>();
-//                for (DataSnapshot item : dataSnapshot2.getChildren()) {
-//                    Shop value = item.getValue(Shop.class);
-//
-//                    String name1 = null;
-//                    if (value != null) {
-//                        name1 = value.getName();
-//                        Toast.makeText(getActivity(), name1, Toast.LENGTH_LONG).show();
-//                    }else{
-//
-//                        Toast.makeText(getActivity(), item.getKey(), Toast.LENGTH_LONG).show();
-//                    }
-//
-//                    String sid = value.getSid();
-//                    String name = value.getName();
-//                    String address = value.getAddress();
-//                    String detail = value.getDetail();
-//                    String location = value.getLocation();
-//                    String open_time = value.getOpen_hour();
-//                    String price = value.getPrice();
-//                    String uid = value.getUid();
-//
-//                    Shop shop = new Shop(sid, name, address, detail, location, open_time, price, uid);
-//                    shops.add(shop);
-//                }
-//                setRecyclerView();
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                Log.w("Shop", "Failed to get database", databaseError.toException());
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//        });
+        } else {
+            Toast.makeText(getActivity(), "NULL Exception", Toast.LENGTH_LONG).show();
+        }
     }
 
-    private void setRecyclerView() {
+    private void setRecyclerView(List<Shop> shops) {
         FavoriteRecyclerAdapter recyclerAdapter = new FavoriteRecyclerAdapter(shops, activity);
         RecyclerView.LayoutManager recycle = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(recycle);
