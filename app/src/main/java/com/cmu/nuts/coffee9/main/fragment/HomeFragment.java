@@ -3,6 +3,7 @@ package com.cmu.nuts.coffee9.main.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -37,54 +38,39 @@ public class HomeFragment extends Fragment {
     }
 
     private Activity activity;
-    private DatabaseReference databaseReference;
-    private List<Shop> shops;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         activity = getActivity();
         recyclerView = view.findViewById(R.id.home_recycler_view);
         swipeRefreshLayout = view.findViewById(R.id.home_swipe_refresh_layout);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference(Shop.tag);
-        getShopDatabase();
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 getShopDatabase();
             }
         });
-
+        getShopDatabase();
         return view;
     }
 
     private void getShopDatabase(){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Shop.tag);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                shops = new ArrayList<>();
-                for (DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()){
-                    Shop value = dataSnapshot1.getValue(Shop.class);
+                List<Shop> shops = new ArrayList<>();
+                for (DataSnapshot snapshot :dataSnapshot.getChildren()){
+                    Shop value = snapshot.getValue(Shop.class);
                     assert value != null;
-                    String sid = value.getSid();
-                    String name = value.getName();
-                    String address = value.getAddress();
-                    String detail = value.getDetail();
-                    String location = value.getLocation();
-                    String open_time = value.getOpen_hour();
-                    String price = value.getPrice();
-                    String uid = value.getUid();
-
-                    Shop shop = new Shop(sid, name, address, detail, location, open_time, price, uid);
-                    shops.add(shop);
+                    shops.add(value);
                 }
-                setRecyclerView();
+                setRecyclerView(shops);
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -96,7 +82,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void setRecyclerView(){
+    private void setRecyclerView(List<Shop> shops){
         ShopRecyclerAdapter recyclerAdapter = new ShopRecyclerAdapter(shops, activity);
         RecyclerView.LayoutManager recycle = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(recycle);
