@@ -1,4 +1,6 @@
 package com.cmu.nuts.coffee9.model;
+import com.google.firebase.database.IgnoreExtraProperties;
+
 /**
  * Created by Jaylers on 07-Feb-18.
  */
