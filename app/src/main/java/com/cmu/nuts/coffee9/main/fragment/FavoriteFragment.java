@@ -35,10 +35,7 @@ public class FavoriteFragment extends Fragment {
     }
 
     private Activity activity;
-    private DatabaseReference databaseReference, mDatabase;
-    private FirebaseDatabase database;
     private RecyclerView recyclerView;
-    String sid;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -61,36 +58,33 @@ public class FavoriteFragment extends Fragment {
 
     private void getFavDatabase() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final List<Shop> shops = new ArrayList<>();
         if (user != null) {
-            mDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(user.getUid());
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(user.getUid());
             mDatabase.addValueEventListener(new ValueEventListener() {
-
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot item : dataSnapshot.getChildren()) {
-                        Favorite fav = item.getValue(Favorite.class);
-                        assert fav != null;
-                        String sid = fav.getSid();
-                        databaseReference = FirebaseDatabase.getInstance().getReference(Shop.tag).child(sid);
-                        databaseReference.addValueEventListener(new ValueEventListener() {
+                        Favorite favorite = item.getValue(Favorite.class);
+                        assert favorite != null;
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Shop.tag).child(favorite.getSid());
+                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshotShop) {
-                                List<Shop> shops = new ArrayList<>();
                                 if (dataSnapshotShop.getChildrenCount() > 0){
                                     Shop value = dataSnapshotShop.getValue(Shop.class);
                                     shops.add(value);
+                                    setRecyclerView(shops);
                                 }
-                                setRecyclerView(shops);
-                                swipeRefreshLayout.setRefreshing(false);
                             }
 
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
                                 Log.w("Shop", "Failed to get database", databaseError.toException());
-                                swipeRefreshLayout.setRefreshing(false);
                             }
                         });
                     }
+                    swipeRefreshLayout.setRefreshing(false);
                 }
 
                 @Override
