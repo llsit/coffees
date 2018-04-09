@@ -68,8 +68,6 @@ def library = dependence {
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'me.zhanghai.android.materialratingbar:library:1.2.0'
     implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.4'
-    implementation 'com.squareup.picasso:picasso:2.71828'
-
     implementation('io.nlopez.smartlocation:library:3.3.3') {
         transitive = false
     }
@@ -79,9 +77,7 @@ def library = dependence {
 
 def image = dependence {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
-    implementation 'com.github.bumptech.glide:glide:4.6.1'
-
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.esafirm.android-image-picker:imagepicker:1.12.0'
 }
 
