@@ -65,11 +65,11 @@ public class FavoriteRecyclerAdapter extends RecyclerView.Adapter<FavoriteRecycl
 
 //                Toast.makeText(context, "Very good!!!"  + mDatabase.child(uid).child(), Toast.LENGTH_LONG).show();
 
-                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                mDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot item : dataSnapshot.getChildren()) {
-                            Favorite fav = item.getValue(Favorite.class);
+//                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            Favorite fav = dataSnapshot.getValue(Favorite.class);
                             if (fav != null) {
                                 if (fav.getSid().equals(shop.getSid())) {
                                     DataSnapshot firstChild = dataSnapshot.getChildren().iterator().next();
@@ -80,7 +80,7 @@ public class FavoriteRecyclerAdapter extends RecyclerView.Adapter<FavoriteRecycl
                             } else {
                                 Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
                             }
-                        }
+//                        }
 
                     }
 

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ public class review_display_activity extends AppCompatActivity {
     private TextView datetime;
     private TextView description;
     private RatingBar star;
+    private ImageView review_image;
     //comment
     private EditText add_comment;
     private ImageButton send;
@@ -70,7 +73,7 @@ public class review_display_activity extends AppCompatActivity {
         datetime = findViewById(R.id.display_review_datetime);
         description = findViewById(R.id.display_review_description);
         star = findViewById(R.id.display_review_ratingBar);
-
+        review_image = findViewById(R.id.display_review_image);
         getDataReview();
         comment();
         displayComment();
@@ -90,7 +93,7 @@ public class review_display_activity extends AppCompatActivity {
     }
 
     private void getReviewDatabase() {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Comment.tag).child(shop_ID);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Comment.tag).child(review_ID);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -147,7 +150,7 @@ public class review_display_activity extends AppCompatActivity {
                     String uid = FirebaseAuth.getInstance().getUid();
                     String detail = add_comment.getText().toString();
                     String cid = mDatabase.push().getKey();
-                    String rid = shop_ID;
+                    String rid = review_ID;
 
                     Comment comment = new Comment(cid, uid, rid, detail, datetime);
                     mDatabase.child(Comment.tag).child(rid).child(cid).setValue(comment);
@@ -185,6 +188,13 @@ public class review_display_activity extends AppCompatActivity {
                             Member mem = dataSnapshot.getValue(Member.class);
                             if (mem != null) {
                                 reviewer.setText(mem.getName());
+                                Picasso.get()
+                                        .load(mem.getPhotoUrl())
+                                        .placeholder(R.drawable.img_user)
+                                        .error(R.drawable.img_user)
+                                        .resize(200,200)
+                                        .centerInside()
+                                        .into(review_image);
                             }
                         }
 

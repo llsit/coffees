@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmu.nuts.coffee9.R;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -54,6 +56,13 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
                 Member mem = dataSnapshot.getValue(Member.class);
                 assert mem != null;
                 holder.tv_name.setText(mem.getName());
+                Picasso.get()
+                        .load(mem.getPhotoUrl())
+                        .placeholder(R.drawable.img_user)
+                        .error(R.drawable.img_user)
+                        .resize(200,200)
+                        .centerInside()
+                        .into(holder.tv_image);
             }
 
             @Override
@@ -88,6 +97,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
         TextView tv_detail;
 //        TextView tv_uid;
         TextView tv_name;
+        ImageView tv_image;
 
         @SuppressLint("WrongViewCast")
         CommentHolder(View itemView) {
@@ -98,6 +108,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
 //            tv_uid = itemView.findViewById(R.id.item_review_uid);
 //            tv_rid = itemView.findViewById(R.id.item_review_rid);
             tv_name = itemView.findViewById(R.id.item_comment_name);
+            tv_image = itemView.findViewById(R.id.item_comment_image);
 
         }
     }

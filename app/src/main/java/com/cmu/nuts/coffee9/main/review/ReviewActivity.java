@@ -115,7 +115,8 @@ public class ReviewActivity extends AppCompatActivity {
             mDatabase.child(Review.tag).child(sid).child(rid).setValue(review);
             Toast.makeText(this, "Your Review is now published" + sid, Toast.LENGTH_SHORT).show();
             finish();
-        } else { descript.setError("Your review is too shot"); }
+        } else {
+            descript.setError("Your review is too shot"); }
     }
 
 }
