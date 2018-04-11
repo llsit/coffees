@@ -78,14 +78,29 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <ImageButton
+            android:id="@+id/review_upload_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/range_12"
+            android:background="@color/colorGray"
+            android:src="@drawable/ic_add_a_photo" />
+
+
         <TextView
-            android:id="@+id/sid"
+            android:id="@+id/text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello, world!" />
+
+
+        <ImageView
+            android:id="@+id/show_photo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="test"
-            android:textSize="56dp"
-            android:visibility="gone"/>
+            android:layout_marginTop="@dimen/range_12"
+            android:visibility="gone" />
 
 
     </android.support.v7.widget.LinearLayoutCompat>

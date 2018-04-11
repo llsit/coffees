@@ -86,10 +86,9 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-//                    Comment com = dataSnapshot.getValue(Comment.class);
                 long counts = dataSnapshot.getChildrenCount();
                 holder.tv_count.setText(String.valueOf(counts));
-                Toast.makeText(context, dataSnapshot.getKey() + ":" + dataSnapshot.getChildrenCount(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, dataSnapshot.getKey() + ":" + dataSnapshot.getChildrenCount(), Toast.LENGTH_LONG).show();
             }
 
             @Override

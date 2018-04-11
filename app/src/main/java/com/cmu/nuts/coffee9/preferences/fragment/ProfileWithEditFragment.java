@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -50,10 +51,7 @@ public class ProfileWithEditFragment extends Fragment {
 
     private FirebaseUser currentUser;
     private DatabaseReference databaseReference;
-    private ValueEventListener valueEventListener;
     private Activity activity;
-    private final int PICK_IMAGE_REQUEST = 71;
-    private Uri filePath;
 
     @BindView(R.id.edt_display_name)
     EditText display_name;
@@ -71,7 +69,7 @@ public class ProfileWithEditFragment extends Fragment {
     ProgressBar progressBar;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_with_edit, container, false);
         ButterKnife.bind(this, view);

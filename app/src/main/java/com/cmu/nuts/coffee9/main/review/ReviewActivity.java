@@ -1,11 +1,14 @@
 package com.cmu.nuts.coffee9.main.review;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -13,12 +16,15 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.model.Review;
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.model.Image;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -26,12 +32,13 @@ import butterknife.OnClick;
 public class ReviewActivity extends AppCompatActivity {
 
     private MenuItem post;
-    private ImageView back;
+    private ImageView back, imageView;
     private TextView descript;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference mDatabase;
+    private ImageButton add_a_photo;
 
-    String rid, uid, sid, detail, img_url, datetime,star;
+    String rid, uid, sid, detail, img_url, datetime, star;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +54,54 @@ public class ReviewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         sid = intent.getStringExtra("shopID");
         rating();
+        addImage();
     }
 
-    @OnClick(R.id.review_back) public void onBack(){
+    private void addImage() {
+        add_a_photo = findViewById(R.id.review_upload_image);
+        add_a_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImagePicker.create(ReviewActivity.this).folderMode(true)
+                        .toolbarFolderTitle("Folder").toolbarImageTitle("Tap to select")
+                        .toolbarArrowColor(Color.BLUE).multi().limit(10)
+                        .showCamera(true).imageDirectory("Camera").enableLog(true)
+                        .start();
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
+
+        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            // Get a list of picked images
+            List<Image> images = ImagePicker.getImages(data);
+            upload_photo(images);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void upload_photo(List<Image> images) {
+        imageView = findViewById(R.id.show_photo);
+        TextView text_view = findViewById(R.id.text_view);
+        if (images == null) return;
+
+        StringBuilder stringBuffer = new StringBuilder();
+        for (int i = 0, l = images.size(); i < l; i++) {
+            stringBuffer.append(images.get(i).getPath());
+        }
+        text_view.setText(stringBuffer.toString());
+//        Picasso.get()
+//                .load(stringBuffer.toString())
+//                .resize(50, 50)
+//                .centerCrop()
+//                .into(imageView);
+    }
+
+
+    @OnClick(R.id.review_back)
+    public void onBack() {
         finish();
     }
 
@@ -95,8 +147,8 @@ public class ReviewActivity extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.post:
-               addReview();
-               return true;
+                addReview();
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -105,7 +157,7 @@ public class ReviewActivity extends AppCompatActivity {
 
     public void addReview() {
         descript = findViewById(R.id.edt_name_des);
-        if (descript.getText().length() > 10){
+        if (descript.getText().length() > 10) {
             datetime = DateFormat.getDateTimeInstance().format(new Date());
             uid = FirebaseAuth.getInstance().getUid();
             detail = descript.getText().toString();
@@ -116,7 +168,8 @@ public class ReviewActivity extends AppCompatActivity {
             Toast.makeText(this, "Your Review is now published" + sid, Toast.LENGTH_SHORT).show();
             finish();
         } else {
-            descript.setError("Your review is too shot"); }
+            descript.setError("Your review is too shot");
+        }
     }
 
 }
