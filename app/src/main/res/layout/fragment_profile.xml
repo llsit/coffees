@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.cmu.nuts.coffee9.beforlogin.login">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -24,18 +22,18 @@
             android:paddingBottom="15dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
+            android:visibility="gone"
             tools:ignore="NotSibling,RtlHardcoded,UselessParent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/img_profile"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:src="@drawable/com_facebook_profile_picture_blank_square"
-                app:civ_border_width="2dp"
                 android:paddingTop="20dp"
+                android:src="@drawable/ic_user"
                 android:textAlignment="center"
-                app:civ_border_color="#FF000000"/>
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
 
             <TextView
                 android:id="@+id/display_name"
@@ -46,6 +44,7 @@
                 android:paddingLeft="16dp"
                 android:text="@string/txt_name_prompt"
                 android:textSize="20sp"
+                android:visibility="gone"
                 tools:ignore="RtlSymmetry" />
 
             <TextView
@@ -57,6 +56,7 @@
                 android:paddingLeft="16dp"
                 android:text="@string/txt_email_prompt"
                 android:textSize="20sp"
+                android:visibility="gone"
                 tools:ignore="RtlSymmetry" />
 
 
@@ -69,6 +69,7 @@
                 android:paddingLeft="16dp"
                 android:text="@string/txt_birth_date_prompt"
                 android:textSize="20sp"
+                android:visibility="gone"
                 tools:ignore="RtlSymmetry" />
 
             <TextView
@@ -80,6 +81,7 @@
                 android:paddingLeft="16dp"
                 android:text="@string/txt_reg_prompt"
                 android:textSize="15sp"
+                android:visibility="gone"
                 tools:ignore="RtlSymmetry" />
 
             <TextView
@@ -90,44 +92,159 @@
                 android:paddingLeft="16dp"
                 android:text="@string/txt_uid_prompt"
                 android:textSize="15sp"
+                android:visibility="gone"
                 tools:ignore="RtlSymmetry" />
 
             <Button
                 android:id="@+id/btn_done"
-                android:layout_below="@+id/display_uid"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginStart="80dp"
+                android:layout_below="@+id/display_uid"
                 android:layout_marginEnd="80dp"
+                android:layout_marginStart="80dp"
                 android:layout_marginTop="20dp"
-                android:textColor="@color/color_pastel_blue"
                 android:background="@drawable/custom_border_round"
                 android:text="@string/btn_message_preferences"
-                android:visibility="gone"/>
+                android:textColor="@color/color_pastel_blue"
+                android:visibility="gone" />
+
             <ProgressBar
                 android:id="@+id/progressBar_profile"
-                android:layout_below="@+id/display_uid"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:padding="5dp"
-                android:layout_marginStart="50dp"
+                android:layout_below="@+id/display_uid"
                 android:layout_marginEnd="50dp"
+                android:layout_marginStart="50dp"
                 android:layout_marginTop="20dp"
+                android:padding="5dp"
                 android:visibility="visible" />
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/profile_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_cover_image"
+            android:background="#ebca0707"
+            android:elevation="4dp"
+            android:paddingBottom="24dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/img_profile2"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:paddingTop="20dp"
+                android:src="@drawable/ic_user"
+                android:textAlignment="center"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_profile2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/range_15"
+                android:layout_marginTop="@dimen/range_15"
+                android:text="Laxman Marothiya"
+                android:textColor="#fff"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/range_15">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/range_12"
+                    android:background="@color/colorGray"
+                    android:clickable="true"
+                    android:padding="@dimen/range_12">
+
+                    <ImageView
+                        android:id="@+id/ivContactItem1"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/range_12"
+                        android:layout_marginRight="@dimen/range_12"
+                        android:src="@drawable/ic_email" />
+
+                    <TextView
+                        android:id="@+id/tvNumber1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/range_12"
+                        android:layout_marginStart="@dimen/range_12"
+                        android:layout_toEndOf="@id/ivContactItem1"
+                        android:layout_toRightOf="@id/ivContactItem1"
+                        android:text="(123) 456-7890"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="#212121" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/top"
+                    android:background="@color/colorGray"
+                    android:clickable="true"
+                    android:padding="@dimen/range_12">
+
+                    <ImageView
+                        android:id="@+id/ivContactItem12"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/range_12"
+                        android:layout_marginRight="@dimen/range_12"
+                        android:src="@drawable/ic_date" />
+
+                    <TextView
+                        android:id="@+id/tvNumber12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/range_12"
+                        android:layout_marginStart="@dimen/range_12"
+                        android:layout_toEndOf="@id/ivContactItem12"
+                        android:layout_toRightOf="@id/ivContactItem12"
+                        android:text="(123) 456-7890"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="#212121" />
+
+
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+
+
         <Button
             android:id="@+id/profile_btn_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="100dp"
             android:layout_marginEnd="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/custom_border_round"
             android:padding="12dp"
             android:paddingStart="16dp"
             android:text="@string/logout"
             android:textColor="@color/colorRed"
-            android:background="@drawable/custom_border_round"
+            android:visibility="gone"
             tools:ignore="RtlSymmetry" />
     </android.support.v7.widget.LinearLayoutCompat>
 </ScrollView>
