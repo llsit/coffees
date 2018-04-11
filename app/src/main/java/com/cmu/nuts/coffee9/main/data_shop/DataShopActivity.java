@@ -1,6 +1,7 @@
 package com.cmu.nuts.coffee9.main.data_shop;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,12 +16,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
-
 import com.cmu.nuts.coffee9.main.review.ReviewActivity;
-import com.cmu.nuts.coffee9.main.review.review_display_activity;
+import com.esafirm.imagepicker.features.ImagePicker;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,9 +96,15 @@ public class DataShopActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (view == fabAdd) {
-                    showToast("Button Add clicked");
-                    Intent intent = new Intent(DataShopActivity.this, review_display_activity.class);
-                    startActivity(intent);
+//                    showToast("Button Add clicked");
+//                    Intent intent = new Intent(DataShopActivity.this, review_display_activity.class);
+//                    startActivity(intent);
+                    ImagePicker.create(DataShopActivity.this).folderMode(true)
+                            .toolbarFolderTitle("Folder").toolbarImageTitle("Tap to select")
+                            .toolbarArrowColor(Color.WHITE).multi().limit(10)
+                            .showCamera(true).imageDirectory("Camera").enableLog(true)
+                            .start();
+
                 } else if (view == fabReview) {
                     Intent intent = new Intent(DataShopActivity.this, ReviewActivity.class);
                     intent.putExtra("shopID", shop_ID);

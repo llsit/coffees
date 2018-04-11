@@ -113,7 +113,7 @@ public class ProfileWithEditFragment extends Fragment {
     public void onProfile() {
         ImagePicker.create(this).returnMode(ReturnMode.ALL).folderMode(true)
                 .toolbarFolderTitle("Folder").toolbarImageTitle("Tap to select")
-                .toolbarArrowColor(Color.BLUE).single().limit(1)
+                .toolbarArrowColor(Color.WHITE).single().limit(1)
                 .showCamera(true).imageDirectory("Camera").enableLog(true)
                 .start();
     }

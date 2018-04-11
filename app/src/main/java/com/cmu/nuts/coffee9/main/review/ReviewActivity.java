@@ -64,7 +64,7 @@ public class ReviewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ImagePicker.create(ReviewActivity.this).folderMode(true)
                         .toolbarFolderTitle("Folder").toolbarImageTitle("Tap to select")
-                        .toolbarArrowColor(Color.BLUE).multi().limit(10)
+                        .toolbarArrowColor(Color.WHITE).multi().limit(10)
                         .showCamera(true).imageDirectory("Camera").enableLog(true)
                         .start();
             }
