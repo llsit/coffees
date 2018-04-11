@@ -87,10 +87,9 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 //                    Comment com = dataSnapshot.getValue(Comment.class);
-                int counts = Math.toIntExact(dataSnapshot.getChildrenCount());
-                    holder.tv_count.setText(counts);
-                    Toast.makeText(context, dataSnapshot.getKey() + ":" + dataSnapshot.getChildrenCount(), Toast.LENGTH_LONG).show();
-
+                long counts = dataSnapshot.getChildrenCount();
+                holder.tv_count.setText(String.valueOf(counts));
+                Toast.makeText(context, dataSnapshot.getKey() + ":" + dataSnapshot.getChildrenCount(), Toast.LENGTH_LONG).show();
             }
 
             @Override
