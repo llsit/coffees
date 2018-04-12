@@ -96,7 +96,12 @@
                 android:text="Free android tutorials and examples for beginners and expert."
                 android:textColor="#8b8b8b" />
 
-
+            <ImageView
+                android:id="@+id/display_image_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/display_review_description"
+                android:layout_marginTop="@dimen/range_12" />
         </RelativeLayout>
 
         <TextView

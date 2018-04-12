@@ -24,6 +24,7 @@ import com.cmu.nuts.coffee9.main.adapter.CommentRecyclerAdapter;
 import com.cmu.nuts.coffee9.model.Comment;
 import com.cmu.nuts.coffee9.model.Member;
 import com.cmu.nuts.coffee9.model.Review;
+import com.cmu.nuts.coffee9.model.Review_Image;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,6 +49,7 @@ public class review_display_activity extends AppCompatActivity {
     private TextView description;
     private RatingBar star;
     private ImageView review_image;
+    private ImageView image_review;
     //comment
     private EditText add_comment;
     private ImageButton send;
@@ -74,6 +76,7 @@ public class review_display_activity extends AppCompatActivity {
         description = findViewById(R.id.display_review_description);
         star = findViewById(R.id.display_review_ratingBar);
         review_image = findViewById(R.id.display_review_image);
+        image_review = findViewById(R.id.display_image_review);
         getDataReview();
         comment();
         displayComment();
@@ -174,6 +177,7 @@ public class review_display_activity extends AppCompatActivity {
     private void getDataReview() {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Review.tag).child(review_ID).child(shop_ID);
         final DatabaseReference uDatabase = FirebaseDatabase.getInstance().getReference(Member.tag);
+        final DatabaseReference imgDatabase = FirebaseDatabase.getInstance().getReference(Review_Image.tag);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -182,6 +186,25 @@ public class review_display_activity extends AppCompatActivity {
                     datetime.setText(review.getDatetime());
                     description.setText(review.getDetail());
                     star.setRating(Float.parseFloat(review.getStar()));
+                    imgDatabase.child(review.getRid()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot item : dataSnapshot.getChildren()){
+                                Review_Image ri = item.getValue(Review_Image.class);
+                                assert ri != null;
+                                Picasso.get()
+                                        .load(ri.getImage_url())
+                                        .resize(200,200)
+                                        .centerInside()
+                                        .into(image_review);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w("Review Image", "Failed to get database", databaseError.toException());
+                        }
+                    });
                     uDatabase.child(review.getUid()).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
