@@ -2,6 +2,7 @@ package com.cmu.nuts.coffee9.main.review;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,12 +17,14 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.model.Review;
+import com.cmu.nuts.coffee9.utillity.ImageReview;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
@@ -35,10 +38,11 @@ public class ReviewActivity extends AppCompatActivity {
     private ImageView back, imageView;
     private TextView descript;
     private FirebaseAuth firebaseAuth;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private ImageButton add_a_photo;
 
-    String rid, uid, sid, detail, img_url, datetime, star;
+    private String uid, sid, detail, img_url, datetime, star;
+    private String rid = mDatabase.push().getKey();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +52,6 @@ public class ReviewActivity extends AppCompatActivity {
 
         Toolbar myToolbar = findViewById(R.id.toolbar_review);
         setSupportActionBar(myToolbar);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         Intent intent = getIntent();
         sid = intent.getStringExtra("shopID");
@@ -77,6 +79,11 @@ public class ReviewActivity extends AppCompatActivity {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             // Get a list of picked images
             List<Image> images = ImagePicker.getImages(data);
+//            Image imageFile = ImagePicker.getFirstImageOrNull(data);
+//            if (imageFile.getPath() != null) {
+//                ImageReview imageManager = new ImageReview(ReviewActivity.class,rid);
+//                imageManager.uploadImage(rid,Uri.fromFile(new File(imageFile.getPath())));
+//            }
             upload_photo(images);
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -88,8 +95,12 @@ public class ReviewActivity extends AppCompatActivity {
         if (images == null) return;
 
         StringBuilder stringBuffer = new StringBuilder();
+        ImageReview imageManager = new ImageReview(ReviewActivity.class, rid);
         for (int i = 0, l = images.size(); i < l; i++) {
             stringBuffer.append(images.get(i).getPath());
+
+            imageManager.uploadImage(rid, Uri.fromFile(new File(images.get(i).getPath())));
+
         }
         text_view.setText(stringBuffer.toString());
 //        Picasso.get()
@@ -161,7 +172,6 @@ public class ReviewActivity extends AppCompatActivity {
             datetime = DateFormat.getDateTimeInstance().format(new Date());
             uid = FirebaseAuth.getInstance().getUid();
             detail = descript.getText().toString();
-            rid = mDatabase.push().getKey();
             img_url = "null";
             Review review = new Review(rid, uid, sid, detail, img_url, datetime, star);
             mDatabase.child(Review.tag).child(sid).child(rid).setValue(review);

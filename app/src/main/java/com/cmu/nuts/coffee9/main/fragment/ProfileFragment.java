@@ -48,9 +48,9 @@ public class ProfileFragment extends Fragment {
 
     private Button profile_btn_logout;
 
-    @BindView(R.id.display_name)
-    TextView display_email;
     @BindView(R.id.display_email)
+    TextView display_email;
+    @BindView(R.id.display_name)
     TextView display_name;
     @BindView(R.id.display_uid)
     TextView display_uid;
@@ -60,7 +60,7 @@ public class ProfileFragment extends Fragment {
     Button btn_settings;
     @BindView(R.id.progressBar_profile)
     ProgressBar progressBar;
-    @BindView(R.id.img_profile) CircleImageView img_profile;
+    @BindView(R.id.img_profile2) CircleImageView img_profile;
 
 
     @SuppressLint("SetTextI18n")
@@ -111,8 +111,8 @@ public class ProfileFragment extends Fragment {
                 TimeManager timeManager = new TimeManager();
                 Member member = dataSnapshot.getValue(Member.class);
                 assert member != null;
-                display_email.setText(activity.getString(R.string.txt_email_prompt).concat(member.getEmail()));
-                display_name.setText(activity.getString(R.string.txt_name_prompt).concat(member.getName()));
+                display_email.setText(member.getEmail());
+                display_name.setText(member.getName());
                 display_reg.setText(activity.getString(R.string.txt_reg_prompt).concat(timeManager.epochConverter(Long.valueOf(member.getRegDate()))));
                 display_uid.setText(activity.getString(R.string.txt_uid_prompt).concat(member.getUid()));
 //                img_profile.get()

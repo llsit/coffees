@@ -102,10 +102,8 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
                 //open new Activity that show Review content
                 Toast.makeText(context, position + " name : " + review.getSid(), Toast.LENGTH_LONG).show();
                 Intent i = new Intent(v.getContext(), review_display_activity.class);
-                String reviewID;
-                String shopID;
-                reviewID = review.getRid();
-                shopID = review.getSid();
+                String reviewID = review.getRid();
+                String shopID = review.getSid();
                 i.putExtra("reviewID", reviewID);
                 i.putExtra("shopID",shopID);
                 v.getContext().startActivity(i);

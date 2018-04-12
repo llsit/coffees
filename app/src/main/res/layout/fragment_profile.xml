@@ -11,121 +11,13 @@
         android:orientation="vertical"
         android:paddingTop="5dp">
 
-        <RelativeLayout
-            android:id="@+id/relativeLayout2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@color/colorWhite"
-            android:padding="10dp"
-            android:paddingBottom="15dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:visibility="gone"
-            tools:ignore="NotSibling,RtlHardcoded,UselessParent">
-
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/img_profile"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:paddingTop="20dp"
-                android:src="@drawable/ic_user"
-                android:textAlignment="center"
-                app:civ_border_color="#FF000000"
-                app:civ_border_width="2dp" />
-
-            <TextView
-                android:id="@+id/display_name"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_below="@+id/img_profile"
-                android:layout_marginTop="25dp"
-                android:paddingLeft="16dp"
-                android:text="@string/txt_name_prompt"
-                android:textSize="20sp"
-                android:visibility="gone"
-                tools:ignore="RtlSymmetry" />
-
-            <TextView
-                android:id="@+id/display_email"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_below="@+id/display_name"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="16dp"
-                android:text="@string/txt_email_prompt"
-                android:textSize="20sp"
-                android:visibility="gone"
-                tools:ignore="RtlSymmetry" />
-
-
-            <TextView
-                android:id="@+id/display_birth_date"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_below="@+id/display_email"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="16dp"
-                android:text="@string/txt_birth_date_prompt"
-                android:textSize="20sp"
-                android:visibility="gone"
-                tools:ignore="RtlSymmetry" />
-
-            <TextView
-                android:id="@+id/display_reg_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/display_birth_date"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="16dp"
-                android:text="@string/txt_reg_prompt"
-                android:textSize="15sp"
-                android:visibility="gone"
-                tools:ignore="RtlSymmetry" />
-
-            <TextView
-                android:id="@+id/display_uid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/display_reg_date"
-                android:paddingLeft="16dp"
-                android:text="@string/txt_uid_prompt"
-                android:textSize="15sp"
-                android:visibility="gone"
-                tools:ignore="RtlSymmetry" />
-
-            <Button
-                android:id="@+id/btn_done"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@+id/display_uid"
-                android:layout_marginEnd="80dp"
-                android:layout_marginStart="80dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/custom_border_round"
-                android:text="@string/btn_message_preferences"
-                android:textColor="@color/color_pastel_blue"
-                android:visibility="gone" />
-
-            <ProgressBar
-                android:id="@+id/progressBar_profile"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@+id/display_uid"
-                android:layout_marginEnd="50dp"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="20dp"
-                android:padding="5dp"
-                android:visibility="visible" />
-        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/profile_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/header_cover_image"
-            android:background="#ebca0707"
+            android:background="@color/color_orange"
             android:elevation="4dp"
             android:paddingBottom="24dp">
 
@@ -140,7 +32,7 @@
                 app:civ_border_width="2dp" />
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/display_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/img_profile2"
@@ -156,6 +48,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/colorGray"
             android:padding="@dimen/range_15">
 
             <RelativeLayout
@@ -168,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/range_12"
-                    android:background="@color/colorGray"
+                    android:background="@color/color_white"
                     android:clickable="true"
                     android:padding="@dimen/range_12">
 
@@ -182,9 +75,10 @@
                         android:src="@drawable/ic_email" />
 
                     <TextView
-                        android:id="@+id/tvNumber1"
+                        android:id="@+id/display_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/range_12"
                         android:layout_marginStart="@dimen/range_12"
                         android:layout_toEndOf="@id/ivContactItem1"
@@ -200,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/top"
-                    android:background="@color/colorGray"
+                    android:background="@color/color_white"
                     android:clickable="true"
                     android:padding="@dimen/range_12">
 
@@ -214,14 +108,15 @@
                         android:src="@drawable/ic_date" />
 
                     <TextView
-                        android:id="@+id/tvNumber12"
+                        android:id="@+id/display_birth_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/range_12"
                         android:layout_marginStart="@dimen/range_12"
                         android:layout_toEndOf="@id/ivContactItem12"
                         android:layout_toRightOf="@id/ivContactItem12"
-                        android:text="(123) 456-7890"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="#212121" />
 
@@ -230,6 +125,16 @@
             </RelativeLayout>
         </RelativeLayout>
 
+        <ProgressBar
+            android:id="@+id/progressBar_profile"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/display_uid"
+            android:layout_marginEnd="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            android:padding="5dp"
+            android:visibility="visible" />
 
         <Button
             android:id="@+id/profile_btn_logout"
@@ -246,5 +151,30 @@
             android:textColor="@color/colorRed"
             android:visibility="gone"
             tools:ignore="RtlSymmetry" />
+
+        <TextView
+            android:id="@+id/display_uid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/display_reg_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_done"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/display_uid"
+            android:layout_marginEnd="80dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/custom_border_round"
+            android:text="@string/btn_message_preferences"
+            android:textColor="@color/color_pastel_blue"
+            android:visibility="gone" />
     </android.support.v7.widget.LinearLayoutCompat>
 </ScrollView>

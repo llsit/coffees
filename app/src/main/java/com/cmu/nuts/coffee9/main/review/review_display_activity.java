@@ -83,17 +83,17 @@ public class review_display_activity extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.comment_swipe_refresh_layout);
         RecyclerView = findViewById(R.id.comment_recycler_view);
         data_shop_message = findViewById(R.id.comment);
-        getReviewDatabase();
+        getCommentDatabase();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getReviewDatabase();
+                getCommentDatabase();
             }
         });
     }
 
-    private void getReviewDatabase() {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Comment.tag).child(review_ID);
+    private void getCommentDatabase() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Comment.tag).child(shop_ID);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -150,7 +150,7 @@ public class review_display_activity extends AppCompatActivity {
                     String uid = FirebaseAuth.getInstance().getUid();
                     String detail = add_comment.getText().toString();
                     String cid = mDatabase.push().getKey();
-                    String rid = review_ID;
+                    String rid = shop_ID;
 
                     Comment comment = new Comment(cid, uid, rid, detail, datetime);
                     mDatabase.child(Comment.tag).child(rid).child(cid).setValue(comment);
