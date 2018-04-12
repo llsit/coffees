@@ -36,8 +36,8 @@ public class ImageReview {
 //        final ProgressDialog progress = ProgressDialog.show(context, "Upload Task",
 //                "Starting upload", true);
 //        progress.show();
-        String img_id = mDatabase.push().getKey();
-        StorageReference riversRef = storageRef.child(rid).child(img_id).child(FirebaseKey.img_profile_key);
+        final String img_id = mDatabase.push().getKey();
+        StorageReference riversRef = storageRef.child(rid).child(FirebaseKey.img_profile_key);
         Log.d("Upload", "Uploading" + rid + " name " + path.getPath());
         // Register observers to listen for when the download is done or if it fails
         UploadTask uploadTask = riversRef.putFile(path);
@@ -60,7 +60,7 @@ public class ImageReview {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 //                    progress.dismiss();
-                    databaseRef.child("img_url").setValue(taskSnapshot.getDownloadUrl().toString());
+                    databaseRef.child(img_id).child("img_url").setValue(taskSnapshot.getDownloadUrl().toString());
                 }
             });
         } catch (Exception e){
