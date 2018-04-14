@@ -181,7 +181,7 @@ public class review_display_activity extends AppCompatActivity {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Review review = dataSnapshot.getValue(Review.class);
+                final Review review = dataSnapshot.getValue(Review.class);
                 if (review != null) {
                     datetime.setText(review.getDatetime());
                     description.setText(review.getDetail());
@@ -191,12 +191,16 @@ public class review_display_activity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot item : dataSnapshot.getChildren()){
                                 Review_Image ri = item.getValue(Review_Image.class);
-                                assert ri != null;
-                                Picasso.get()
-                                        .load(ri.getImage_url())
-                                        .resize(200,200)
-                                        .centerInside()
-                                        .into(image_review);
+                                if(ri != null){
+                                    Picasso.get()
+                                            .load(ri.getImage_url())
+                                            .resize(2000,2000)
+                                            .centerInside()
+                                            .into(image_review);
+                                    Toast.makeText(review_display_activity.this, ri.getImgid(), Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(review_display_activity.this, "NuLL NULL", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
 

@@ -21,10 +21,10 @@ import com.google.firebase.storage.UploadTask;
 public class ImageReview {
     private Class<ReviewActivity> activity;
     private StorageReference storageRef;
-    private DatabaseReference databaseRef,mDatabase;
+    private DatabaseReference databaseRef, mDatabase;
     private Context context;
 
-    public ImageReview(Class<ReviewActivity> activity, String rid){
+    public ImageReview(Class<ReviewActivity> activity, String rid) {
         this.activity = activity;
         storageRef = FirebaseStorage.getInstance().getReference();
         databaseRef = FirebaseDatabase.getInstance().getReference()
@@ -32,12 +32,12 @@ public class ImageReview {
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void uploadImage(String rid,Uri path){
+    public void uploadImage(String rid, Uri path) {
 //        final ProgressDialog progress = ProgressDialog.show(context, "Upload Task",
 //                "Starting upload", true);
 //        progress.show();
-        final String img_id = mDatabase.push().getKey();
-        StorageReference riversRef = storageRef.child(rid).child(FirebaseKey.img_profile_key);
+        final String image_id = mDatabase.push().getKey();
+        StorageReference riversRef = storageRef.child(FirebaseKey.img_shop_key);
         Log.d("Upload", "Uploading" + rid + " name " + path.getPath());
         // Register observers to listen for when the download is done or if it fails
         UploadTask uploadTask = riversRef.putFile(path);
@@ -53,17 +53,17 @@ public class ImageReview {
                 public void onFailure(@NonNull Exception exception) {
                     // Handle unsuccessful uploads
 //                    progress.dismiss();
-                    Log.e("onFailure",exception.getMessage());
-                    Toast.makeText(context,"Upload fail, cause by " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("onFailure", exception.getMessage());
+                    Toast.makeText(context, "Upload fail, cause by " + exception.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 //                    progress.dismiss();
-                    databaseRef.child(img_id).child("img_url").setValue(taskSnapshot.getDownloadUrl().toString());
+                    databaseRef.child(image_id).child("image_url").setValue(taskSnapshot.getDownloadUrl().toString());
                 }
             });
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
