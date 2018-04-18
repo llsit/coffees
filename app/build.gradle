@@ -68,6 +68,7 @@ def library = dependence {
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'me.zhanghai.android.materialratingbar:library:1.2.0'
     implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.4'
+    compile 'com.github.kobakei:MaterialFabSpeedDial:1.2.0'
     implementation('io.nlopez.smartlocation:library:3.3.3') {
         transitive = false
     }
@@ -89,6 +90,7 @@ def test = dependence {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     android()
     google()

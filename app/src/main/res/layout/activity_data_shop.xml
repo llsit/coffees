@@ -77,50 +77,12 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/fab_menu"
-        android:layout_width="82dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="end|bottom"
-        android:paddingBottom="16dp"
-        android:paddingEnd="16dp"
-        android:visibility="visible"
-        fab:fab_colorNormal="@color/color_blue"
-        fab:fab_colorPressed="#E75043"
-        fab:fab_colorRipple="#99FFFFFF"
-        fab:fab_shadowColor="#66000000"
-        fab:fab_showShadow="true"
-        fab:layout_editor_absoluteX="330dp"
-        fab:menu_backgroundColor="#ccffffff"
-        fab:menu_fab_label="Choose an action"
-        fab:menu_labels_colorNormal="#66000000"
-        fab:menu_labels_colorPressed="#66000000"
-        fab:menu_labels_colorRipple="#66000000"
-        fab:menu_labels_ellipsize="end"
-        fab:menu_labels_maxLines="-1"
-        fab:menu_labels_position="left"
-        fab:menu_labels_showShadow="true"
-        fab:menu_labels_singleLine="true"
-        fab:menu_openDirection="up">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/data_shop_add_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_add"
-            fab:fab_label="Add image"
-            fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/data_shop_review"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_edit"
-            fab:fab_label="Review"
-            fab:fab_size="mini" />
-
-    </com.github.clans.fab.FloatingActionMenu>
-
+    <io.github.kobakei.materialfabspeeddial.FabSpeedDial
+        android:id="@+id/fab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:fab_miniFabBackgroundColor="@color/color_orange"
+        app:fab_miniFabTextColor="@color/color_black"
+        app:fab_miniFabTextBackground="@color/colorGray"
+        android:visibility="visible"/>
 </android.support.design.widget.CoordinatorLayout>

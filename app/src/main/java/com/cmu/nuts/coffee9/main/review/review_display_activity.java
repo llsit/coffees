@@ -50,6 +50,7 @@ public class review_display_activity extends AppCompatActivity {
     private RatingBar star;
     private ImageView review_image;
     private ImageView image_review;
+    private ImageView review_display_back;
     //comment
     private EditText add_comment;
     private ImageButton send;
@@ -77,6 +78,13 @@ public class review_display_activity extends AppCompatActivity {
         star = findViewById(R.id.display_review_ratingBar);
         review_image = findViewById(R.id.display_review_image);
         image_review = findViewById(R.id.display_image_review);
+        review_display_back =findViewById(R.id.review_display_back);
+        review_display_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         getDataReview();
         comment();
         displayComment();
@@ -194,7 +202,7 @@ public class review_display_activity extends AppCompatActivity {
                                 if(ri != null){
                                     Picasso.get()
                                             .load(ri.getImage_url())
-                                            .resize(2000,2000)
+                                            .resize(200,200)
                                             .centerInside()
                                             .into(image_review);
                                     Toast.makeText(review_display_activity.this, ri.getImgid(), Toast.LENGTH_SHORT).show();

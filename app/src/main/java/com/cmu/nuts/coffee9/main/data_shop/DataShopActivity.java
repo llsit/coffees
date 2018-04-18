@@ -3,6 +3,7 @@ package com.cmu.nuts.coffee9.main.data_shop;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
@@ -24,6 +26,9 @@ import com.github.clans.fab.FloatingActionMenu;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import io.github.kobakei.materialfabspeeddial.FabSpeedDial;
+import io.github.kobakei.materialfabspeeddial.FabSpeedDialMenu;
 
 
 public class DataShopActivity extends AppCompatActivity {
@@ -74,46 +79,33 @@ public class DataShopActivity extends AppCompatActivity {
         Intent intent = getIntent();
         shop_ID = intent.getStringExtra("shopID");
 
-        fabAdd = findViewById(R.id.data_shop_add_image);
-        fabReview = findViewById(R.id.data_shop_review);
 
-        fam = findViewById(R.id.fab_menu);
-
-        //handling menu status (open or close)
-        //handling each floating action button clicked
-        fabReview.setOnClickListener(onButtonClick());
-        fabAdd.setOnClickListener(onButtonClick());
-        fam.setOnClickListener(new View.OnClickListener() {
+        final FabSpeedDial fab = findViewById(R.id.fab);
+        FabSpeedDialMenu menu = new FabSpeedDialMenu(this);
+        menu.add("Share Image").setIcon(R.drawable.ic_add_a_photo);
+        menu.add("Review").setIcon(R.drawable.ic_edit_pen);
+        fab.setMenu(menu);
+        fab.addOnMenuItemClickListener(new FabSpeedDial.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
-                if (fam.isOpened()) { fam.close(true); }
-            }
-        });
-    }
-
-    private View.OnClickListener onButtonClick() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (view == fabAdd) {
-//                    showToast("Button Add clicked");
-//                    Intent intent = new Intent(DataShopActivity.this, review_display_activity.class);
-//                    startActivity(intent);
+            public void onMenuItemClick(android.support.design.widget.FloatingActionButton fab, @Nullable TextView label, int itemId) {
+                if (itemId == 1) {
                     ImagePicker.create(DataShopActivity.this).folderMode(true)
                             .toolbarFolderTitle("Folder").toolbarImageTitle("Tap to select")
                             .toolbarArrowColor(Color.WHITE).multi().limit(10)
                             .showCamera(true).imageDirectory("Camera").enableLog(true)
                             .start();
-
-                } else if (view == fabReview) {
+                } else if (itemId == 2) {
                     Intent intent = new Intent(DataShopActivity.this, ReviewActivity.class);
                     intent.putExtra("shopID", shop_ID);
                     startActivity(intent);
                 }
-                fam.close(true);
+//                Toast.makeText(DataShopActivity.this, "Click: " + itemId, Toast.LENGTH_SHORT).show();
             }
-        };
+
+        });
     }
+
+
 
     private void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();

@@ -88,6 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignTop="@+id/item_review_datetime"
+                android:layout_marginLeft="5dp"
                 android:text="12" />
 
 

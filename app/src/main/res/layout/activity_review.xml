@@ -92,7 +92,7 @@
             android:id="@+id/text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello, world!" />
+            android:text="" />
 
 
         <ImageView
