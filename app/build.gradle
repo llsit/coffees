@@ -22,8 +22,6 @@ android {
 
 allprojects {
     repositories {
-        google()
-        jcenter()
         maven { url "https://jitpack.io" }
     }
 }
@@ -67,10 +65,10 @@ def library = dependence {
     implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'org.parceler:parceler-api:1.1.9'
     implementation 'com.akexorcist:localizationactivity:1.2.2'
+    implementation 'com.github.clans:fab:1.6.4'
     implementation 'me.zhanghai.android.materialratingbar:library:1.2.0'
     implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.4'
-    implementation 'com.github.kobakei:MaterialFabSpeedDial:1.2.0'
-    implementation 'com.github.drawers:SpinnerDatePicker:1.0.6'
+    compile 'com.github.kobakei:MaterialFabSpeedDial:1.2.0'
     implementation('io.nlopez.smartlocation:library:3.3.3') {
         transitive = false
     }
@@ -92,8 +90,6 @@ def test = dependence {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     android()
     google()
     firebase()
