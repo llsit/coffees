@@ -82,16 +82,7 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION},
                             REQUEST_CODE_ASK_PERMISSIONS);
-                    return;
                 }
-
-                googleMap.setMyLocationEnabled(true);
-                // For dropping a marker at a point on the Map
-                LatLng cmu = new LatLng(18.8037401, 98.9525114);
-                googleMap.addMarker(new MarkerOptions().position(cmu).title("CMU").snippet("Computer Science"));
-                // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(17).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
         return view;
