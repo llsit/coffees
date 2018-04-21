@@ -34,15 +34,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.tsongkha.spinnerdatepicker.DatePicker;
+import com.tsongkha.spinnerdatepicker.DatePickerDialog;
+import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileWithEditFragment extends Fragment {
+public class ProfileWithEditFragment extends Fragment implements DatePickerDialog.OnDateSetListener  {
 
 
     public ProfileWithEditFragment() {
@@ -67,6 +74,10 @@ public class ProfileWithEditFragment extends Fragment {
     Button btn_settings;
     @BindView(R.id.progressBar_profile)
     ProgressBar progressBar;
+
+    TextView dateTextView;
+    Button dateButton;
+    SimpleDateFormat simpleDateFormat;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -106,7 +117,31 @@ public class ProfileWithEditFragment extends Fragment {
             }
         });
 
+        dateButton = view.findViewById(R.id.set_date_button);
+        dateTextView = view.findViewById(R.id.display_birth_date);
+        simpleDateFormat = new SimpleDateFormat("dd MM yyyy", Locale.US);
+        dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDate(1980, 0, 1, R.style.DatePickerSpinner);
+            }
+        });
+
         return view;
+    }
+
+//    @VisibleForTesting
+    void showDate(int year, int monthOfYear, int dayOfMonth, int spinnerTheme) {
+        Toast.makeText(activity, "year = " + year + "month = " + monthOfYear + " day = " + dayOfMonth + " spinner = " + spinnerTheme, Toast.LENGTH_SHORT).show();
+        new SpinnerDatePickerDialogBuilder()
+                .context(getActivity())
+//                .callback(getActivity())
+                .spinnerTheme(spinnerTheme)
+                .defaultDate(year, monthOfYear, dayOfMonth)
+                .minDate(1940,0,1)
+                .maxDate(2018,0,1)
+                .build()
+                .show();
     }
 
     @OnClick(R.id.img_profile)
@@ -162,5 +197,11 @@ public class ProfileWithEditFragment extends Fragment {
         databaseReference.child("name").setValue(name);
         databaseReference.child("email").setValue(email);
         Toast.makeText(activity, "Update Successfully!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        Calendar calendar = new GregorianCalendar(year, monthOfYear, dayOfMonth);
+        dateTextView.setText(simpleDateFormat.format(calendar.getTime()));
     }
 }

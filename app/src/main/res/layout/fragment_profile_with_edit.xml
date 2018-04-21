@@ -63,8 +63,7 @@
                 android:visibility="invisible"
                 app:layout_anchorGravity="bottom|right|end" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/img_profile"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
@@ -122,6 +121,28 @@
                 android:text="@string/txt_birth_date_prompt"
                 android:textSize="20sp"
                 tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/date_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/set_date_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_below="@+id/display_birth_date"
+                tools:text="date goes here" />
+
+            <Button
+                android:id="@+id/set_date_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/date_textview"
+                android:text="Set date"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.codetroopers.betterpickers.datepicker.DatePicker
                 android:id="@+id/dpk_birth_date"
