@@ -1,6 +1,7 @@
 package com.cmu.nuts.coffee9.preferences.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +51,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileWithEditFragment extends Fragment implements DatePickerDialog.OnDateSetListener  {
+public class ProfileWithEditFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
 
     public ProfileWithEditFragment() {
@@ -75,9 +77,10 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
     @BindView(R.id.progressBar_profile)
     ProgressBar progressBar;
 
-    TextView dateTextView;
-    Button dateButton;
-    SimpleDateFormat simpleDateFormat;
+    private TextView dateTextView;
+    private SimpleDateFormat simpleDateFormat;
+    private ImageView date;
+    private String birthdate;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -90,16 +93,24 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
         currentUser = auth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference()
                 .child(Member.tag).child(currentUser.getUid());
+
+        dateTextView = view.findViewById(R.id.display_birth_date);
+        date = view.findViewById(R.id.calendar);
+        simpleDateFormat = new SimpleDateFormat("dd - MM - yyyy", Locale.US);
+
         databaseReference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 TimeManager timeManager = new TimeManager();
-                Member member = dataSnapshot.getValue(Member.class);
+                final Member member = dataSnapshot.getValue(Member.class);
                 assert member != null;
                 display_email.setText(member.getEmail());
                 display_name.setText((member.getName()));
                 display_reg.setText(activity.getString(R.string.txt_reg_prompt).concat(timeManager.epochConverter(Long.valueOf(member.getRegDate()))));
                 display_uid.setText(activity.getString(R.string.txt_uid_prompt).concat(member.getUid()));
+                dateTextView.setText("Birth date : " + member.getBirthDate());
+                birthdate = member.getBirthDate();
                 if (member.getPhotoUrl() != null) {
                     Picasso.get()
                             .load(member.getPhotoUrl())
@@ -109,6 +120,13 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
                 }
                 btn_settings.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
+
+                date.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showDate(Integer.parseInt(member.getBirthDate().substring(10, 14)), Integer.parseInt(member.getBirthDate().substring(5, 7)), Integer.parseInt(member.getBirthDate().substring(0, 2)), R.style.DatePickerSpinner);
+                    }
+                });
             }
 
             @Override
@@ -117,29 +135,21 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
             }
         });
 
-        dateButton = view.findViewById(R.id.set_date_button);
-        dateTextView = view.findViewById(R.id.display_birth_date);
-        simpleDateFormat = new SimpleDateFormat("dd MM yyyy", Locale.US);
-        dateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDate(1980, 0, 1, R.style.DatePickerSpinner);
-            }
-        });
 
         return view;
     }
 
-//    @VisibleForTesting
+
+    //    @VisibleForTesting
     void showDate(int year, int monthOfYear, int dayOfMonth, int spinnerTheme) {
-        Toast.makeText(activity, "year = " + year + "month = " + monthOfYear + " day = " + dayOfMonth + " spinner = " + spinnerTheme, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(activity, "year = " + year + "month = " + monthOfYear + " day = " + dayOfMonth + " spinner = " + spinnerTheme, Toast.LENGTH_SHORT).show();
         new SpinnerDatePickerDialogBuilder()
                 .context(getActivity())
-//                .callback(getActivity())
+                .callback(ProfileWithEditFragment.this)
                 .spinnerTheme(spinnerTheme)
                 .defaultDate(year, monthOfYear, dayOfMonth)
-                .minDate(1940,0,1)
-                .maxDate(2018,0,1)
+                .minDate(1940, 0, 1)
+                .maxDate(2018, 0, 1)
                 .build()
                 .show();
     }
@@ -196,12 +206,22 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
                 .child(Member.tag).child(personId);
         databaseReference.child("name").setValue(name);
         databaseReference.child("email").setValue(email);
+        databaseReference.child("birthDate").setValue(birthdate);
         Toast.makeText(activity, "Update Successfully!", Toast.LENGTH_SHORT).show();
+        PreferencesFragment preferencesFragment = new PreferencesFragment();
+        FragmentManager manager = getFragmentManager();
+        assert manager != null;
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.pref_container, preferencesFragment);
+        transaction.commit();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         Calendar calendar = new GregorianCalendar(year, monthOfYear, dayOfMonth);
-        dateTextView.setText(simpleDateFormat.format(calendar.getTime()));
+        dateTextView.setText("Birth date : " + simpleDateFormat.format(calendar.getTime()));
+        birthdate = simpleDateFormat.format(calendar.getTime());
+//        databaseReference.child("birthDate").setValue(simpleDateFormat.format(calendar.getTime()));
     }
 }

@@ -56,6 +56,8 @@ public class ProfileFragment extends Fragment {
     TextView display_uid;
     @BindView(R.id.display_reg_date)
     TextView display_reg;
+    @BindView(R.id.display_birth_date)
+    TextView display_birth_date;
     @BindView(R.id.btn_done)
     Button btn_settings;
     @BindView(R.id.progressBar_profile)
@@ -115,6 +117,7 @@ public class ProfileFragment extends Fragment {
                 display_name.setText(member.getName());
                 display_reg.setText(activity.getString(R.string.txt_reg_prompt).concat(timeManager.epochConverter(Long.valueOf(member.getRegDate()))));
                 display_uid.setText(activity.getString(R.string.txt_uid_prompt).concat(member.getUid()));
+                display_birth_date.setText(member.getBirthDate());
 //                img_profile.get()
                 Picasso.get()
                         .load(member.getPhotoUrl())
