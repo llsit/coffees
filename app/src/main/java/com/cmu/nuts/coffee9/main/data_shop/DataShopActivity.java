@@ -1,7 +1,6 @@
 package com.cmu.nuts.coffee9.main.data_shop;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -18,8 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.ShareImageActivity;
 import com.cmu.nuts.coffee9.main.review.ReviewActivity;
-import com.esafirm.imagepicker.features.ImagePicker;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -89,11 +88,14 @@ public class DataShopActivity extends AppCompatActivity {
             @Override
             public void onMenuItemClick(android.support.design.widget.FloatingActionButton fab, @Nullable TextView label, int itemId) {
                 if (itemId == 1) {
-                    ImagePicker.create(DataShopActivity.this).folderMode(true)
-                            .toolbarFolderTitle("Folder").toolbarImageTitle("Tap to select")
-                            .toolbarArrowColor(Color.WHITE).multi().limit(10)
-                            .showCamera(true).imageDirectory("Camera").enableLog(true)
-                            .start();
+//                    ImagePicker.create(DataShopActivity.this).folderMode(true)
+//                            .toolbarFolderTitle("Folder").toolbarImageTitle("Tap to select")
+//                            .toolbarArrowColor(Color.WHITE).multi().limit(10)
+//                            .showCamera(true).imageDirectory("Camera").enableLog(true)
+//                            .start();
+                    Intent intent = new Intent(DataShopActivity.this, ShareImageActivity.class);
+                    intent.putExtra("shopID", shop_ID);
+                    startActivity(intent);
                 } else if (itemId == 2) {
                     Intent intent = new Intent(DataShopActivity.this, ReviewActivity.class);
                     intent.putExtra("shopID", shop_ID);
@@ -104,8 +106,6 @@ public class DataShopActivity extends AppCompatActivity {
 
         });
     }
-
-
 
     private void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
