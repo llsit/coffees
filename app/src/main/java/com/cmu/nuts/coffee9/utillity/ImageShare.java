@@ -4,8 +4,8 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.cmu.nuts.coffee9.main.ShareImageActivity;
-import com.cmu.nuts.coffee9.model.Member;
+import com.cmu.nuts.coffee9.main.data_shop.DataShopActivity;
+import com.cmu.nuts.coffee9.model.Share;
 import com.cmu.nuts.coffee9.utillity.sharedstring.FirebaseKey;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -19,26 +19,30 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 public class ImageShare {
-    private Class<ShareImageActivity> activity;
+    private Class<DataShopActivity> activity;
     private FirebaseUser firebaseUser;
 
     private StorageReference storageRef;
-    private DatabaseReference databaseRef;
-    public ImageShare(Class<ShareImageActivity> activity){
+    private DatabaseReference databaseRef,mDatabase;
+
+    public ImageShare(Class<DataShopActivity> activity, String shop_id) {
         this.activity = activity;
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         storageRef = FirebaseStorage.getInstance().getReference();
 
         databaseRef = FirebaseDatabase.getInstance().getReference()
-                .child(Member.tag).child(firebaseUser.getUid());
+                .child(Share.tag).child(shop_id);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void uploadImage(Uri path){
+    public void uploadImage(String shop_ID, Uri path){
 //        final ProgressDialog progress = ProgressDialog.show(activity, "Upload Task",
 //                "Starting upload", true);
 //        progress.show();
-        StorageReference riversRef = storageRef.child(FirebaseKey.img_profile_key).child(firebaseUser.getUid());
-        Log.d("Upload", "Uploading" + firebaseUser.getDisplayName() + " name " + path.getPath());
+        final String image_id = mDatabase.push().getKey();
+        StorageReference riversRef = storageRef.child(FirebaseKey.img_shared_key).child(image_id);
+        Log.d("Upload", "Uploading" + shop_ID + " name " + path.getPath());
         // Register observers to listen for when the download is done or if it fails
         UploadTask uploadTask = riversRef.putFile(path);
 
@@ -60,7 +64,8 @@ public class ImageShare {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 //                    progress.dismiss();
-                    databaseRef.child("img_url").setValue(taskSnapshot.getDownloadUrl().toString());
+                    databaseRef.child(image_id).child("img_url").setValue(taskSnapshot.getDownloadUrl().toString());
+                    databaseRef.child(image_id).child("image_id").setValue(image_id);
                 }
             });
         } catch (Exception e){

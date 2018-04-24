@@ -37,7 +37,7 @@ public class ImageReview {
 //                "Starting upload", true);
 //        progress.show();
         final String image_id = mDatabase.push().getKey();
-        StorageReference riversRef = storageRef.child(FirebaseKey.img_shop_key);
+        StorageReference riversRef = storageRef.child(FirebaseKey.img_shop_key).child(image_id);
         Log.d("Upload", "Uploading" + rid + " name " + path.getPath());
         // Register observers to listen for when the download is done or if it fails
         UploadTask uploadTask = riversRef.putFile(path);

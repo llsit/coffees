@@ -2,13 +2,14 @@ package com.cmu.nuts.coffee9.main;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.cmu.nuts.coffee9.R;
@@ -73,16 +74,20 @@ public class ShareImageActivity extends AppCompatActivity {
         StringBuilder stringBuffer = new StringBuilder();
 //        ImageShare imageManager = new ImageShare(ShareImageActivity.class);
         for (int i = 0, l = images.size(); i < l; i++) {
-            stringBuffer.append(images.get(i).getPath());
+//            stringBuffer.append(images.get(i).getPath());
 //            imageManager.uploadImage(Uri.fromFile(new File(images.get(i).getPath())));
 
-            Log.v(String.valueOf(ShareImageActivity.this), "index=" + stringBuffer);
-            File file = new File(String.valueOf(stringBuffer));
+//            Log.v(String.valueOf(ShareImageActivity.this), "index=" + stringBuffer);
+//            File file = new File(String.valueOf(stringBuffer));
+
+            Uri uri = Uri.fromFile(new File(images.get(i).getPath()));
+            stringBuffer.append(uri);
             Glide
                     .with(ShareImageActivity.this)
-                    .load(file)
+                    .load(uri)
                     .thumbnail(0.1f)
                     .into(display);
+            Toast.makeText(this, " " + uri, Toast.LENGTH_SHORT).show();
         }
         text.setText(stringBuffer.toString());
     }

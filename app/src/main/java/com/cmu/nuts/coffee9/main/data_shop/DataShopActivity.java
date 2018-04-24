@@ -1,6 +1,8 @@
 package com.cmu.nuts.coffee9.main.data_shop;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -17,11 +19,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
-import com.cmu.nuts.coffee9.main.ShareImageActivity;
 import com.cmu.nuts.coffee9.main.review.ReviewActivity;
+import com.cmu.nuts.coffee9.utillity.ImageShare;
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.model.Image;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -88,14 +93,14 @@ public class DataShopActivity extends AppCompatActivity {
             @Override
             public void onMenuItemClick(android.support.design.widget.FloatingActionButton fab, @Nullable TextView label, int itemId) {
                 if (itemId == 1) {
-//                    ImagePicker.create(DataShopActivity.this).folderMode(true)
-//                            .toolbarFolderTitle("Folder").toolbarImageTitle("Tap to select")
-//                            .toolbarArrowColor(Color.WHITE).multi().limit(10)
-//                            .showCamera(true).imageDirectory("Camera").enableLog(true)
-//                            .start();
-                    Intent intent = new Intent(DataShopActivity.this, ShareImageActivity.class);
-                    intent.putExtra("shopID", shop_ID);
-                    startActivity(intent);
+                    ImagePicker.create(DataShopActivity.this).folderMode(true)
+                            .toolbarFolderTitle("Folder").toolbarImageTitle("Tap to select")
+                            .toolbarArrowColor(Color.WHITE).multi().limit(10)
+                            .showCamera(true).imageDirectory("Camera").enableLog(true)
+                            .start();
+//                    Intent intent = new Intent(DataShopActivity.this, ShareImageActivity.class);
+//                    intent.putExtra("shopID", shop_ID);
+//                    startActivity(intent);
                 } else if (itemId == 2) {
                     Intent intent = new Intent(DataShopActivity.this, ReviewActivity.class);
                     intent.putExtra("shopID", shop_ID);
@@ -109,6 +114,33 @@ public class DataShopActivity extends AppCompatActivity {
 
     private void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
+
+        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            // Get a list of picked images
+            List<Image> images = ImagePicker.getImages(data);
+            upload_photo(images);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void upload_photo(List<Image> images) {
+
+//        TextView text_view = findViewById(R.id.text_view);
+        if (images == null) return;
+
+//        StringBuilder stringBuffer = new StringBuilder();
+        ImageShare imageManager = new ImageShare(DataShopActivity.class,shop_ID);
+        for (int i = 0, l = images.size(); i < l; i++) {
+//            stringBuffer.append(images.get(i).getPath());
+
+            imageManager.uploadImage(shop_ID, Uri.fromFile(new File(images.get(i).getPath())));
+
+        }
+//        text_view.setText(stringBuffer.toString());
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
