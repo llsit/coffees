@@ -188,6 +188,9 @@ public class DataShopActivity extends AppCompatActivity {
                     break;
                 case 2:
                     fragment = new ImageDataShopFragment();
+                    Bundle bundle3 = new Bundle();
+                    bundle3.putString("shop_ID", shop_ID);
+                    fragment.setArguments(bundle3);
                     break;
                 default:
                     fragment = null;
