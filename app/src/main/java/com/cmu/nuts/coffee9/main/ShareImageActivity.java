@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.cmu.nuts.coffee9.R;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.List;
@@ -82,12 +83,13 @@ public class ShareImageActivity extends AppCompatActivity {
 
             Uri uri = Uri.fromFile(new File(images.get(i).getPath()));
             stringBuffer.append(uri);
-            Glide
-                    .with(ShareImageActivity.this)
+            Picasso.get()
                     .load(uri)
-                    .thumbnail(0.1f)
+                    .placeholder(R.drawable.img_preview)
+                    .fit().centerCrop()
+                    .error(R.drawable.img_preview)
                     .into(display);
-            Toast.makeText(this, " " + uri, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, " Loading " + uri.getUserInfo(), Toast.LENGTH_SHORT).show();
         }
         text.setText(stringBuffer.toString());
     }

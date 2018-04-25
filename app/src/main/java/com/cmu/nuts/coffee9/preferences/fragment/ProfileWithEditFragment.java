@@ -115,6 +115,7 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
                     Picasso.get()
                             .load(member.getPhotoUrl())
                             .placeholder(R.drawable.img_user)
+                            .fit().centerCrop()
                             .error(R.drawable.img_user)
                             .into(img_profile);
                 }
