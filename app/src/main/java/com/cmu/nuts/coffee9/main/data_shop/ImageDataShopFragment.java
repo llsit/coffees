@@ -11,6 +11,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.adapter.ImageGridAdapter;
 import com.cmu.nuts.coffee9.model.Share;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,14 +19,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ImageDataShopFragment extends Fragment {
 
-    public static String[] ShareImages = {
-
-    };
+    public static String[] ShareImages;
+    ArrayList<String> n = new ArrayList<String>();
 
     private GridView gridView;
     private DatabaseReference mDatabase;
@@ -45,7 +47,7 @@ public class ImageDataShopFragment extends Fragment {
         gridView = view.findViewById(R.id.image_data_shop_gridview);
 
 
-        if (getArguments() != null){
+        if (getArguments() != null) {
             shopID = getArguments().getString("shop_ID");
 
         }
@@ -55,15 +57,17 @@ public class ImageDataShopFragment extends Fragment {
         mDatabase.child(shopID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-//            int i = 0;
-                for (DataSnapshot item : dataSnapshot.getChildren()){
+                long counts = dataSnapshot.getChildrenCount();
+                int i = 0;
+                ShareImages = new String[(int) counts];
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Share shares = item.getValue(Share.class);
-//                    assert shares != null;
+                    assert shares != null;
 //                    ShareImages[i] = shares.getImg_url();
-
+                    n.add(shares.getImg_url());
                     Toast.makeText(getActivity(), shares.getImg_url(),
                             Toast.LENGTH_SHORT).show();
-//                    i++;
+                    i++;
                 }
             }
 
@@ -73,7 +77,7 @@ public class ImageDataShopFragment extends Fragment {
             }
         });
 
-//        if (ShareImages != null){
+//        if (ShareImages != null) {
 //            gridView.setAdapter(
 //                    new ImageGridAdapter(
 //                            getActivity(),
@@ -81,6 +85,13 @@ public class ImageDataShopFragment extends Fragment {
 //                    )
 //            );
 //        }
+
+        gridView.setAdapter(
+                new ImageGridAdapter(
+                        getActivity(),
+                        n
+                )
+        );
 
         return view;
     }

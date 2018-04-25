@@ -21,6 +21,9 @@ public class Share {
         this.datetime = datetime;
     }
 
+    public Share() {
+    }
+
     public static String getTag() {
         return tag;
     }

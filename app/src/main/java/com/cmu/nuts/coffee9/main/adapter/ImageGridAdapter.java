@@ -11,13 +11,15 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.cmu.nuts.coffee9.R;
 
+import java.util.ArrayList;
+
 public class ImageGridAdapter extends ArrayAdapter {
     private Context context;
     private LayoutInflater inflater;
 
-    private String[] imageUrls;
+    private ArrayList<String> imageUrls;
 
-    public ImageGridAdapter(Context context, String[] imageUrls) {
+    public ImageGridAdapter(Context context, ArrayList<String> imageUrls) {
         super(context, R.layout.item_image, imageUrls);
 
         this.context = context;
@@ -34,7 +36,7 @@ public class ImageGridAdapter extends ArrayAdapter {
 
         Glide
                 .with(context)
-                .load(imageUrls[position])
+                .load(imageUrls.get(position))
                 .into((ImageView) convertView);
 
         return convertView;
