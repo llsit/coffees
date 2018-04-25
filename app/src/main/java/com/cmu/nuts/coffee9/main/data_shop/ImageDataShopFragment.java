@@ -26,11 +26,6 @@ import java.util.ArrayList;
  */
 public class ImageDataShopFragment extends Fragment {
 
-    public static String[] ShareImages;
-    ArrayList<String> n = new ArrayList<String>();
-
-    private GridView gridView;
-    private DatabaseReference mDatabase;
     private String shopID;
 
     public ImageDataShopFragment() {
@@ -44,31 +39,24 @@ public class ImageDataShopFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_image_data_shop, container, false);
 
-        gridView = view.findViewById(R.id.image_data_shop_gridview);
-
+        final GridView gridView = view.findViewById(R.id.image_data_shop_gridview);
 
         if (getArguments() != null) {
             shopID = getArguments().getString("shop_ID");
-
         }
 
-        mDatabase = FirebaseDatabase.getInstance().getReference(Share.tag);
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Share.tag);
 
         mDatabase.child(shopID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                long counts = dataSnapshot.getChildrenCount();
-                int i = 0;
-                ShareImages = new String[(int) counts];
+                ArrayList<String> arrayList = new ArrayList<>();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Share shares = item.getValue(Share.class);
                     assert shares != null;
-//                    ShareImages[i] = shares.getImg_url();
-                    n.add(shares.getImg_url());
-                    Toast.makeText(getActivity(), shares.getImg_url(),
-                            Toast.LENGTH_SHORT).show();
-                    i++;
+                    arrayList.add(shares.getImg_url());
                 }
+                setAdapter(gridView, arrayList);
             }
 
             @Override
@@ -77,23 +65,13 @@ public class ImageDataShopFragment extends Fragment {
             }
         });
 
-//        if (ShareImages != null) {
-//            gridView.setAdapter(
-//                    new ImageGridAdapter(
-//                            getActivity(),
-//                            ShareImages
-//                    )
-//            );
-//        }
-
-        gridView.setAdapter(
-                new ImageGridAdapter(
-                        getActivity(),
-                        n
-                )
-        );
-
         return view;
+    }
+
+    private void setAdapter(GridView gridView, ArrayList<String> arrayList){
+        Toast.makeText(getActivity(), "Refreshing . .",
+                Toast.LENGTH_LONG).show();
+        gridView.setAdapter(new ImageGridAdapter(getActivity(), arrayList));
     }
 
 }
