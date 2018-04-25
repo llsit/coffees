@@ -23,7 +23,7 @@ public class ImageShare {
     private FirebaseUser firebaseUser;
 
     private StorageReference storageRef;
-    private DatabaseReference databaseRef,mDatabase;
+    private DatabaseReference databaseRef, mDatabase;
 
     public ImageShare(Class<DataShopActivity> activity, String shop_id) {
         this.activity = activity;
@@ -36,7 +36,7 @@ public class ImageShare {
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void uploadImage(String shop_ID, Uri path){
+    public void uploadImage(String shop_ID, Uri path) {
 //        final ProgressDialog progress = ProgressDialog.show(activity, "Upload Task",
 //                "Starting upload", true);
 //        progress.show();
@@ -57,7 +57,7 @@ public class ImageShare {
                 public void onFailure(@NonNull Exception exception) {
                     // Handle unsuccessful uploads
 //                    progress.dismiss();
-                    Log.e("onFailure",exception.getMessage());
+                    Log.e("onFailure", exception.getMessage());
 //                    Toast.makeText(activity,"Upload fail, cause by " + exception.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -66,9 +66,10 @@ public class ImageShare {
 //                    progress.dismiss();
                     databaseRef.child(image_id).child("img_url").setValue(taskSnapshot.getDownloadUrl().toString());
                     databaseRef.child(image_id).child("image_id").setValue(image_id);
+                    databaseRef.child(image_id).child("uid").setValue(firebaseUser.getUid());
                 }
             });
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

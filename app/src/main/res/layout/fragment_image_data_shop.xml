@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
-    <TextView
+
+    <Button
+        android:id="@+id/AllButtonSelector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tab 3"/>
+        android:layout_marginBottom="@dimen/range_15"
+        android:background="@drawable/button"
+        android:text="All"/>
 
-    <GridView
+    <Button
+        android:id="@+id/yourButtonSelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/range_15"
+        android:layout_marginStart="@dimen/range_15"
+        android:layout_toEndOf="@+id/AllButtonSelector"
+        android:background="@drawable/button"
+        android:text="Add by me"/>
+
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/image_data_shop_gridview"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="3"/>
+        android:layout_below="@+id/yourButtonSelector"
+        android:numColumns="3" />
 </RelativeLayout>
