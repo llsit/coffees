@@ -55,6 +55,12 @@
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_back" />
+                <ImageView
+                    android:id="@+id/shared"
+                    android:layout_width="50dp"
+                    android:layout_marginStart="300dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_share"/>
             </android.support.v7.widget.Toolbar>
 
             <android.support.design.widget.TabLayout

@@ -33,6 +33,10 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <provider android:authorities="com.facebook.app.FacebookContentProvider{645410309182352}"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"/>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -76,10 +80,7 @@
             android:name=".main.review.ReviewActivity"
             android:label="@string/title_activity_review"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".main.comment.commentActivity"
-            android:label="@string/title_activity_comment"
-            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".main.review.review_display_activity"
             android:label="@string/title_activity_review_display_activity"
@@ -87,7 +88,7 @@
         <activity
             android:name=".main.ShareImageActivity"
             android:label="@string/title_activity_share_image"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

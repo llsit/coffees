@@ -79,16 +79,23 @@ public class ImageDataShopFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<String> arrayList = new ArrayList<>();
+                ArrayList<String> arrayList2 = new ArrayList<>();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Share shares = item.getValue(Share.class);
                     assert shares != null;
                     assert auth != null;
                     if (shares.getUid().equals(auth.getUid())) {
                         arrayList.add(shares.getImg_url());
+                        arrayList2.add(shares.getImg_url());
+                    }else{
+                        arrayList.add(shares.getImg_url());
                     }
 
                 }
-                if (arrayList != null) {
+                if (arrayList2 != null) {
+                    setAdapter(gridView, arrayList);
+                    setAdapter(gridView, arrayList2);
+                }else{
                     setAdapter(gridView, arrayList);
                 }
 

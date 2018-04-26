@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,6 +49,8 @@ public class DataShopActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     private String shop_ID;
+
+    private MenuItem shared;
 
     private FloatingActionMenu fam;
     private FloatingActionButton fabReview, fabAdd;
@@ -110,6 +113,8 @@ public class DataShopActivity extends AppCompatActivity {
             }
 
         });
+
+
     }
 
     private void showToast(String msg) {

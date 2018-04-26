@@ -100,7 +100,7 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    private List<Shop> onSearch(List<Shop> list, String key){
+    private void onSearch(List<Shop> list, String key){
         List<Shop> new_shop = new ArrayList<>();
         for (int i=1; i < list.size(); i++){
             try {
@@ -112,7 +112,6 @@ public class SearchFragment extends Fragment {
             }
         }
         setRecyclerView(new_shop);
-        return list;
     }
 
     private void getShopDatabase(){
