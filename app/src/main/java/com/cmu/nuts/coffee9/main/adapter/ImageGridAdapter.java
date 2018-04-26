@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.cmu.nuts.coffee9.R;
 import com.squareup.picasso.Picasso;
 

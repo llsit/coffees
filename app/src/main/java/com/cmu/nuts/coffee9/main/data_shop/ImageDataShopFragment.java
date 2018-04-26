@@ -1,17 +1,20 @@
 package com.cmu.nuts.coffee9.main.data_shop;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.FullImageActivity;
 import com.cmu.nuts.coffee9.main.adapter.ImageGridAdapter;
 import com.cmu.nuts.coffee9.model.Share;
 import com.google.firebase.auth.FirebaseAuth;
@@ -87,7 +90,7 @@ public class ImageDataShopFragment extends Fragment {
                     if (shares.getUid().equals(auth.getUid())) {
                         arrayList.add(shares.getImg_url());
                         arrayList2.add(shares.getImg_url());
-                    }else{
+                    } else {
                         arrayList.add(shares.getImg_url());
                     }
 
@@ -95,7 +98,7 @@ public class ImageDataShopFragment extends Fragment {
                 if (arrayList2 != null) {
                     setAdapter(gridView, arrayList);
                     setAdapter(gridView, arrayList2);
-                }else{
+                } else {
                     setAdapter(gridView, arrayList);
                 }
 
@@ -128,10 +131,23 @@ public class ImageDataShopFragment extends Fragment {
         });
     }
 
-    private void setAdapter(GridView gridView, ArrayList<String> arrayList) {
+    private void setAdapter(GridView gridView, final ArrayList<String> arrayList) {
         Toast.makeText(getActivity(), "Refreshing . .",
                 Toast.LENGTH_LONG).show();
         gridView.setAdapter(new ImageGridAdapter(getActivity(), arrayList));
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                Intent intent = new Intent(getActivity(), FullImageActivity.class);
+                intent.putExtra("mylist", arrayList.get(position));
+                intent.putExtra("pos",position);
+                startActivity(intent);
+
+                Toast.makeText(getActivity(), "" + position,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

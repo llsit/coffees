@@ -143,5 +143,6 @@
     <string name="title_activity_review_display_activity">review_display_activity</string>
     <string name="txt_no_review_yet">No review yet!   Be the first review?</string>
     <string name="title_activity_share_image">ShareImageActivity</string>
+    <string name="title_activity_full_image">FullImageActivity</string>
 
 </resources>
