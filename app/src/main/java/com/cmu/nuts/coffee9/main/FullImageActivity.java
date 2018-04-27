@@ -48,7 +48,15 @@ public class FullImageActivity extends AppCompatActivity {
             url = array.get(i);
 
         }
-        
+
+        ImageView back = findViewById(R.id.full_image_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         ImageView imgview = findViewById(R.id.image);
 
         Picasso.get()
@@ -74,7 +82,7 @@ public class FullImageActivity extends AppCompatActivity {
                             assert shares != null;
                             if (shares.getImg_url().equals(finalUrl)) {
                                 String id = shares.getShid();
-                                deleteImg(id,shop_ID,finalUrl);
+                                deleteImg(id, shop_ID, finalUrl);
                             }
                         }
                     }

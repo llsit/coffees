@@ -18,6 +18,9 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 public class ImageShare {
     private Class<DataShopActivity> activity;
     private FirebaseUser firebaseUser;
@@ -36,10 +39,12 @@ public class ImageShare {
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void uploadImage(String shop_ID, Uri path) {
+    public void uploadImage(final String shop_ID, Uri path) {
 //        final ProgressDialog progress = ProgressDialog.show(activity, "Upload Task",
 //                "Starting upload", true);
 //        progress.show();
+
+        final String datetime = DateFormat.getDateTimeInstance().format(new Date());
         final String image_id = mDatabase.push().getKey();
         StorageReference riversRef = storageRef.child(FirebaseKey.img_shared_key).child(image_id);
         Log.d("Upload", "Uploading" + shop_ID + " name " + path.getPath());
@@ -64,9 +69,12 @@ public class ImageShare {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 //                    progress.dismiss();
-                    databaseRef.child(image_id).child("img_url").setValue(taskSnapshot.getDownloadUrl().toString());
-                    databaseRef.child(image_id).child("shid").setValue(image_id);
-                    databaseRef.child(image_id).child("uid").setValue(firebaseUser.getUid());
+                    Share shares = new Share(image_id,firebaseUser.getUid(),shop_ID,taskSnapshot.getDownloadUrl().toString(),datetime);
+                    databaseRef.child(image_id).setValue(shares);
+//                    databaseRef.child(image_id).child("img_url").setValue(taskSnapshot.getDownloadUrl().toString());
+//                    databaseRef.child(image_id).child("shid").setValue(image_id);
+//                    databaseRef.child(image_id).child("uid").setValue(firebaseUser.getUid());
+
                 }
             });
         } catch (Exception e) {

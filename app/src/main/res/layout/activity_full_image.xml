@@ -14,10 +14,7 @@
             android:id="@+id/toolbar_full_image"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@color/bpTransparent_black"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            android:background="@color/bpTransparent_black">
 
             <ImageView
                 android:id="@+id/full_image_back"

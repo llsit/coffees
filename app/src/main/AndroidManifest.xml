@@ -86,10 +86,6 @@
             android:label="@string/title_activity_review_display_activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".main.ShareImageActivity"
-            android:label="@string/title_activity_share_image"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".main.FullImageActivity"
             android:label="@string/title_activity_full_image"
             android:theme="@style/AppTheme.NoActionBar"></activity>
