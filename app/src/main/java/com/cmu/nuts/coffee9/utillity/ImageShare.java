@@ -65,7 +65,7 @@ public class ImageShare {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 //                    progress.dismiss();
                     databaseRef.child(image_id).child("img_url").setValue(taskSnapshot.getDownloadUrl().toString());
-                    databaseRef.child(image_id).child("image_id").setValue(image_id);
+                    databaseRef.child(image_id).child("shid").setValue(image_id);
                     databaseRef.child(image_id).child("uid").setValue(firebaseUser.getUid());
                 }
             });

@@ -140,12 +140,10 @@ public class ImageDataShopFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 Intent intent = new Intent(getActivity(), FullImageActivity.class);
-                intent.putExtra("mylist", arrayList.get(position));
-                intent.putExtra("pos",position);
+                intent.putExtra("mylist", arrayList);
+                intent.putExtra("shopid", shopID);
                 startActivity(intent);
 
-                Toast.makeText(getActivity(), "" + position,
-                        Toast.LENGTH_SHORT).show();
             }
         });
     }

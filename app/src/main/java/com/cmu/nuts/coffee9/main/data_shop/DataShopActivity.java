@@ -101,9 +101,6 @@ public class DataShopActivity extends AppCompatActivity {
                             .toolbarArrowColor(Color.WHITE).multi().limit(10)
                             .showCamera(true).imageDirectory("Camera").enableLog(true)
                             .start();
-//                    Intent intent = new Intent(DataShopActivity.this, ShareImageActivity.class);
-//                    intent.putExtra("shopID", shop_ID);
-//                    startActivity(intent);
                 } else if (itemId == 2) {
                     Intent intent = new Intent(DataShopActivity.this, ReviewActivity.class);
                     intent.putExtra("shopID", shop_ID);

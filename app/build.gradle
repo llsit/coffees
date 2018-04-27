@@ -71,7 +71,8 @@ def library = dependence {
     implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.4'
     compile 'com.github.kobakei:MaterialFabSpeedDial:1.2.0'
     compile 'com.github.drawers:SpinnerDatePicker:1.0.6'
-
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
     implementation('io.nlopez.smartlocation:library:3.3.3') {
         transitive = false
     }

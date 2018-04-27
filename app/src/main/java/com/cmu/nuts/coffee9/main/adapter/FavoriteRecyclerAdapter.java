@@ -61,8 +61,6 @@ public class FavoriteRecyclerAdapter extends RecyclerView.Adapter<FavoriteRecycl
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = user.getUid();
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(uid);
-
-
 //                Toast.makeText(context, "Very good!!!"  + mDatabase.child(uid).child(), Toast.LENGTH_LONG).show();
 
                 mDatabase.addValueEventListener(new ValueEventListener() {
