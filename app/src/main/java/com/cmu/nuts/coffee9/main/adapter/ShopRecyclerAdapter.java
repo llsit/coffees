@@ -31,7 +31,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
 
     private List<Shop> shops;
     private Context context;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase,fDatabase;
     private FirebaseUser user;
 
     public ShopRecyclerAdapter(List<Shop> shops, Context context) {
@@ -46,7 +46,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
     }
 
     @Override
-    public void onBindViewHolder(ShopHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(final ShopHolder holder, @SuppressLint("RecyclerView") final int position) {
         final Shop shop = shops.get(position);
 
         holder.tv_sid.setText(shop.getSid());
@@ -58,6 +58,22 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         holder.tv_uid.setText(shop.getUid());
         holder.tv_location.setText(shop.getLocation());
 
+//        fDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag);
+//        fDatabase.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot item : dataSnapshot.getChildren()){
+//                    Favorite fav = item.getValue(Favorite.class);
+//                    fav.getSid();
+//                    if ()
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
         holder.tv_fav.setOnFavoriteChangeListener(
                 new MaterialFavoriteButton.OnFavoriteChangeListener() {
                     @Override
@@ -72,7 +88,6 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
                             mDatabase.child("Favorite").child(uid).child(fid).setValue(fav);
                             Toast.makeText(context, "love it", Toast.LENGTH_LONG).show();
                         } else {
-
 //                            mDatabase.child("Favorite").child(uid).child(fid).removeValue();
 //                            Toast.makeText(context, "not love", Toast.LENGTH_LONG).show();
                         }

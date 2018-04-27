@@ -13,19 +13,23 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.review.ReviewActivity;
+import com.cmu.nuts.coffee9.model.Share;
 import com.cmu.nuts.coffee9.utillity.ImageShare;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,14 +50,8 @@ public class DataShopActivity extends AppCompatActivity {
 
     private ImageView backdata;
 
-    private Toolbar toolbar;
-
     private String shop_ID;
 
-    private MenuItem shared;
-
-    private FloatingActionMenu fam;
-    private FloatingActionButton fabReview, fabAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +66,37 @@ public class DataShopActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.htab_viewpager);
         setupViewPager(mViewPager);
 
-        toolbar = findViewById(R.id.toolbar);
+        Intent intent = getIntent();
+        shop_ID = intent.getStringExtra("shopID");
+
+        final android.support.design.widget.CollapsingToolbarLayout collapse_toolbar = findViewById(R.id.collapse_toolbar);
+        final ImageView imageView = findViewById(R.id.image_header);
+        DatabaseReference sDatabase = FirebaseDatabase.getInstance().getReference(Share.tag).child(shop_ID);
+        sDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String url = null;
+                for (DataSnapshot item : dataSnapshot.getChildren()){
+                    Share shares = item.getValue(Share.class);
+                    url = String.valueOf(Uri.parse(shares.getImg_url()));
+                }
+
+//                imageView.setImageURI(Uri.parse(shares.getImg_url()));
+//                Toast.makeText(DataShopActivity.this, url,
+//                        Toast.LENGTH_SHORT).show();
+                Glide
+                        .with(DataShopActivity.this)
+                        .load(url)
+                        .into(imageView);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         TabLayout tabLayout = findViewById(R.id.tabs);
@@ -83,8 +111,6 @@ public class DataShopActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = getIntent();
-        shop_ID = intent.getStringExtra("shopID");
 
 
         final FabSpeedDial fab = findViewById(R.id.fab);
@@ -106,7 +132,6 @@ public class DataShopActivity extends AppCompatActivity {
                     intent.putExtra("shopID", shop_ID);
                     startActivity(intent);
                 }
-//                Toast.makeText(DataShopActivity.this, "Click: " + itemId, Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -130,19 +155,14 @@ public class DataShopActivity extends AppCompatActivity {
 
     private void upload_photo(List<Image> images) {
 
-//        TextView text_view = findViewById(R.id.text_view);
         if (images == null) return;
 
-//        StringBuilder stringBuffer = new StringBuilder();
         ImageShare imageManager = new ImageShare(DataShopActivity.class,shop_ID);
         for (int i = 0, l = images.size(); i < l; i++) {
-//            stringBuffer.append(images.get(i).getPath());
 
             imageManager.uploadImage(shop_ID, Uri.fromFile(new File(images.get(i).getPath())));
 
         }
-//        text_view.setText(stringBuffer.toString());
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -199,14 +219,10 @@ public class DataShopActivity extends AppCompatActivity {
                     break;
             }
             return fragment;
-            //return mFragmentList.get(position);
         }
-
         @Override
         public int getCount() {
             return mFragmentList.size();
         }
     }
-
-
 }

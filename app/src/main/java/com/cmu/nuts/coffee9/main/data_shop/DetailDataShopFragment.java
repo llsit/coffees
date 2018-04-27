@@ -2,6 +2,7 @@ package com.cmu.nuts.coffee9.main.data_shop;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,40 +23,36 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class DetailDataShopFragment extends Fragment {
 
-    private TextView text;
+    private TextView name,address,detail,opne_hour,price;
 
     private String shopID;
-    private ValueEventListener valueEventListener;
 
-    private DatabaseReference databaseReference;
     public DetailDataShopFragment() {
         // Required empty public constructor
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_data_shop, container, false);
 
         if (getArguments() != null){
             shopID = getArguments().getString("shop_ID");
-            text = view.findViewById(R.id.location_shop);
-//
+            name = view.findViewById(R.id.name);
+            address = view.findViewById(R.id.location_shop);
+            detail = view.findViewById(R.id.detail);
+            opne_hour = view.findViewById(R.id.open_hour);
+            price = view.findViewById(R.id.price);
             getdatashop();
-
         }
-
-//
-
-
         return view;
     }
 
     public void getdatashop(){
 
-        databaseReference = FirebaseDatabase.getInstance().getReference()
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
                 .child(Shop.tag).child(shopID);
         ValueEventListener listener = new ValueEventListener() {
             @Override
@@ -63,7 +60,11 @@ public class DetailDataShopFragment extends Fragment {
 
                 Shop shop = dataSnapshot.getValue(Shop.class);
                 assert shop != null;
-                text.setText(getActivity().getString(R.string.name_data_shop).concat(shop.getName()));
+                name.setText(getActivity().getString(R.string.name_data_shop).concat(shop.getName()));
+                address.setText(shop.getAddress());
+                detail.setText(shop.getDetail());
+                opne_hour.setText(shop.getOpen_hour());
+                price.setText(shop.getPrice());
             }
 
             @Override
@@ -73,7 +74,7 @@ public class DetailDataShopFragment extends Fragment {
             }
         };
         databaseReference.addListenerForSingleValueEvent(listener);
-        valueEventListener = listener;
+        ValueEventListener valueEventListener = listener;
     }
 
 }
