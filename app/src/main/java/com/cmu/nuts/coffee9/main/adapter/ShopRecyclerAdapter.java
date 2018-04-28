@@ -88,7 +88,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
                             mDatabase.child("Favorite").child(uid).child(fid).setValue(fav);
                             Toast.makeText(context, "love it", Toast.LENGTH_LONG).show();
                         } else {
-//                            mDatabase.child("Favorite").child(uid).child(fid).removeValue();
+                            mDatabase.child(Favorite.tag).child(uid).child(fid).removeValue();
 //                            Toast.makeText(context, "not love", Toast.LENGTH_LONG).show();
                         }
 

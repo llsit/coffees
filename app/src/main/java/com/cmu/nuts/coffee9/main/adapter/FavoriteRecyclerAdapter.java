@@ -60,26 +60,24 @@ public class FavoriteRecyclerAdapter extends RecyclerView.Adapter<FavoriteRecycl
             public void onClick(View v) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = user.getUid();
-                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(uid);
+                final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(uid);
 //                Toast.makeText(context, "Very good!!!"  + mDatabase.child(uid).child(), Toast.LENGTH_LONG).show();
 
                 mDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-//                        for (DataSnapshot item : dataSnapshot.getChildren()) {
-                            Favorite fav = dataSnapshot.getValue(Favorite.class);
+                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            Favorite fav = item.getValue(Favorite.class);
                             if (fav != null) {
                                 if (fav.getSid().equals(shop.getSid())) {
-                                    DataSnapshot firstChild = dataSnapshot.getChildren().iterator().next();
-                                    firstChild.getRef().removeValue();
+                                    mDatabase.child(fav.getFid());
+                                    mDatabase.removeValue();
                                     Toast.makeText(context, "Done", Toast.LENGTH_LONG).show();
                                 }
-
                             } else {
                                 Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
                             }
-//                        }
-
+                        }
                     }
 
                     @Override
