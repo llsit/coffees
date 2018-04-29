@@ -13,18 +13,23 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.cmu.nuts.coffee9.main.EditDataShopActivity;
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.review.ReviewActivity;
 import com.cmu.nuts.coffee9.model.Share;
+import com.cmu.nuts.coffee9.model.Shop;
 import com.cmu.nuts.coffee9.utillity.ImageShare;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,6 +57,9 @@ public class DataShopActivity extends AppCompatActivity {
 
     private String shop_ID;
 
+    private MenuItem edit, del;
+
+    private FirebaseUser auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,24 +74,22 @@ public class DataShopActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.htab_viewpager);
         setupViewPager(mViewPager);
 
+        auth = FirebaseAuth.getInstance().getCurrentUser();
+
         Intent intent = getIntent();
         shop_ID = intent.getStringExtra("shopID");
 
-        final android.support.design.widget.CollapsingToolbarLayout collapse_toolbar = findViewById(R.id.collapse_toolbar);
         final ImageView imageView = findViewById(R.id.image_header);
         DatabaseReference sDatabase = FirebaseDatabase.getInstance().getReference(Share.tag).child(shop_ID);
         sDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String url = null;
-                for (DataSnapshot item : dataSnapshot.getChildren()){
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Share shares = item.getValue(Share.class);
                     url = String.valueOf(Uri.parse(shares.getImg_url()));
-                }
 
-//                imageView.setImageURI(Uri.parse(shares.getImg_url()));
-//                Toast.makeText(DataShopActivity.this, url,
-//                        Toast.LENGTH_SHORT).show();
+                }
                 Glide
                         .with(DataShopActivity.this)
                         .load(url)
@@ -103,15 +109,12 @@ public class DataShopActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         backdata = findViewById(R.id.data_shop_back);
-
         backdata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
-
 
         final FabSpeedDial fab = findViewById(R.id.fab);
         FabSpeedDialMenu menu = new FabSpeedDialMenu(this);
@@ -139,9 +142,6 @@ public class DataShopActivity extends AppCompatActivity {
 
     }
 
-    private void showToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
     @Override
     protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
 
@@ -157,7 +157,7 @@ public class DataShopActivity extends AppCompatActivity {
 
         if (images == null) return;
 
-        ImageShare imageManager = new ImageShare(DataShopActivity.class,shop_ID);
+        ImageShare imageManager = new ImageShare(DataShopActivity.class, shop_ID);
         for (int i = 0, l = images.size(); i < l; i++) {
 
             imageManager.uploadImage(shop_ID, Uri.fromFile(new File(images.get(i).getPath())));
@@ -220,9 +220,64 @@ public class DataShopActivity extends AppCompatActivity {
             }
             return fragment;
         }
+
         @Override
         public int getCount() {
             return mFragmentList.size();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_setting_data_shop, menu);
+        edit = menu.findItem(R.id.edit_data_Shop);
+        del = menu.findItem(R.id.delete_data_shop);
+        DatabaseReference eDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(shop_ID);
+        eDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    Shop shops = item.getValue(Shop.class);
+                    assert shops != null;
+                    if (shops.getUid().equals(auth.getUid())) {
+                        edit.setVisible(true);
+                        del.setVisible(true);
+                    } else {
+                        edit.setVisible(false);
+                        del.setVisible(false);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.edit_data_Shop:
+                // Code you want run when activity is clicked
+                Intent intent = new Intent(DataShopActivity.this, EditDataShopActivity.class);
+                intent.putExtra("shopid",shop_ID);
+                startActivity(intent);
+                return true;
+            case R.id.delete_data_shop:
+                // Code you want run when activity is clicked
+                DatabaseReference delDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(shop_ID);
+                delDatabase.child(shop_ID).removeValue();
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

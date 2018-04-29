@@ -88,6 +88,10 @@
         <activity
             android:name=".main.FullImageActivity"
             android:label="@string/title_activity_full_image"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".main.EditDataShopActivity"
+            android:label="@string/title_activity_edit_data_shop"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
