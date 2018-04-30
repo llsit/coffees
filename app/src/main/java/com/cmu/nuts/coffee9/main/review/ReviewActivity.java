@@ -44,6 +44,7 @@ public class ReviewActivity extends AppCompatActivity {
     private String uid, sid, detail, img_url, datetime, star;
     private String rid = mDatabase.push().getKey();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

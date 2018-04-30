@@ -17,14 +17,16 @@ import java.util.ArrayList;
 public class ImageGridAdapter extends ArrayAdapter {
     private Context context;
     private LayoutInflater inflater;
+    private int status;
 
     private ArrayList<String> imageUrls;
 
-    public ImageGridAdapter(Context context, ArrayList<String> imageUrls) {
+    public ImageGridAdapter(Context context, ArrayList<String> imageUrls, int status) {
         super(context, R.layout.item_image, imageUrls);
 
         this.context = context;
         this.imageUrls = imageUrls;
+        this.status = status;
 
         inflater = LayoutInflater.from(context);
     }
@@ -35,12 +37,22 @@ public class ImageGridAdapter extends ArrayAdapter {
         if (null == convertView) {
             convertView = inflater.inflate(R.layout.item_image, parent, false);
         }
-        Picasso.get()
-                .load(imageUrls.get(position))
-                .placeholder(R.drawable.img_preview)
-                .fit().centerCrop()
-                .error(R.drawable.img_preview)
-                .into((ImageView) convertView);
+        if (status == 1){ //ImageDataShopFragment.java
+            Picasso.get()
+                    .load(imageUrls.get(position))
+                    .placeholder(R.drawable.img_preview)
+                    .fit().centerCrop()
+                    .error(R.drawable.img_preview)
+                    .into((ImageView) convertView);
+        }else{
+            Picasso.get()
+                    .load(imageUrls.get(position))
+                    .placeholder(R.drawable.img_preview)
+                    .fit().centerInside()
+                    .error(R.drawable.img_preview)
+                    .into((ImageView) convertView);
+        }
+
 
         return convertView;
     }

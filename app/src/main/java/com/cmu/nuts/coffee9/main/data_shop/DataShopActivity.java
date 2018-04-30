@@ -49,15 +49,10 @@ public class DataShopActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    private SectionsPageAdapter mSectionsPageAdapter;
-
-    private ViewPager mViewPager;
-
-    private ImageView backdata;
-
     private String shop_ID;
 
-    private MenuItem edit, del,share;
+    private MenuItem edit;
+    private MenuItem del;
 
     private FirebaseUser auth;
 
@@ -68,18 +63,16 @@ public class DataShopActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: Starting.");
 
-        mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+        SectionsPageAdapter mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(R.id.htab_viewpager);
+        ViewPager mViewPager = findViewById(R.id.htab_viewpager);
         setupViewPager(mViewPager);
 
         auth = FirebaseAuth.getInstance().getCurrentUser();
 
         Intent intent = getIntent();
         shop_ID = intent.getStringExtra("shopID");
-
-        final TabLayout tabs = findViewById(R.id.tabs);
 
         final ImageView imageView = findViewById(R.id.image_header);
         DatabaseReference sDatabase = FirebaseDatabase.getInstance().getReference(Share.tag).child(shop_ID);
@@ -110,7 +103,7 @@ public class DataShopActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        backdata = findViewById(R.id.data_shop_back);
+        ImageView backdata = findViewById(R.id.data_shop_back);
         backdata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,7 +224,7 @@ public class DataShopActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_setting_data_shop, menu);
         edit = menu.findItem(R.id.edit_data_Shop);
         del = menu.findItem(R.id.delete_data_shop);
-        share = menu.findItem(R.id.share);
+        MenuItem share = menu.findItem(R.id.share);
         share.setVisible(true);
 
         DatabaseReference eDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(shop_ID);
@@ -239,15 +232,15 @@ public class DataShopActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 //                for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Shop shops = dataSnapshot.getValue(Shop.class);
-                    assert shops != null;
-                    if (shops.getUid().equals(auth.getUid())) {
-                        edit.setVisible(true);
-                        del.setVisible(true);
-                    } else {
-                        edit.setVisible(false);
-                        del.setVisible(false);
-                    }
+                Shop shops = dataSnapshot.getValue(Shop.class);
+                assert shops != null;
+                if (shops.getUid().equals(auth.getUid())) {
+                    edit.setVisible(true);
+                    del.setVisible(true);
+                } else {
+                    edit.setVisible(false);
+                    del.setVisible(false);
+                }
 //                }
             }
 
@@ -267,7 +260,7 @@ public class DataShopActivity extends AppCompatActivity {
             case R.id.edit_data_Shop:
                 // Code you want run when activity is clicked
                 Intent intent = new Intent(DataShopActivity.this, EditDataShopActivity.class);
-                intent.putExtra("shopid",shop_ID);
+                intent.putExtra("shopid", shop_ID);
                 startActivity(intent);
                 return true;
             case R.id.delete_data_shop:

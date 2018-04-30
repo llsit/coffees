@@ -35,6 +35,7 @@ public class ImageDataShopFragment extends Fragment {
     private Button all, byMe;
     private DatabaseReference mDatabase;
     private GridView gridView;
+    private int status = 1;
 
     public ImageDataShopFragment() {
         // Required empty public constructor
@@ -93,7 +94,6 @@ public class ImageDataShopFragment extends Fragment {
                     } else {
                         arrayList.add(shares.getImg_url());
                     }
-
                 }
                 if (arrayList2 != null) {
                     setAdapter(gridView, arrayList);
@@ -101,9 +101,7 @@ public class ImageDataShopFragment extends Fragment {
                 } else {
                     setAdapter(gridView, arrayList);
                 }
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -134,7 +132,7 @@ public class ImageDataShopFragment extends Fragment {
     private void setAdapter(GridView gridView, final ArrayList<String> arrayList) {
         Toast.makeText(getActivity(), "Refreshing . .",
                 Toast.LENGTH_LONG).show();
-        gridView.setAdapter(new ImageGridAdapter(getActivity(), arrayList));
+        gridView.setAdapter(new ImageGridAdapter(getActivity(), arrayList,status));
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,

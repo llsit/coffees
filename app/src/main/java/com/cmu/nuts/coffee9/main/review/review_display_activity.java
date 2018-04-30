@@ -1,6 +1,5 @@
 package com.cmu.nuts.coffee9.main.review;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,6 +20,7 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.adapter.CommentRecyclerAdapter;
+import com.cmu.nuts.coffee9.main.adapter.ImageGridAdapter;
 import com.cmu.nuts.coffee9.model.Comment;
 import com.cmu.nuts.coffee9.model.Member;
 import com.cmu.nuts.coffee9.model.Review;
@@ -61,7 +60,7 @@ public class review_display_activity extends AppCompatActivity {
     private TextView data_shop_message;
 
     private ListView listView;
-
+    private int status = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +80,7 @@ public class review_display_activity extends AppCompatActivity {
         star = findViewById(R.id.display_review_ratingBar);
         review_image = findViewById(R.id.display_review_image);
         image_review = findViewById(R.id.display_image_review);
-        review_display_back =findViewById(R.id.review_display_back);
+        review_display_back = findViewById(R.id.review_display_back);
         listView = findViewById(R.id.list_image);
         review_display_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,20 +169,12 @@ public class review_display_activity extends AppCompatActivity {
                     Comment comment = new Comment(cid, uid, rid, detail, datetime);
                     mDatabase.child(Comment.tag).child(rid).child(cid).setValue(comment);
                     Toast.makeText(review_display_activity.this, "Comment Complete", Toast.LENGTH_SHORT).show();
-                    hideSoftKeyboard(review_display_activity.this);
                     add_comment.setText("");
                 } else {
                     add_comment.setError("Your comment is too shot");
                 }
             }
         });
-    }
-    public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager =
-                (InputMethodManager) activity.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(
-                activity.getCurrentFocus().getWindowToken(), 0);
     }
 
     private void getDataReview() {
@@ -201,19 +192,20 @@ public class review_display_activity extends AppCompatActivity {
                     imgDatabase.child(review.getRid()).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot item : dataSnapshot.getChildren()){
+                            ArrayList<String> arrayList = new ArrayList<>();
+                            for (DataSnapshot item : dataSnapshot.getChildren()) {
                                 Review_Image ri = item.getValue(Review_Image.class);
-                                if(ri != null){
-                                    Picasso.get()
-                                            .load(ri.getImage_url())
-                                            .resize(200,200)
-                                            .centerInside()
-                                            .into(image_review);
-                                    Toast.makeText(review_display_activity.this, ri.getImgid(), Toast.LENGTH_SHORT).show();
-                                }else{
-                                    Toast.makeText(review_display_activity.this, "NuLL NULL", Toast.LENGTH_SHORT).show();
+                                if (ri != null) {
+//                                    Picasso.get()
+//                                            .load(ri.getImage_url())
+//                                            .resize(200,200)
+//                                            .centerInside()
+//                                            .into(image_review);
+//                                    Toast.makeText(review_display_activity.this, ri.getImgid(), Toast.LENGTH_SHORT).show();
+                                    arrayList.add(ri.getImage_url());
                                 }
                             }
+                            setAdapter(listView, arrayList);
                         }
 
                         @Override
@@ -231,7 +223,7 @@ public class review_display_activity extends AppCompatActivity {
                                         .load(mem.getPhotoUrl())
                                         .placeholder(R.drawable.img_user)
                                         .error(R.drawable.img_user)
-                                        .resize(200,200)
+                                        .resize(200, 200)
                                         .centerInside()
                                         .into(review_image);
                             }
@@ -253,6 +245,12 @@ public class review_display_activity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setAdapter(ListView listView, ArrayList<String> arrayList) {
+        Toast.makeText(this, "Refreshing . .",
+                Toast.LENGTH_LONG).show();
+        listView.setAdapter(new ImageGridAdapter(this, arrayList, status));
     }
 
 }
