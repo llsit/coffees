@@ -18,10 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.cmu.nuts.coffee9.main.EditDataShopActivity;
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.EditDataShopActivity;
 import com.cmu.nuts.coffee9.main.review.ReviewActivity;
 import com.cmu.nuts.coffee9.model.Share;
 import com.cmu.nuts.coffee9.model.Shop;
@@ -57,7 +58,7 @@ public class DataShopActivity extends AppCompatActivity {
 
     private String shop_ID;
 
-    private MenuItem edit, del;
+    private MenuItem edit, del,share;
 
     private FirebaseUser auth;
 
@@ -159,9 +160,7 @@ public class DataShopActivity extends AppCompatActivity {
 
         ImageShare imageManager = new ImageShare(DataShopActivity.class, shop_ID);
         for (int i = 0, l = images.size(); i < l; i++) {
-
             imageManager.uploadImage(shop_ID, Uri.fromFile(new File(images.get(i).getPath())));
-
         }
     }
 
@@ -233,12 +232,15 @@ public class DataShopActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_setting_data_shop, menu);
         edit = menu.findItem(R.id.edit_data_Shop);
         del = menu.findItem(R.id.delete_data_shop);
+        share = menu.findItem(R.id.share);
+        share.setVisible(true);
+
         DatabaseReference eDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(shop_ID);
         eDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Shop shops = item.getValue(Shop.class);
+//                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    Shop shops = dataSnapshot.getValue(Shop.class);
                     assert shops != null;
                     if (shops.getUid().equals(auth.getUid())) {
                         edit.setVisible(true);
@@ -247,7 +249,7 @@ public class DataShopActivity extends AppCompatActivity {
                         edit.setVisible(false);
                         del.setVisible(false);
                     }
-                }
+//                }
             }
 
             @Override
@@ -275,6 +277,11 @@ public class DataShopActivity extends AppCompatActivity {
                 DatabaseReference delDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(shop_ID);
                 delDatabase.child(shop_ID).removeValue();
                 finish();
+                return true;
+
+            case R.id.share:
+                // Code you want run when activity is clicked
+                Toast.makeText(DataShopActivity.this, "done", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
