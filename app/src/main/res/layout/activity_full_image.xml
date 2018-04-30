@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.FullImageActivity">
+    tools:context=".main.data_shop.FullImageActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,20 +14,22 @@
             android:id="@+id/toolbar_full_image"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@color/bpTransparent_black">
+            android:background="@color/color_white">
 
             <ImageView
                 android:id="@+id/full_image_back"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/range_12"
                 android:src="@drawable/ic_back" />
 
             <ImageView
                 android:id="@+id/delete"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_delete"
-                android:layout_marginStart="300dp"/>
+                android:layout_marginStart="300dp"
+                android:layout_marginEnd="@dimen/range_12"
+                android:src="@drawable/ic_delete_black" />
 
         </android.support.v7.widget.Toolbar>
 
@@ -36,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar_full_image"
-            android:background="@color/bpTransparent_black"/>
+            android:background="@color/bpTransparent_black" />
 
         <TextView
             android:id="@+id/test"

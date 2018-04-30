@@ -57,7 +57,6 @@ public class DetailDataShopFragment extends Fragment {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 Shop shop = dataSnapshot.getValue(Shop.class);
                 assert shop != null;
                 name.setText(getActivity().getString(R.string.name_data_shop).concat(shop.getName()));

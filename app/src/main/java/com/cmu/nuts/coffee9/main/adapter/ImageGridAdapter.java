@@ -2,6 +2,7 @@ package com.cmu.nuts.coffee9.main.adapter;
 
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +29,9 @@ public class ImageGridAdapter extends ArrayAdapter {
         inflater = LayoutInflater.from(context);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         if (null == convertView) {
             convertView = inflater.inflate(R.layout.item_image, parent, false);
         }
@@ -39,6 +41,7 @@ public class ImageGridAdapter extends ArrayAdapter {
                 .fit().centerCrop()
                 .error(R.drawable.img_preview)
                 .into((ImageView) convertView);
+
         return convertView;
     }
 }

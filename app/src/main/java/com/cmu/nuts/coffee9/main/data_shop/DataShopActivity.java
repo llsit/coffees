@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.cmu.nuts.coffee9.R;
-import com.cmu.nuts.coffee9.main.EditDataShopActivity;
 import com.cmu.nuts.coffee9.main.review.ReviewActivity;
 import com.cmu.nuts.coffee9.model.Share;
 import com.cmu.nuts.coffee9.model.Shop;
@@ -80,21 +79,23 @@ public class DataShopActivity extends AppCompatActivity {
         Intent intent = getIntent();
         shop_ID = intent.getStringExtra("shopID");
 
+        final TabLayout tabs = findViewById(R.id.tabs);
+
         final ImageView imageView = findViewById(R.id.image_header);
         DatabaseReference sDatabase = FirebaseDatabase.getInstance().getReference(Share.tag).child(shop_ID);
-        sDatabase.addValueEventListener(new ValueEventListener() {
+        sDatabase.limitToFirst(1).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String url = null;
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Share shares = item.getValue(Share.class);
                     url = String.valueOf(Uri.parse(shares.getImg_url()));
-
                 }
                 Glide
                         .with(DataShopActivity.this)
                         .load(url)
                         .into(imageView);
+//                tabs.setBackgroundColor(Integer.parseInt("#FFFFFF"));
             }
 
             @Override
@@ -139,8 +140,6 @@ public class DataShopActivity extends AppCompatActivity {
             }
 
         });
-
-
     }
 
     @Override
@@ -257,7 +256,6 @@ public class DataShopActivity extends AppCompatActivity {
 
             }
         });
-
 
         return true;
     }

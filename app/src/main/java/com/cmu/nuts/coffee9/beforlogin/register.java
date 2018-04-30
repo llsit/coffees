@@ -15,8 +15,6 @@ import android.widget.Toast;
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.model.Member;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,13 +22,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnPausedListener;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.io.File;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -107,7 +100,7 @@ public class register extends AppCompatActivity {
     private void newMember(FirebaseUser mid) {
         Member user = new Member(mid.getUid(), name, mid.getEmail(),
                 String.valueOf(mid.getPhotoUrl()), String.valueOf(mid.getProviders()),
-                "", mid.getMetadata().getCreationTimestamp());
+                " ", mid.getMetadata().getCreationTimestamp());
 
         mDatabase.child(Member.tag).child(mid.getUid()).setValue(user);
 

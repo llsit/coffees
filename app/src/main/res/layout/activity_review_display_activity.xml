@@ -116,7 +116,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/display_review_description"
-                            android:layout_marginTop="@dimen/range_12" />
+                            android:layout_marginTop="@dimen/range_12"
+                            android:visibility="gone"/>
+
+                        <ListView
+                            android:id="@+id/list_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
                     </RelativeLayout>
 
                     <TextView

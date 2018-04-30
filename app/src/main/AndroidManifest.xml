@@ -86,11 +86,11 @@
             android:label="@string/title_activity_review_display_activity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".main.FullImageActivity"
+            android:name=".main.data_shop.FullImageActivity"
             android:label="@string/title_activity_full_image"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".main.EditDataShopActivity"
+            android:name=".main.data_shop.EditDataShopActivity"
             android:label="@string/title_activity_edit_data_shop"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

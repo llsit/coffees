@@ -14,7 +14,6 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
-import com.cmu.nuts.coffee9.main.FullImageActivity;
 import com.cmu.nuts.coffee9.main.adapter.ImageGridAdapter;
 import com.cmu.nuts.coffee9.model.Share;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,12 +63,13 @@ public class ImageDataShopFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getImage();
+//                getImageByMe();
             }
         });
         byMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                getImageByMe();
+                getImageByMe();
             }
         });
 

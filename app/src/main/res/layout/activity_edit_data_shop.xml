@@ -29,26 +29,6 @@
             android:orientation="vertical"
             android:padding="15dp">
 
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/add_shp_map_view"
-                android:layout_width="match_parent"
-                android:layout_height="300dp" />
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp">
-
-                <EditText
-                    android:id="@+id/location"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/txt_location"
-                    android:clickable="false"
-                    android:inputType="textLongMessage" />
-            </android.support.design.widget.TextInputLayout>
-
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,7 +36,7 @@
                 android:layout_marginTop="@dimen/range_5">
 
                 <EditText
-                    android:id="@+id/edt_name_shop"
+                    android:id="@+id/edit_data_name_shop"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name_shop"
@@ -70,7 +50,7 @@
                 android:layout_marginTop="@dimen/range_5">
 
                 <EditText
-                    android:id="@+id/edt_address_shop"
+                    android:id="@+id/edit_data_address_shop"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/address"
@@ -85,7 +65,7 @@
                 android:layout_marginTop="@dimen/range_5">
 
                 <EditText
-                    android:id="@+id/edt_detail"
+                    android:id="@+id/edit_data_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/detail"
@@ -100,7 +80,7 @@
                 android:layout_marginTop="@dimen/range_5">
 
                 <EditText
-                    android:id="@+id/edt_open_hour"
+                    android:id="@+id/edit_data_open_hour"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/txt_time_hour"
@@ -123,7 +103,7 @@
                     tools:ignore="RtlSymmetry" />
 
                 <RadioGroup
-                    android:id="@+id/rdo_price"
+                    android:id="@+id/edit_data_rdo_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -155,17 +135,16 @@
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/btn_add"
+                android:id="@+id/edit_data_btn_done"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="30sp"
                 android:layout_marginBottom="200dp"
                 android:background="@color/colorAccent"
-                android:drawableStart="@drawable/ic_add"
                 android:padding="5dp"
                 android:layout_margin="20dp"
-                android:text="@string/txt_add"
+                android:text="@string/done_label"
                 android:theme="@style/PrimaryFlatButton" />
         </android.support.v7.widget.LinearLayoutCompat>
     </RelativeLayout>

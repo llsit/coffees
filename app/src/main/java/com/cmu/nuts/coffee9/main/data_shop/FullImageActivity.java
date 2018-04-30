@@ -1,4 +1,4 @@
-package com.cmu.nuts.coffee9.main;
+package com.cmu.nuts.coffee9.main.data_shop;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.model.Share;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +25,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FullImageActivity extends AppCompatActivity {
 
@@ -33,6 +36,7 @@ public class FullImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_full_image);
         Toolbar toolbar = findViewById(R.id.toolbar_full_image);
         setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
@@ -50,6 +54,7 @@ public class FullImageActivity extends AppCompatActivity {
         }
 
         ImageView back = findViewById(R.id.full_image_back);
+        final ImageView DelImgview = findViewById(R.id.delete);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,21 +63,45 @@ public class FullImageActivity extends AppCompatActivity {
         });
 
         ImageView imgview = findViewById(R.id.image);
-
         Picasso.get()
                 .load(url)
                 .placeholder(R.drawable.img_preview)
                 .error(R.drawable.img_preview)
                 .into(imgview);
 
-        ImageView Delimgview = findViewById(R.id.delete);
-
         final String finalUrl = url;
+        assert shop_ID != null;
 
-        Delimgview.setOnClickListener(new View.OnClickListener() {
+        final FirebaseUser auth = FirebaseAuth.getInstance().getCurrentUser();
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Share.tag).child(shop_ID);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    Share shares = item.getValue(Share.class);
+                    assert shares != null;
+                    if (shares.getImg_url().equals(finalUrl)) {
+                        if (shares.getUid().equals(auth.getUid())){
+                            DelImgview.setVisibility(View.VISIBLE);
+                        }else{
+                            DelImgview.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("Share", "Failed to get database", databaseError.toException());
+            }
+        });
+
+
+        DelImgview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                assert shop_ID != null;
+
+
                 final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Share.tag).child(shop_ID);
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override

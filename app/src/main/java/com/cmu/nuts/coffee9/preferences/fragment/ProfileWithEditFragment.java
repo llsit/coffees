@@ -80,7 +80,7 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
     private TextView dateTextView;
     private SimpleDateFormat simpleDateFormat;
     private ImageView date;
-    private String birthdate;
+    private String birthdate = null;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -125,7 +125,11 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
                 date.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        showDate(Integer.parseInt(member.getBirthDate().substring(10, 14)), Integer.parseInt(member.getBirthDate().substring(5, 7)), Integer.parseInt(member.getBirthDate().substring(0, 2)), R.style.DatePickerSpinner);
+                        if (!member.getBirthDate().equals(" ")) {
+                            showDate(Integer.parseInt(member.getBirthDate().substring(10, 14)), Integer.parseInt(member.getBirthDate().substring(5, 7)), Integer.parseInt(member.getBirthDate().substring(0, 2)), R.style.DatePickerSpinner);
+                        } else {
+                            showDate(2000, 01, 01, R.style.DatePickerSpinner);
+                        }
                     }
                 });
             }
@@ -136,14 +140,13 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
             }
         });
 
-
         return view;
     }
 
 
     //    @VisibleForTesting
     void showDate(int year, int monthOfYear, int dayOfMonth, int spinnerTheme) {
-//        Toast.makeText(activity, "year = " + year + "month = " + monthOfYear + " day = " + dayOfMonth + " spinner = " + spinnerTheme, Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "year = " + year + "month = " + monthOfYear + " day = " + dayOfMonth + " spinner = " + spinnerTheme, Toast.LENGTH_SHORT).show();
         new SpinnerDatePickerDialogBuilder()
                 .context(getActivity())
                 .callback(ProfileWithEditFragment.this)
@@ -207,7 +210,10 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
                 .child(Member.tag).child(personId);
         databaseReference.child("name").setValue(name);
         databaseReference.child("email").setValue(email);
-        databaseReference.child("birthDate").setValue(birthdate);
+        if (birthdate != null) {
+            databaseReference.child("birthDate").setValue(birthdate);
+        }
+
         Toast.makeText(activity, "Update Successfully!", Toast.LENGTH_SHORT).show();
         PreferencesFragment preferencesFragment = new PreferencesFragment();
         FragmentManager manager = getFragmentManager();

@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,8 @@ public class review_display_activity extends AppCompatActivity {
     private RecyclerView RecyclerView;
     private TextView data_shop_message;
 
+    private ListView listView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +82,7 @@ public class review_display_activity extends AppCompatActivity {
         review_image = findViewById(R.id.display_review_image);
         image_review = findViewById(R.id.display_image_review);
         review_display_back =findViewById(R.id.review_display_back);
+        listView = findViewById(R.id.list_image);
         review_display_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
