@@ -15,8 +15,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.adapter.ShopRecyclerAdapter;
 import com.cmu.nuts.coffee9.model.Shop;
@@ -28,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.ButterKnife;
 
@@ -44,7 +47,8 @@ public class SearchFragment extends Fragment {
     private List<Shop> shops;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private String shopid;
+    private String query = null;
+    private ImageView filter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -56,16 +60,31 @@ public class SearchFragment extends Fragment {
         TextView addShop = view.findViewById(R.id.fragment_search_btn_add);
         activity = getActivity();
         recyclerView = view.findViewById(R.id.search_recycler_view);
-        swipeRefreshLayout = view.findViewById(R.id.search_swipe_refresh_layout);
+        filter = view.findViewById(R.id.filter);
         database = FirebaseDatabase.getInstance();
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        filter.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRefresh() {
-                databaseReference = database.getReference(Shop.tag);
-//                getShopDatabase(query);
+            public void onClick(View v) {
+                new MaterialDialog.Builder(Objects.requireNonNull(getActivity()))
+                        .title("test")
+                        .content("SDsdsdssddsd")
+                        .positiveText("agree")
+                        .negativeText("disagree")
+                        .show();
             }
         });
+
+
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                databaseReference = database.getReference(Shop.tag);
+//                if (query != null) {
+//                    getShopDatabase(query);
+//                }
+//            }
+//        });
 
 
         addShop.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +104,6 @@ public class SearchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 databaseReference = database.getReference(Shop.tag);
-//                getShopDatabase(query);
                 compareDatabase(query);
                 return false;
             }
@@ -135,7 +153,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w("Shop", "Failed to get database", databaseError.toException());
-                swipeRefreshLayout.setRefreshing(false);
+//                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -147,7 +165,6 @@ public class SearchFragment extends Fragment {
         sDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                 Shop value = dataSnapshot.getValue(Shop.class);
                 assert value != null;
                 String sid = value.getSid();
@@ -161,15 +178,15 @@ public class SearchFragment extends Fragment {
 
                 Shop shop = new Shop(sid, name, address, detail, location, open_time, price, uid);
                 shops.add(shop);
-//                }
+
                 setRecyclerView(shops);
-                swipeRefreshLayout.setRefreshing(false);
+//                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w("Shop", "Failed to get database", databaseError.toException());
-                swipeRefreshLayout.setRefreshing(false);
+//                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

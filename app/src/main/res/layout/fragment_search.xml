@@ -26,9 +26,9 @@
             android:id="@+id/filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
             android:layout_toEndOf="@+id/fragment_search_view"
-            android:src="@drawable/ic_filter_list"
-            android:layout_marginTop="5sp"/>
+            android:src="@drawable/ic_filter_list" />
 
         <TextView
             android:id="@+id/fragment_search_btn_add"
@@ -44,24 +44,17 @@
             android:textColor="#008000"
             android:visibility="visible" />
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/search_swipe_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/fragment_search_btn_add"
-            android:layout_marginTop="@dimen/range_12">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/search_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/fragment_search_btn_add"
                 android:background="@color/colorGray"
                 android:clipToPadding="false"
                 android:padding="5dp"
                 android:scrollbars="vertical"
                 tools:listitem="@layout/item_shop" />
-
-        </android.support.v4.widget.SwipeRefreshLayout>
 
     </RelativeLayout>
 
