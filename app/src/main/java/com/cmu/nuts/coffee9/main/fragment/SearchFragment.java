@@ -43,6 +43,7 @@ public class SearchFragment extends Fragment {
     private List<Shop> shops;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private String shopid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,10 +62,9 @@ public class SearchFragment extends Fragment {
             @Override
             public void onRefresh() {
                 databaseReference = database.getReference(Shop.tag);
-                getShopDatabase();
+//                getShopDatabase(query);
             }
         });
-
 
 
         addShop.setOnClickListener(new View.OnClickListener() {
@@ -84,14 +84,14 @@ public class SearchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 databaseReference = database.getReference(Shop.tag);
-                databaseReference.equalTo(query);
-                getShopDatabase();
+                getShopDatabase(query);
+//                compareDatabase(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (shops != null && shops.size() > 0){
+                if (shops != null && shops.size() > 0) {
                     onSearch(shops, newText);
                 }
                 return false;
@@ -100,26 +100,50 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    private void onSearch(List<Shop> list, String key){
+    private void onSearch(List<Shop> list, String key) {
         List<Shop> new_shop = new ArrayList<>();
-        for (int i=1; i < list.size(); i++){
+        for (int i = 1; i < list.size(); i++) {
             try {
-                if (list.get(i).getName().contains(key)){
+                if (list.get(i).getName().contains(key)) {
                     new_shop.add(list.get(i));
                 }
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         setRecyclerView(new_shop);
     }
 
-    private void getShopDatabase(){
+    private void compareDatabase(final String query){
+        final String querys = query.toLowerCase();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    Shop value = dataSnapshot1.getValue(Shop.class);
+                    String nameShop = value.getName().toLowerCase();
+                    if (nameShop.startsWith(querys)){
+                        shopid = value.getSid();
+                    }
+                }
+                setRecyclerView(shops);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("Shop", "Failed to get database", databaseError.toException());
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+    }
+    private void getShopDatabase(String query) {
+        databaseReference.orderByChild("name").startAt(query).endAt(query + "\uf8ff").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 shops = new ArrayList<>();
-                for (DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()){
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Shop value = dataSnapshot1.getValue(Shop.class);
                     String sid = value.getSid();
                     String name = value.getName();
@@ -139,13 +163,13 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w("Shop","Failed to get database", databaseError.toException());
+                Log.w("Shop", "Failed to get database", databaseError.toException());
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
 
-    private void setRecyclerView(List<Shop> list){
+    private void setRecyclerView(List<Shop> list) {
         ShopRecyclerAdapter recyclerAdapter = new ShopRecyclerAdapter(list, activity);
         RecyclerView.LayoutManager recycle = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(recycle);
