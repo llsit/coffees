@@ -2,6 +2,7 @@ package com.cmu.nuts.coffee9.main.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -46,7 +47,7 @@ public class SearchFragment extends Fragment {
     private String shopid;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
@@ -84,8 +85,8 @@ public class SearchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 databaseReference = database.getReference(Shop.tag);
-                getShopDatabase(query);
-//                compareDatabase(query);
+//                getShopDatabase(query);
+                compareDatabase(query);
                 return false;
             }
 
@@ -114,20 +115,51 @@ public class SearchFragment extends Fragment {
         setRecyclerView(new_shop);
     }
 
-    private void compareDatabase(final String query){
-        final String querys = query.toLowerCase();
-        databaseReference.addValueEventListener(new ValueEventListener() {
+    private void compareDatabase(final String query) {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Shop value = dataSnapshot1.getValue(Shop.class);
-                    String nameShop = value.getName().toLowerCase();
-                    if (nameShop.startsWith(querys)){
-                        shopid = value.getSid();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String id = snapshot.getKey();
+                    String values = snapshot.child("name").getValue(String.class);
+
+                    assert values != null;
+                    if (values.toLowerCase().contains(query.toLowerCase())) {
+                        DatabaseReference sDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(id);
+                        sDatabase.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                shops = new ArrayList<>();
+                                shops.clear();
+                                for (DataSnapshot snaps : dataSnapshot.getChildren()) {
+                                    Shop values = snaps.getValue(Shop.class);
+                                    assert values != null;
+                                    String sid = values.getSid();
+                                    String name = values.getName();
+                                    String address = values.getAddress();
+                                    String detail = values.getDetail();
+                                    String location = values.getLocation();
+                                    String open_time = values.getOpen_hour();
+                                    String price = values.getPrice();
+                                    String uid = values.getUid();
+
+                                    Shop shop = new Shop(sid, name, address, detail, location, open_time, price, uid);
+                                    shops.add(shop);
+                                }
+                                setRecyclerView(shops);
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        Log.d("Upload", " name " + values + " id = " + id);
                     }
                 }
-                setRecyclerView(shops);
-                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
@@ -138,24 +170,26 @@ public class SearchFragment extends Fragment {
         });
 
     }
+
     private void getShopDatabase(String query) {
         databaseReference.orderByChild("name").startAt(query).endAt(query + "\uf8ff").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 shops = new ArrayList<>();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Shop value = dataSnapshot1.getValue(Shop.class);
-                    String sid = value.getSid();
-                    String name = value.getName();
-                    String address = value.getAddress();
-                    String detail = value.getDetail();
-                    String location = value.getLocation();
-                    String open_time = value.getOpen_hour();
-                    String price = value.getPrice();
-                    String uid = value.getUid();
+//                    Shop value = dataSnapshot1.getValue(Shop.class);
+//                    assert value != null;
+//                    String sid = value.getSid();
+//                    String name = value.getName();
+//                    String address = value.getAddress();
+//                    String detail = value.getDetail();
+//                    String location = value.getLocation();
+//                    String open_time = value.getOpen_hour();
+//                    String price = value.getPrice();
+//                    String uid = value.getUid();
 
-                    Shop shop = new Shop(sid, name, address, detail, location, open_time, price, uid);
-                    shops.add(shop);
+//                    Shop shop = new Shop(sid, name, address, detail, location, open_time, price, uid);
+//                    shops.add(shop);
                 }
                 setRecyclerView(shops);
                 swipeRefreshLayout.setRefreshing(false);
