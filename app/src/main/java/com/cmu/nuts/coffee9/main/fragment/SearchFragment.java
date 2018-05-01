@@ -116,48 +116,18 @@ public class SearchFragment extends Fragment {
     }
 
     private void compareDatabase(final String query) {
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        shops = new ArrayList<>();
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String id = snapshot.getKey();
                     String values = snapshot.child("name").getValue(String.class);
 
                     assert values != null;
                     if (values.toLowerCase().contains(query.toLowerCase())) {
-                        DatabaseReference sDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(id);
-                        sDatabase.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                shops = new ArrayList<>();
-                                shops.clear();
-                                for (DataSnapshot snaps : dataSnapshot.getChildren()) {
-                                    Shop values = snaps.getValue(Shop.class);
-                                    assert values != null;
-                                    String sid = values.getSid();
-                                    String name = values.getName();
-                                    String address = values.getAddress();
-                                    String detail = values.getDetail();
-                                    String location = values.getLocation();
-                                    String open_time = values.getOpen_hour();
-                                    String price = values.getPrice();
-                                    String uid = values.getUid();
-
-                                    Shop shop = new Shop(sid, name, address, detail, location, open_time, price, uid);
-                                    shops.add(shop);
-                                }
-                                setRecyclerView(shops);
-                                swipeRefreshLayout.setRefreshing(false);
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-
-                        Log.d("Upload", " name " + values + " id = " + id);
+                        getShopDatabase(id);
+                        Log.d("Search", " name " + values + " id = " + id);
                     }
                 }
             }
@@ -171,26 +141,27 @@ public class SearchFragment extends Fragment {
 
     }
 
-    private void getShopDatabase(String query) {
-        databaseReference.orderByChild("name").startAt(query).endAt(query + "\uf8ff").addValueEventListener(new ValueEventListener() {
+    private void getShopDatabase(String id) {
+//        Log.d("Search", " id = " + id);
+        DatabaseReference sDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(id);
+        sDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                shops = new ArrayList<>();
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-//                    Shop value = dataSnapshot1.getValue(Shop.class);
-//                    assert value != null;
-//                    String sid = value.getSid();
-//                    String name = value.getName();
-//                    String address = value.getAddress();
-//                    String detail = value.getDetail();
-//                    String location = value.getLocation();
-//                    String open_time = value.getOpen_hour();
-//                    String price = value.getPrice();
-//                    String uid = value.getUid();
+//                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                Shop value = dataSnapshot.getValue(Shop.class);
+                assert value != null;
+                String sid = value.getSid();
+                String name = value.getName();
+                String address = value.getAddress();
+                String detail = value.getDetail();
+                String location = value.getLocation();
+                String open_time = value.getOpen_hour();
+                String price = value.getPrice();
+                String uid = value.getUid();
 
-//                    Shop shop = new Shop(sid, name, address, detail, location, open_time, price, uid);
-//                    shops.add(shop);
-                }
+                Shop shop = new Shop(sid, name, address, detail, location, open_time, price, uid);
+                shops.add(shop);
+//                }
                 setRecyclerView(shops);
                 swipeRefreshLayout.setRefreshing(false);
             }
