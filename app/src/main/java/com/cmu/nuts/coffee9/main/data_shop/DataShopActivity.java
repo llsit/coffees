@@ -94,10 +94,12 @@ public class DataShopActivity extends AppCompatActivity {
                     Share shares = item.getValue(Share.class);
                     url = String.valueOf(Uri.parse(shares.getImg_url()));
                 }
-                Glide
-                        .with(DataShopActivity.this)
-                        .load(url)
-                        .into(imageView);
+                if (url != null) {
+                    Glide
+                            .with(DataShopActivity.this)
+                            .load(url)
+                            .into(imageView);
+                }
 //                tabs.setBackgroundColor(Integer.parseInt("#FFFFFF"));
             }
 

@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.adapter.ImageGridAdapter;
@@ -64,7 +63,6 @@ public class ImageDataShopFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getImage();
-//                getImageByMe();
             }
         });
         byMe.setOnClickListener(new View.OnClickListener() {
@@ -130,8 +128,8 @@ public class ImageDataShopFragment extends Fragment {
     }
 
     private void setAdapter(GridView gridView, final ArrayList<String> arrayList) {
-        Toast.makeText(getActivity(), "Refreshing . .",
-                Toast.LENGTH_LONG).show();
+//        Toast.makeText(getActivity(), "Refreshing . .",
+//                Toast.LENGTH_LONG).show();
         gridView.setAdapter(new ImageGridAdapter(getActivity(), arrayList,status));
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

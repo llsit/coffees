@@ -110,10 +110,8 @@ public class main extends AppCompatActivity {
                         FragmentTransaction ft = manager.beginTransaction();
                         ft.replace(R.id.myFragment, profile);
                         ft.commit();
-
                         break;
                 }
-
                 return true;
             }
         });
