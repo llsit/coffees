@@ -68,9 +68,10 @@ public class reviewDisplayFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_review_display, container, false);
-        if (getArguments() != null){
-            review_ID = getArguments().getString("reviewID");
-//            shop_ID = getArguments().getString("shopID");
+        Bundle bundle = this.getArguments();
+        if (bundle != null){
+            review_ID = bundle.getString("reviewID");
+            shop_ID = getArguments().getString("shopID");
             Toast.makeText(getActivity(), review_ID + "   " + shop_ID, Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(getActivity(), "Null", Toast.LENGTH_SHORT).show();

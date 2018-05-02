@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.cmu.nuts.coffee9.R;
@@ -28,6 +27,8 @@ import com.cmu.nuts.coffee9.model.Shop;
 import com.cmu.nuts.coffee9.utillity.ImageShare;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -55,6 +56,10 @@ public class DataShopActivity extends AppCompatActivity {
     private MenuItem del;
 
     private FirebaseUser auth;
+    ShareButton shareButton;
+
+    String name;
+    String detail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +69,11 @@ public class DataShopActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: Starting.");
 
         SectionsPageAdapter mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+
+        // Finding the facebook share button
+        shareButton = findViewById(R.id.button);
+        // Sharing the content to facebook
+
 
         // Set up the ViewPager with the sections adapter.
         ViewPager mViewPager = findViewById(R.id.htab_viewpager);
@@ -96,6 +106,7 @@ public class DataShopActivity extends AppCompatActivity {
 
             }
         });
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -131,8 +142,37 @@ public class DataShopActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-
         });
+    }
+
+    private void ShareDataShop() {
+
+//        Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
+        DatabaseReference shDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(shop_ID);
+        shDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Shop shops = dataSnapshot.getValue(Shop.class);
+                name = shops.getName();
+                detail = shops.getDetail();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                // Setting the title that will be shared
+                .setContentTitle(name)
+                // Setting the description that will be shared
+                .setContentDescription(detail)
+                // Setting the URL that will be shared
+                .setContentUrl(Uri.parse("https://justa128.github.io/dubai-tour-guide/landingpage/"))
+                // Setting the image that will be shared
+                .setImageUrl(Uri.parse("https://cdn-images-1.medium.com/fit/t/800/240/1*jZ3a6rYqrslI83KJFhdvFg.jpeg"))
+                .build();
+        shareButton.setShareContent(content);
     }
 
     @Override
@@ -272,7 +312,9 @@ public class DataShopActivity extends AppCompatActivity {
 
             case R.id.share:
                 // Code you want run when activity is clicked
-                Toast.makeText(DataShopActivity.this, "done", Toast.LENGTH_LONG).show();
+                ShareDataShop();
+                shareButton.performClick();
+//                Toast.makeText(DataShopActivity.this, "done", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

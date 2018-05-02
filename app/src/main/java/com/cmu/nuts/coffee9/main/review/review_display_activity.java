@@ -63,6 +63,15 @@ public class review_display_activity extends AppCompatActivity {
             }
         });
 
+
+
+        Bundle bundle = new Bundle();
+        bundle.putString("reviewID", review_ID);
+        bundle.putString("shopID", shop_ID);
+        // set Fragmentclass Arguments
+        Toast.makeText(this, review_ID + "   " + shop_ID, Toast.LENGTH_SHORT).show();
+        reviewDisplayFragment fragobj = new reviewDisplayFragment();
+        fragobj.setArguments(bundle);
         comment();
     }
 
