@@ -2,6 +2,7 @@ package com.cmu.nuts.coffee9.main.review;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -64,13 +65,13 @@ public class review_display_activity extends AppCompatActivity {
         });
 
 
-
+        Fragment fragobj = new reviewDisplayFragment();
         Bundle bundle = new Bundle();
         bundle.putString("reviewID", review_ID);
         bundle.putString("shopID", shop_ID);
         // set Fragmentclass Arguments
         Toast.makeText(this, review_ID + "   " + shop_ID, Toast.LENGTH_SHORT).show();
-        reviewDisplayFragment fragobj = new reviewDisplayFragment();
+
         fragobj.setArguments(bundle);
         comment();
     }

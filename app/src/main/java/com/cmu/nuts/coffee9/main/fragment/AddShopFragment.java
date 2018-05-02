@@ -4,6 +4,7 @@ package com.cmu.nuts.coffee9.main.fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.DateTimePickerActivity;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -101,7 +103,13 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
         open_hour = view.findViewById(R.id.edt_open_hour);
         radio_price = view.findViewById(R.id.rdo_price);
         radio_price.check(R.id.rdo_min);
-
+        open_hour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, DateTimePickerActivity.class);
+                startActivity(intent);
+            }
+        });
         btn_add = view.findViewById(R.id.btn_add);
         user = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
