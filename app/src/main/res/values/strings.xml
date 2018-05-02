@@ -133,7 +133,7 @@
     <string name="txt_price">Price</string>
     <string name="txt_add">Add</string>
     <string name="txt_rang_0_100">0-100</string>
-    <string name="txt_rang_101_200">101-200</string>
+    <string name="txt_rang_101_200">101-150</string>
     <string name="txt_rang_over_200">151-200</string>
     <string name="txt_time_hour">Time hour</string>
     <string name="txt_location">Location</string>
@@ -145,5 +145,6 @@
     <string name="title_activity_share_image">ShareImageActivity</string>
     <string name="title_activity_full_image">FullImageActivity</string>
     <string name="title_activity_edit_data_shop">EditDataShopActivity</string>
+    <string name="title_activity_search_filter">SearchFilterActivity</string>
 
 </resources>

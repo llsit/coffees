@@ -1,6 +1,7 @@
 package com.cmu.nuts.coffee9.main.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,8 +19,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.SearchFilterActivity;
 import com.cmu.nuts.coffee9.main.adapter.ShopRecyclerAdapter;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +31,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.ButterKnife;
 
@@ -66,12 +66,8 @@ public class SearchFragment extends Fragment {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new MaterialDialog.Builder(Objects.requireNonNull(getActivity()))
-                        .title("test")
-                        .content("SDsdsdssddsd")
-                        .positiveText("agree")
-                        .negativeText("disagree")
-                        .show();
+                Intent intent = new Intent(getActivity(), SearchFilterActivity.class);
+                startActivity(intent);
             }
         });
 

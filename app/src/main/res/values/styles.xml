@@ -71,4 +71,9 @@
         <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
         <item name="android:colorControlNormal" tools:targetApi="lollipop">@color/colorAccent</item>
     </style>
+
+    <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/color_white</item>
+        <item name="android:textColor">@color/color_orange</item>
+    </style>
 </resources>

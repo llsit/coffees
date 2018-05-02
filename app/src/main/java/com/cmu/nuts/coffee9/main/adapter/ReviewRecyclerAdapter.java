@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.review.review_display_activity;
+import com.cmu.nuts.coffee9.main.reviewDisplayFragment;
 import com.cmu.nuts.coffee9.model.Member;
 import com.cmu.nuts.coffee9.model.Review;
 import com.google.firebase.database.DataSnapshot;
@@ -70,7 +72,7 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
                         .load(member.getPhotoUrl())
                         .placeholder(R.drawable.img_user)
                         .error(R.drawable.img_user)
-                        .resize(200,200)
+                        .resize(200, 200)
                         .centerInside()
                         .into(holder.tv_image);
             }
@@ -101,11 +103,17 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
             public void onClick(View v) {
                 //open new Activity that show Review content
                 Toast.makeText(context, position + " name : " + review.getSid(), Toast.LENGTH_LONG).show();
-                Intent i = new Intent(v.getContext(), review_display_activity.class);
                 String reviewID = review.getRid();
                 String shopID = review.getSid();
+                Bundle bundle = new Bundle();
+                bundle.putString("reviewID", reviewID);
+                bundle.putString("shopID", shopID);
+                // set Fragmentclass Arguments
+                reviewDisplayFragment fragobj = new reviewDisplayFragment();
+                fragobj.setArguments(bundle);
+                Intent i = new Intent(v.getContext(), review_display_activity.class);
                 i.putExtra("reviewID", reviewID);
-                i.putExtra("shopID",shopID);
+                i.putExtra("shopID", shopID);
                 v.getContext().startActivity(i);
             }
         });
