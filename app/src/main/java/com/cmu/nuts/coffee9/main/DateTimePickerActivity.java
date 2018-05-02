@@ -17,7 +17,7 @@ public class DateTimePickerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_date_time_picker);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         Button add = findViewById(R.id.add);
         add.setOnClickListener(new View.OnClickListener() {

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".main.DateTimePickerActivity"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".main.DateTimePickerActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:src="@drawable/ic_back" />
         </android.support.v7.widget.Toolbar>
 
@@ -90,36 +90,74 @@
             android:text="Saturday" />
 
         <RelativeLayout
-
+            android:id="@+id/insert_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/day7">
+            android:layout_below="@+id/day7"
+            android:layout_marginTop="@dimen/range_20">
 
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/time_open"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="@dimen/range_5">
+                android:text="open : " />
 
-                <EditText
-                    android:id="@+id/edt_open_hour"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/txt_time_hour"
-                    android:inputType="textLongMessage" />
-            </android.support.design.widget.TextInputLayout>
+            <EditText
+                android:id="@+id/hr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="56dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@id/time_open"
+                android:inputType="time"
+                android:maxLength="2" />
+
+            <EditText
+                android:id="@+id/min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/hr"
+                android:layout_alignBottom="@+id/hr"
+                android:layout_toEndOf="@id/hr"
+                android:inputType="time"
+                android:maxLength="2" />
+
+
+            <TextView
+                android:id="@+id/time_open2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/min"
+                android:text="close : " />
+
+            <EditText
+                android:id="@+id/hr2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="56dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@id/time_open2"
+                android:inputType="time"
+                android:maxLength="2" />
+
+            <EditText
+                android:id="@+id/min2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/hr2"
+                android:layout_alignBottom="@+id/hr2"
+                android:layout_toEndOf="@id/hr2"
+                android:inputType="time"
+                android:maxLength="2" />
         </RelativeLayout>
 
-
-
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/add_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/insert_time"
             android:layout_marginTop="32dp"
-            android:text="Order" />
+            android:text="Add" />
 
 
     </RelativeLayout>
