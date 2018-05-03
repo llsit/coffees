@@ -137,10 +137,8 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
                         break;
                 }
 
-
                 Shop shopData = new Shop(coffee_ID, name, addressshop, Detail, locat, open, prices, authorID);
                 mDatabase.child("coffee_shop").child(coffee_ID).setValue(shopData);
-
                 Toast.makeText(getActivity(), "Add Success", Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }
@@ -197,7 +195,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
     @SuppressLint("SetTextI18n")
     private void setMaps(final double latitude, final double longitude) {
         location.setEnabled(true);
-        location.setText(String.valueOf(latitude) + ":" + String.valueOf(longitude));
+        location.setText(String.valueOf(latitude) + "|" + String.valueOf(longitude));
         location.setEnabled(false);
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override

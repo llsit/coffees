@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.review.ReviewActivity;
+import com.cmu.nuts.coffee9.model.Review;
 import com.cmu.nuts.coffee9.model.Share;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.cmu.nuts.coffee9.utillity.ImageShare;
@@ -74,7 +75,6 @@ public class DataShopActivity extends AppCompatActivity {
         shareButton = findViewById(R.id.button);
         // Sharing the content to facebook
 
-
         // Set up the ViewPager with the sections adapter.
         ViewPager mViewPager = findViewById(R.id.htab_viewpager);
         setupViewPager(mViewPager);
@@ -92,6 +92,7 @@ public class DataShopActivity extends AppCompatActivity {
                 String url = null;
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Share shares = item.getValue(Share.class);
+                    assert shares != null;
                     url = String.valueOf(Uri.parse(shares.getImg_url()));
                 }
                 if (url != null) {
@@ -108,7 +109,6 @@ public class DataShopActivity extends AppCompatActivity {
 
             }
         });
-
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -155,6 +155,7 @@ public class DataShopActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shop shops = dataSnapshot.getValue(Shop.class);
+                assert shops != null;
                 name = shops.getName();
                 detail = shops.getDetail();
             }
@@ -170,7 +171,7 @@ public class DataShopActivity extends AppCompatActivity {
                 // Setting the description that will be shared
                 .setContentDescription(detail)
                 // Setting the URL that will be shared
-                .setContentUrl(Uri.parse("https://justa128.github.io/dubai-tour-guide/landingpage/"))
+                .setContentUrl(Uri.parse("http://www.cs.science.cmu.ac.th/"))
                 // Setting the image that will be shared
                 .setImageUrl(Uri.parse("https://cdn-images-1.medium.com/fit/t/800/240/1*jZ3a6rYqrslI83KJFhdvFg.jpeg"))
                 .build();
@@ -291,7 +292,6 @@ public class DataShopActivity extends AppCompatActivity {
 
             }
         });
-
         return true;
     }
 
@@ -308,7 +308,12 @@ public class DataShopActivity extends AppCompatActivity {
             case R.id.delete_data_shop:
                 // Code you want run when activity is clicked
                 DatabaseReference delDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(shop_ID);
+                DatabaseReference RdelDatabase = FirebaseDatabase.getInstance().getReference(Review.tag).child(shop_ID);
+                DatabaseReference SdelDatabase = FirebaseDatabase.getInstance().getReference(Share.tag).child(shop_ID);
+
                 delDatabase.child(shop_ID).removeValue();
+                SdelDatabase.child(shop_ID).removeValue();
+                RdelDatabase.child(shop_ID).removeValue();
                 finish();
                 return true;
 

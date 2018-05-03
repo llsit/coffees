@@ -100,8 +100,6 @@ public class FullImageActivity extends AppCompatActivity {
         DelImgview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Share.tag).child(shop_ID);
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override

@@ -113,16 +113,23 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
                     Shop shop = item.getValue(Shop.class);
                     assert shop != null;
                     String locats = shop.getLocation();
-                    String[] separated = locats.split("\\|");
-                    String lat = separated[0];
-                    String longs = separated[1];
-                    Toast.makeText(getActivity(), locats, Toast.LENGTH_SHORT).show();
-//                    map.put("LocationName", shop.getName());
-//                    map.put("latitude", lat);
-//                    map.put("longitude", longs);
-//                    location.add(map);
+                    String separated[] = locats.split("\\|");
+                    String lat = null;
+                    for (int i = 0; i < separated.length - 1; i++) {
+                        lat = separated[i];
+                        System.out.println(lat);
+                    }
+                    String longs = null;
+                    for (int i = 1; i < separated.length; i++) {
+                        longs = separated[1];
+                        System.out.println(longs);
+                    }
+//                    Toast.makeText(getActivity(), locats, Toast.LENGTH_SHORT).show();
+                    map.put("LocationName", shop.getName());
+                    map.put("latitude", lat);
+                    map.put("longitude", longs);
+                    location.add(map);
                 }
-
             }
 
             @Override

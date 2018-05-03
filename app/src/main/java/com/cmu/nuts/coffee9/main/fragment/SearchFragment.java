@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.SearchFilterActivity;
@@ -71,6 +72,16 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        if (getArguments() != null){
+            String strtext = getArguments().getString("edttext");
+            System.out.println(strtext);
+            Toast.makeText(getActivity(), strtext, Toast.LENGTH_LONG).show();
+//            assert values != null;
+//            compareFilter(values);
+        }else{
+            System.out.println("Null");
+        }
+
 
 //        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 //            @Override
@@ -113,6 +124,14 @@ public class SearchFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private void compareFilter(ArrayList<String> values) {
+        for(String a : values){
+            System.out.print(a);
+        }
+//        DatabaseReference fDatebase = FirebaseDatabase.getInstance().getReference(Shop.tag);
+
     }
 
     private void onSearch(List<Shop> list, String key) {

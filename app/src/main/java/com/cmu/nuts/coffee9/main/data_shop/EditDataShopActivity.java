@@ -84,7 +84,6 @@ public class EditDataShopActivity extends AppCompatActivity {
         btn_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 name = nameshop.getText().toString();
                 addressshop = Addressshop.getText().toString();
                 Detail = detail.getText().toString();
