@@ -35,9 +35,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class reviewDisplayFragment extends Fragment {
 
     //review
@@ -68,13 +65,12 @@ public class reviewDisplayFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_review_display, container, false);
-        Bundle bundle = this.getArguments();
-        if (bundle != null){
-            review_ID = bundle.getString("reviewID");
-            shop_ID = getArguments().getString("shopID");
+
+
+        if (getArguments() != null) {
+            review_ID = getArguments().getString("reviewIDs");
+            shop_ID = getArguments().getString("shopIDs");
             Toast.makeText(getActivity(), review_ID + "   " + shop_ID, Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(getActivity(), "Null", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -86,6 +82,7 @@ public class reviewDisplayFragment extends Fragment {
         review_image = view.findViewById(R.id.display_review_image);
         image_review = view.findViewById(R.id.display_image_review);
 
+        System.out.println(shop_ID + review_ID);
 //        getDataReview();
 //        displayComment(view);
 

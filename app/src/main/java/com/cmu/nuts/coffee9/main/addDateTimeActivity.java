@@ -1,5 +1,6 @@
 package com.cmu.nuts.coffee9.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,13 +12,15 @@ import android.widget.EditText;
 import com.cmu.nuts.coffee9.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class addDateTimeActivity extends AppCompatActivity {
 
     EditText open_hr, open_min, close_hr, close_min;
     CheckBox day1, day2, day3, day4, day5, day6, day7;
     Button add_time;
-
+    ArrayList<HashMap<String, String>> times = new ArrayList<HashMap<String, String>>();
+    HashMap<String, String> timess;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +47,7 @@ public class addDateTimeActivity extends AppCompatActivity {
         add_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                timess = new HashMap<String, String>();
                 StringBuilder result = new StringBuilder();
                 if (day1.isChecked()) {
                     result.append("\nSunday");
@@ -106,21 +110,26 @@ public class addDateTimeActivity extends AppCompatActivity {
                             arrayTime.add(String.valueOf(open_mins));
                             arrayTime.add(String.valueOf(close_hrs));
                             arrayTime.add(String.valueOf(close_mins));
+                            Intent intent = new Intent(addDateTimeActivity.this, DateTimePickerActivity.class);
+                            intent.putStringArrayListExtra("arrlisttime",arrayTime);
+                            intent.putStringArrayListExtra("arrlistdate",arrayDate);
+                            startActivity(intent);
                         }
                     }
                 }
 
 
-                result.append(close_hr.getText()).append(":").append(close_min.getText());
+//                result.append(close_hr.getText()).append(":").append(close_min.getText());
+//
+//
+//                //Displaying the message on the toast
+//                for (int i = 0; i < arrayDate.size(); i++) {
+//                    System.out.println(arrayDate.get(i));
+//                }
+//                for (int i = 0; i < arrayTime.size(); i++) {
+//                    System.out.println(arrayTime.get(i));
+//                }
 
-
-                //Displaying the message on the toast
-                for (int i = 0; i < arrayDate.size(); i++) {
-                    System.out.println(arrayDate.get(i));
-                }
-                for (int i = 0; i < arrayTime.size(); i++) {
-                    System.out.println(arrayTime.get(i));
-                }
 
 //                Toast.makeText(getApplicationContext(), result.toString(), Toast.LENGTH_LONG).show();
             }

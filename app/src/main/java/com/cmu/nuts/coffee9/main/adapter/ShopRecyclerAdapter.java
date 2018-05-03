@@ -8,18 +8,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.data_shop.DataShopActivity;
 import com.cmu.nuts.coffee9.model.Favorite;
+import com.cmu.nuts.coffee9.model.Share;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -31,7 +36,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
 
     private List<Shop> shops;
     private Context context;
-    private DatabaseReference mDatabase,fDatabase;
+    private DatabaseReference mDatabase,iDatebase;
     private FirebaseUser user;
 
     public ShopRecyclerAdapter(List<Shop> shops, Context context) {
@@ -57,6 +62,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         holder.tv_address.setText(shop.getAddress());
         holder.tv_uid.setText(shop.getUid());
         holder.tv_location.setText(shop.getLocation());
+
 
 //        fDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag);
 //        fDatabase.addValueEventListener(new ValueEventListener() {
@@ -110,6 +116,25 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         });
     }
 
+    private String getImage(String sid) {
+        final String[] url = {null};
+        DatabaseReference iDatebase = FirebaseDatabase.getInstance().getReference(Share.tag).child(sid);
+        iDatebase.limitToFirst(1).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Share shares = dataSnapshot.getValue(Share.class);
+                assert shares != null;
+                url[0] = shares.getImg_url();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return url[0];
+    }
+
     @Override
     public int getItemCount() {
         int arr = 0;
@@ -136,6 +161,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         TextView tv_uid;
         TextView tv_location;
         MaterialFavoriteButton tv_fav;
+        ImageView tv_image;
 
         ShopHolder(View itemView) {
             super(itemView);
@@ -149,6 +175,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
             tv_location = itemView.findViewById(R.id.item_shop_location);
             cardView = itemView.findViewById(R.id.item_shop_card_view);
             tv_fav = itemView.findViewById(R.id.love);
+            tv_image = itemView.findViewById(R.id.item_shop_img);
         }
     }
 }

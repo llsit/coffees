@@ -7,6 +7,7 @@
     tools:context=".main.DateTimePickerActivity">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -32,6 +33,16 @@
         android:id="@+id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_below="@+id/bar"
+        android:layout_marginTop="10dp"
         android:text="add" />
+
+    <ListView
+        android:id="@+id/listViewAnimals"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/add"
+        android:layout_marginTop="@dimen/range_10"
+        android:divider="#0000CC"
+        android:dividerHeight="0.1dp" />
 </RelativeLayout>
