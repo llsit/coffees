@@ -59,7 +59,7 @@ public class DetailDataShopFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shop shop = dataSnapshot.getValue(Shop.class);
                 assert shop != null;
-                name.setText(getActivity().getString(R.string.name_data_shop).concat(shop.getName()));
+                name.setText(shop.getName());
                 address.setText(shop.getAddress());
                 detail.setText(shop.getDetail());
                 opne_hour.setText(shop.getOpen_hour());

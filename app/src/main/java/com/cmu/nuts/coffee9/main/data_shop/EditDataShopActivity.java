@@ -40,9 +40,7 @@ public class EditDataShopActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         shop_id = intent.getStringExtra("shopid");
-
-
-
+        location = findViewById(R.id.location);
         nameshop = findViewById(R.id.edit_data_name_shop);
         Addressshop = findViewById(R.id.edit_data_address_shop);
         detail = findViewById(R.id.edit_data_detail);
@@ -52,7 +50,7 @@ public class EditDataShopActivity extends AppCompatActivity {
         btn_done = findViewById(R.id.edit_data_btn_done);
 
         getDataShop();
-//        editDataShop();
+        editDataShop();
     }
 
     private void getDataShop() {
@@ -61,13 +59,14 @@ public class EditDataShopActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 //                for (DataSnapshot item : dataSnapshot.getChildren()){
-                    Shop shops = dataSnapshot.getValue(Shop.class);
-                    Toast.makeText(EditDataShopActivity.this, "id = " + shops.getSid(), Toast.LENGTH_SHORT).show();
-                    nameshop.setText(shops.getName());
-                    Addressshop.setText(shops.getAddress());
-                    detail.setText(shops.getDetail());
-                    open_hour.setText(shops.getOpen_hour());
-                    radio_price.check(R.id.rdo_min);
+                Shop shops = dataSnapshot.getValue(Shop.class);
+                Toast.makeText(EditDataShopActivity.this, "id = " + shops.getSid(), Toast.LENGTH_SHORT).show();
+                nameshop.setText(shops.getName());
+                Addressshop.setText(shops.getAddress());
+                detail.setText(shops.getDetail());
+                open_hour.setText(shops.getOpen_hour());
+                radio_price.check(R.id.rdo_min);
+                location.setText(shops.getLocation());
 //                }
             }
 
@@ -80,7 +79,6 @@ public class EditDataShopActivity extends AppCompatActivity {
 
     private void editDataShop() {
 
-
         user = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         btn_done.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +89,6 @@ public class EditDataShopActivity extends AppCompatActivity {
                 addressshop = Addressshop.getText().toString();
                 Detail = detail.getText().toString();
                 authorID = user.getUid();
-                coffee_ID = mDatabase.push().getKey();
                 locat = location.getText().toString();
                 open = open_hour.getText().toString();
 
@@ -107,12 +104,11 @@ public class EditDataShopActivity extends AppCompatActivity {
                         break;
                 }
 
-
-                Shop shopData = new Shop(coffee_ID, name, addressshop, Detail, locat, open, prices, authorID);
-                mDatabase.child("coffee_shop").child(coffee_ID).setValue(shopData);
+                Shop shopData = new Shop(shop_id, name, addressshop, Detail, locat, open, prices, authorID);
+                mDatabase.child("coffee_shop").child(shop_id).setValue(shopData);
 
                 Toast.makeText(EditDataShopActivity.this, "Edit Success", Toast.LENGTH_SHORT).show();
-
+                finish();
             }
         });
     }

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 
@@ -38,40 +37,93 @@ public class addDateTimeActivity extends AppCompatActivity {
         close_hr = findViewById(R.id.hr2);
         close_min = findViewById(R.id.min2);
         add_time = findViewById(R.id.add_time);
-        ArrayList arrayTime = new ArrayList();
+        final ArrayList<String> arrayTime = new ArrayList<>();
+        final ArrayList<String> arrayDate = new ArrayList<String>();
+
+
         add_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 StringBuilder result = new StringBuilder();
                 if (day1.isChecked()) {
                     result.append("\nSunday");
+                    arrayDate.add("Sunday");
                 }
                 if (day2.isChecked()) {
                     result.append("\nMonday");
+                    arrayDate.add("Monday");
                 }
                 if (day3.isChecked()) {
                     result.append("\nTuesday");
+                    arrayDate.add("Tuesday");
                 }
                 if (day4.isChecked()) {
                     result.append("\nWednesday");
+                    arrayDate.add("Wednesday");
                 }
                 if (day5.isChecked()) {
                     result.append("\nThursday");
+                    arrayDate.add("Thursday");
                 }
                 if (day6.isChecked()) {
                     result.append("\nFriday");
+                    arrayDate.add("Friday");
                 }
                 if (day7.isChecked()) {
                     result.append("\nSaturday");
+                    arrayDate.add("Saturday");
                 }
 
                 result.append(open_hr.getText()).append(":").append(open_min.getText()).append("\n");
+
+                int open_hrs = Integer.parseInt(String.valueOf(open_hr.getText()));
+                int open_mins = Integer.parseInt(String.valueOf(open_min.getText()));
+                int close_hrs = Integer.parseInt(String.valueOf(close_hr.getText()));
+                int close_mins = Integer.parseInt(String.valueOf(close_min.getText()));
+
+                if (open_hrs > 24 && open_hrs < 1) {
+                    if (close_hrs > 24 && close_hrs < 1) {
+                        close_hr.setError("Incorrect");
+                        open_hr.setError("Incorrect");
+                    } else {
+                        open_hr.setError("Incorrect");
+                    }
+                    if (open_mins > 60 && open_mins < 0) {
+                        open_min.setError("Incorrect");
+                        open_hr.setError("Incorrect");
+                    } else {
+                        open_hr.setError("Incorrect");
+                    }
+                } else {
+                    if (close_hrs > 24 && close_hrs < 1) {
+                        close_hr.setError("Incorrect");
+                    } else {
+                        if (close_mins > 60 && close_mins < 0) {
+                            close_hr.setError("Incorrect");
+                            close_min.setError("Incorrect");
+                        } else {
+                            arrayTime.add(String.valueOf(open_hrs));
+                            arrayTime.add(String.valueOf(open_mins));
+                            arrayTime.add(String.valueOf(close_hrs));
+                            arrayTime.add(String.valueOf(close_mins));
+                        }
+                    }
+                }
+
+
                 result.append(close_hr.getText()).append(":").append(close_min.getText());
 
+
                 //Displaying the message on the toast
-                Toast.makeText(getApplicationContext(), result.toString(), Toast.LENGTH_LONG).show();
+                for (int i = 0; i < arrayDate.size(); i++) {
+                    System.out.println(arrayDate.get(i));
+                }
+                for (int i = 0; i < arrayTime.size(); i++) {
+                    System.out.println(arrayTime.get(i));
+                }
+
+//                Toast.makeText(getApplicationContext(), result.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }
-
 }

@@ -16,15 +16,26 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.model.Shop;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
@@ -43,6 +54,8 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
     private GoogleMap googleMap;
     private GoogleApiClient googleApiClient;
     private Activity activity;
+    ArrayList<HashMap<String, String>> location = new ArrayList<HashMap<String, String>>();
+    HashMap<String, String> map;
 
 
     @Override
@@ -55,7 +68,7 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
         try {
             mMapView.onCreate(savedInstanceState);
             mMapView.onResume(); // needed to get the map to display immediately
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e("Google maps error", "The error is " + e.getMessage());
             e.printStackTrace();
         }
@@ -65,7 +78,7 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        getLocation();
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
@@ -73,22 +86,54 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
 
                 int REQUEST_CODE_ASK_PERMISSIONS = 123;
                 if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                             REQUEST_CODE_ASK_PERMISSIONS);
                     return;
                 }
 
                 if (ActivityCompat.checkSelfPermission(activity,
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION},
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                             REQUEST_CODE_ASK_PERMISSIONS);
                 }
             }
         });
+
         return view;
     }
 
-    private void setMaps(final double latitude, final double longitude){
+    private void getLocation() {
+        final List<String> list = new ArrayList<String>();
+        DatabaseReference mDatebase = FirebaseDatabase.getInstance().getReference(Shop.tag);
+        mDatebase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                map = new HashMap<String, String>();
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    Shop shop = item.getValue(Shop.class);
+                    assert shop != null;
+                    String locats = shop.getLocation();
+                    String[] separated = locats.split("\\|");
+                    String lat = separated[0];
+                    String longs = separated[1];
+                    Toast.makeText(getActivity(), locats, Toast.LENGTH_SHORT).show();
+//                    map.put("LocationName", shop.getName());
+//                    map.put("latitude", lat);
+//                    map.put("longitude", longs);
+//                    location.add(map);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    private void setMaps(final double latitude, final double longitude) {
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
@@ -96,14 +141,14 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
 
                 int REQUEST_CODE_ASK_PERMISSIONS = 123;
                 if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                             REQUEST_CODE_ASK_PERMISSIONS);
                     return;
                 }
 
                 if (ActivityCompat.checkSelfPermission(activity,
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION},
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                             REQUEST_CODE_ASK_PERMISSIONS);
                     return;
                 }
@@ -115,6 +160,15 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
                 // For zooming automatically to the location of the marker
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(17).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+                for (int i = 0; i < location.size(); i++) {
+                    double Latitude = Double.parseDouble(location.get(i).get("Latitude"));
+                    double Longitude = Double.parseDouble(location.get(i).get("Longitude"));
+                    String name = location.get(i).get("LocationName");
+                    MarkerOptions marker = new MarkerOptions().position(new LatLng(Latitude, Longitude)).title(name);
+                    marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
+                    googleMap.addMarker(marker);
+                }
             }
         });
     }
@@ -122,7 +176,7 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
     @Override
     public void onStart() {
         super.onStart();
-        if(SmartLocation.with(activity).location().state().locationServicesEnabled()) {
+        if (SmartLocation.with(activity).location().state().locationServicesEnabled()) {
             LocationParams params = new LocationParams.Builder()
                     .setAccuracy(LocationAccuracy.HIGH)
                     .setInterval(2500)
@@ -136,7 +190,6 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
             locationServiceUnavailable();
         }
     }
-
 
 
     @Override
@@ -153,7 +206,7 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
     }
 
     private void locationServiceUnavailable() {
-        Toast.makeText(activity,"Location service unavailable, Please turn it on",Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "Location service unavailable, Please turn it on", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -99,7 +99,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
             @Override
             public void onClick(View v) {
                 //open new Activity that show Shop content
-                Toast.makeText(context, position + " name : " + shop.getSid(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, position + " name : " + shop.getSid(), Toast.LENGTH_LONG).show();
                 Intent i = new Intent(v.getContext(), DataShopActivity.class);
                 String shopID;
                 shopID = shop.getSid();

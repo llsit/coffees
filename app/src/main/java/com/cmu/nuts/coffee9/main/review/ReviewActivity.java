@@ -99,7 +99,6 @@ public class ReviewActivity extends AppCompatActivity {
         ImageReview imageManager = new ImageReview(ReviewActivity.class, rid);
         for (int i = 0, l = images.size(); i < l; i++) {
             stringBuffer.append(images.get(i).getPath());
-
             imageManager.uploadImage(rid, Uri.fromFile(new File(images.get(i).getPath())));
 
         }
@@ -161,7 +160,6 @@ public class ReviewActivity extends AppCompatActivity {
             case R.id.post:
                 addReview();
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
