@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.cmu.nuts.coffee9.R;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 public class DateTimePickerActivity extends AppCompatActivity {
 
+    ImageView back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +25,13 @@ public class DateTimePickerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         ListView listView = findViewById(R.id.listViewAnimals);
-
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             ArrayList<String> date = new ArrayList<>();

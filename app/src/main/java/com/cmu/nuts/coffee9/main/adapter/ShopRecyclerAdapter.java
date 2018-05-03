@@ -36,8 +36,8 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
 
     private List<Shop> shops;
     private Context context;
-    private DatabaseReference mDatabase,iDatebase;
-    private FirebaseUser user;
+    private DatabaseReference mDatabase, fDatabase;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     public ShopRecyclerAdapter(List<Shop> shops, Context context) {
         this.shops = shops;
@@ -64,42 +64,45 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         holder.tv_location.setText(shop.getLocation());
 
 
-//        fDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag);
-//        fDatabase.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot item : dataSnapshot.getChildren()){
-//                    Favorite fav = item.getValue(Favorite.class);
-//                    fav.getSid();
-//                    if ()
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-        holder.tv_fav.setOnFavoriteChangeListener(
-                new MaterialFavoriteButton.OnFavoriteChangeListener() {
-                    @Override
-                    public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
-                        user = FirebaseAuth.getInstance().getCurrentUser();
-                        mDatabase = FirebaseDatabase.getInstance().getReference();
-                        String fid = mDatabase.push().getKey();
-                        String uid = user.getUid();
-                        String sid = shop.getSid();
-                        if (favorite) {
-                            Favorite fav = new Favorite(fid, uid, sid);
-                            mDatabase.child("Favorite").child(uid).child(fid).setValue(fav);
-                            Toast.makeText(context, "love it", Toast.LENGTH_LONG).show();
-                        } else {
-                            mDatabase.child(Favorite.tag).child(uid).child(fid).removeValue();
+        fDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(user.getUid());
+        fDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    Favorite fav = item.getValue(Favorite.class);
+                    if (fav.getSid().equals(shop.getSid())) {
+                        holder.tv_fav.setVisibility(View.GONE);
+                    } else {
+                        holder.tv_fav.setOnFavoriteChangeListener(
+                                new MaterialFavoriteButton.OnFavoriteChangeListener() {
+                                    @Override
+                                    public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
+                                        user = FirebaseAuth.getInstance().getCurrentUser();
+                                        mDatabase = FirebaseDatabase.getInstance().getReference();
+                                        String fid = mDatabase.push().getKey();
+                                        String uid = user.getUid();
+                                        String sid = shop.getSid();
+                                        if (favorite) {
+                                            Favorite fav = new Favorite(fid, uid, sid);
+                                            mDatabase.child("Favorite").child(uid).child(fid).setValue(fav);
+                                            Toast.makeText(context, "love it", Toast.LENGTH_LONG).show();
+                                        } else {
+                                            mDatabase.child(Favorite.tag).child(uid).child(fid).removeValue();
 //                            Toast.makeText(context, "not love", Toast.LENGTH_LONG).show();
-                        }
+                                        }
 
+                                    }
+                                });
                     }
-                });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override

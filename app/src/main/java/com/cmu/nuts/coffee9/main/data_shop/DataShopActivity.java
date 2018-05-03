@@ -71,6 +71,25 @@ public class DataShopActivity extends AppCompatActivity {
 
         SectionsPageAdapter mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
 
+//        Button button = findViewById(R.id.check);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                new GraphRequest(
+//                        AccessToken.getCurrentAccessToken(),
+//                        "/{id}",
+//                        null,
+//                        HttpMethod.GET,
+//                        new GraphRequest.Callback() {
+//                            public void onCompleted(GraphResponse response) {
+//                                /* handle the result */
+//                                System.out.println("passed");
+//                            }
+//                        }
+//                ).executeAsync();
+//            }
+//        });
+
         // Finding the facebook share button
         shareButton = findViewById(R.id.button);
         // Sharing the content to facebook

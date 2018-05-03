@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.cmu.nuts.coffee9.R;
 
@@ -21,6 +22,7 @@ public class addDateTimeActivity extends AppCompatActivity {
     Button add_time;
     ArrayList<HashMap<String, String>> times = new ArrayList<HashMap<String, String>>();
     HashMap<String, String> timess;
+    ImageView back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +30,13 @@ public class addDateTimeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         day1 = findViewById(R.id.day1);
         day2 = findViewById(R.id.day2);
         day3 = findViewById(R.id.day3);
@@ -42,7 +51,6 @@ public class addDateTimeActivity extends AppCompatActivity {
         add_time = findViewById(R.id.add_time);
         final ArrayList<String> arrayTime = new ArrayList<>();
         final ArrayList<String> arrayDate = new ArrayList<String>();
-
 
         add_time.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,38 +93,14 @@ public class addDateTimeActivity extends AppCompatActivity {
                 int close_hrs = Integer.parseInt(String.valueOf(close_hr.getText()));
                 int close_mins = Integer.parseInt(String.valueOf(close_min.getText()));
 
-                if (open_hrs > 24 && open_hrs < 1) {
-                    if (close_hrs > 24 && close_hrs < 1) {
-                        close_hr.setError("Incorrect");
-                        open_hr.setError("Incorrect");
-                    } else {
-                        open_hr.setError("Incorrect");
-                    }
-                    if (open_mins > 60 && open_mins < 0) {
-                        open_min.setError("Incorrect");
-                        open_hr.setError("Incorrect");
-                    } else {
-                        open_hr.setError("Incorrect");
-                    }
-                } else {
-                    if (close_hrs > 24 && close_hrs < 1) {
-                        close_hr.setError("Incorrect");
-                    } else {
-                        if (close_mins > 60 && close_mins < 0) {
-                            close_hr.setError("Incorrect");
-                            close_min.setError("Incorrect");
-                        } else {
-                            arrayTime.add(String.valueOf(open_hrs));
-                            arrayTime.add(String.valueOf(open_mins));
-                            arrayTime.add(String.valueOf(close_hrs));
-                            arrayTime.add(String.valueOf(close_mins));
-                            Intent intent = new Intent(addDateTimeActivity.this, DateTimePickerActivity.class);
-                            intent.putStringArrayListExtra("arrlisttime",arrayTime);
-                            intent.putStringArrayListExtra("arrlistdate",arrayDate);
-                            startActivity(intent);
-                        }
-                    }
-                }
+                arrayTime.add(String.valueOf(open_hrs));
+                arrayTime.add(String.valueOf(open_mins));
+                arrayTime.add(String.valueOf(close_hrs));
+                arrayTime.add(String.valueOf(close_mins));
+                Intent intent = new Intent(addDateTimeActivity.this, DateTimePickerActivity.class);
+                intent.putStringArrayListExtra("arrlisttime",arrayTime);
+                intent.putStringArrayListExtra("arrlistdate",arrayDate);
+                startActivity(intent);
 
 
 //                result.append(close_hr.getText()).append(":").append(close_min.getText());
