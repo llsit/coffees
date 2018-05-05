@@ -1,13 +1,15 @@
 package com.cmu.nuts.coffee9.main.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
-import com.cmu.nuts.coffee9.main.SearchFilterActivity;
 import com.cmu.nuts.coffee9.main.adapter.ShopRecyclerAdapter;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.ButterKnife;
 
@@ -67,8 +69,36 @@ public class SearchFragment extends Fragment {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SearchFilterActivity.class);
-                startActivity(intent);
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(Objects.requireNonNull(getContext()));
+                LayoutInflater inflater = getLayoutInflater();
+
+                @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.dialog_custom, null);
+                builder.setView(view);
+
+//                final EditText username = (EditText) view.findViewById(R.id.username);
+//                final EditText password = (EditText) view.findViewById(R.id.password);
+
+                builder.setPositiveButton("Search", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Check username password
+
+                        Toast.makeText(getContext(), "Login Failed!",
+                                Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                builder.show();
+//                Intent intent = new Intent(getActivity(), SearchFilterActivity.class);
+//                startActivity(intent);
             }
         });
 
