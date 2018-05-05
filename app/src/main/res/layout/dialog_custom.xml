@@ -157,7 +157,7 @@
             android:text="Open now" />
 
         <CheckBox
-            android:id="@+id/chkIos23"
+            android:id="@+id/now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/time"
@@ -166,7 +166,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/chkIos23"
+            android:layout_below="@+id/now"
             android:gravity="center">
 
             <TextView

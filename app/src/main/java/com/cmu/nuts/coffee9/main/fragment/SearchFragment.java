@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -65,42 +69,8 @@ public class SearchFragment extends Fragment {
         recyclerView = view.findViewById(R.id.search_recycler_view);
         filter = view.findViewById(R.id.filter);
         database = FirebaseDatabase.getInstance();
+        filters();
 
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(Objects.requireNonNull(getContext()));
-                LayoutInflater inflater = getLayoutInflater();
-
-                @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.dialog_custom, null);
-                builder.setView(view);
-
-//                final EditText username = (EditText) view.findViewById(R.id.username);
-//                final EditText password = (EditText) view.findViewById(R.id.password);
-
-                builder.setPositiveButton("Search", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Check username password
-
-                        Toast.makeText(getContext(), "Login Failed!",
-                                Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-                builder.show();
-//                Intent intent = new Intent(getActivity(), SearchFilterActivity.class);
-//                startActivity(intent);
-            }
-        });
 
         if (getArguments() != null) {
             ArrayList<String> strtext = getArguments().getStringArrayList("edttext");
@@ -159,11 +129,122 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    private void compareFilter(ArrayList<String> values) {
-        for (String a : values) {
-            System.out.print(a);
+    private void filters() {
+
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder builder =
+                        new AlertDialog.Builder(Objects.requireNonNull(getContext()));
+                LayoutInflater inflater = getLayoutInflater();
+
+                @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.dialog_custom, null);
+                builder.setView(view);
+
+                final CheckBox price_max = view.findViewById(R.id.max);
+                final CheckBox price_mid = view.findViewById(R.id.mid);
+                final CheckBox price_min = view.findViewById(R.id.min);
+                final CheckBox star5 = view.findViewById(R.id.rating5);
+                final CheckBox star4 = view.findViewById(R.id.rating4);
+                final CheckBox star3 = view.findViewById(R.id.rating3);
+                final CheckBox star2 = view.findViewById(R.id.rating2);
+                final CheckBox star1 = view.findViewById(R.id.rating1);
+                final CheckBox now = view.findViewById(R.id.now);
+
+
+                final ArrayList<String> arrayList = new ArrayList<String>();
+                builder.setPositiveButton("Search", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Date currentTime = Calendar.getInstance().getTime();
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("EEE:HH:mm");
+                        String nows;
+                        // Check username password
+                        StringBuffer result = new StringBuffer();
+                        if (star5.isChecked()) {
+                            result.append("5");
+                            arrayList.add("5");
+                        }
+                        if (star4.isChecked()) {
+                            result.append("4");
+                            arrayList.add("4");
+                        }
+                        if (star3.isChecked()) {
+                            result.append("3");
+                            arrayList.add("3");
+                        }
+                        if (star2.isChecked()) {
+                            result.append("2");
+                            arrayList.add("2");
+                        }
+                        if (star1.isChecked()) {
+                            result.append("1");
+                            arrayList.add("1");
+                        }
+                        if (price_max.isChecked()) {
+                            result.append("151-200:");
+                            arrayList.add("151-200");
+                        }
+                        if (price_mid.isChecked()) {
+                            result.append("101-150:");
+                            arrayList.add("101-150");
+                        }
+                        if (price_min.isChecked()) {
+                            result.append("0-100");
+                            arrayList.add("0-100");
+                        }
+                        if (now.isChecked()) {
+                            nows = mdformat.format(currentTime);
+                            result.append(nows);
+                            arrayList.add(nows);
+                        }
+                        compareFilter(arrayList);
+//                        Toast.makeText(getContext(), result.toString(),
+//                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                builder.show();
+//                Intent intent = new Intent(getActivity(), SearchFilterActivity.class);
+//                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void compareFilter(final ArrayList<String> values) {
+        final ArrayList<Shop> arrayShop = new ArrayList<>();
+        DatabaseReference fDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag);
+        fDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    Shop shops = item.getValue(Shop.class);
+                    for (int i = 0; i < values.size(); i++) {
+                        assert shops != null;
+                        if (shops.getPrice().toLowerCase().contains(values.get(i).toLowerCase())) {
+                            arrayShop.add(shops);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        for (int i = 0; i < arrayShop.size(); i++) {
+            System.out.println(arrayShop.get(i));
+            Toast.makeText(getContext(), arrayShop.size(),
+                    Toast.LENGTH_SHORT).show();
         }
-//        DatabaseReference fDatebase = FirebaseDatabase.getInstance().getReference(Shop.tag);
 
     }
 
