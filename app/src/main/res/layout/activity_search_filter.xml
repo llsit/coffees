@@ -17,7 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@color/color_white"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay" >
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/ic_back"/>
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 

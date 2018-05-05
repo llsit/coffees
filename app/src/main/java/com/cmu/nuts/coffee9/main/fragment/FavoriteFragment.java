@@ -71,7 +71,7 @@ public class FavoriteFragment extends Fragment {
                         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshotShop) {
-                                if (dataSnapshotShop.getChildrenCount() > 0){
+                                if (dataSnapshotShop.getChildrenCount() > 0) {
                                     Shop value = dataSnapshotShop.getValue(Shop.class);
                                     shops.add(value);
                                     setRecyclerView(shops);

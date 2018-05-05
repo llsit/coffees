@@ -72,13 +72,16 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        if (getArguments() != null){
-            String strtext = getArguments().getString("edttext");
+        if (getArguments() != null) {
+            ArrayList<String> strtext = getArguments().getStringArrayList("edttext");
             System.out.println(strtext);
-            Toast.makeText(getActivity(), strtext, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), strtext.size(), Toast.LENGTH_LONG).show();
+            for (String a : strtext) {
+                System.out.println(a);
+            }
 //            assert values != null;
 //            compareFilter(values);
-        }else{
+        } else {
             System.out.println("Null");
         }
 
@@ -127,7 +130,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void compareFilter(ArrayList<String> values) {
-        for(String a : values){
+        for (String a : values) {
             System.out.print(a);
         }
 //        DatabaseReference fDatebase = FirebaseDatabase.getInstance().getReference(Shop.tag);

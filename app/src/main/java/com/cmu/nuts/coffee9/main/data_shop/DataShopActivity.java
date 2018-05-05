@@ -77,7 +77,7 @@ public class DataShopActivity extends AppCompatActivity {
 //            public void onClick(View v) {
 //                new GraphRequest(
 //                        AccessToken.getCurrentAccessToken(),
-//                        "/{id}",
+//                        "/me?fields=id,name",
 //                        null,
 //                        HttpMethod.GET,
 //                        new GraphRequest.Callback() {

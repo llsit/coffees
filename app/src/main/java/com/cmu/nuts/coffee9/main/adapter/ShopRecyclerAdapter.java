@@ -72,27 +72,6 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
                     Favorite fav = item.getValue(Favorite.class);
                     if (fav.getSid().equals(shop.getSid())) {
                         holder.tv_fav.setVisibility(View.GONE);
-                    } else {
-                        holder.tv_fav.setOnFavoriteChangeListener(
-                                new MaterialFavoriteButton.OnFavoriteChangeListener() {
-                                    @Override
-                                    public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
-                                        user = FirebaseAuth.getInstance().getCurrentUser();
-                                        mDatabase = FirebaseDatabase.getInstance().getReference();
-                                        String fid = mDatabase.push().getKey();
-                                        String uid = user.getUid();
-                                        String sid = shop.getSid();
-                                        if (favorite) {
-                                            Favorite fav = new Favorite(fid, uid, sid);
-                                            mDatabase.child("Favorite").child(uid).child(fid).setValue(fav);
-                                            Toast.makeText(context, "love it", Toast.LENGTH_LONG).show();
-                                        } else {
-                                            mDatabase.child(Favorite.tag).child(uid).child(fid).removeValue();
-//                            Toast.makeText(context, "not love", Toast.LENGTH_LONG).show();
-                                        }
-
-                                    }
-                                });
                     }
                 }
             }
@@ -103,7 +82,26 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
             }
         });
 
+        holder.tv_fav.setOnFavoriteChangeListener(
+                new MaterialFavoriteButton.OnFavoriteChangeListener() {
+                    @Override
+                    public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
+                        user = FirebaseAuth.getInstance().getCurrentUser();
+                        mDatabase = FirebaseDatabase.getInstance().getReference();
+                        String fid = mDatabase.push().getKey();
+                        String uid = user.getUid();
+                        String sid = shop.getSid();
+                        if (favorite) {
+                            Favorite fav = new Favorite(fid, uid, sid);
+                            mDatabase.child("Favorite").child(uid).child(fid).setValue(fav);
+                            Toast.makeText(context, "love it", Toast.LENGTH_LONG).show();
+                        } else {
+                            mDatabase.child(Favorite.tag).child(uid).child(fid).removeValue();
+//                            Toast.makeText(context, "not love", Toast.LENGTH_LONG).show();
+                        }
 
+                    }
+                });
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

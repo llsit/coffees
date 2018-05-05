@@ -53,7 +53,6 @@ public class ImageGridAdapter extends ArrayAdapter {
                     .into((ImageView) convertView);
         }
 
-
         return convertView;
     }
 }

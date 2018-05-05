@@ -16,7 +16,7 @@
             android:background="@color/colorGray"
             android:clipToPadding="false"
             android:padding="5dp"
-            android:scrollbars="vertical"
+            android:scrollbars="none"
             tools:listitem="@layout/item_fav" />
 
     </android.support.v4.widget.SwipeRefreshLayout>

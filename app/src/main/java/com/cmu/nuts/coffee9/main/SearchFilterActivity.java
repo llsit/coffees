@@ -7,9 +7,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.fragment.SearchFragment;
+
+import java.util.ArrayList;
 
 public class SearchFilterActivity extends AppCompatActivity {
 
@@ -32,7 +35,14 @@ public class SearchFilterActivity extends AppCompatActivity {
         searchs = findViewById(R.id.search_filter);
         cancel = findViewById(R.id.cancel);
 
-
+        ImageView back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        final ArrayList<String> arrayPrice = new ArrayList<>();
         searchs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,20 +50,20 @@ public class SearchFilterActivity extends AppCompatActivity {
 
                 if (price_max.isChecked()) {
                     result.append("151-200:");
-//                    arrayPrice.add("151-200");
+                    arrayPrice.add("151-200");
                 }
                 if (price_mid.isChecked()) {
                     result.append("101-150:");
-//                    arrayPrice.add("101-150");
+                    arrayPrice.add("101-150");
                 }
                 if (price_min.isChecked()) {
                     result.append("0-100");
-//                    arrayPrice.add("0-100");
+                    arrayPrice.add("0-100");
                 }
                 SearchFragment fragobj = null;
                 fragobj = new SearchFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("edttext", "From Activity");
+                bundle.putStringArrayList("edttext", arrayPrice);
                 // set Fragmentclass Arguments
 
                 fragobj.setArguments(bundle);
@@ -71,26 +81,5 @@ public class SearchFilterActivity extends AppCompatActivity {
 
     }
 
-    public void onCheckboxClicked(View view) {
-        // Is the view now checked?
-        boolean checked = ((CheckBox) view).isChecked();
-
-        // Check which checkbox was clicked
-        switch (view.getId()) {
-            case R.id.max:
-                if (checked) ;
-                    // Put some meat on the sandwich
-                else
-                    // Remove the meat
-                    break;
-            case R.id.mid:
-                if (checked) ;
-                    // Cheese me
-                else
-                    // I'm lactose intolerant
-                    break;
-                // TODO: Veggie sandwich
-        }
-    }
 
 }

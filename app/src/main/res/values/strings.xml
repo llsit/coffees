@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Finding Coffee</string>
+    <string name="app_name" translatable="false">Info Cafe</string>
     <string name="app_version" translatable="false">version 1.0</string>
     <string name="app_copy_right">Copyright © 2018 Finding Coffee Team. All rights reserved</string>
     <string name="facebook_app_id" translatable="false">645410309182352</string>

@@ -219,7 +219,7 @@ public class login extends AppCompatActivity {
         String email = user.getEmail();
         String photoUrl = Objects.requireNonNull(user.getPhotoUrl()).toString();
         String provider = Objects.requireNonNull(user.getProviders()).toString();
-        String birthdate = "";
+        String birthdate = "01 - 01 - 2000";
         String regDate = String.valueOf(Objects.requireNonNull(user.getMetadata()).getCreationTimestamp());
 
         Member member = new Member(uid, name, email, photoUrl, provider, birthdate, regDate);

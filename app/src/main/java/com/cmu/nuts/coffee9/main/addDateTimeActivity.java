@@ -23,6 +23,7 @@ public class addDateTimeActivity extends AppCompatActivity {
     ArrayList<HashMap<String, String>> times = new ArrayList<HashMap<String, String>>();
     HashMap<String, String> timess;
     ImageView back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,18 +89,19 @@ public class addDateTimeActivity extends AppCompatActivity {
 
                 result.append(open_hr.getText()).append(":").append(open_min.getText()).append("\n");
 
-                int open_hrs = Integer.parseInt(String.valueOf(open_hr.getText()));
-                int open_mins = Integer.parseInt(String.valueOf(open_min.getText()));
+                int open_hrs = Integer.parseInt(open_hr.getText().toString());
+                int open_mins = Integer.parseInt(open_min.getText().toString());
                 int close_hrs = Integer.parseInt(String.valueOf(close_hr.getText()));
                 int close_mins = Integer.parseInt(String.valueOf(close_min.getText()));
+
 
                 arrayTime.add(String.valueOf(open_hrs));
                 arrayTime.add(String.valueOf(open_mins));
                 arrayTime.add(String.valueOf(close_hrs));
                 arrayTime.add(String.valueOf(close_mins));
                 Intent intent = new Intent(addDateTimeActivity.this, DateTimePickerActivity.class);
-                intent.putStringArrayListExtra("arrlisttime",arrayTime);
-                intent.putStringArrayListExtra("arrlistdate",arrayDate);
+                intent.putStringArrayListExtra("arrlisttime", arrayTime);
+                intent.putStringArrayListExtra("arrlistdate", arrayDate);
                 startActivity(intent);
 
 
