@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.adapter.ShopRecyclerAdapter;
@@ -70,20 +69,6 @@ public class SearchFragment extends Fragment {
         filter = view.findViewById(R.id.filter);
         database = FirebaseDatabase.getInstance();
         filters();
-
-
-        if (getArguments() != null) {
-            ArrayList<String> strtext = getArguments().getStringArrayList("edttext");
-            System.out.println(strtext);
-            Toast.makeText(getActivity(), strtext.size(), Toast.LENGTH_LONG).show();
-            for (String a : strtext) {
-                System.out.println(a);
-            }
-//            assert values != null;
-//            compareFilter(values);
-        } else {
-            System.out.println("Null");
-        }
 
 
 //        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -219,7 +204,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void compareFilter(final ArrayList<String> values) {
-        final ArrayList<Shop> arrayShop = new ArrayList<>();
+        final List<Shop> arrayShop = new ArrayList<>();
         DatabaseReference fDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag);
         fDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -228,9 +213,12 @@ public class SearchFragment extends Fragment {
                     Shop shops = item.getValue(Shop.class);
                     for (int i = 0; i < values.size(); i++) {
                         assert shops != null;
-                        if (shops.getPrice().toLowerCase().contains(values.get(i).toLowerCase())) {
-                            arrayShop.add(shops);
+                        if (shops.getPrice().toLowerCase().equals(values.get(i).toLowerCase())) {
+                            getShopDatabase(shops.getSid());
+//                            Log.d("Search", " price " + shops.getPrice() + " value = " + values.get(i) + " sid = " + shops.getSid());
+//                            arrayShop.add(shops);
                         }
+
                     }
                 }
             }
@@ -240,11 +228,12 @@ public class SearchFragment extends Fragment {
 
             }
         });
-        for (int i = 0; i < arrayShop.size(); i++) {
-            System.out.println(arrayShop.get(i));
-            Toast.makeText(getContext(), arrayShop.size(),
-                    Toast.LENGTH_SHORT).show();
-        }
+//        for (int i = 0; i < arrayShop.size(); i++) {
+//            System.out.println(arrayShop.get(i));
+//            Log.d("arrayShop", "value = " + arrayShop.get(i));
+//            Toast.makeText(getContext(), arrayShop.size(),
+//                    Toast.LENGTH_SHORT).show();
+//        }
 
     }
 
@@ -274,7 +263,7 @@ public class SearchFragment extends Fragment {
                     assert values != null;
                     if (values.toLowerCase().contains(query.toLowerCase())) {
                         getShopDatabase(id);
-                        Log.d("Search", " name " + values + " id = " + id);
+//                        Log.d("Search", " name " + values + " id = " + id);
                     }
                 }
             }
@@ -289,24 +278,14 @@ public class SearchFragment extends Fragment {
     }
 
     private void getShopDatabase(String id) {
-//        Log.d("Search", " id = " + id);
+//        Log.d("Get", " id = " + id);
+        shops = new ArrayList<>();
         DatabaseReference sDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(id);
         sDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shop value = dataSnapshot.getValue(Shop.class);
-                assert value != null;
-                String sid = value.getSid();
-                String name = value.getName();
-                String address = value.getAddress();
-                String detail = value.getDetail();
-                String location = value.getLocation();
-                String open_time = value.getOpen_hour();
-                String price = value.getPrice();
-                String uid = value.getUid();
-
-                Shop shop = new Shop(sid, name, address, detail, location, open_time, price, uid);
-                shops.add(shop);
+                shops.add(value);
 
                 setRecyclerView(shops);
 //                swipeRefreshLayout.setRefreshing(false);
