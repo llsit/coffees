@@ -1,30 +1,33 @@
-package com.cmu.nuts.coffee9.main;
+package com.cmu.nuts.coffee9;
 
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.adapter.CommentRecyclerAdapter;
 import com.cmu.nuts.coffee9.main.adapter.ImageGridAdapter;
 import com.cmu.nuts.coffee9.model.Comment;
 import com.cmu.nuts.coffee9.model.Member;
 import com.cmu.nuts.coffee9.model.Review;
 import com.cmu.nuts.coffee9.model.Review_Image;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,11 +35,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class reviewDisplayFragment extends Fragment {
 
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class DisplayReviewFragment extends Fragment {
+    private String shop_ID;
+    private String review_ID;
+    private DatabaseReference mDatabase;
     //review
     private TextView reviewer;
     private TextView datetime;
@@ -44,48 +55,64 @@ public class reviewDisplayFragment extends Fragment {
     private RatingBar star;
     private ImageView review_image;
     private ImageView image_review;
-    private DatabaseReference mDatabase;
+    private ImageView review_display_back;
+    //comment
+    private EditText add_comment;
+    private ImageButton send;
     //display comment
     private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView RecyclerView;
+    private android.support.v7.widget.RecyclerView RecyclerView;
     private TextView data_shop_message;
 
     private ListView listView;
-    private int status = 0;
+    private GridView gridview;
+    private int status = 1;
 
-    public reviewDisplayFragment() {
+    public DisplayReviewFragment() {
         // Required empty public constructor
     }
 
-    String review_ID;
-    String shop_ID;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_review_display, container, false);
+        View view = inflater.inflate(R.layout.fragment_display_review, container, false);
 
+        Toolbar toolbar = view.findViewById(R.id.toolbar_display_review);
+        toolbar.setTitle(getString(R.string.txt_add_coffee_shop));
+        assert getActivity() != null;
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        if (getArguments() != null) {
-//            review_ID = getArguments().getString("reviewIDs");
-//            shop_ID = getArguments().getString("shopIDs");
-//            Toast.makeText(getActivity(), review_ID + "   " + shop_ID, Toast.LENGTH_SHORT).show();
-//        }
-//
-//
-//        listView = view.findViewById(R.id.list_image);
-//        reviewer = view.findViewById(R.id.display_review_name_reviewer);
-//        datetime = view.findViewById(R.id.display_review_datetime);
-//        description = view.findViewById(R.id.display_review_description);
-//        star = view.findViewById(R.id.display_review_ratingBar);
-//        review_image = view.findViewById(R.id.display_review_image);
-//        image_review = view.findViewById(R.id.display_image_review);
-//
-//        System.out.println(shop_ID + review_ID);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+//        Intent intent = getIntent();
+//        review_ID = intent.getStringExtra("reviewID");
+//        shop_ID = intent.getStringExtra("shopID");
+        if (getArguments() != null){
+            review_ID = getArguments().getString("reviewIDs");
+            shop_ID = getArguments().getString("shopIDs");
+        }
+
+        reviewer = view.findViewById(R.id.display_review_name_reviewer);
+        datetime = view.findViewById(R.id.display_review_datetime);
+        description = view.findViewById(R.id.display_review_description);
+        star = view.findViewById(R.id.display_review_ratingBar);
+        review_image = view.findViewById(R.id.display_review_image);
+        image_review = view.findViewById(R.id.display_image_review);
+        review_display_back = view.findViewById(R.id.review_display_back);
+        listView = view.findViewById(R.id.list_image);
+        gridview = view.findViewById(R.id.review_shop_gridview);
+        review_display_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
 //        getDataReview();
+//        comment(view);
 //        displayComment(view);
-
         return view;
     }
 
@@ -138,13 +165,39 @@ public class reviewDisplayFragment extends Fragment {
 
     private void setRecyclerView(List<Comment> comments) {
         CommentRecyclerAdapter recyclerAdapter = new CommentRecyclerAdapter(comments, getContext());
-        RecyclerView.LayoutManager recycle = new LinearLayoutManager(getContext());
+        android.support.v7.widget.RecyclerView.LayoutManager recycle = new LinearLayoutManager(getContext());
         RecyclerView.setLayoutManager(recycle);
         RecyclerView.setItemAnimator(new DefaultItemAnimator());
         RecyclerView.setAdapter(recyclerAdapter);
         RecyclerView.setVisibility(View.VISIBLE);
         data_shop_message.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+
+    private void comment(View view) {
+        add_comment = view.findViewById(R.id.add_comment);
+        send = view.findViewById(R.id.send);
+
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (add_comment.getText().length() > 3) {
+                    String datetime = DateFormat.getDateTimeInstance().format(new Date());
+                    String uid = FirebaseAuth.getInstance().getUid();
+                    String detail = add_comment.getText().toString();
+                    String cid = mDatabase.push().getKey();
+                    String rid = shop_ID;
+
+                    Comment comment = new Comment(cid, uid, rid, detail, datetime);
+                    mDatabase.child(Comment.tag).child(rid).child(cid).setValue(comment);
+                    Toast.makeText(getContext(), "Comment Complete", Toast.LENGTH_SHORT).show();
+                    add_comment.setText("");
+                } else {
+                    add_comment.setError("Your comment is too shot");
+                }
+            }
+        });
     }
 
     private void getDataReview() {
@@ -166,16 +219,10 @@ public class reviewDisplayFragment extends Fragment {
                             for (DataSnapshot item : dataSnapshot.getChildren()) {
                                 Review_Image ri = item.getValue(Review_Image.class);
                                 if (ri != null) {
-//                                    Picasso.get()
-//                                            .load(ri.getImage_url())
-//                                            .resize(200,200)
-//                                            .centerInside()
-//                                            .into(image_review);
-//                                    Toast.makeText(review_display_activity.this, ri.getImgid(), Toast.LENGTH_SHORT).show();
                                     arrayList.add(ri.getImage_url());
                                 }
                             }
-                            setAdapter(listView, arrayList);
+                            setAdapter(gridview, arrayList);
                         }
 
                         @Override
@@ -217,10 +264,10 @@ public class reviewDisplayFragment extends Fragment {
 
     }
 
-    private void setAdapter(ListView listView, ArrayList<String> arrayList) {
+    private void setAdapter(GridView gridview, ArrayList<String> arrayList) {
         Toast.makeText(getContext(), "Refreshing . .",
                 Toast.LENGTH_LONG).show();
-        listView.setAdapter(new ImageGridAdapter(getContext(), arrayList, status));
+        gridview.setAdapter(new ImageGridAdapter(getContext(), arrayList, status));
     }
 
 }

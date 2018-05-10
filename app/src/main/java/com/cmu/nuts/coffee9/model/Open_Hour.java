@@ -5,19 +5,20 @@ public class Open_Hour {
     private String sid;
     private String tid;
     private String date;
-    private String time;
+    private String timestart;
+    private String timeend;
 
     public static String tag = "Open_Hour";
 
-    public Open_Hour(String sid, String tid, String date, String time) {
+    public Open_Hour(String sid, String tid, String date, String timestart, String timeend) {
         this.sid = sid;
         this.tid = tid;
         this.date = date;
-        this.time = time;
+        this.timestart = timestart;
+        this.timeend = timeend;
     }
 
     public Open_Hour() {
-
     }
 
     public String getSid() {
@@ -44,12 +45,20 @@ public class Open_Hour {
         this.date = date;
     }
 
-    public String getTime() {
-        return time;
+    public String getTimestart() {
+        return timestart;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTimestart(String timestar) {
+        this.timestart = timestar;
+    }
+
+    public String getTimeend() {
+        return timeend;
+    }
+
+    public void setTimeend(String timeend) {
+        this.timeend = timeend;
     }
 
     public static String getTag() {

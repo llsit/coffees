@@ -82,6 +82,7 @@ def library = dependence {
     compile 'com.github.drawers:SpinnerDatePicker:1.0.6'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.algolia:algoliasearch-android:3.+'
+    compile 'com.github.codbking:PickTime:v1.0.1'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
     implementation('io.nlopez.smartlocation:library:3.3.3') {

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:padding="@dimen/range_20">
+
+        <TextView
+            android:id="@+id/dfw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/range_10"
+            android:text="Select Date of Week" />
+
+        <CheckBox
+            android:id="@+id/day1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dfw"
+            android:text="Sunday" />
+
+        <CheckBox
+            android:id="@+id/day2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/day1"
+            android:text="Monday" />
+
+        <CheckBox
+            android:id="@+id/day3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/day2"
+            android:text="Tuesday" />
+
+        <CheckBox
+            android:id="@+id/day4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/day3"
+            android:text="Wednesday" />
+
+        <CheckBox
+            android:id="@+id/day5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/day4"
+            android:text="Thursday" />
+
+        <CheckBox
+            android:id="@+id/day6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/day5"
+            android:text="Friday" />
+
+        <CheckBox
+            android:id="@+id/day7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/day6"
+            android:text="Saturday" />
+
+        <RelativeLayout
+            android:id="@+id/insert_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/day7"
+            android:layout_marginTop="@dimen/range_20">
+
+            <TextView
+                android:id="@+id/time_open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="open : " />
+
+            <EditText
+                android:id="@+id/hr"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="56dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@id/time_open"
+                android:inputType="time"
+                android:maxLength="5"
+                tools:ignore="LabelFor" />
+
+            <TextView
+                android:id="@+id/time_open2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/hr"
+                android:text="close : " />
+
+            <EditText
+                android:id="@+id/hr2"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="56dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@id/time_open2"
+                android:inputType="time"
+                android:maxLength="5" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

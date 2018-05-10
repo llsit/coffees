@@ -8,42 +8,45 @@
     android:paddingTop="16dp"
     tools:context="com.cmu.nuts.coffee9.main.fragment.SearchFragment">
 
-    <RelativeLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.SearchView
-            android:id="@+id/fragment_search_view"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/custom_border_round"
-            app:iconifiedByDefault="false"
-            app:queryHint="Search Here" />
-
-        <ImageView
-            android:id="@+id/filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5sp"
-            android:layout_toEndOf="@+id/fragment_search_view"
-            android:src="@drawable/ic_filter_list" />
-
-        <TextView
-            android:id="@+id/fragment_search_btn_add"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/filter"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="@dimen/range_15"
-            android:gravity="end"
-            android:padding="5dp"
-            android:text="@string/txt_add_coffee_shop"
-            android:textColor="#008000"
-            android:visibility="visible" />
+            android:layout_height="match_parent">
 
+            <android.support.v7.widget.SearchView
+                android:id="@+id/fragment_search_view"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/custom_border_round"
+                app:iconifiedByDefault="false"
+                app:queryHint="Search Here" />
+
+            <ImageView
+                android:id="@+id/filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp"
+                android:layout_toEndOf="@+id/fragment_search_view"
+                android:src="@drawable/ic_filter_list" />
+
+            <TextView
+                android:id="@+id/fragment_search_btn_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/filter"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="@dimen/range_15"
+                android:gravity="end"
+                android:padding="5dp"
+                android:text="@string/txt_add_coffee_shop"
+                android:textColor="#008000"
+                android:visibility="visible" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/search_recycler_view"
@@ -53,10 +56,10 @@
                 android:background="@color/colorGray"
                 android:clipToPadding="false"
                 android:padding="5dp"
-                android:scrollbars="vertical"
+                android:scrollbars="none"
                 tools:listitem="@layout/item_shop" />
 
-    </RelativeLayout>
-
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

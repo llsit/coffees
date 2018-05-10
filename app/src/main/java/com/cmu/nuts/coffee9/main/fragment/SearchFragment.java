@@ -204,7 +204,6 @@ public class SearchFragment extends Fragment {
     }
 
     private void compareFilter(final ArrayList<String> values) {
-        final List<Shop> arrayShop = new ArrayList<>();
         DatabaseReference fDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag);
         fDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -228,13 +227,6 @@ public class SearchFragment extends Fragment {
 
             }
         });
-//        for (int i = 0; i < arrayShop.size(); i++) {
-//            System.out.println(arrayShop.get(i));
-//            Log.d("arrayShop", "value = " + arrayShop.get(i));
-//            Toast.makeText(getContext(), arrayShop.size(),
-//                    Toast.LENGTH_SHORT).show();
-//        }
-
     }
 
     private void onSearch(List<Shop> list, String key) {

@@ -1,4 +1,5 @@
 package com.cmu.nuts.coffee9.model;
+
 import org.parceler.Parcel;
 
 /**
@@ -15,13 +16,17 @@ public class Shop {
     String open_hour;
     String price;
     String uid;
+    String rating;
 
-    public static String tag = "coffee_shop";
-
-    public Shop() {
+    public String getRating() {
+        return rating;
     }
 
-    public Shop(String sid, String name, String address, String detail, String location, String open_hour, String price, String uid) {
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public Shop(String sid, String name, String address, String detail, String location, String open_hour, String price, String uid, String rating) {
         this.sid = sid;
         this.name = name;
         this.address = address;
@@ -30,6 +35,16 @@ public class Shop {
         this.open_hour = open_hour;
         this.price = price;
         this.uid = uid;
+        this.rating = rating;
+    }
+
+    public Shop(String rating) {
+        this.rating = rating;
+    }
+
+    public static String tag = "coffee_shop";
+
+    public Shop() {
     }
 
     public String getSid() {
