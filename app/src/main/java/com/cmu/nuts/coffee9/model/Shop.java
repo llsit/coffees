@@ -34,6 +34,10 @@ public class Shop {
     public Shop() {
     }
 
+    public static void setTag(String tag) {
+        Shop.tag = tag;
+    }
+
     public String getSid() {
         return sid;
     }

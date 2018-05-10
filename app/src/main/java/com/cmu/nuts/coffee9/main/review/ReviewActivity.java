@@ -16,13 +16,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
-import com.cmu.nuts.coffee9.model.Review;
+import com.cmu.nuts.coffee9.model.Shop;
 import com.cmu.nuts.coffee9.utillity.ImageReview;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -43,7 +46,7 @@ public class ReviewActivity extends AppCompatActivity {
 
     private String uid, sid, detail, img_url, datetime, star;
     private String rid = mDatabase.push().getKey();
-
+    private int n;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,13 +175,46 @@ public class ReviewActivity extends AppCompatActivity {
             uid = FirebaseAuth.getInstance().getUid();
             detail = descript.getText().toString();
             img_url = "null";
-            Review review = new Review(rid, uid, sid, detail, img_url, datetime, star);
-            mDatabase.child(Review.tag).child(sid).child(rid).setValue(review);
+            int stars = Integer.parseInt(star);
+            int ratings = rating(stars);
+//            System.out.println(ratings + "star = " + stars);
+//            Review review = new Review(rid, uid, sid, detail, img_url, datetime, star);
+//            mDatabase.child(Review.tag).child(sid).child(rid).setValue(review);
             Toast.makeText(this, "Your Review is now published" + sid, Toast.LENGTH_SHORT).show();
             finish();
         } else {
             descript.setError("Your review is too shot");
         }
+    }
+
+    private int rating(final int stars) {
+
+        final DatabaseReference shopDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(sid);
+        shopDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Shop shops = dataSnapshot.getValue(Shop.class);
+//                Review reviews = dataSnapshot.child(Review.tag).child(sid).getValue(Review.class);
+                assert shops != null;
+                String rates = shops.getOpen_hour();
+//                int rate = Integer.parseInt(String.valueOf(shops.getOpen_hour()));
+//                int counts = Integer.parseInt(String.valueOf(dataSnapshot.child(Review.tag).child(sid).getChildrenCount()));
+
+                System.out.println("rate " + rates + " sid  " + sid + " name " + shops.getName());
+//                if (rate != 0) {
+//                    n = (rate + stars) / (counts + 1);
+//                    n = Integer.parseInt(String.valueOf(floor(n)));
+//                } else {
+//                    n = stars;
+//                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return n;
     }
 
 }

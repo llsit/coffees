@@ -130,7 +130,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
                 authorID = user.getUid();
                 coffee_ID = mDatabase.push().getKey();
                 locat = location.getText().toString();
-                open = "12.00";
+                open = "0";
                 rating = "0";
                 switch (radio_price.getCheckedRadioButtonId()) {
                     case R.id.rdo_min:
@@ -266,7 +266,6 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
                         arrayList.add(time_end);
 
                         open_hour.setText(result + time_start + time_end);
-//                        showtime(arrayList);
 //                        Toast.makeText(DateTimePickerActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
 
                     }
