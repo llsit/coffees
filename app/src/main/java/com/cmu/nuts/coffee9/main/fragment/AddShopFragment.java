@@ -66,7 +66,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
     private GoogleMap googleMap;
     private Activity activity;
 
-    private String coffee_ID, name, addressshop, Detail, authorID, locat, open, prices,rating;
+    private String coffee_ID, name, addressshop, Detail, authorID, locat, open, prices, rating;
 
     private ArrayList<String> arrayList = new ArrayList<String>();
     private StringBuffer result = new StringBuffer();
@@ -114,7 +114,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
         open_hour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                selecttime(view);
+                selecttime();
             }
         });
         btn_add = view.findViewById(R.id.btn_add);
@@ -130,7 +130,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
                 authorID = user.getUid();
                 coffee_ID = mDatabase.push().getKey();
                 locat = location.getText().toString();
-                open = "";
+                open = "12.00";
                 rating = "0";
                 switch (radio_price.getCheckedRadioButtonId()) {
                     case R.id.rdo_min:
@@ -144,7 +144,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
                         break;
                 }
 
-                Shop shopData = new Shop(coffee_ID, name, addressshop, Detail, locat, open, prices, authorID, rating);
+                Shop shopData = new Shop(coffee_ID, name, addressshop, Detail, locat, open, prices, authorID);
                 mDatabase.child("coffee_shop").child(coffee_ID).setValue(shopData);
 
                 DatabaseReference tDatebase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag());
@@ -165,7 +165,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
         });
     }
 
-    private void selecttime(View view) {
+    private void selecttime() {
 
         open_hour.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,6 +226,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
                 });
 
                 builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Check username password
@@ -264,7 +265,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
                         arrayList.add(time_start);
                         arrayList.add(time_end);
 
-                        open_hour.setText(result);
+                        open_hour.setText(result + time_start + time_end);
 //                        showtime(arrayList);
 //                        Toast.makeText(DateTimePickerActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
 
