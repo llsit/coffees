@@ -70,9 +70,8 @@ public class FavoriteRecyclerAdapter extends RecyclerView.Adapter<FavoriteRecycl
                         for (DataSnapshot item : dataSnapshot.getChildren()) {
                             Favorite fav = item.getValue(Favorite.class);
                             if (fav != null) {
-                                if (fav.getSid().equals(shop.getSid())) {
-                                    mDatabase.child(fav.getFid());
-                                    mDatabase.removeValue();
+                                if (shop.getSid().equals(fav.getSid())) {
+                                    mDatabase.child(fav.getFid()).removeValue();
                                     Toast.makeText(context, "Done", Toast.LENGTH_LONG).show();
                                 }
                             } else {
@@ -89,7 +88,6 @@ public class FavoriteRecyclerAdapter extends RecyclerView.Adapter<FavoriteRecycl
 
             }
         });
-
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -64,6 +64,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         holder.tv_location.setText(shop.getLocation());
 
 
+        holder.tv_love.setVisibility(View.GONE);
         fDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(user.getUid());
         fDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -71,7 +72,8 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Favorite fav = item.getValue(Favorite.class);
                     if (fav.getSid().equals(shop.getSid())) {
-                        holder.tv_fav.setVisibility(View.GONE);
+                        holder.tv_not_love.setVisibility(View.GONE);
+                        holder.tv_love.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -82,6 +84,22 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
             }
         });
 
+        holder.tv_not_love.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                user = FirebaseAuth.getInstance().getCurrentUser();
+                mDatabase = FirebaseDatabase.getInstance().getReference();
+                String fid = mDatabase.push().getKey();
+                String uid = user.getUid();
+                String sid = shop.getSid();
+
+                Favorite fav = new Favorite(fid, uid, sid);
+                mDatabase.child(Favorite.tag).child(uid).child(fid).setValue(fav);
+                holder.tv_not_love.setVisibility(View.GONE);
+                Toast.makeText(context, "love it", Toast.LENGTH_LONG).show();
+
+            }
+        });
         holder.tv_fav.setOnFavoriteChangeListener(
                 new MaterialFavoriteButton.OnFavoriteChangeListener() {
                     @Override
@@ -93,15 +111,13 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
                         String sid = shop.getSid();
                         if (favorite) {
                             Favorite fav = new Favorite(fid, uid, sid);
-                            mDatabase.child("Favorite").child(uid).child(fid).setValue(fav);
+                            mDatabase.child(Favorite.tag).child(uid).child(fid).setValue(fav);
                             Toast.makeText(context, "love it", Toast.LENGTH_LONG).show();
-                        } else {
-                            mDatabase.child(Favorite.tag).child(uid).child(fid).removeValue();
-//                            Toast.makeText(context, "not love", Toast.LENGTH_LONG).show();
                         }
-
                     }
-                });
+                }
+        );
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,6 +179,8 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         TextView tv_location;
         MaterialFavoriteButton tv_fav;
         ImageView tv_image;
+        ImageView tv_love;
+        ImageView tv_not_love;
 
         ShopHolder(View itemView) {
             super(itemView);
@@ -177,6 +195,8 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
             cardView = itemView.findViewById(R.id.item_shop_card_view);
             tv_fav = itemView.findViewById(R.id.love);
             tv_image = itemView.findViewById(R.id.item_shop_img);
+            tv_love = itemView.findViewById(R.id.fav);
+            tv_not_love = itemView.findViewById(R.id.not_fav);
         }
     }
 }

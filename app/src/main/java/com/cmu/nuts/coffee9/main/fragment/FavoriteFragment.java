@@ -58,17 +58,18 @@ public class FavoriteFragment extends Fragment {
 
     private void getFavDatabase() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final List<Shop> shops = new ArrayList<>();
+
         if (user != null) {
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(user.getUid());
             mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    final List<Shop> shops = new ArrayList<>();
                     for (DataSnapshot item : dataSnapshot.getChildren()) {
                         Favorite favorite = item.getValue(Favorite.class);
                         assert favorite != null;
                         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Shop.tag).child(favorite.getSid());
-                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        databaseReference.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshotShop) {
                                 if (dataSnapshotShop.getChildrenCount() > 0) {
