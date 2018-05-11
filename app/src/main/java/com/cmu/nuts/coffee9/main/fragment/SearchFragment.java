@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.adapter.ShopRecyclerAdapter;
+import com.cmu.nuts.coffee9.model.Open_Hour;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -55,6 +56,7 @@ public class SearchFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private String query = null;
     private ImageView filter;
+    private CheckBox price_max, price_mid, price_min, star5, star4, star3, star2, star1, now;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -126,64 +128,67 @@ public class SearchFragment extends Fragment {
                 @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.dialog_custom, null);
                 builder.setView(view);
 
-                final CheckBox price_max = view.findViewById(R.id.max);
-                final CheckBox price_mid = view.findViewById(R.id.mid);
-                final CheckBox price_min = view.findViewById(R.id.min);
-                final CheckBox star5 = view.findViewById(R.id.rating5);
-                final CheckBox star4 = view.findViewById(R.id.rating4);
-                final CheckBox star3 = view.findViewById(R.id.rating3);
-                final CheckBox star2 = view.findViewById(R.id.rating2);
-                final CheckBox star1 = view.findViewById(R.id.rating1);
-                final CheckBox now = view.findViewById(R.id.now);
+                price_max = view.findViewById(R.id.max);
+                price_mid = view.findViewById(R.id.mid);
+                price_min = view.findViewById(R.id.min);
+                star5 = view.findViewById(R.id.rating5);
+                star4 = view.findViewById(R.id.rating4);
+                star3 = view.findViewById(R.id.rating3);
+                star2 = view.findViewById(R.id.rating2);
+                star1 = view.findViewById(R.id.rating1);
+                now = view.findViewById(R.id.now);
 
-
-                final ArrayList<String> arrayList = new ArrayList<String>();
                 builder.setPositiveButton("Search", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Date currentTime = Calendar.getInstance().getTime();
-                        @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("EEE:HH:mm");
-                        String nows;
-                        // Check username password
-                        StringBuffer result = new StringBuffer();
-                        if (star5.isChecked()) {
-                            result.append("5");
-                            arrayList.add("5");
-                        }
-                        if (star4.isChecked()) {
-                            result.append("4");
-                            arrayList.add("4");
-                        }
-                        if (star3.isChecked()) {
-                            result.append("3");
-                            arrayList.add("3");
-                        }
-                        if (star2.isChecked()) {
-                            result.append("2");
-                            arrayList.add("2");
-                        }
-                        if (star1.isChecked()) {
-                            result.append("1");
-                            arrayList.add("1");
-                        }
-                        if (price_max.isChecked()) {
-                            result.append("151-200:");
-                            arrayList.add("151-200");
-                        }
-                        if (price_mid.isChecked()) {
-                            result.append("101-150:");
-                            arrayList.add("101-150");
-                        }
-                        if (price_min.isChecked()) {
-                            result.append("0-100");
-                            arrayList.add("0-100");
-                        }
-                        if (now.isChecked()) {
-                            nows = mdformat.format(currentTime);
-                            result.append(nows);
-                            arrayList.add(nows);
-                        }
-                        compareFilter(arrayList);
+                        checkfilter();
+//                        Date currentTime = Calendar.getInstance().getTime();
+//                        @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("EEE|HH:mm");
+//                        String nows;
+//                        // Check username password
+//                        StringBuilder result = new StringBuilder();
+//                        if (star5.isChecked()) {
+//                            result.append("5");
+//                            arrayList.add("5");
+//                        }
+//                        if (star4.isChecked()) {
+//                            result.append("4");
+//                            arrayList.add("4");
+//                        }
+//                        if (star3.isChecked()) {
+//                            result.append("3");
+//                            arrayList.add("3");
+//                        }
+//                        if (star2.isChecked()) {
+//                            result.append("2");
+//                            arrayList.add("2");
+//                        }
+//                        if (star1.isChecked()) {
+//                            result.append("1");
+//                            arrayList.add("1");
+//                        }
+//                        if (price_max.isChecked()) {
+//                            result.append("151-200").append(" ");
+//                            arrayList.add("151-200");
+//                        }
+//                        if (price_mid.isChecked()) {
+//                            result.append("101-150").append(" ");
+//                            arrayList.add("101-150");
+//                        }
+//                        if (price_min.isChecked()) {
+//                            result.append("0-100");
+//                            arrayList.add("0-100");
+//                        }
+//                        if (now.isChecked()) {
+//                            nows = mdformat.format(currentTime);
+//                            result.append(nows);
+//                            arrayList.add(nows);
+//                        }
+////                        arrayList.add(result.toString());
+//                        compareFilter(arrayList);
+//                        for (String s : arrayList) {
+//                            System.out.println(s);
+//                        }
 //                        Toast.makeText(getContext(), result.toString(),
 //                                Toast.LENGTH_SHORT).show();
                     }
@@ -203,23 +208,226 @@ public class SearchFragment extends Fragment {
 
     }
 
-    private void compareFilter(final ArrayList<String> values) {
-        DatabaseReference fDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag);
-        fDatabase.addValueEventListener(new ValueEventListener() {
+    private void checkfilter() {
+        final String[] result = new String[1];
+        final ArrayList<String> arrayList1 = new ArrayList<String>();
+        final ArrayList<String> arrayList2 = new ArrayList<String>();
+        final ArrayList<String> arrayListAll = new ArrayList<String>();
+
+
+        Date currentTime = Calendar.getInstance().getTime();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("EEE|HH:mm");
+        String nows;
+
+//        if (star5.isChecked()) {
+//            result[0] = "5";
+//        }
+//        if (star4.isChecked()) {
+//            result[0] = "4";
+//        }
+//        if (star3.isChecked()) {
+//            result[0] = "3";
+//        }
+//        if (star2.isChecked()) {
+//            result[0] = "2";
+//        }
+//        if (star1.isChecked()) {
+//            result[0] = "1";
+//        }
+        if (price_max.isChecked()) {
+            arrayList1.add("151-200");
+
+        }
+        if (price_mid.isChecked()) {
+            arrayList1.add("101-150");
+
+        }
+        if (price_min.isChecked()) {
+            arrayList1.add("0-100");
+        }
+        if (now.isChecked()) {
+            nows = mdformat.format(currentTime);
+            arrayList2.add(nows);
+        }
+        String day = null;
+        int hrNow = 0;
+        int minNow = 0;
+        if (arrayList2.size() > 0) {
+            String[] arrStr = null;
+
+            for (int i = 0; i < arrayList2.size(); i++) {
+                String str = arrayList2.get(i);
+                arrStr = str.split("\\|");
+            }
+            day = arrStr[0];
+            String hrs = arrStr[1];
+            String[] arrtime = hrs.split(":");
+            hrNow = Integer.parseInt(arrtime[0]);
+            minNow = Integer.parseInt(arrtime[1]);
+            //        System.out.println(day + hrs);
+//            for (String a : arrtime)
+//                System.out.println(a);
+        }
+        final DatabaseReference shopDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag);
+        final String finalDay = day;
+        final int finalHrNow = hrNow;
+        final int finalMinNow = minNow;
+        shopDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Shop shops = item.getValue(Shop.class);
+                    final Shop shops = item.getValue(Shop.class);
+                    for (int i = 0; i < arrayList1.size(); i++) {
+                        assert shops != null;
+                        if (shops.getPrice().equals(arrayList1.get(i))) {
+                            String id = shops.getSid();
+                            arrayListAll.add(id);
+//                            getShopDatabase(shops.getSid());
+//                            Log.d("Search", " price " + shops.getPrice() + " sid = " + shops.getSid());
+                        }
+                    }
+                    DatabaseReference tDatabase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag()).child(shops.getSid());
+                    tDatabase.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot value : dataSnapshot.getChildren()) {
+                                Open_Hour open = value.getValue(Open_Hour.class);
+                                if (finalDay != null) {
+                                    assert open != null;
+                                    String start = open.getTimestart();
+                                    String end = open.getTimeend();
+                                    String[] arrStart = start.split(":");
+                                    int hrStart = Integer.parseInt(arrStart[0]);
+                                    int minStart = Integer.parseInt(arrStart[1]);
+                                    String[] arrEnd = end.split(":");
+                                    int hrEnd = Integer.parseInt(arrEnd[0]);
+                                    int minEnd = Integer.parseInt(arrEnd[1]);
+//                                    System.out.println(start);
+//                                    Log.d("Search", start + " " + end + " start = " + hrStart + " " + minStart + " End " + hrEnd + " " + minEnd);
+                                    if (finalDay.contains(open.getDate())) {
+                                        if ((finalHrNow >= hrStart) && (finalHrNow <= hrEnd)) {
+                                            if ((finalMinNow >= minStart) && (finalMinNow <= minEnd)) {
+                                                arrayListAll.add(open.getSid());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+                Distinct(arrayListAll);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void Distinct(ArrayList<String> arrayListAll) {
+        ArrayList<String> arrayResult = new ArrayList<String>();
+        for (int i = 0; i < arrayListAll.size(); i++) {
+            int j;
+            for (j = 0; j < i; j++)
+                if (arrayListAll.get(i) == arrayListAll.get(j))
+                    break;
+
+            if (i == j)
+                arrayResult.add(arrayListAll.get(i));
+        }
+        for (String a : arrayResult)
+            getShopDatabase(a);
+//            System.out.println("id = " + a);
+    }
+
+    private void compareFilter(final ArrayList<String> values) {
+        String[] arrStr = null;
+        String day = null;
+        for (int i = 0; i < values.size(); i++) {
+            String str = values.get(i);
+            arrStr = str.split("\\|");
+        }
+//        for (String a : arrStr)
+//            System.out.println(a);
+        if (arrStr.length > 1) {
+            day = arrStr[0];
+            String hrs = arrStr[1];
+            String[] arrtime = hrs.split(":");
+            //        System.out.println(day + hrs);
+            for (String a : arrtime)
+                System.out.println(a);
+        }
+
+        DatabaseReference fDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag);
+        final String finalDay = day;
+        fDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    final Shop shops = item.getValue(Shop.class);
                     for (int i = 0; i < values.size(); i++) {
                         assert shops != null;
                         if (shops.getPrice().toLowerCase().equals(values.get(i).toLowerCase())) {
                             getShopDatabase(shops.getSid());
 //                            Log.d("Search", " price " + shops.getPrice() + " value = " + values.get(i) + " sid = " + shops.getSid());
 //                            arrayShop.add(shops);
-                        }
+                            DatabaseReference tDatabase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag()).child(shops.getSid());
+                            tDatabase.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot value : dataSnapshot.getChildren()) {
+                                        Open_Hour open = value.getValue(Open_Hour.class);
+                                        if (finalDay != null) {
+                                            if (finalDay.contains(open.getDate())) {
+                                                Log.d("Search", " price " + shops.getPrice() + " sid = " + shops.getSid() + " date " + open.getDate());
+                                            }
+                                        }
 
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+                        } else {
+                            DatabaseReference tDatabase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag()).child(shops.getSid());
+                            tDatabase.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot value : dataSnapshot.getChildren()) {
+                                        Open_Hour open = value.getValue(Open_Hour.class);
+                                        if (finalDay != null) {
+                                            if (finalDay.contains(open.getDate())) {
+                                                Log.d("Search", " price " + shops.getPrice() + " sid = " + shops.getSid() + " date " + open.getDate());
+                                            }
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
                     }
+
+
                 }
+
             }
 
             @Override

@@ -26,6 +26,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -65,6 +66,29 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
         View view = inflater.inflate(R.layout.fragment_near_by, container, false);
         activity = getActivity();
         mMapView = view.findViewById(R.id.mapView);
+        final MapStyleOptions style;
+        style = new MapStyleOptions("[" +
+                "  {" +
+                "    \"featureType\":\"poi.business\"," +
+                "    \"elementType\":\"all\"," +
+                "    \"stylers\":[" +
+                "      {" +
+                "        \"visibility\":\"off\"" +
+                "      }" +
+                "    ]" +
+                "  }," +
+                "  {" +
+                "    \"featureType\":\"transit\"," +
+                "    \"elementType\":\"all\"," +
+                "    \"stylers\":[" +
+                "      {" +
+                "        \"visibility\":\"off\"" +
+                "      }" +
+                "    ]" +
+                "  }" +
+                "]");
+
+
         try {
             mMapView.onCreate(savedInstanceState);
             mMapView.onResume(); // needed to get the map to display immediately
@@ -83,7 +107,7 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
-
+                googleMap.setMapStyle(style);
                 int REQUEST_CODE_ASK_PERMISSIONS = 123;
                 if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},

@@ -197,7 +197,8 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
                             @SuppressLint("SetTextI18n")
                             @Override
                             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                                hr.setText(selectedHour + ":" + selectedMinute);
+
+                                hr.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
 //                                result.append("[").append(selectedHour).append(selectedMinute).append("]");
                             }
                         }, hour, minute, true);//Yes 24 hour time
@@ -214,9 +215,10 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
                         int minute = mcurrentTime.get(Calendar.MINUTE);
                         TimePickerDialog mTimePicker;
                         mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                            @SuppressLint("SetTextI18n")
                             @Override
                             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                                hr2.setText(selectedHour + ":" + selectedMinute);
+                                hr2.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
 //                                result.append("[").append(selectedHour).append(selectedMinute).append("]");
                             }
                         }, hour, minute, true);//Yes 24 hour time
