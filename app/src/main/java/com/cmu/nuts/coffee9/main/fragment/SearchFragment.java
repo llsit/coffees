@@ -212,11 +212,9 @@ public class SearchFragment extends Fragment {
         final String[] result = new String[1];
         final ArrayList<String> arrayList1 = new ArrayList<String>();
         final ArrayList<String> arrayList2 = new ArrayList<String>();
-        final ArrayList<String> arrayListAll = new ArrayList<String>();
-
 
         Date currentTime = Calendar.getInstance().getTime();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("EEE|HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("EEEE|HH:mm");
         String nows;
 
 //        if (star5.isChecked()) {
@@ -264,7 +262,7 @@ public class SearchFragment extends Fragment {
             String[] arrtime = hrs.split(":");
             hrNow = Integer.parseInt(arrtime[0]);
             minNow = Integer.parseInt(arrtime[1]);
-            //        System.out.println(day + hrs);
+//                    System.out.println(day + hrs);
 //            for (String a : arrtime)
 //                System.out.println(a);
         }
@@ -277,22 +275,27 @@ public class SearchFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     final Shop shops = item.getValue(Shop.class);
-                    for (int i = 0; i < arrayList1.size(); i++) {
-                        assert shops != null;
-                        if (shops.getPrice().equals(arrayList1.get(i))) {
-                            String id = shops.getSid();
-                            arrayListAll.add(id);
+                    if (arrayList1.size() > 0) {
+                        for (int i = 0; i < arrayList1.size(); i++) {
+                            assert shops != null;
+                            if (shops.getPrice().equals(arrayList1.get(i))) {
+                                String id = shops.getSid();
+                                Distinct(id);
 //                            getShopDatabase(shops.getSid());
 //                            Log.d("Search", " price " + shops.getPrice() + " sid = " + shops.getSid());
+                            }
                         }
                     }
-                    DatabaseReference tDatabase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag()).child(shops.getSid());
-                    tDatabase.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot value : dataSnapshot.getChildren()) {
-                                Open_Hour open = value.getValue(Open_Hour.class);
-                                if (finalDay != null) {
+
+                    if (arrayList2.size() > 0) {
+                        assert shops != null;
+                        DatabaseReference tDatabase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag()).child(shops.getSid());
+                        tDatabase.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (DataSnapshot value : dataSnapshot.getChildren()) {
+                                    Open_Hour open = value.getValue(Open_Hour.class);
+
                                     assert open != null;
                                     String start = open.getTimestart();
                                     String end = open.getTimeend();
@@ -302,26 +305,32 @@ public class SearchFragment extends Fragment {
                                     String[] arrEnd = end.split(":");
                                     int hrEnd = Integer.parseInt(arrEnd[0]);
                                     int minEnd = Integer.parseInt(arrEnd[1]);
-//                                    System.out.println(start);
-//                                    Log.d("Search", start + " " + end + " start = " + hrStart + " " + minStart + " End " + hrEnd + " " + minEnd);
-                                    if (finalDay.contains(open.getDate())) {
+
+                                    assert finalDay != null;
+                                    if (open.getDate().contains(finalDay)) {
+                                        Log.d("Search", "2 " + finalHrNow + " " + finalMinNow + " start = " + hrStart + " " + minStart + " End " + hrEnd + " " + minEnd);
                                         if ((finalHrNow >= hrStart) && (finalHrNow <= hrEnd)) {
+                                            Log.d("Search", "3 " + finalHrNow + " " + finalMinNow + " start = " + hrStart + " " + minStart + " End " + hrEnd + " " + minEnd);
+                                            if (minEnd == 0) {
+                                                minEnd = 60;
+                                            }
                                             if ((finalMinNow >= minStart) && (finalMinNow <= minEnd)) {
-                                                arrayListAll.add(open.getSid());
+                                                Log.d("Search", "4 " + finalHrNow + " " + finalMinNow + " start = " + hrStart + " " + minStart + " End " + hrEnd + " " + minEnd);
+                                                Distinct(open.getSid());
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                        }
-                    });
+                            }
+                        });
+
+                    }
                 }
-                Distinct(arrayListAll);
             }
 
             @Override
@@ -333,7 +342,9 @@ public class SearchFragment extends Fragment {
 
     }
 
-    private void Distinct(ArrayList<String> arrayListAll) {
+    private void Distinct(String id) {
+        final ArrayList<String> arrayListAll = new ArrayList<String>();
+        arrayListAll.add(id);
         ArrayList<String> arrayResult = new ArrayList<String>();
         for (int i = 0; i < arrayListAll.size(); i++) {
             int j;
