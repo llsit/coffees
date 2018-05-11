@@ -96,7 +96,7 @@
                 android:layout_marginTop="@dimen/range_5">
 
                 <EditText
-                    android:id="@+id/edit_data_open_hour"
+                    android:id="@+id/edit_data_rating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/txt_time_hour"

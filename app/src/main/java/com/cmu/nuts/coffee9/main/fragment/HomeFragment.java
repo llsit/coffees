@@ -24,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -64,7 +63,7 @@ public class HomeFragment extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<Shop> shops = new ArrayList<>();
+                ArrayList<Shop> shops = new ArrayList<>();
                 for (DataSnapshot snapshot :dataSnapshot.getChildren()){
                     Shop value = snapshot.getValue(Shop.class);
                     assert value != null;
@@ -82,7 +81,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void setRecyclerView(List<Shop> shops){
+    private void setRecyclerView(ArrayList<Shop> shops){
         ShopRecyclerAdapter recyclerAdapter = new ShopRecyclerAdapter(shops, activity);
         RecyclerView.LayoutManager recycle = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(recycle);

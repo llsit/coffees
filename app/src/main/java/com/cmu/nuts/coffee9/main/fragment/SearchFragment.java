@@ -262,9 +262,7 @@ public class SearchFragment extends Fragment {
             String[] arrtime = hrs.split(":");
             hrNow = Integer.parseInt(arrtime[0]);
             minNow = Integer.parseInt(arrtime[1]);
-//                    System.out.println(day + hrs);
-//            for (String a : arrtime)
-//                System.out.println(a);
+
         }
         final DatabaseReference shopDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag);
         final String finalDay = day;
@@ -281,8 +279,6 @@ public class SearchFragment extends Fragment {
                             if (shops.getPrice().equals(arrayList1.get(i))) {
                                 String id = shops.getSid();
                                 Distinct(id);
-//                            getShopDatabase(shops.getSid());
-//                            Log.d("Search", " price " + shops.getPrice() + " sid = " + shops.getSid());
                             }
                         }
                     }
@@ -308,14 +304,14 @@ public class SearchFragment extends Fragment {
 
                                     assert finalDay != null;
                                     if (open.getDate().contains(finalDay)) {
-                                        Log.d("Search", "2 " + finalHrNow + " " + finalMinNow + " start = " + hrStart + " " + minStart + " End " + hrEnd + " " + minEnd);
+//                                        Log.d("Search", "2 " + finalHrNow + " " + finalMinNow + " start = " + hrStart + " " + minStart + " End " + hrEnd + " " + minEnd);
                                         if ((finalHrNow >= hrStart) && (finalHrNow <= hrEnd)) {
-                                            Log.d("Search", "3 " + finalHrNow + " " + finalMinNow + " start = " + hrStart + " " + minStart + " End " + hrEnd + " " + minEnd);
+//                                            Log.d("Search", "3 " + finalHrNow + " " + finalMinNow + " start = " + hrStart + " " + minStart + " End " + hrEnd + " " + minEnd);
                                             if (minEnd == 0) {
                                                 minEnd = 60;
                                             }
                                             if ((finalMinNow >= minStart) && (finalMinNow <= minEnd)) {
-                                                Log.d("Search", "4 " + finalHrNow + " " + finalMinNow + " start = " + hrStart + " " + minStart + " End " + hrEnd + " " + minEnd);
+//                                                Log.d("Search", "4 " + finalHrNow + " " + finalMinNow + " start = " + hrStart + " " + minStart + " End " + hrEnd + " " + minEnd);
                                                 Distinct(open.getSid());
                                             }
                                         }

@@ -196,7 +196,7 @@ public class ReviewActivity extends AppCompatActivity {
                 Shop shops = dataSnapshot.getValue(Shop.class);
 //                Review reviews = dataSnapshot.child(Review.tag).child(sid).getValue(Review.class);
                 assert shops != null;
-                String rates = shops.getOpen_hour();
+                String rates = shops.getRating();
 //                int rate = Integer.parseInt(String.valueOf(shops.getOpen_hour()));
 //                int counts = Integer.parseInt(String.valueOf(dataSnapshot.child(Review.tag).child(sid).getChildrenCount()));
 

@@ -57,7 +57,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         holder.tv_sid.setText(shop.getSid());
         holder.tv_name.setText(shop.getName());
         holder.tv_detail.setText(shop.getDetail());
-        holder.tv_open_time.setText(shop.getOpen_hour());
+        holder.tv_rating.setText(shop.getRating());
         holder.tv_price.setText(shop.getPrice());
         holder.tv_address.setText(shop.getAddress());
         holder.tv_uid.setText(shop.getUid());
@@ -156,7 +156,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         TextView tv_sid;
         TextView tv_name;
         TextView tv_detail;
-        TextView tv_open_time;
+        TextView tv_rating;
         TextView tv_price;
         TextView tv_address;
         TextView tv_uid;
@@ -169,7 +169,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
             tv_sid = itemView.findViewById(R.id.item_shop_sid);
             tv_name = itemView.findViewById(R.id.item_shop_name);
             tv_detail = itemView.findViewById(R.id.item_shop_detail);
-            tv_open_time = itemView.findViewById(R.id.item_shop_open_time);
+            tv_rating = itemView.findViewById(R.id.item_shop_rating);
             tv_price = itemView.findViewById(R.id.item_shop_price);
             tv_address = itemView.findViewById(R.id.item_shop_address);
             tv_uid = itemView.findViewById(R.id.item_shop_uid);

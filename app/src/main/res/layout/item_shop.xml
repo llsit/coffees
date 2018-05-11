@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -33,9 +34,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/item_shop_img"
+                android:maxLength="20"
                 android:text="@string/app_name"
                 android:textSize="20sp"
-                android:maxLength="20"
                 android:textStyle="bold" />
 
 
@@ -43,18 +44,19 @@
                 android:id="@+id/item_shop_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/item_shop_open_time"
+                android:layout_above="@+id/item_shop_rating"
                 android:layout_below="@+id/item_shop_name"
                 android:layout_toEndOf="@+id/item_shop_img"
                 android:text="@string/app_name" />
 
             <TextView
-                android:id="@+id/item_shop_open_time"
+                android:id="@+id/item_shop_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_toEndOf="@+id/item_shop_img"
-                android:text="@string/app_name" />
+                android:text="@string/app_name"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/item_shop_price"
@@ -91,24 +93,20 @@
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
                 android:visibility="gone" />
-            <TextView
-                android:id="@+id/item_shop_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:visibility="gone" />
+
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
             <com.github.ivbaranov.mfb.MaterialFavoriteButton
                 android:id="@+id/love"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="10dp"
                 app:mfb_animate_favorite="true"
                 app:mfb_animate_unfavorite="false"
                 app:mfb_bounce_duration="300"

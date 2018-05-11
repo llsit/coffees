@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class DetailDataShopFragment extends Fragment {
 
-    private TextView name,address,detail,opne_hour,price;
+    private TextView name,address,detail,rating,price;
 
     private String shopID;
 
@@ -43,7 +43,7 @@ public class DetailDataShopFragment extends Fragment {
             name = view.findViewById(R.id.name);
             address = view.findViewById(R.id.location_shop);
             detail = view.findViewById(R.id.detail);
-            opne_hour = view.findViewById(R.id.open_hour);
+            rating = view.findViewById(R.id.rating);
             price = view.findViewById(R.id.price);
             getdatashop();
         }
@@ -62,7 +62,7 @@ public class DetailDataShopFragment extends Fragment {
                 name.setText(shop.getName());
                 address.setText(shop.getAddress());
                 detail.setText(shop.getDetail());
-                opne_hour.setText(shop.getOpen_hour());
+                rating.setText(shop.getRating());
                 price.setText(shop.getPrice());
             }
 

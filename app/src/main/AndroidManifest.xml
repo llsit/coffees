@@ -93,10 +93,6 @@
             android:name=".main.data_shop.EditDataShopActivity"
             android:label="@string/title_activity_edit_data_shop"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".main.SearchFilterActivity"
-            android:label="@string/title_activity_search_filter"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".main.DateTimePickerActivity"

@@ -22,11 +22,15 @@ import com.google.firebase.database.ValueEventListener;
 
 public class EditDataShopActivity extends AppCompatActivity {
 
-    private EditText nameshop, Addressshop, detail, location, open_hour;
+    private EditText nameshop;
+    private EditText Addressshop;
+    private EditText detail;
+    private EditText location;
+    private String rating;
     private Button btn_done;
     private RadioGroup radio_price;
 
-    private String coffee_ID, name, addressshop, Detail, authorID, locat, open, prices;
+    private String coffee_ID, name, addressshop, Detail, authorID, locat, prices;
     private DatabaseReference mDatabase;
     private FirebaseUser user;
     private String shop_id;
@@ -44,7 +48,7 @@ public class EditDataShopActivity extends AppCompatActivity {
         nameshop = findViewById(R.id.edit_data_name_shop);
         Addressshop = findViewById(R.id.edit_data_address_shop);
         detail = findViewById(R.id.edit_data_detail);
-        open_hour = findViewById(R.id.edit_data_open_hour);
+//        rating = findViewById(R.id.edit_data_rating);
         radio_price = findViewById(R.id.edit_data_rdo_price);
         radio_price.check(R.id.rdo_min);
         btn_done = findViewById(R.id.edit_data_btn_done);
@@ -64,7 +68,7 @@ public class EditDataShopActivity extends AppCompatActivity {
                 nameshop.setText(shops.getName());
                 Addressshop.setText(shops.getAddress());
                 detail.setText(shops.getDetail());
-                open_hour.setText(shops.getOpen_hour());
+//                rating.setText(shops.getRating());
                 radio_price.check(R.id.rdo_min);
                 location.setText(shops.getLocation());
 //                }
@@ -89,8 +93,8 @@ public class EditDataShopActivity extends AppCompatActivity {
                 Detail = detail.getText().toString();
                 authorID = user.getUid();
                 locat = location.getText().toString();
-                open = open_hour.getText().toString();
-
+//                rating = rating.getText().toString();
+                rating = "12";
                 switch (radio_price.getCheckedRadioButtonId()) {
                     case R.id.rdo_min:
                         prices = getString(R.string.txt_rang_0_100);
@@ -103,7 +107,7 @@ public class EditDataShopActivity extends AppCompatActivity {
                         break;
                 }
 
-                Shop shopData = new Shop(shop_id, name, addressshop, Detail, locat, open, prices, authorID);
+                Shop shopData = new Shop(shop_id, name, addressshop, Detail, locat, rating, prices, authorID);
                 mDatabase.child("coffee_shop").child(shop_id).setValue(shopData);
 
                 Toast.makeText(EditDataShopActivity.this, "Edit Success", Toast.LENGTH_SHORT).show();

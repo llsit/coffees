@@ -13,18 +13,18 @@ public class Shop {
     String address;
     String detail;
     String location;
-    String open_hour;
+    String rating;
     String price;
     String uid;
 
 
-    public Shop(String sid, String name, String address, String detail, String location, String open_hour, String price, String uid) {
+    public Shop(String sid, String name, String address, String detail, String location, String rating, String price, String uid) {
         this.sid = sid;
         this.name = name;
         this.address = address;
         this.detail = detail;
         this.location = location;
-        this.open_hour = open_hour;
+        this.rating = rating;
         this.price = price;
         this.uid = uid;
     }
@@ -78,12 +78,12 @@ public class Shop {
         this.location = location;
     }
 
-    public String getOpen_hour() {
-        return open_hour;
+    public String getRating() {
+        return rating;
     }
 
-    public void setOpen_hour(String open_house) {
-        this.open_hour = open_hour;
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
     public String getPrice() {
