@@ -507,10 +507,15 @@ public class SearchFragment extends Fragment {
     }
 
     private void setRecyclerView(List<Shop> list) {
-        ShopRecyclerAdapter recyclerAdapter = new ShopRecyclerAdapter(list, activity);
-        RecyclerView.LayoutManager recycle = new LinearLayoutManager(activity);
-        recyclerView.setLayoutManager(recycle);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(recyclerAdapter);
+
+
+        if (list.size() > 0) {
+            ShopRecyclerAdapter recyclerAdapter = new ShopRecyclerAdapter(list, activity);
+            RecyclerView.LayoutManager recycle = new LinearLayoutManager(activity);
+            recyclerView.setLayoutManager(recycle);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(recyclerAdapter);
+        }
+
     }
 }

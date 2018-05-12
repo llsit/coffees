@@ -43,7 +43,6 @@
                 android:id="@+id/item_shop_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/item_shop_rating"
                 android:layout_below="@+id/item_shop_name"
                 android:layout_toEndOf="@+id/item_shop_img"
                 android:text="@string/app_name" />
@@ -52,10 +51,22 @@
                 android:id="@+id/item_shop_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_alignParentBottom="false"
+                android:layout_below="@+id/item_shop_detail"
                 android:layout_toEndOf="@+id/item_shop_img"
-                android:text="@string/app_name"
+                android:text="5"
                 android:visibility="gone" />
+
+            <RatingBar
+                android:id="@+id/item_shop_ratingbar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_shop_detail"
+                android:layout_toEndOf="@+id/item_shop_img"
+                android:numStars="5"
+                android:isIndicator="true"
+                android:stepSize="1.0" />
 
             <TextView
                 android:id="@+id/item_shop_price"

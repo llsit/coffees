@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.model.Review;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.cmu.nuts.coffee9.utillity.ImageReview;
 import com.esafirm.imagepicker.features.ImagePicker;
@@ -46,7 +47,8 @@ public class ReviewActivity extends AppCompatActivity {
 
     private String uid, sid, detail, img_url, datetime, star;
     private String rid = mDatabase.push().getKey();
-    private int n;
+
+    int rate, counts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,11 +85,6 @@ public class ReviewActivity extends AppCompatActivity {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             // Get a list of picked images
             List<Image> images = ImagePicker.getImages(data);
-//            Image imageFile = ImagePicker.getFirstImageOrNull(data);
-//            if (imageFile.getPath() != null) {
-//                ImageReview imageManager = new ImageReview(ReviewActivity.class,rid);
-//                imageManager.uploadImage(rid,Uri.fromFile(new File(imageFile.getPath())));
-//            }
             upload_photo(images);
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -161,52 +158,22 @@ public class ReviewActivity extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.post:
-                addReview();
+                int stars = Integer.parseInt(star);
+                rating(stars);
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void addReview() {
-        descript = findViewById(R.id.edt_name_des);
-        if (descript.getText().length() > 10) {
-            datetime = DateFormat.getDateTimeInstance().format(new Date());
-            uid = FirebaseAuth.getInstance().getUid();
-            detail = descript.getText().toString();
-            img_url = "null";
-            int stars = Integer.parseInt(star);
-            int ratings = rating(stars);
-//            System.out.println(ratings + "star = " + stars);
-//            Review review = new Review(rid, uid, sid, detail, img_url, datetime, star);
-//            mDatabase.child(Review.tag).child(sid).child(rid).setValue(review);
-            Toast.makeText(this, "Your Review is now published" + sid, Toast.LENGTH_SHORT).show();
-            finish();
-        } else {
-            descript.setError("Your review is too shot");
-        }
-    }
+    private void rating(final int stars) {
 
-    private int rating(final int stars) {
-
-        final DatabaseReference shopDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(sid);
-        shopDatabase.addValueEventListener(new ValueEventListener() {
+        DatabaseReference rDatabase = FirebaseDatabase.getInstance().getReference(Review.tag).child(sid);
+        rDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Shop shops = dataSnapshot.getValue(Shop.class);
-//                Review reviews = dataSnapshot.child(Review.tag).child(sid).getValue(Review.class);
-                assert shops != null;
-                String rates = shops.getRating();
-//                int rate = Integer.parseInt(String.valueOf(shops.getOpen_hour()));
-//                int counts = Integer.parseInt(String.valueOf(dataSnapshot.child(Review.tag).child(sid).getChildrenCount()));
-
-                System.out.println("rate " + rates + " sid  " + sid + " name " + shops.getName());
-//                if (rate != 0) {
-//                    n = (rate + stars) / (counts + 1);
-//                    n = Integer.parseInt(String.valueOf(floor(n)));
-//                } else {
-//                    n = stars;
-//                }
+                counts = Integer.parseInt(String.valueOf(dataSnapshot.getChildrenCount()));
             }
 
             @Override
@@ -214,7 +181,56 @@ public class ReviewActivity extends AppCompatActivity {
 
             }
         });
-        return n;
+        final DatabaseReference shopDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(sid);
+        shopDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Shop shops = dataSnapshot.getValue(Shop.class);
+                int n;
+                assert shops != null;
+//                String rates = shops.getRating();
+                int rate = Integer.parseInt(String.valueOf(shops.getRating()));
+                int m = rate * counts;
+                System.out.println("m " + m + " =  " + rate + " " + counts);
+//                System.out.println("rate " + rate + " counts  " + counts + " name " + shops.getName());
+                if (rate != 0) {
+                    n = (m + stars) / (counts + 1);
+                    System.out.println("1 " + n);
+//                    n = Integer.parseInt(String.valueOf(floor(n)));
+//                    System.out.println("2 " + n);
+                } else {
+                    n = stars;
+                }
+                addReview(n);
+                System.out.println("n = " + n);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
+
+    public void addReview(int n) {
+        descript = findViewById(R.id.edt_name_des);
+        if (descript.getText().length() > 10) {
+            datetime = DateFormat.getDateTimeInstance().format(new Date());
+            uid = FirebaseAuth.getInstance().getUid();
+            detail = descript.getText().toString();
+            img_url = "null";
+
+            DatabaseReference shopDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag);
+            shopDatabase.child(sid).child("rating").setValue(String.valueOf(n));
+//            System.out.println(ratings + "star = " + stars);
+            Review review = new Review(rid, uid, sid, detail, img_url, datetime, star);
+            mDatabase.child(Review.tag).child(sid).child(rid).setValue(review);
+            Toast.makeText(this, "Your Review is now published" + sid, Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            descript.setError("Your review is too shot");
+        }
+    }
+
 
 }

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +63,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         holder.tv_address.setText(shop.getAddress());
         holder.tv_uid.setText(shop.getUid());
         holder.tv_location.setText(shop.getLocation());
-
+        holder.tv_ratingBar.setNumStars(Integer.parseInt(shop.getRating()));
 
         holder.tv_love.setVisibility(View.GONE);
         fDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(user.getUid());
@@ -131,6 +132,23 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
 
             }
         });
+
+
+        DatabaseReference iDatebase = FirebaseDatabase.getInstance().getReference(Share.tag).child(shop.getSid());
+        iDatebase.limitToFirst(1).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Share shares = dataSnapshot.getValue(Share.class);
+                assert shares != null;
+//                String url = String.valueOf(Uri.parse(shares.getImg_url()));
+//                Picasso.get().load(url).into(holder.tv_image);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private String getImage(String sid) {
@@ -181,6 +199,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         ImageView tv_image;
         ImageView tv_love;
         ImageView tv_not_love;
+        RatingBar tv_ratingBar;
 
         ShopHolder(View itemView) {
             super(itemView);
@@ -197,6 +216,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
             tv_image = itemView.findViewById(R.id.item_shop_img);
             tv_love = itemView.findViewById(R.id.fav);
             tv_not_love = itemView.findViewById(R.id.not_fav);
+            tv_ratingBar = itemView.findViewById(R.id.item_shop_ratingbar);
         }
     }
 }

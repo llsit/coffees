@@ -23,7 +23,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
@@ -192,14 +191,14 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(17).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-                for (int i = 0; i < location.size(); i++) {
-                    double Latitude = Double.parseDouble(location.get(i).get("Latitude"));
-                    double Longitude = Double.parseDouble(location.get(i).get("Longitude"));
-                    String name = location.get(i).get("LocationName");
-                    MarkerOptions marker = new MarkerOptions().position(new LatLng(Latitude, Longitude)).title(name);
-                    marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
-                    googleMap.addMarker(marker);
-                }
+//                for (int i = 0; i < location.size(); i++) {
+//                    double Latitudes = Double.parseDouble(location.get(i).get("Latitude"));
+//                    double Longitudes = Double.parseDouble(location.get(i).get("Longitude"));
+//                    String name = location.get(i).get("LocationName");
+//                    MarkerOptions marker = new MarkerOptions().position(new LatLng(Latitudes, Longitudes)).title(name);
+//                    marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
+//                    googleMap.addMarker(marker);
+//                }
             }
         });
     }
