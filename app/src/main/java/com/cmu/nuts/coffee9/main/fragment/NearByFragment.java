@@ -35,7 +35,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
@@ -55,8 +54,7 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
     private GoogleApiClient googleApiClient;
     private Activity activity;
     ArrayList<HashMap<String, String>> location = new ArrayList<HashMap<String, String>>();
-    HashMap<String, String> map;
-
+    HashMap<String, String> map = new HashMap<String, String>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -87,7 +85,6 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
                 "  }" +
                 "]");
 
-
         try {
             mMapView.onCreate(savedInstanceState);
             mMapView.onResume(); // needed to get the map to display immediately
@@ -101,7 +98,7 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
         } catch (Exception e) {
             e.printStackTrace();
         }
-        getLocation();
+
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
@@ -125,43 +122,6 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
         return view;
     }
 
-    private void getLocation() {
-        final List<String> list = new ArrayList<String>();
-        DatabaseReference mDatebase = FirebaseDatabase.getInstance().getReference(Shop.tag);
-        mDatebase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                map = new HashMap<String, String>();
-                for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Shop shop = item.getValue(Shop.class);
-                    assert shop != null;
-                    String locats = shop.getLocation();
-                    String separated[] = locats.split("\\|");
-                    String lat = null;
-                    for (int i = 0; i < separated.length - 1; i++) {
-                        lat = separated[i];
-                        System.out.println(lat);
-                    }
-                    String longs = null;
-                    for (int i = 1; i < separated.length; i++) {
-                        longs = separated[1];
-                        System.out.println(longs);
-                    }
-//                    Toast.makeText(getActivity(), locats, Toast.LENGTH_SHORT).show();
-                    map.put("LocationName", shop.getName());
-                    map.put("latitude", lat);
-                    map.put("longitude", longs);
-                    location.add(map);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
 
     private void setMaps(final double latitude, final double longitude) {
         mMapView.getMapAsync(new OnMapReadyCallback() {
@@ -183,22 +143,64 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
                     return;
                 }
 
-                googleMap.setMyLocationEnabled(true);
-                // For dropping a marker at a point on the Map
-                LatLng cmu = new LatLng(latitude, longitude);
-                googleMap.addMarker(new MarkerOptions().position(cmu).title("Here").snippet("My location"));
-                // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(17).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
 //                for (int i = 0; i < location.size(); i++) {
-//                    double Latitudes = Double.parseDouble(location.get(i).get("Latitude"));
-//                    double Longitudes = Double.parseDouble(location.get(i).get("Longitude"));
+//                    System.out.println(location.get(i).get("latitude") + " " + location.get(i).get("latitude"));
+//                    double Latitudes = Double.parseDouble(location.get(i).get("latitude"));
+//                    double Longitudes = Double.parseDouble(location.get(i).get("longitude"));
 //                    String name = location.get(i).get("LocationName");
 //                    MarkerOptions marker = new MarkerOptions().position(new LatLng(Latitudes, Longitudes)).title(name);
 //                    marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
 //                    googleMap.addMarker(marker);
 //                }
+
+
+                googleMap.setMyLocationEnabled(true);
+                // For dropping a marker at a point on the Map
+                LatLng cmu = new LatLng(latitude, longitude);
+                googleMap.addMarker(new MarkerOptions().position(cmu).title("Here").snippet("My location"));
+                // For zooming automatically to the location of the marker
+
+
+
+                DatabaseReference mDatebase = FirebaseDatabase.getInstance().getReference(Shop.tag);
+                mDatebase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            Shop shop = item.getValue(Shop.class);
+                            assert shop != null;
+                            String locats = shop.getLocation();
+                            String separated[] = locats.split("\\|");
+                            String lat = null;
+                            for (int i = 0; i < separated.length - 1; i++) {
+                                lat = separated[i];
+//                        System.out.println(lat);
+                            }
+                            String longs = null;
+                            for (int i = 1; i < separated.length; i++) {
+                                longs = separated[1];
+//                        System.out.println(longs);
+                            }
+//                    Toast.makeText(getActivity(), locats, Toast.LENGTH_SHORT).show();
+                            map.put("LocationName", shop.getName());
+                            map.put("latitude", lat);
+                            map.put("longitude", longs);
+                            location.add(map);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                for (int i = 0; i < location.size(); i++) {
+                    System.out.println(location.get(i).get("latitude") + " " + location.get(i).get("longitude"));
+                }
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(17).build();
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
     }
@@ -232,6 +234,7 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
 
     @Override
     public void onLocationUpdated(Location location) {
+
         setMaps(location.getLatitude(), location.getLongitude());
     }
 

@@ -63,7 +63,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         holder.tv_address.setText(shop.getAddress());
         holder.tv_uid.setText(shop.getUid());
         holder.tv_location.setText(shop.getLocation());
-        holder.tv_ratingBar.setNumStars(Integer.parseInt(shop.getRating()));
+        holder.tv_ratingBar.setRating(Integer.parseInt(shop.getRating()));
 
         holder.tv_love.setVisibility(View.GONE);
         fDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(user.getUid());
@@ -140,6 +140,10 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Share shares = dataSnapshot.getValue(Share.class);
                 assert shares != null;
+//                if (shares.getImg_url() != null) {
+//                    System.out.println(shares.getImg_url());
+//                }
+
 //                String url = String.valueOf(Uri.parse(shares.getImg_url()));
 //                Picasso.get().load(url).into(holder.tv_image);
             }

@@ -65,6 +65,7 @@
                 android:layout_below="@+id/item_shop_detail"
                 android:layout_toEndOf="@+id/item_shop_img"
                 android:numStars="5"
+                android:rating="3.0"
                 android:isIndicator="true"
                 android:stepSize="1.0" />
 

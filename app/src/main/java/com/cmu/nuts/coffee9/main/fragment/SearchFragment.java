@@ -212,26 +212,27 @@ public class SearchFragment extends Fragment {
         final String[] result = new String[1];
         final ArrayList<String> arrayList1 = new ArrayList<String>();
         final ArrayList<String> arrayList2 = new ArrayList<String>();
+        final ArrayList<String> arrayList3 = new ArrayList<String>();
 
         Date currentTime = Calendar.getInstance().getTime();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("EEEE|HH:mm");
         String nows;
 
-//        if (star5.isChecked()) {
-//            result[0] = "5";
-//        }
-//        if (star4.isChecked()) {
-//            result[0] = "4";
-//        }
-//        if (star3.isChecked()) {
-//            result[0] = "3";
-//        }
-//        if (star2.isChecked()) {
-//            result[0] = "2";
-//        }
-//        if (star1.isChecked()) {
-//            result[0] = "1";
-//        }
+        if (star5.isChecked()) {
+            arrayList3.add("5");
+        }
+        if (star4.isChecked()) {
+            arrayList3.add("4");
+        }
+        if (star3.isChecked()) {
+            arrayList3.add("3");
+        }
+        if (star2.isChecked()) {
+            arrayList3.add("2");
+        }
+        if (star1.isChecked()) {
+            arrayList3.add("1");
+        }
         if (price_max.isChecked()) {
             arrayList1.add("151-200");
 
@@ -277,6 +278,14 @@ public class SearchFragment extends Fragment {
                         for (int i = 0; i < arrayList1.size(); i++) {
                             assert shops != null;
                             if (shops.getPrice().equals(arrayList1.get(i))) {
+                                String id = shops.getSid();
+                                Distinct(id);
+                            }
+                        }
+                    }
+                    if (arrayList3.size() > 0) {
+                        for (int i = 0; i < arrayList3.size(); i++) {
+                            if (shops.getRating().equals(arrayList3.get(i))){
                                 String id = shops.getSid();
                                 Distinct(id);
                             }
@@ -356,93 +365,6 @@ public class SearchFragment extends Fragment {
 //            System.out.println("id = " + a);
     }
 
-    private void compareFilter(final ArrayList<String> values) {
-        String[] arrStr = null;
-        String day = null;
-        for (int i = 0; i < values.size(); i++) {
-            String str = values.get(i);
-            arrStr = str.split("\\|");
-        }
-//        for (String a : arrStr)
-//            System.out.println(a);
-        if (arrStr.length > 1) {
-            day = arrStr[0];
-            String hrs = arrStr[1];
-            String[] arrtime = hrs.split(":");
-            //        System.out.println(day + hrs);
-            for (String a : arrtime)
-                System.out.println(a);
-        }
-
-        DatabaseReference fDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag);
-        final String finalDay = day;
-        fDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    final Shop shops = item.getValue(Shop.class);
-                    for (int i = 0; i < values.size(); i++) {
-                        assert shops != null;
-                        if (shops.getPrice().toLowerCase().equals(values.get(i).toLowerCase())) {
-                            getShopDatabase(shops.getSid());
-//                            Log.d("Search", " price " + shops.getPrice() + " value = " + values.get(i) + " sid = " + shops.getSid());
-//                            arrayShop.add(shops);
-                            DatabaseReference tDatabase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag()).child(shops.getSid());
-                            tDatabase.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot value : dataSnapshot.getChildren()) {
-                                        Open_Hour open = value.getValue(Open_Hour.class);
-                                        if (finalDay != null) {
-                                            if (finalDay.contains(open.getDate())) {
-                                                Log.d("Search", " price " + shops.getPrice() + " sid = " + shops.getSid() + " date " + open.getDate());
-                                            }
-                                        }
-
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-
-                        } else {
-                            DatabaseReference tDatabase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag()).child(shops.getSid());
-                            tDatabase.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot value : dataSnapshot.getChildren()) {
-                                        Open_Hour open = value.getValue(Open_Hour.class);
-                                        if (finalDay != null) {
-                                            if (finalDay.contains(open.getDate())) {
-                                                Log.d("Search", " price " + shops.getPrice() + " sid = " + shops.getSid() + " date " + open.getDate());
-                                            }
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-                        }
-                    }
-
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     private void onSearch(List<Shop> list, String key) {
         List<Shop> new_shop = new ArrayList<>();
