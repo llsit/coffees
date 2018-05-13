@@ -7,6 +7,7 @@
     android:orientation="vertical"
     tools:context="com.cmu.nuts.coffee9.preferences.fragment.ProfileWithEditFragment">
 
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_display_review"
         android:layout_width="match_parent"
@@ -34,127 +35,138 @@
 
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <RelativeLayout
+                android:id="@+id/review_display"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/color_white"
+                android:padding="10dp">
 
-                <RelativeLayout
-                    android:id="@+id/review_display"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/color_white"
-                    android:padding="10dp">
 
-                    <ImageView
-                        android:id="@+id/display_review_image"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginEnd="18dp"
-                        android:src="@drawable/ic_profile" />
-
-                    <TextView
-                        android:id="@+id/display_review_name_reviewer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_toEndOf="@+id/display_review_image"
-                        android:paddingBottom="5dp"
-                        android:text="Viral Android"
-                        android:textSize="24sp" />
-
-                    <RatingBar
-                        android:id="@+id/display_review_ratingBar"
-                        style="?android:attr/ratingBarStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/display_review_name_reviewer"
-                        android:layout_toEndOf="@+id/display_review_image"
-                        android:numStars="5"
-                        android:rating="3.0"
-                        android:stepSize="1.0" />
-
-                    <TextView
-                        android:id="@+id/display_review_datetime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/display_review_name_reviewer"
-                        android:layout_marginStart="20sp"
-                        android:layout_toEndOf="@+id/display_review_ratingBar"
-                        android:text="12.00 : 12/03/2061"
-                        android:textColor="#8b8b8b" />
-
-                    <TextView
-                        android:id="@+id/display_review_description"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/display_review_ratingBar"
-                        android:layout_marginBottom="10sp"
-                        android:layout_marginTop="16sp"
-                        android:layout_toEndOf="@+id/display_review_image"
-                        android:text="Free android tutorials and examples for beginners and expert."
-                        android:textColor="#8b8b8b" />
-
-                    <ImageView
-                        android:id="@+id/display_image_review"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/display_review_description"
-                        android:layout_marginTop="@dimen/range_12"
-                        android:visibility="gone" />
-
-                    <ListView
-                        android:id="@+id/list_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/display_review_description"
-                        android:layout_toEndOf="@+id/display_review_image"
-                        android:scrollbars="none"
-                        android:visibility="gone" />
-
-                    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/review_shop_gridview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/display_review_description"
-                        android:layout_toEndOf="@+id/display_review_image"
-                        android:numColumns="3" />
-                </RelativeLayout>
+                <ImageView
+                    android:id="@+id/display_review_image"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="18dp"
+                    android:src="@drawable/ic_profile" />
 
                 <TextView
-                    android:id="@+id/comment"
+                    android:id="@+id/display_review_name_reviewer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/review_display"
-                    android:gravity="center_horizontal"
-                    android:padding="@dimen/range_12"
-                    android:text="No comment" />
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/display_review_image"
+                    android:paddingBottom="5dp"
+                    android:text="Viral Android"
+                    android:textSize="24sp" />
 
-                <android.support.v4.widget.SwipeRefreshLayout
-                    android:id="@+id/comment_swipe_refresh_layout"
+                <RatingBar
+                    android:id="@+id/display_review_ratingBar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/display_review_name_reviewer"
+                    android:layout_toEndOf="@+id/display_review_image"
+                    android:numStars="5"
+                    android:rating="3.0"
+                    android:stepSize="1.0" />
+
+                <TextView
+                    android:id="@+id/display_review_datetime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/display_review_name_reviewer"
+                    android:layout_marginStart="20sp"
+                    android:layout_toEndOf="@+id/display_review_ratingBar"
+                    android:text="12.00 : 12/03/2061"
+                    android:textColor="#8b8b8b" />
+
+                <TextView
+                    android:id="@+id/display_review_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/display_review_ratingBar"
+                    android:layout_marginBottom="10sp"
+                    android:layout_marginTop="16sp"
+                    android:layout_toEndOf="@+id/display_review_image"
+                    android:text="Free android tutorials and examples for beginners and expert."
+                    android:textColor="#8b8b8b" />
+
+                <ImageView
+                    android:id="@+id/display_image_review"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/display_review_description"
+                    android:layout_marginTop="@dimen/range_12"
+                    android:visibility="gone" />
+
+                <ListView
+                    android:id="@+id/list_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/display_review_description"
+                    android:layout_toEndOf="@+id/display_review_image"
+                    android:scrollbars="none"
+                    android:visibility="gone" />
+
+                <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/review_shop_gridview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/display_review_description"
+                    android:layout_toEndOf="@+id/display_review_image"
+                    android:numColumns="3"
+                    android:scrollbars="none" />
+
+                <ImageView
+                    android:id="@+id/comment_review"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/review_shop_gridview"
+                    android:layout_marginTop="@dimen/range_10"
+                    android:layout_toEndOf="@+id/display_review_image"
+                    android:src="@drawable/ic_comment" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/review_display"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/range_12"
+                android:text="No comment" />
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/comment_swipe_refresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/review_display"
+                android:layout_marginBottom="@dimen/range_12"
+                android:visibility="visible">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/comment_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/review_display"
-                    android:layout_marginBottom="@dimen/range_12"
-                    android:visibility="visible">
+                    android:clipToPadding="false"
+                    android:scrollbars="none"
+                    tools:listitem="@layout/item_comment" />
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/comment_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToPadding="false"
-                        android:scrollbars="none"
-                        tools:listitem="@layout/item_comment" />
-
-                </android.support.v4.widget.SwipeRefreshLayout>
-            </RelativeLayout>
+            </android.support.v4.widget.SwipeRefreshLayout>
+        </RelativeLayout>
 
 
         <android.support.design.widget.BottomNavigationView
@@ -166,7 +178,8 @@
             android:visibility="visible"
             app:itemIconTint="@color/bnv_tab_item_foreground"
             app:itemTextColor="@color/bnv_tab_item_foreground"
-            app:menu="@menu/menu_display_review">
+            app:menu="@menu/menu_display_review"
+            tools:ignore="NotSibling">
 
             <RelativeLayout
                 android:id="@+id/structured_relative_interaction"
@@ -200,5 +213,4 @@
             </RelativeLayout>
         </android.support.design.widget.BottomNavigationView>
     </RelativeLayout>
-
 </LinearLayout>

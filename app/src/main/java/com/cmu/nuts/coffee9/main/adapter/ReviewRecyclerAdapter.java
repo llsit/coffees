@@ -2,6 +2,7 @@ package com.cmu.nuts.coffee9.main.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
@@ -15,6 +16,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.review.review_display_activity;
 import com.cmu.nuts.coffee9.model.Member;
 import com.cmu.nuts.coffee9.model.Review;
 import com.google.firebase.database.DataSnapshot;
@@ -107,17 +109,16 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
 //                bundle.putString("shopIDs",reviewID);
 //                fragment.setArguments(bundle);
 //                DisplayReviewFragment DisplayReview = new DisplayReviewFragment();
-//                assert getFragmentManager() != null;
 //                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 //                fragmentTransaction.replace(R.id.MyFragments, DisplayReview);
 //                fragmentTransaction.addToBackStack(null);
 //                fragmentTransaction.commit();
 
 
-//                Intent i = new Intent(v.getContext(), review_display_activity.class);
-//                i.putExtra("reviewID", reviewID);
-//                i.putExtra("shopID", shopID);
-//                v.getContext().startActivity(i);
+                Intent i = new Intent(v.getContext(), review_display_activity.class);
+                i.putExtra("reviewID", reviewID);
+                i.putExtra("shopID", shopID);
+                v.getContext().startActivity(i);
             }
         });
     }

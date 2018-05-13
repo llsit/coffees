@@ -1,7 +1,9 @@
 package com.cmu.nuts.coffee9.main.review;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -9,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -64,6 +67,7 @@ public class review_display_activity extends AppCompatActivity {
     private GridView gridview;
     private int status = 1;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,10 +89,33 @@ public class review_display_activity extends AppCompatActivity {
         review_display_back = findViewById(R.id.review_display_back);
         listView = findViewById(R.id.list_image);
         gridview = findViewById(R.id.review_shop_gridview);
+        gridview.setOnTouchListener(new View.OnTouchListener(){
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return event.getAction() == MotionEvent.ACTION_MOVE;
+            }
+
+        });
         review_display_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        final BottomNavigationView BottomView = findViewById(R.id.bottom_nav_view);
+        BottomView.setVisibility(View.GONE);
+        ImageView comments = findViewById(R.id.comment_review);
+        comments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (BottomView.isShown()) {
+                    BottomView.setVisibility(View.GONE);
+                } else {
+                    BottomView.setVisibility(View.VISIBLE);
+                }
+
             }
         });
         getDataReview();

@@ -142,55 +142,6 @@ public class SearchFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         checkfilter();
-//                        Date currentTime = Calendar.getInstance().getTime();
-//                        @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("EEE|HH:mm");
-//                        String nows;
-//                        // Check username password
-//                        StringBuilder result = new StringBuilder();
-//                        if (star5.isChecked()) {
-//                            result.append("5");
-//                            arrayList.add("5");
-//                        }
-//                        if (star4.isChecked()) {
-//                            result.append("4");
-//                            arrayList.add("4");
-//                        }
-//                        if (star3.isChecked()) {
-//                            result.append("3");
-//                            arrayList.add("3");
-//                        }
-//                        if (star2.isChecked()) {
-//                            result.append("2");
-//                            arrayList.add("2");
-//                        }
-//                        if (star1.isChecked()) {
-//                            result.append("1");
-//                            arrayList.add("1");
-//                        }
-//                        if (price_max.isChecked()) {
-//                            result.append("151-200").append(" ");
-//                            arrayList.add("151-200");
-//                        }
-//                        if (price_mid.isChecked()) {
-//                            result.append("101-150").append(" ");
-//                            arrayList.add("101-150");
-//                        }
-//                        if (price_min.isChecked()) {
-//                            result.append("0-100");
-//                            arrayList.add("0-100");
-//                        }
-//                        if (now.isChecked()) {
-//                            nows = mdformat.format(currentTime);
-//                            result.append(nows);
-//                            arrayList.add(nows);
-//                        }
-////                        arrayList.add(result.toString());
-//                        compareFilter(arrayList);
-//                        for (String s : arrayList) {
-//                            System.out.println(s);
-//                        }
-//                        Toast.makeText(getContext(), result.toString(),
-//                                Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -201,57 +152,66 @@ public class SearchFragment extends Fragment {
                 });
 
                 builder.show();
-//                Intent intent = new Intent(getActivity(), SearchFilterActivity.class);
-//                startActivity(intent);
             }
         });
 
     }
 
     private void checkfilter() {
-        final String[] result = new String[1];
         final ArrayList<String> arrayList1 = new ArrayList<String>();
         final ArrayList<String> arrayList2 = new ArrayList<String>();
         final ArrayList<String> arrayList3 = new ArrayList<String>();
+        final boolean[] status = {false};
+        final boolean[] statuscheck = {false};
 
         Date currentTime = Calendar.getInstance().getTime();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("EEEE|HH:mm");
         String nows;
-
+        arrayList1.clear();
+        arrayList2.clear();
+        arrayList3.clear();
         if (star5.isChecked()) {
             arrayList3.add("5");
+            statuscheck[0] = true;
         }
         if (star4.isChecked()) {
             arrayList3.add("4");
+            statuscheck[0] = true;
         }
         if (star3.isChecked()) {
             arrayList3.add("3");
+            statuscheck[0] = true;
         }
         if (star2.isChecked()) {
             arrayList3.add("2");
+            statuscheck[0] = true;
         }
         if (star1.isChecked()) {
             arrayList3.add("1");
+            statuscheck[0] = true;
         }
         if (price_max.isChecked()) {
             arrayList1.add("151-200");
-
+            statuscheck[0] = true;
         }
         if (price_mid.isChecked()) {
             arrayList1.add("101-150");
-
+            statuscheck[0] = true;
         }
         if (price_min.isChecked()) {
             arrayList1.add("0-100");
+            statuscheck[0] = true;
         }
         if (now.isChecked()) {
             nows = mdformat.format(currentTime);
             arrayList2.add(nows);
+            statuscheck[0] = true;
         }
         String day = null;
         int hrNow = 0;
         int minNow = 0;
         if (arrayList2.size() > 0) {
+            statuscheck[0] = true;
             String[] arrStr = null;
 
             for (int i = 0; i < arrayList2.size(); i++) {
@@ -275,6 +235,7 @@ public class SearchFragment extends Fragment {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     final Shop shops = item.getValue(Shop.class);
                     if (arrayList1.size() > 0) {
+                        status[0] = true;
                         for (int i = 0; i < arrayList1.size(); i++) {
                             assert shops != null;
                             if (shops.getPrice().equals(arrayList1.get(i))) {
@@ -282,25 +243,29 @@ public class SearchFragment extends Fragment {
                                 Distinct(id);
                             }
                         }
+
                     }
                     if (arrayList3.size() > 0) {
+                        status[0] = true;
                         for (int i = 0; i < arrayList3.size(); i++) {
-                            if (shops.getRating().equals(arrayList3.get(i))){
+                            assert shops != null;
+                            if (shops.getRating().equals(arrayList3.get(i))) {
                                 String id = shops.getSid();
                                 Distinct(id);
                             }
                         }
+
                     }
 
                     if (arrayList2.size() > 0) {
                         assert shops != null;
+                        status[0] = true;
                         DatabaseReference tDatabase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag()).child(shops.getSid());
                         tDatabase.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 for (DataSnapshot value : dataSnapshot.getChildren()) {
                                     Open_Hour open = value.getValue(Open_Hour.class);
-
                                     assert open != null;
                                     String start = open.getTimestart();
                                     String end = open.getTimeend();
@@ -343,26 +308,63 @@ public class SearchFragment extends Fragment {
 
             }
         });
+        if (!statuscheck[0]) {
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            if (!status[0]) {
+                recyclerView.setVisibility(View.VISIBLE);
+                System.out.println("true full");
+            } else {
+                recyclerView.setVisibility(View.GONE);
+                System.out.println("Empty");
+            }
+        }
 
+//            DatabaseReference shopsDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag);
+//            final List<Shop> shops2 = new ArrayList<>();
+//            shopsDatabase.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    for (DataSnapshot item : dataSnapshot.getChildren()) {
+//                        Shop shops = item.getValue(Shop.class);
+//                        assert shops != null;
+//                        shops2.add(shops);
+//                        setRecyclerView(shops2);
+////                        System.out.println(shops.getSid());
+////                        getShopDatabase(shops.getSid());
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                }
+//            });
+//        }
 
     }
 
     private void Distinct(String id) {
         final ArrayList<String> arrayListAll = new ArrayList<String>();
         arrayListAll.add(id);
-        ArrayList<String> arrayResult = new ArrayList<String>();
+        final ArrayList<String> arrayResult = new ArrayList<String>();
         for (int i = 0; i < arrayListAll.size(); i++) {
             int j;
             for (j = 0; j < i; j++)
-                if (arrayListAll.get(i) == arrayListAll.get(j))
+                if (arrayListAll.get(i).equals(arrayListAll.get(j)))
                     break;
 
             if (i == j)
                 arrayResult.add(arrayListAll.get(i));
         }
-        for (String a : arrayResult)
-            getShopDatabase(a);
-//            System.out.println("id = " + a);
+
+        if (arrayResult.size() > 0) {
+            for (String a : arrayResult)
+                getShopDatabase(a);
+        } else {
+            System.out.println("failed");
+
+        }
     }
 
 
@@ -415,7 +417,6 @@ public class SearchFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Shop value = dataSnapshot.getValue(Shop.class);
                 shops.add(value);
-
                 setRecyclerView(shops);
 //                swipeRefreshLayout.setRefreshing(false);
             }
@@ -429,15 +430,11 @@ public class SearchFragment extends Fragment {
     }
 
     private void setRecyclerView(List<Shop> list) {
-
-
-        if (list.size() > 0) {
-            ShopRecyclerAdapter recyclerAdapter = new ShopRecyclerAdapter(list, activity);
-            RecyclerView.LayoutManager recycle = new LinearLayoutManager(activity);
-            recyclerView.setLayoutManager(recycle);
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setAdapter(recyclerAdapter);
-        }
-
+        ShopRecyclerAdapter recyclerAdapter = new ShopRecyclerAdapter(list, activity);
+        RecyclerView.LayoutManager recycle = new LinearLayoutManager(activity);
+        recyclerView.setLayoutManager(recycle);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(recyclerAdapter);
     }
+
 }
