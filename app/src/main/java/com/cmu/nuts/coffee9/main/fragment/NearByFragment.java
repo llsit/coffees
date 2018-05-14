@@ -52,11 +52,7 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
 
     private MapView mMapView;
     private GoogleMap googleMap;
-    private GoogleApiClient googleApiClient;
     private Activity activity;
-
-    private Double Latitude = 0.00;
-    private Double Longitude = 0.00;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -158,18 +154,17 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
                             String separated[] = locals.split("\\|");
                             String lat = "18.7990956";
                             String longs = "98.9621415";
-                            for (int i = 0; i < separated.length - 1; i++) {
-                                lat = separated[i];
-                                longs = separated[i+1];
+                            if (separated.length >= 2){
+                                lat = separated[0];
+                                longs = separated[1];
                             }
-
                             showLocation(lat, longs, name);
                         }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
+                        Toast.makeText(getActivity(), "Error while getting coffee shop's location cause by : ".concat(databaseError.getMessage()), Toast.LENGTH_SHORT).show();
                     }
                 });
 
