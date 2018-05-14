@@ -129,7 +129,6 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
                 shopID = shop.getSid();
                 i.putExtra("shopID", shopID);
                 v.getContext().startActivity(i);
-
             }
         });
 

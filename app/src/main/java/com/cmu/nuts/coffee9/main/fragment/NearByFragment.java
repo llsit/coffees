@@ -3,6 +3,7 @@ package com.cmu.nuts.coffee9.main.fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -18,8 +19,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.data_shop.DataShopActivity;
 import com.cmu.nuts.coffee9.model.Shop;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -150,7 +151,6 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
                             Shop shop = item.getValue(Shop.class);
                             assert shop != null;
                             String locals = shop.getLocation();
-                            String name = shop.getName();
                             String separated[] = locals.split("\\|");
                             String lat = "18.7990956";
                             String longs = "98.9621415";
@@ -158,7 +158,7 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
                                 lat = separated[0];
                                 longs = separated[1];
                             }
-                            showLocation(lat, longs, name);
+                            showLocation(lat, longs, shop.getName(), shop.getSid());
                         }
                     }
 
@@ -180,7 +180,7 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
         });
     }
 
-    public void showLocation(String lat, String longs, final String name) {
+    public void showLocation(String lat, String longs, final String name, final String uid) {
         final LatLng latLng = new LatLng(Double.valueOf(lat), Double.valueOf(longs));
         MarkerOptions marker = new MarkerOptions().position(latLng).title(name).snippet("Coffee cafe'");
         BitmapDrawable icon = (BitmapDrawable)getResources().getDrawable(R.drawable.img_cafe_location);
@@ -191,8 +191,9 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Toast.makeText(getActivity(), "Here is "+ name,
-                        Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), DataShopActivity.class);
+                intent.putExtra("shopID", uid);
+                startActivity(intent);
                 return true;
             }
         });
