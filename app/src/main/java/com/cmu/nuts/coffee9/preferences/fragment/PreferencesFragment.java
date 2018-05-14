@@ -26,13 +26,12 @@ public class PreferencesFragment extends Fragment {
     }
 
     private Activity activity;
-    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_preferences, container, false);
+        View view = inflater.inflate(R.layout.fragment_preferences, container, false);
         ButterKnife.bind(this, view);
 
         activity = getActivity();

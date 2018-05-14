@@ -6,6 +6,6 @@
         android:id="@+id/action_comment"
         android:orderInCategory="100"
         android:icon="@drawable/ic_comment_black_24dp"
-        android:title="comment"
+        android:title="@string/txt_comment"
         app:showAsAction="never" />
 </menu>

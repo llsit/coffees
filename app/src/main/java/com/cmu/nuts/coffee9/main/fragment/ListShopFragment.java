@@ -20,7 +20,6 @@ public class ListShopFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private DatabaseReference mDatabase;
     private RecyclerView mlist;
     FirebaseDatabase database;
     DatabaseReference myref;

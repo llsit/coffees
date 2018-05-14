@@ -84,7 +84,7 @@
                     android:id="@+id/edit_data_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/detail"
+                    android:hint="@string/txt_detail"
                     android:minLines="2"
                     android:inputType="textLongMessage" />
             </android.support.design.widget.TextInputLayout>

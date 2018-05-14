@@ -57,7 +57,7 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
         holder.tv_uid.setText(review.getUid());
         holder.tv_url.setText(review.getImg_url());
           DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("Member").child(review.getUid()).addValueEventListener(new ValueEventListener() {
+        mDatabase.child(Member.tag).child(review.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Member member = dataSnapshot.getValue(Member.class);

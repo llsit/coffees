@@ -79,7 +79,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".main.review.ReviewActivity"
-            android:label="@string/title_activity_review"
+            android:label="@string/txt_review"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".main.review.review_display_activity"

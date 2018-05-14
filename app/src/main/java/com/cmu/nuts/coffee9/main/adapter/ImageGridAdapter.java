@@ -15,7 +15,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class ImageGridAdapter extends ArrayAdapter {
-    private Context context;
     private LayoutInflater inflater;
     private int status;
 
@@ -24,7 +23,6 @@ public class ImageGridAdapter extends ArrayAdapter {
     public ImageGridAdapter(Context context, ArrayList<String> imageUrls, int status) {
         super(context, R.layout.item_image, imageUrls);
 
-        this.context = context;
         this.imageUrls = imageUrls;
         this.status = status;
 

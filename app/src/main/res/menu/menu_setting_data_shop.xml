@@ -5,18 +5,18 @@
         android:id="@+id/edit_data_Shop"
         android:orderInCategory="100"
         app:showAsAction="never"
-        android:title="Edit" />
+        android:title="@string/txt_edit" />
 
     <item
         android:id="@+id/delete_data_shop"
         android:orderInCategory="200"
         app:showAsAction="never"
-        android:title="Delete" />
+        android:title="@string/txt_delete" />
 
     <item
         android:id="@+id/share"
         android:orderInCategory="200"
         app:showAsAction="always"
         android:icon="@drawable/ic_share"
-        android:title="Delete" />
+        android:title="@string/txt_delete" />
 </menu>

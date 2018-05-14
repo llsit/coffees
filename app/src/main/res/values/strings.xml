@@ -28,6 +28,8 @@
     <string name="password">Password</string>
     <string name="no_acc">No account yet? Create one</string>
     <string name="acc_yet">Already Registered? Sign in Here</string>
+    <string name="acc_done">Registered Successfully</string>
+    <string name="txt_edit_success">Edit Successfully</string>
     <string name="title_activity_sign_up">sign up</string>
     <string name="title_activity_login">login</string>
     <string name="logo">logo</string>
@@ -43,7 +45,7 @@
     <string name="logout">Logout</string>
     <string name="name_shop">Name Coffee Shop</string>
     <string name="address">Address</string>
-    <string name="detail">Detail</string>
+    <string name="txt_detail">Detail</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name">Name</string>
     <string name="txt_birth_date_prompt">Birth date : </string>
@@ -138,7 +140,7 @@
     <string name="txt_time_hour">Time hour</string>
     <string name="txt_location">Location</string>
     <string name="title_activity_data_shop" translatable="false">DataShopActivity</string>
-    <string name="title_activity_review">Review</string>
+    <string name="txt_review">Review</string>
     <string name="title_activity_comment" translatable="false">commentActivity</string>
     <string name="title_activity_review_display_activity" translatable="false">review_display_activity</string>
     <string name="txt_no_review_yet">No review yet!   Be the first review?</string>
@@ -146,5 +148,17 @@
     <string name="title_activity_full_image" translatable="false">FullImageActivity</string>
     <string name="title_activity_edit_data_shop" translatable="false">EditDataShopActivity</string>
     <string name="title_activity_search_filter" translatable="false">SearchFilterActivity</string>
+    <string name="txt_no_comment">No comment</string>
+    <string name="txt_close">close</string>
+    <string name="txt_delete">delete</string>
+    <string name="txt_post">Post</string>
+    <string name="txt_comment">comment</string>
+    <string name="txt_image">Image</string>
+    <string name="txt_search_here">Search Here</string>
+    <string name="txt_all">All</string>
+    <string name="txt_add_by_me">Add by me</string>
+    <string name="txt_check_in">check-in</string>
+    <string name="txt_shared_image">Share Image</string>
+    <string name="txt_please_waite">Please wait ...</string>
 
 </resources>

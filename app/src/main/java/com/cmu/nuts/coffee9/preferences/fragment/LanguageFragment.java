@@ -25,15 +25,13 @@ public class LanguageFragment extends Fragment {
     }
     LanguageManager languageManager;
 
-    private Activity activity;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_language, container, false);
         ButterKnife.bind(this, view);
-        activity = getActivity();
+        Activity activity = getActivity();
         languageManager = new LanguageManager(activity);
         return view;
     }

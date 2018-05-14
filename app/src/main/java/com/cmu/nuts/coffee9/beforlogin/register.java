@@ -32,17 +32,18 @@ import butterknife.OnClick;
 public class register extends AppCompatActivity {
 
     //defining view objects
-    private EditText editTextName, editTextEmail, editTextPassword, editTextDate;
+    private EditText editTextName;
+    private EditText editTextEmail;
+    private EditText editTextPassword;
 
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
 
-    FirebaseStorage storage;
-    StorageReference storageRef;
-    UploadTask uploadTask;
-    private Uri filePath;
     private String name;
+
+    public register() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +105,7 @@ public class register extends AppCompatActivity {
 
         mDatabase.child(Member.tag).child(mid.getUid()).setValue(user);
 
-        Toast.makeText(register.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(register.this, getResources().getString(R.string.acc_done), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(register.this, login.class);
         startActivity(intent);
         finish();

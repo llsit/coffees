@@ -7,14 +7,14 @@
     android:clickable="true"
     android:focusable="true"
     android:orientation="vertical"
-    android:padding="12dp">
+    android:padding="@dimen/range_12">
 
     <ImageView
         android:id="@+id/item_comment_image"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="18dp"
+        android:layout_marginEnd="@dimen/range_18"
         android:src="@drawable/ic_profile"
         tools:ignore="ContentDescription" />
 
@@ -26,7 +26,7 @@
         android:layout_toEndOf="@+id/item_comment_image"
         android:paddingBottom="5dp"
         android:text="@string/app_name"
-        android:textSize="15dp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/item_comment_description"

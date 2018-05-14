@@ -73,7 +73,6 @@ public class DetailDataShopFragment extends Fragment {
             }
         };
         databaseReference.addListenerForSingleValueEvent(listener);
-        ValueEventListener valueEventListener = listener;
     }
 
 }

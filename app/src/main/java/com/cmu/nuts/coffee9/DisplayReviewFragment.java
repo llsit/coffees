@@ -54,19 +54,14 @@ public class DisplayReviewFragment extends Fragment {
     private TextView description;
     private RatingBar star;
     private ImageView review_image;
-    private ImageView image_review;
-    private ImageView review_display_back;
     //comment
     private EditText add_comment;
-    private ImageButton send;
     //display comment
     private SwipeRefreshLayout swipeRefreshLayout;
     private android.support.v7.widget.RecyclerView RecyclerView;
     private TextView data_shop_message;
 
-    private ListView listView;
     private GridView gridview;
-    private int status = 1;
 
     public DisplayReviewFragment() {
         // Required empty public constructor
@@ -86,10 +81,6 @@ public class DisplayReviewFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-//        Intent intent = getIntent();
-//        review_ID = intent.getStringExtra("reviewID");
-//        shop_ID = intent.getStringExtra("shopID");
         if (getArguments() != null){
             review_ID = getArguments().getString("reviewIDs");
             shop_ID = getArguments().getString("shopIDs");
@@ -100,9 +91,9 @@ public class DisplayReviewFragment extends Fragment {
         description = view.findViewById(R.id.display_review_description);
         star = view.findViewById(R.id.display_review_ratingBar);
         review_image = view.findViewById(R.id.display_review_image);
-        image_review = view.findViewById(R.id.display_image_review);
-        review_display_back = view.findViewById(R.id.review_display_back);
-        listView = view.findViewById(R.id.list_image);
+        ImageView image_review = view.findViewById(R.id.display_image_review);
+        ImageView review_display_back = view.findViewById(R.id.review_display_back);
+        ListView listView = view.findViewById(R.id.list_image);
         gridview = view.findViewById(R.id.review_shop_gridview);
         review_display_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +168,7 @@ public class DisplayReviewFragment extends Fragment {
 
     private void comment(View view) {
         add_comment = view.findViewById(R.id.add_comment);
-        send = view.findViewById(R.id.send);
+        ImageButton send = view.findViewById(R.id.send);
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -267,7 +258,7 @@ public class DisplayReviewFragment extends Fragment {
     private void setAdapter(GridView gridview, ArrayList<String> arrayList) {
         Toast.makeText(getContext(), "Refreshing . .",
                 Toast.LENGTH_LONG).show();
-        gridview.setAdapter(new ImageGridAdapter(getContext(), arrayList, status));
+        gridview.setAdapter(new ImageGridAdapter(getContext(), arrayList, 1));
     }
 
 }

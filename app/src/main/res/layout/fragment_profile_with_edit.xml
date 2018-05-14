@@ -19,7 +19,8 @@
             android:id="@+id/profile_edit_img_pref"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_back"
+            android:contentDescription="@string/app_name" />
 
         <TextView
             android:id="@+id/profile_edit__title_txt"
@@ -106,7 +107,8 @@
                     android:paddingLeft="16dp"
                     android:text="@string/txt_email_prompt"
                     android:textSize="20sp"
-                    tools:ignore="RtlSymmetry" />
+                    tools:ignore="LabelFor,RtlSymmetry"
+                    android:inputType="textEmailAddress" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -118,7 +120,7 @@
                 android:layout_below="@id/input_layout_email"
                 android:layout_marginTop="15dp"
                 android:paddingLeft="16dp"
-                android:text="Birth date : 01 01 1940"
+                android:text="@string/txt_birth_date_prompt"
                 android:textSize="20sp"
                 android:textColor="@color/color_black"
                 tools:ignore="RtlSymmetry" />
@@ -131,8 +133,8 @@
                 android:layout_marginLeft="@dimen/range_12"
                 android:layout_marginTop="@dimen/range_15"
                 android:layout_toEndOf="@+id/display_birth_date"
-                android:src="@drawable/ic_date" />
-
+                android:src="@drawable/ic_date"
+                android:contentDescription="@string/app_name" />
 
             <TextView
                 android:id="@+id/display_reg_date"

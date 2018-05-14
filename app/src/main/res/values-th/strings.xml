@@ -35,7 +35,7 @@
     <string name="logout">ออกจากระบบ</string>
     <string name="name_shop">ชื่อร้านกาแฟ</string>
     <string name="address">ที่อยู่</string>
-    <string name="detail">รายละเอียด</string>
+    <string name="txt_detail">รายละเอียด</string>
     <string name="hello_blank_fragment">สวัสดีแฟรกเมนต์เปล่า</string>
     <string name="name">ชื่อ</string>
     <string name="txt_birth_date_prompt">วันเกิด :</string>
@@ -68,6 +68,17 @@
     <string name="txt_add">เพิ่ม</string>
     <string name="txt_time_hour">เวลา ชั่วโมง</string>
     <string name="txt_location">สถานที่</string>
-    <string name="title_activity_review">รีวิว</string>
+    <string name="txt_review">รีวิว</string>
     <string name="txt_no_review_yet">ยังไม่มีรีวิวเลย! รีวิวเป็นคนแรกสิ</string>
+    <string name="txt_no_comment">ไม่มีคอมเมนต์</string>
+    <string name="txt_close">ปิด</string>
+    <string name="txt_delete">ลบ</string>
+    <string name="txt_post">โพส</string>
+    <string name="txt_comment">คอมเมนต์</string>
+    <string name="txt_image">รูปภาพ</string>
+    <string name="txt_search_here">ค้นหาที่นี่</string>
+    <string name="txt_all">ทั้งหมด</string>
+    <string name="txt_add_by_me">ของฉัน</string>
+    <string name="txt_check_in">เชคอิน</string>
+    <string name="txt_shared_image">แบ่งปันรูปภาพ</string>
 </resources>

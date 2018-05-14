@@ -103,11 +103,6 @@ public class ReviewActivity extends AppCompatActivity {
 
         }
         text_view.setText(stringBuffer.toString());
-//        Picasso.get()
-//                .load(stringBuffer.toString())
-//                .resize(50, 50)
-//                .centerCrop()
-//                .into(imageView);
     }
 
 
@@ -188,16 +183,12 @@ public class ReviewActivity extends AppCompatActivity {
                 Shop shops = dataSnapshot.getValue(Shop.class);
                 int n;
                 assert shops != null;
-//                String rates = shops.getRating();
                 int rate = Integer.parseInt(String.valueOf(shops.getRating()));
                 int m = rate * counts;
                 System.out.println("m " + m + " =  " + rate + " " + counts);
-//                System.out.println("rate " + rate + " counts  " + counts + " name " + shops.getName());
                 if (rate != 0) {
                     n = (m + stars) / (counts + 1);
                     System.out.println("1 " + n);
-//                    n = Integer.parseInt(String.valueOf(floor(n)));
-//                    System.out.println("2 " + n);
                 } else {
                     n = stars;
                 }
@@ -222,7 +213,6 @@ public class ReviewActivity extends AppCompatActivity {
 
             DatabaseReference shopDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag);
             shopDatabase.child(sid).child("rating").setValue(String.valueOf(n));
-//            System.out.println(ratings + "star = " + stars);
             Review review = new Review(rid, uid, sid, detail, img_url, datetime, star);
             mDatabase.child(Review.tag).child(sid).child(rid).setValue(review);
             Toast.makeText(this, "Your Review is now published" + sid, Toast.LENGTH_SHORT).show();

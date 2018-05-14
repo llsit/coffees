@@ -70,26 +70,6 @@ public class DataShopActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: Starting.");
 
         SectionsPageAdapter mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
-
-//        Button button = findViewById(R.id.check);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                new GraphRequest(
-//                        AccessToken.getCurrentAccessToken(),
-//                        "/me?fields=id,name",
-//                        null,
-//                        HttpMethod.GET,
-//                        new GraphRequest.Callback() {
-//                            public void onCompleted(GraphResponse response) {
-//                                /* handle the result */
-//                                System.out.println("passed");
-//                            }
-//                        }
-//                ).executeAsync();
-//            }
-//        });
-
         // Finding the facebook share button
         shareButton = findViewById(R.id.button);
         // Sharing the content to facebook
@@ -145,8 +125,8 @@ public class DataShopActivity extends AppCompatActivity {
 
         final FabSpeedDial fab = findViewById(R.id.fab);
         FabSpeedDialMenu menu = new FabSpeedDialMenu(this);
-        menu.add("Share Image").setIcon(R.drawable.ic_add_a_photo);
-        menu.add("Review").setIcon(R.drawable.ic_edit_pen);
+        menu.add(getResources().getString(R.string.txt_shared_image)).setIcon(R.drawable.ic_add_a_photo);
+        menu.add(getResources().getString(R.string.txt_review)).setIcon(R.drawable.ic_edit_pen);
         fab.setMenu(menu);
         fab.addOnMenuItemClickListener(new FabSpeedDial.OnMenuItemClickListener() {
             @Override
@@ -220,9 +200,9 @@ public class DataShopActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new DetailDataShopFragment(), "Detail");
-        adapter.addFragment(new ReviewDataShopFragment(), "Review");
-        adapter.addFragment(new ImageDataShopFragment(), "Image");
+        adapter.addFragment(new DetailDataShopFragment(), getResources().getString(R.string.txt_detail));
+        adapter.addFragment(new ReviewDataShopFragment(), getResources().getString(R.string.txt_review));
+        adapter.addFragment(new ImageDataShopFragment(), getResources().getString(R.string.txt_image));
         viewPager.setAdapter(adapter);
     }
 
@@ -293,7 +273,6 @@ public class DataShopActivity extends AppCompatActivity {
         eDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot item : dataSnapshot.getChildren()) {
                 Shop shops = dataSnapshot.getValue(Shop.class);
                 assert shops != null;
                 if (shops.getUid().equals(auth.getUid())) {
@@ -303,7 +282,6 @@ public class DataShopActivity extends AppCompatActivity {
                     edit.setVisible(false);
                     del.setVisible(false);
                 }
-//                }
             }
 
             @Override
@@ -340,7 +318,6 @@ public class DataShopActivity extends AppCompatActivity {
                 // Code you want run when activity is clicked
                 ShareDataShop();
                 shareButton.performClick();
-//                Toast.makeText(DataShopActivity.this, "done", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

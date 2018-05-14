@@ -43,15 +43,12 @@ public class reviewDisplayFragment extends Fragment {
     private TextView description;
     private RatingBar star;
     private ImageView review_image;
-    private ImageView image_review;
-    private DatabaseReference mDatabase;
     //display comment
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView RecyclerView;
     private TextView data_shop_message;
 
     private ListView listView;
-    private int status = 0;
 
     public reviewDisplayFragment() {
         // Required empty public constructor
@@ -65,26 +62,6 @@ public class reviewDisplayFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_review_display, container, false);
-
-
-//        if (getArguments() != null) {
-//            review_ID = getArguments().getString("reviewIDs");
-//            shop_ID = getArguments().getString("shopIDs");
-//            Toast.makeText(getActivity(), review_ID + "   " + shop_ID, Toast.LENGTH_SHORT).show();
-//        }
-//
-//
-//        listView = view.findViewById(R.id.list_image);
-//        reviewer = view.findViewById(R.id.display_review_name_reviewer);
-//        datetime = view.findViewById(R.id.display_review_datetime);
-//        description = view.findViewById(R.id.display_review_description);
-//        star = view.findViewById(R.id.display_review_ratingBar);
-//        review_image = view.findViewById(R.id.display_review_image);
-//        image_review = view.findViewById(R.id.display_image_review);
-//
-//        System.out.println(shop_ID + review_ID);
-//        getDataReview();
-//        displayComment(view);
 
         return view;
     }
@@ -166,12 +143,6 @@ public class reviewDisplayFragment extends Fragment {
                             for (DataSnapshot item : dataSnapshot.getChildren()) {
                                 Review_Image ri = item.getValue(Review_Image.class);
                                 if (ri != null) {
-//                                    Picasso.get()
-//                                            .load(ri.getImage_url())
-//                                            .resize(200,200)
-//                                            .centerInside()
-//                                            .into(image_review);
-//                                    Toast.makeText(review_display_activity.this, ri.getImgid(), Toast.LENGTH_SHORT).show();
                                     arrayList.add(ri.getImage_url());
                                 }
                             }
@@ -220,7 +191,7 @@ public class reviewDisplayFragment extends Fragment {
     private void setAdapter(ListView listView, ArrayList<String> arrayList) {
         Toast.makeText(getContext(), "Refreshing . .",
                 Toast.LENGTH_LONG).show();
-        listView.setAdapter(new ImageGridAdapter(getContext(), arrayList, status));
+        listView.setAdapter(new ImageGridAdapter(getContext(), arrayList, 0));
     }
 
 }

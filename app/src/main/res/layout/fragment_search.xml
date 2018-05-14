@@ -24,7 +24,7 @@
                 android:layout_marginStart="16dp"
                 android:background="@drawable/custom_border_round"
                 app:iconifiedByDefault="false"
-                app:queryHint="Search Here" />
+                app:queryHint="@string/txt_search_here" />
 
             <ImageView
                 android:id="@+id/filter"
@@ -32,7 +32,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5sp"
                 android:layout_toEndOf="@+id/fragment_search_view"
-                android:src="@drawable/ic_filter_list" />
+                android:src="@drawable/ic_filter_list"
+                android:contentDescription="@string/app_name" />
 
             <TextView
                 android:id="@+id/fragment_search_btn_add"

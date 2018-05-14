@@ -39,7 +39,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/range_15"
                 android:layout_marginTop="@dimen/range_15"
-                android:text="Laxman Marothiya"
+                android:text="@string/app_name"
                 android:textColor="#fff"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -54,7 +54,8 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
 
                 <RelativeLayout
                     android:id="@+id/top"
@@ -63,7 +64,8 @@
                     android:layout_marginBottom="@dimen/range_12"
                     android:background="@color/color_white"
                     android:clickable="true"
-                    android:padding="@dimen/range_12">
+                    android:padding="@dimen/range_12"
+                    android:focusable="true">
 
                     <ImageView
                         android:id="@+id/ivContactItem1"
@@ -72,7 +74,9 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/range_12"
                         android:layout_marginRight="@dimen/range_12"
-                        android:src="@drawable/ic_email" />
+                        android:src="@drawable/ic_email"
+                        android:contentDescription="@string/app_name"
+                        tools:ignore="RtlHardcoded" />
 
                     <TextView
                         android:id="@+id/display_email"
@@ -83,9 +87,10 @@
                         android:layout_marginStart="@dimen/range_12"
                         android:layout_toEndOf="@id/ivContactItem1"
                         android:layout_toRightOf="@id/ivContactItem1"
-                        android:text="(123) 456-7890"
+                        android:text="@string/email"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="#212121" />
+                        android:textColor="#212121"
+                        tools:ignore="RtlHardcoded" />
 
 
                 </RelativeLayout>
@@ -96,7 +101,8 @@
                     android:layout_below="@+id/top"
                     android:background="@color/color_white"
                     android:clickable="true"
-                    android:padding="@dimen/range_12">
+                    android:padding="@dimen/range_12"
+                    android:focusable="true">
 
                     <ImageView
                         android:id="@+id/ivContactItem12"
@@ -105,7 +111,8 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/range_12"
                         android:layout_marginRight="@dimen/range_12"
-                        android:src="@drawable/ic_date" />
+                        android:src="@drawable/ic_date"
+                        tools:ignore="RtlHardcoded" />
 
                     <TextView
                         android:id="@+id/display_birth_date"
@@ -118,7 +125,8 @@
                         android:layout_toRightOf="@id/ivContactItem12"
                         android:text=""
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="#212121" />
+                        android:textColor="#212121"
+                        tools:ignore="RtlHardcoded" />
 
 
                 </RelativeLayout>

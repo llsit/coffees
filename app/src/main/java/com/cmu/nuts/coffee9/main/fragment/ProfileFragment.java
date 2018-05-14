@@ -41,12 +41,9 @@ public class ProfileFragment extends Fragment {
     }
 
     private FirebaseAuth auth;
-    private FirebaseUser currentUser;
     private DatabaseReference databaseReference;
     private ValueEventListener valueEventListener;
     private Activity activity;
-
-    private Button profile_btn_logout;
 
     @BindView(R.id.display_email)
     TextView display_email;
@@ -76,11 +73,11 @@ public class ProfileFragment extends Fragment {
 
         btn_settings.setVisibility(View.INVISIBLE);
         auth = FirebaseAuth.getInstance();
-        currentUser = auth.getCurrentUser();
+        FirebaseUser currentUser = auth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference()
                 .child(Member.tag).child(currentUser.getUid());
 
-        profile_btn_logout = view.findViewById(R.id.profile_btn_logout);
+        Button profile_btn_logout = view.findViewById(R.id.profile_btn_logout);
 
         profile_btn_logout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

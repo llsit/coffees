@@ -89,7 +89,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignTop="@+id/item_review_datetime"
                 android:layout_marginStart="5dp"
-                android:text="12" />
+                android:text="@string/txt_rang_0_100" />
 
 
             <TextView

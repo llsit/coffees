@@ -55,13 +55,12 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         languageManager = new LanguageManager(this);
         languageManager.setApplicationLanguage();
-        progressDialog = ProgressDialog.show(this, "", "Please wait ...", true, false);
+        progressDialog = ProgressDialog.show(this, "", getResources().getString(R.string.txt_please_waite), true, false);
 
         inputEmail = findViewById(R.id.email);
         inputPassword = findViewById(R.id.password);
         link_signup = findViewById(R.id.link_signup);
         btnLogin = findViewById(R.id.btn_login);
-        //Button btnfacebook = findViewById(R.id.login_facebook);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         auth = FirebaseAuth.getInstance();

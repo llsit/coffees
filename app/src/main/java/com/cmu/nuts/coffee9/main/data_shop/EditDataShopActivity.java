@@ -30,7 +30,12 @@ public class EditDataShopActivity extends AppCompatActivity {
     private Button btn_done;
     private RadioGroup radio_price;
 
-    private String coffee_ID, name, addressshop, Detail, authorID, locat, prices;
+    private String name;
+    private String addressshop;
+    private String Detail;
+    private String authorID;
+    private String locat;
+    private String prices;
     private DatabaseReference mDatabase;
     private FirebaseUser user;
     private String shop_id;
@@ -39,7 +44,7 @@ public class EditDataShopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_data_shop);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
@@ -110,7 +115,7 @@ public class EditDataShopActivity extends AppCompatActivity {
                 Shop shopData = new Shop(shop_id, name, addressshop, Detail, locat, rating, prices, authorID);
                 mDatabase.child("coffee_shop").child(shop_id).setValue(shopData);
 
-                Toast.makeText(EditDataShopActivity.this, "Edit Success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditDataShopActivity.this, getResources().getString(R.string.txt_edit_success), Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

@@ -43,11 +43,8 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
     public void onBindViewHolder(final CommentHolder holder, @SuppressLint("RecyclerView") final int position) {
         final Comment comment = comments.get(position);
 
-//        holder.tv_cid.setText(review.getCid());
-//        holder.tv_rid.setText(review.getRid());
         holder.tv_detail.setText(comment.getDetail());
         holder.tv_datetime.setText(comment.getDatetime());
-//        holder.tv_uid.setText(review.getUid());
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("Member").child(comment.getUid()).addValueEventListener(new ValueEventListener() {

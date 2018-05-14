@@ -53,8 +53,6 @@ public class SearchFragment extends Fragment {
     private DatabaseReference databaseReference;
     private List<Shop> shops;
     private RecyclerView recyclerView;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private String query = null;
     private ImageView filter;
     private CheckBox price_max, price_mid, price_min, star5, star4, star3, star2, star1, now;
 
@@ -71,18 +69,6 @@ public class SearchFragment extends Fragment {
         filter = view.findViewById(R.id.filter);
         database = FirebaseDatabase.getInstance();
         filters();
-
-
-//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                databaseReference = database.getReference(Shop.tag);
-//                if (query != null) {
-//                    getShopDatabase(query);
-//                }
-//            }
-//        });
-
 
         addShop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -319,29 +305,6 @@ public class SearchFragment extends Fragment {
                 System.out.println("Empty");
             }
         }
-
-//            DatabaseReference shopsDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag);
-//            final List<Shop> shops2 = new ArrayList<>();
-//            shopsDatabase.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    for (DataSnapshot item : dataSnapshot.getChildren()) {
-//                        Shop shops = item.getValue(Shop.class);
-//                        assert shops != null;
-//                        shops2.add(shops);
-//                        setRecyclerView(shops2);
-////                        System.out.println(shops.getSid());
-////                        getShopDatabase(shops.getSid());
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//
-//                }
-//            });
-//        }
-
     }
 
     private void Distinct(String id) {
@@ -394,7 +357,6 @@ public class SearchFragment extends Fragment {
                     assert values != null;
                     if (values.toLowerCase().contains(query.toLowerCase())) {
                         getShopDatabase(id);
-//                        Log.d("Search", " name " + values + " id = " + id);
                     }
                 }
             }
@@ -402,14 +364,12 @@ public class SearchFragment extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w("Shop", "Failed to get database", databaseError.toException());
-//                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
     }
 
     private void getShopDatabase(String id) {
-//        Log.d("Get", " id = " + id);
         shops = new ArrayList<>();
         DatabaseReference sDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(id);
         sDatabase.addValueEventListener(new ValueEventListener() {
@@ -418,13 +378,11 @@ public class SearchFragment extends Fragment {
                 Shop value = dataSnapshot.getValue(Shop.class);
                 shops.add(value);
                 setRecyclerView(shops);
-//                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w("Shop", "Failed to get database", databaseError.toException());
-//                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

@@ -31,10 +31,8 @@ import java.util.ArrayList;
 public class ImageDataShopFragment extends Fragment {
 
     private String shopID;
-    private Button all, byMe;
     private DatabaseReference mDatabase;
     private GridView gridView;
-    private int status = 1;
 
     public ImageDataShopFragment() {
         // Required empty public constructor
@@ -48,8 +46,8 @@ public class ImageDataShopFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_image_data_shop, container, false);
 
         gridView = view.findViewById(R.id.image_data_shop_gridview);
-        all = view.findViewById(R.id.AllButtonSelector);
-        byMe = view.findViewById(R.id.yourButtonSelector);
+        Button all = view.findViewById(R.id.AllButtonSelector);
+        Button byMe = view.findViewById(R.id.yourButtonSelector);
 
         if (getArguments() != null) {
             shopID = getArguments().getString("shop_ID");
@@ -93,7 +91,8 @@ public class ImageDataShopFragment extends Fragment {
                         arrayList.add(shares.getImg_url());
                     }
                 }
-                if (arrayList2 != null) {
+
+                if (!arrayList2.isEmpty()) {
                     setAdapter(gridView, arrayList);
                     setAdapter(gridView, arrayList2);
                 } else {
@@ -128,9 +127,7 @@ public class ImageDataShopFragment extends Fragment {
     }
 
     private void setAdapter(GridView gridView, final ArrayList<String> arrayList) {
-//        Toast.makeText(getActivity(), "Refreshing . .",
-//                Toast.LENGTH_LONG).show();
-        gridView.setAdapter(new ImageGridAdapter(getActivity(), arrayList,status));
+        gridView.setAdapter(new ImageGridAdapter(getActivity(), arrayList, 1));
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
