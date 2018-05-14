@@ -2,6 +2,7 @@ package com.cmu.nuts.coffee9.main.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -39,7 +40,7 @@ public class FavoriteFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
@@ -65,25 +66,30 @@ public class FavoriteFragment extends Fragment {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     final List<Shop> shops = new ArrayList<>();
+                    shops.clear();
                     for (DataSnapshot item : dataSnapshot.getChildren()) {
                         Favorite favorite = item.getValue(Favorite.class);
-                        assert favorite != null;
-                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Shop.tag).child(favorite.getSid());
-                        databaseReference.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshotShop) {
-                                if (dataSnapshotShop.getChildrenCount() > 0) {
-                                    Shop value = dataSnapshotShop.getValue(Shop.class);
-                                    shops.add(value);
-                                    setRecyclerView(shops);
+                        DatabaseReference databaseReference = null;
+                        if (favorite != null) {
+                            databaseReference = FirebaseDatabase.getInstance().getReference(Shop.tag).child(favorite.getSid());
+                            databaseReference.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshotShop) {
+                                    if (dataSnapshotShop.getChildrenCount() > 0) {
+                                        Shop value = dataSnapshotShop.getValue(Shop.class);
+                                        shops.add(value);
+                                        setRecyclerView(shops);
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                Log.w("Shop", "Failed to get database", databaseError.toException());
-                            }
-                        });
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Log.w("Shop", "Failed to get database", databaseError.toException());
+                                }
+                            });
+                        } else {
+                            recyclerView.setVisibility(View.GONE);
+                        }
                     }
                     swipeRefreshLayout.setRefreshing(false);
                 }

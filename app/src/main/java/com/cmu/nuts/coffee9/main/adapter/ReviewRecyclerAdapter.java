@@ -3,8 +3,6 @@ package com.cmu.nuts.coffee9.main.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +15,7 @@ import android.widget.TextView;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.review.review_display_activity;
+import com.cmu.nuts.coffee9.model.Comment;
 import com.cmu.nuts.coffee9.model.Member;
 import com.cmu.nuts.coffee9.model.Review;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +34,6 @@ import java.util.List;
 public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAdapter.ReviewHolder> {
     private List<Review> reviews;
     private Context context;
-    private DatabaseReference mDatabase;
 
     public ReviewRecyclerAdapter(List<Review> reviews, Context context) {
         this.reviews = reviews;
@@ -58,7 +56,7 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
         holder.tv_star.setRating(Float.parseFloat(review.getStar()));
         holder.tv_uid.setText(review.getUid());
         holder.tv_url.setText(review.getImg_url());
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+          DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("Member").child(review.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -80,14 +78,12 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
                 Log.w("Shop", "Failed to get database", error.toException());
             }
         });
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Comment").child(review.getRid());
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
+        DatabaseReference countReference = FirebaseDatabase.getInstance().getReference(Comment.tag).child(review.getRid());
+        countReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                long counts = dataSnapshot.getChildrenCount();
+                int counts = Integer.parseInt(String.valueOf(dataSnapshot.getChildrenCount()));
                 holder.tv_count.setText(String.valueOf(counts));
-//                Toast.makeText(context, dataSnapshot.getKey() + ":" + dataSnapshot.getChildrenCount(), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -98,22 +94,8 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //open new Activity that show Review content
-//                Toast.makeText(context, position + " name : " + review.getSid(), Toast.LENGTH_LONG).show();
                 String reviewID = review.getRid();
                 String shopID = review.getSid();
-
-//                Bundle bundle = new Bundle();
-//                reviewDisplayFragment fragment = new reviewDisplayFragment();
-//                bundle.putString("reviewIDs",shopID);
-//                bundle.putString("shopIDs",reviewID);
-//                fragment.setArguments(bundle);
-//                DisplayReviewFragment DisplayReview = new DisplayReviewFragment();
-//                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.MyFragments, DisplayReview);
-//                fragmentTransaction.addToBackStack(null);
-//                fragmentTransaction.commit();
-
 
                 Intent i = new Intent(v.getContext(), review_display_activity.class);
                 i.putExtra("reviewID", reviewID);
