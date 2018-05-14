@@ -4,6 +4,8 @@ package com.cmu.nuts.coffee9.main.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -151,22 +153,17 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
                         for (DataSnapshot item : dataSnapshot.getChildren()) {
                             Shop shop = item.getValue(Shop.class);
                             assert shop != null;
-                            String locats = shop.getLocation();
-//                            System.out.println("locats = " + locats);
-                            String separated[] = locats.split("\\|");
-                            String lat = null;
+                            String locals = shop.getLocation();
+                            String name = shop.getName();
+                            String separated[] = locals.split("\\|");
+                            String lat = "18.7990956";
+                            String longs = "98.9621415";
                             for (int i = 0; i < separated.length - 1; i++) {
                                 lat = separated[i];
+                                longs = separated[i+1];
                             }
-//                            System.out.println(" lat = " + lat);
-                            String longs = null;
-                            for (int i = 1; i < separated.length; i++) {
-                                longs = separated[i];
-                            }
-                            String sid = shop.getSid();
-                            String name = shop.getName();
 
-                            showLocation(lat, longs, name, sid);
+                            showLocation(lat, longs, name);
                         }
                     }
 
@@ -188,18 +185,19 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
         });
     }
 
-    public void showLocation(String lat, String longs, String name, String sid) {
-        Latitude = Double.valueOf(lat);
-        Longitude = Double.valueOf(longs);
-        MarkerOptions marker = new MarkerOptions().position(new LatLng(Latitude, Longitude)).title(name);
-        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin));
+    public void showLocation(String lat, String longs, final String name) {
+        final LatLng latLng = new LatLng(Double.valueOf(lat), Double.valueOf(longs));
+        MarkerOptions marker = new MarkerOptions().position(latLng).title(name).snippet("Coffee cafe'");
+        BitmapDrawable icon = (BitmapDrawable)getResources().getDrawable(R.drawable.img_cafe_location);
+        Bitmap bitmap = icon.getBitmap();
+        Bitmap smallMarker = Bitmap.createScaledBitmap(bitmap, 100, 100, false);
+        marker.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
         googleMap.addMarker(marker);
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Toast.makeText(getActivity(), "This is my Toast message!",
+                Toast.makeText(getActivity(), "Here is "+ name,
                         Toast.LENGTH_LONG).show();
-
                 return true;
             }
         });
