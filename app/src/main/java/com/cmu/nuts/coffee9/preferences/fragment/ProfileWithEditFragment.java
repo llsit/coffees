@@ -125,7 +125,7 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
                 date.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (!member.getBirthDate().equals(" ")) {
+                        if (!member.getBirthDate().equals("") || !birthdate.isEmpty()) {
                             showDate(Integer.parseInt(member.getBirthDate().substring(10, 14)), Integer.parseInt(member.getBirthDate().substring(5, 7)), Integer.parseInt(member.getBirthDate().substring(0, 2)), R.style.DatePickerSpinner);
                         } else {
                             showDate(2000, 01, 01, R.style.DatePickerSpinner);
