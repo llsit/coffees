@@ -27,15 +27,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
@@ -54,8 +52,7 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
     private GoogleMap googleMap;
     private GoogleApiClient googleApiClient;
     private Activity activity;
-    private ArrayList<HashMap<String, String>> location;
-    private HashMap<String, String> map;
+
     private Double Latitude = 0.00;
     private Double Longitude = 0.00;
 
@@ -146,40 +143,30 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
                     return;
                 }
 
-//                for (int i = 0; i < location.size(); i++) {
-//                    System.out.println(location.get(i).get("latitude") + " " + location.get(i).get("latitude"));
-//                    double Latitudes = Double.parseDouble(location.get(i).get("latitude"));
-//                    double Longitudes = Double.parseDouble(location.get(i).get("longitude"));
-//                    String name = location.get(i).get("LocationName");
-//                    MarkerOptions marker = new MarkerOptions().position(new LatLng(Latitudes, Longitudes)).title(name);
-//                    marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
-//                    googleMap.addMarker(marker);
-//                }
-                location = new ArrayList<HashMap<String, String>>();
                 DatabaseReference mDatebase = FirebaseDatabase.getInstance().getReference(Shop.tag);
                 mDatebase.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
                         for (DataSnapshot item : dataSnapshot.getChildren()) {
-                            map = new HashMap<String, String>();
                             Shop shop = item.getValue(Shop.class);
                             assert shop != null;
                             String locats = shop.getLocation();
+//                            System.out.println("locats = " + locats);
                             String separated[] = locats.split("\\|");
                             String lat = null;
                             for (int i = 0; i < separated.length - 1; i++) {
                                 lat = separated[i];
                             }
+//                            System.out.println(" lat = " + lat);
                             String longs = null;
                             for (int i = 1; i < separated.length; i++) {
                                 longs = separated[i];
                             }
-                            map.put("LocationName", shop.getName());
-                            map.put("latitude", lat);
-                            map.put("longitude", longs);
-//                            Toast.makeText(getActivity(), map.get("latitude") + " " + map.get("longitude"), Toast.LENGTH_SHORT).show();
-                            location.add(map);
+                            String sid = shop.getSid();
+                            String name = shop.getName();
+
+                            showLocation(lat, longs, name, sid);
                         }
                     }
 
@@ -197,65 +184,23 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(16).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-                if (location.size() > 0) {
-                    Toast.makeText(getContext(), "Not Empty",
-                            Toast.LENGTH_SHORT).show();
-                    for (int i = 0; i < location.size(); i++) {
-                        System.out.println(location.get(i).get("latitude") + " " + location.get(i).get("longitude"));
-                        Toast.makeText(getContext(), location.get(i).get("latitude") + " " + location.get(i).get("longitude"),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(getContext(), "Empty",
-                            Toast.LENGTH_SHORT).show();
-                }
+            }
+        });
+    }
 
-//                for (int i = 0; i < location.size(); i++) {
-//                    Latitude = Double.valueOf(location.get(i).get("latitude"));
-//                    Longitude = Double.valueOf(location.get(i).get("longitude"));
-//                    String name = location.get(i).get("LocationName");
-//                    MarkerOptions marker = new MarkerOptions().position(new LatLng(Latitude, Longitude)).title(name);
-//                    marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
-//                    googleMap.addMarker(marker);
-//                }
+    public void showLocation(String lat, String longs, String name, String sid) {
+        Latitude = Double.valueOf(lat);
+        Longitude = Double.valueOf(longs);
+        MarkerOptions marker = new MarkerOptions().position(new LatLng(Latitude, Longitude)).title(name);
+        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin));
+        googleMap.addMarker(marker);
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Toast.makeText(getActivity(), "This is my Toast message!",
+                        Toast.LENGTH_LONG).show();
 
-//                MarkerOptions marker = new MarkerOptions().position(new LatLng(Latitude, Longitude)).title("Test");
-//                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
-//                googleMap.addMarker(marker);
-
-                // Location 1
-                map = new HashMap<String, String>();
-                map.put("LocationID", "1");
-                map.put("Latitude", "18.804313");
-                map.put("Longitude", "98.951609");
-                map.put("LocationName", "Ladplakao 76");
-                location.add(map);
-
-                // Location 2
-                map = new HashMap<String, String>();
-                map.put("LocationID", "2");
-                map.put("Latitude", "18.803346");
-                map.put("Longitude", "98.952647");
-                map.put("LocationName", "Ladplakao 70");
-                location.add(map);
-
-                // Location 3
-                map = new HashMap<String, String>();
-                map.put("LocationID", "3");
-                map.put("Latitude", "18.804136");
-                map.put("Longitude", "98.952535");
-                map.put("LocationName", "Ladplakao 80");
-                location.add(map);
-
-                // *** Marker (Loop)
-                for (int i = 0; i < location.size(); i++) {
-                    Latitude = Double.valueOf(location.get(i).get("Latitude"));
-                    Longitude = Double.valueOf(location.get(i).get("Longitude"));
-                    String name = location.get(i).get("LocationName");
-                    MarkerOptions marker = new MarkerOptions().position(new LatLng(Latitude, Longitude)).title(name);
-                    marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
-                    googleMap.addMarker(marker);
-                }
+                return true;
             }
         });
     }
