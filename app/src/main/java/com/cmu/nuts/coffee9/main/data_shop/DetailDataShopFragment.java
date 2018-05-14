@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.model.OpenTime;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,12 +19,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DetailDataShopFragment extends Fragment {
 
-    private TextView name,address,detail,rating,price;
+    private TextView name,address,detail, openTime,price;
 
     private String shopID;
 
@@ -43,7 +46,7 @@ public class DetailDataShopFragment extends Fragment {
             name = view.findViewById(R.id.name);
             address = view.findViewById(R.id.location_shop);
             detail = view.findViewById(R.id.detail);
-            rating = view.findViewById(R.id.rating);
+            openTime = view.findViewById(R.id.rating);
             price = view.findViewById(R.id.price);
             getdatashop();
         }
@@ -62,12 +65,40 @@ public class DetailDataShopFragment extends Fragment {
                 name.setText(shop.getName());
                 address.setText(shop.getAddress());
                 detail.setText(shop.getDetail());
-                rating.setText(shop.getRating());
+                getTime(shop.getSid(), openTime);
                 price.setText(shop.getPrice());
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getActivity(), "Failed to load shop data!",
+                        Toast.LENGTH_SHORT).show();
+            }
+        };
+        databaseReference.addListenerForSingleValueEvent(listener);
+    }
+
+    private void getTime(final String shopID, final TextView openTimeTv){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child("Open_Hour").child(shopID);
+        final ArrayList<OpenTime> openTimes = new ArrayList<>();
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot :dataSnapshot.getChildren()){
+                    OpenTime value = snapshot.getValue(OpenTime.class);
+                    assert value != null;
+                    openTimeTv.setText(value.getDate() + " " + value.getTimestart() +" - "+ value.getTimeend());
+                }
+
+                if (!dataSnapshot.exists()){
+                    openTimeTv.setText("Monday,Tuesday,Wednesday,Thursday,Friday \n 08:00 - 16:00");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                openTimeTv.setText("Unknown");
                 Toast.makeText(getActivity(), "Failed to load shop data!",
                         Toast.LENGTH_SHORT).show();
             }
