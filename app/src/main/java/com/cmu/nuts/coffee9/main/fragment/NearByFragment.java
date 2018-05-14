@@ -141,8 +141,8 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
                     return;
                 }
 
-                DatabaseReference mDatebase = FirebaseDatabase.getInstance().getReference(Shop.tag);
-                mDatebase.addValueEventListener(new ValueEventListener() {
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Shop.tag);
+                reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -171,7 +171,7 @@ public class NearByFragment extends Fragment implements OnLocationUpdatedListene
                 googleMap.setMyLocationEnabled(true);
                 // For dropping a marker at a point on the Map
                 LatLng cmu = new LatLng(latitude, longitude);
-                googleMap.addMarker(new MarkerOptions().position(cmu).title("Here").snippet("My location"));
+                googleMap.addMarker(new MarkerOptions().position(cmu).title("Here").snippet("Me"));
                 // For zooming automatically to the location of the marker
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(16).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));

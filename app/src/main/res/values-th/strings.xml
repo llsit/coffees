@@ -1,4 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Finding Coffee</string>
+    <string name="app_version" translatable="false">เวอร์ชัน 1.0</string>
+    <string name="back">กลับ</string>
+    <string name="name_data_shop">ชื่อ</string>
+    <string name="err_email_require">ที่อยู่อีเมล</string>
+    <string name="err_email_invalid">อีเมลไม่ถูกต้อง</string>
+    <string name="err_pass_require">กรุณาใส่รหัส</string>
+    <string name="err_pass_too_short">รหัสผ่านสั้นเกินไป</string>
+    <string name="txt_language_thailand" translatable="false">ไทย</string>
+    <string name="txt_add_coffee_shop">เพิ่มร้านกาแฟ</string>
+    <string name="txt_edit">แก้ไข</string>
+    <string name="action_settings">ตั้งค่า</string>
+    <string name="title_activity_main_page">หน้าหลัก</string>
+    <string name="title_home">หน้าหลัก</string>
+    <string name="title_dashboard">แดชบอร์ด</string>
+    <string name="title_notifications">การแจ้งเตือน</string>
+    <string name="login">เข้าสู่ระบบ</string>
+    <string name="email">อีเมล</string>
+    <string name="password">รหัส</string>
+    <string name="no_acc">ยังไม่มีบัญชีใช่ไหม, สร้างใหม่สิ</string>
+    <string name="acc_yet">มีบัญชีอยู่เเล้วใช่ไหมม เข้าสู่ระบบเลย</string>
+    <string name="title_activity_sign_up">สร้างบัญชีใหม่</string>
+    <string name="title_activity_login">เข้าสู่ระบบ</string>
+    <string name="logo">โลโก้</string>
+    <string name="title_activity_main">หลัก</string>
+    <string name="minimum_password">รหัสผ่านสั้นเกินไป(ขั้นต่ำ 6 อักษร)</string>
+    <string name="auth_failed">การตรวจสอบผู้ใช้ล้มเหลว, กรุณาตรวจสอบอีเมลของคุณ หรือสร้างบัญชีใหม่</string>
+    <string name="title_activity_register">สมัคร</string>
+    <string name="menu_home">หน้าหลัก</string>
+    <string name="menu_search">ค้นหา</string>
+    <string name="menu_search_near">ใกล้เคียง</string>
+    <string name="menu_favorite">ร้านโปรด</string>
+    <string name="menu_profile">โปรไฟล์</string>
+    <string name="logout">ออกจากระบบ</string>
+    <string name="name_shop">ชื่อร้านกาแฟ</string>
+    <string name="address">ที่อยู่</string>
+    <string name="detail">รายละเอียด</string>
+    <string name="hello_blank_fragment">สวัสดีแฟรกเมนต์เปล่า</string>
+    <string name="name">ชื่อ</string>
+    <string name="txt_birth_date_prompt">วันเกิด :</string>
+    <string name="txt_email_prompt">อีเมล :</string>
+    <string name="txt_name_prompt">ชื่อ :</string>
+    <string name="txt_reg_prompt">เข้าร่วมเมื่อ :</string>
+    <string name="btn_message_preferences" translatable="false">การตั้งค่า</string>
+    <string name="title_activity_preferences">การตั้งค่า</string>
+    <string name="txt_example_long_text">เมื่อเราเห็นเหตุการณ์เราจะเริ่มตั้งสมมติฐาน เราใช้บริบทที่เราพบว่าตัวเองเข้าใจถึงสิ่งที่เราเห็น แต่นักวิจัยบางคนแนะนำว่าบริบทนี้อาจส่งผลต่อสิ่งที่เราได้ยิน เป็นปรากฏการณ์ทางจิตวิทยาที่ไม่ใช่คนแปลกหน้าต่อศาล</string>
+    <string name="txt_example_date_time">31 มีนาคม 2018 2:56:49 น</string>
+    <string name="pref_header_general">ทั่วไป</string>
+    <string name="pref_title_social_recommendations">แนะนำให้เปิดโปรไฟล์ต่อสังคม</string>
+    <string name="pref_description_social_recommendations">แนะนำเพื่อให้ผู้คนติดตามการรีวิวของคุณได้</string>
+    <string name="pref_title_profile">โปรไฟล์</string>
+    <string name="pref_title_edit_profile">แก้ไขโปรไฟล์</string>
+    <string name="pref_default_display_name">จ้อน สมิธ</string>
+    <string name="pref_title_account">บัญชี</string>
+    <string name="pref_title_language">ภาษา</string>
+    <string name="pref_title_term">เงื่อนไข และความเป็นส่วนตัว</string>
+    <string name="pref_title_about">เกี่ยวกับ</string>
+    <string name="pref_header_data_sync">ข้อมูล และการซิงค์</string>
+    <string name="pref_title_sync_frequency">ความถี่ของการซิงค์</string>
+    <string name="pref_title_system_sync_settings">ตั้งค่าระบบการซิงค์</string>
+    <string name="pref_header_notifications">การเเจ้งเตือน</string>
+    <string name="pref_title_new_message_notifications">การเเจ้งเตือนใหม่</string>
+    <string name="pref_title_ringtone">เสียงรอสาย</string>
+    <string name="pref_ringtone_silent">เงียบ</string>
+    <string name="pref_title_vibrate">การสั่น</string>
+    <string name="txt_price">ราคา</string>
+    <string name="txt_add">เพิ่ม</string>
+    <string name="txt_time_hour">เวลา ชั่วโมง</string>
+    <string name="txt_location">สถานที่</string>
+    <string name="title_activity_review">รีวิว</string>
+    <string name="txt_no_review_yet">ยังไม่มีรีวิวเลย! รีวิวเป็นคนแรกสิ</string>
 </resources>

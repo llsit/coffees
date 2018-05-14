@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Info Cafe</string>
-    <string name="app_version" translatable="false">version 1.0</string>
-    <string name="app_copy_right">Copyright © 2018 Finding Coffee Team. All rights reserved</string>
+    <string name="app_version">version 1.0</string>
+    <string name="app_copy_right" translatable="false">Copyright © 2018 Finding Coffee Team. All rights reserved</string>
     <string name="facebook_app_id" translatable="false">645410309182352</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb645410309182352</string>
     <string name="google_maps_api_key" translatable="false">AIzaSyAYjmyaEry9hJfmhNiZg98nM1z3EIx-dVE</string>
@@ -14,7 +14,7 @@
     <string name="err_pass_require">Password is required</string>
     <string name="err_pass_too_short">Password is too short</string>
 
-    <string name="txt_language_english">English</string>
+    <string name="txt_language_english" translatable="false">English</string>
     <string name="txt_language_thailand">Thai</string>
     <string name="txt_add_coffee_shop">Add Coffee Shop</string>
     <string name="txt_edit">Edit</string>
@@ -50,7 +50,7 @@
     <string name="txt_email_prompt">Email : </string>
     <string name="txt_name_prompt">Name : </string>
     <string name="txt_reg_prompt">Joined : </string>
-    <string name="txt_uid_prompt">UID : </string>
+    <string name="txt_uid_prompt" translatable="false">UID : </string>
     <string name="btn_message_preferences">Preferences</string>
     <string name="title_activity_preferences">Preferences</string>
 
@@ -85,7 +85,7 @@
     </string-array>
 
     <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
+    <string name="pref_header_data_sync">Data and sync</string>
 
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string-array name="pref_sync_frequency_titles">
@@ -132,19 +132,19 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="txt_price">Price</string>
     <string name="txt_add">Add</string>
-    <string name="txt_rang_0_100">0-100</string>
-    <string name="txt_rang_101_200">101-150</string>
-    <string name="txt_rang_over_200">151-200</string>
+    <string name="txt_rang_0_100" translatable="false">0-100</string>
+    <string name="txt_rang_101_200" translatable="false">101-150</string>
+    <string name="txt_rang_over_200" translatable="false">151-200</string>
     <string name="txt_time_hour">Time hour</string>
     <string name="txt_location">Location</string>
-    <string name="title_activity_data_shop">DataShopActivity</string>
+    <string name="title_activity_data_shop" translatable="false">DataShopActivity</string>
     <string name="title_activity_review">Review</string>
-    <string name="title_activity_comment">commentActivity</string>
-    <string name="title_activity_review_display_activity">review_display_activity</string>
+    <string name="title_activity_comment" translatable="false">commentActivity</string>
+    <string name="title_activity_review_display_activity" translatable="false">review_display_activity</string>
     <string name="txt_no_review_yet">No review yet!   Be the first review?</string>
-    <string name="title_activity_share_image">ShareImageActivity</string>
-    <string name="title_activity_full_image">FullImageActivity</string>
-    <string name="title_activity_edit_data_shop">EditDataShopActivity</string>
-    <string name="title_activity_search_filter">SearchFilterActivity</string>
+    <string name="title_activity_share_image" translatable="false">ShareImageActivity</string>
+    <string name="title_activity_full_image" translatable="false">FullImageActivity</string>
+    <string name="title_activity_edit_data_shop" translatable="false">EditDataShopActivity</string>
+    <string name="title_activity_search_filter" translatable="false">SearchFilterActivity</string>
 
 </resources>
