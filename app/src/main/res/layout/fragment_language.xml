@@ -1,100 +1,122 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.cmu.nuts.coffee9.preferences.fragment.LanguageFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/linearLayout4">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_language_title"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/colorWhite"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:layout_conversion_absoluteHeight="56dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_conversion_absoluteWidth="384dp">
 
         <ImageView
             android:id="@+id/language_img_back"
             android:src="@drawable/ic_back"
-            android:layout_width="50dp"
-            android:layout_height="match_parent" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_conversion_absoluteHeight="56dp"
+            tools:layout_editor_absoluteY="0dp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_conversion_absoluteWidth="50dp" />
+
         <TextView
             android:id="@+id/language_title_txt"
             android:text="@string/pref_title_language"
-            android:layout_toEndOf="@+id/language_img_back"
             android:gravity="center_vertical"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_conversion_absoluteHeight="56dp"
+            tools:layout_editor_absoluteY="0dp"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_conversion_absoluteWidth="318dp" />
     </android.support.v7.widget.Toolbar>
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="5dp">
-        <RelativeLayout
-            android:id="@+id/relative_language_th"
-            android:layout_width="match_parent"
-            android:background="@color/color_white"
-            android:layout_margin="2dp"
-            android:layout_height="70dp">
-            <ImageView
-                android:id="@+id/img_language_th"
-                android:layout_width="70dp"
-                android:padding="12dp"
-                android:layout_alignParentStart="true"
-                android:layout_height="match_parent"
-                android:src="@drawable/img_thailand"/>
-            <TextView
-                android:id="@+id/txt_language_th"
-                android:padding="8dp"
-                android:gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/txt_language_thailand"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/img_language_th" />
-            <ImageView
-                android:id="@+id/img_language_th_next"
-                android:layout_width="50dp"
-                android:padding="8dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_next"
-                android:layout_alignParentEnd="true"/>
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/relative_language_en"
-            android:layout_width="match_parent"
-            android:layout_margin="2dp"
-            android:background="@color/color_white"
-            android:layout_height="70dp">
-            <ImageView
-                android:id="@+id/img_language_en"
-                android:layout_width="70dp"
-                android:padding="12dp"
-                android:layout_alignParentStart="true"
-                android:layout_height="match_parent"
-                android:src="@drawable/img_united_kingdom"/>
-            <TextView
-                android:id="@+id/txt_language_en"
-                android:layout_toEndOf="@+id/img_language_en"
-                android:layout_toStartOf="@+id/img_language_en_next"
-                android:padding="8dp"
-                android:gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/txt_language_english"/>
-            <ImageView
-                android:id="@+id/img_language_en_next"
-                android:layout_width="50dp"
-                android:padding="8dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_next"
-                android:layout_alignParentEnd="true"/>
-        </RelativeLayout>
-    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/relative_language_th"
+        android:layout_width="wrap_content"
+        android:background="@color/color_white"
+        android:layout_height="wrap_content"
+        tools:layout_conversion_absoluteHeight="70dp"
+        tools:layout_editor_absoluteY="63dp"
+        tools:layout_editor_absoluteX="2dp"
+        tools:layout_conversion_absoluteWidth="380dp">
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/img_language_th"
+            android:layout_width="70dp"
+            android:padding="12dp"
+            android:layout_alignParentStart="true"
+            android:layout_height="match_parent"
+            android:src="@drawable/img_thailand" />
+
+        <TextView
+            android:id="@+id/txt_language_th"
+            android:padding="8dp"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/txt_language_thailand"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/img_language_th" />
+
+        <ImageView
+            android:id="@+id/img_language_th_next"
+            android:layout_width="50dp"
+            android:padding="8dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_next"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_language_en"
+        android:layout_width="wrap_content"
+        android:background="@color/color_white"
+        android:layout_height="wrap_content"
+        tools:layout_conversion_absoluteHeight="70dp"
+        tools:layout_editor_absoluteY="137dp"
+        tools:layout_editor_absoluteX="2dp"
+        tools:layout_conversion_absoluteWidth="380dp">
+
+        <ImageView
+            android:id="@+id/img_language_en"
+            android:layout_width="70dp"
+            android:padding="12dp"
+            android:layout_alignParentStart="true"
+            android:layout_height="match_parent"
+            android:src="@drawable/img_united_kingdom" />
+
+        <TextView
+            android:id="@+id/txt_language_en"
+            android:layout_toEndOf="@+id/img_language_en"
+            android:layout_toStartOf="@+id/img_language_en_next"
+            android:padding="8dp"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/txt_language_english" />
+
+        <ImageView
+            android:id="@+id/img_language_en_next"
+            android:layout_width="50dp"
+            android:padding="8dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_next"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>

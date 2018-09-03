@@ -1,65 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout5"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <Button
+        android:id="@+id/AllButtonSelector"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:background="@drawable/button"
+        android:text="@string/txt_all"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <Button
+        android:id="@+id/yourButtonSelector"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:background="@drawable/button"
+        android:text="@string/txt_add_by_me"
+        app:layout_constraintStart_toStartOf="@+id/AllButtonSelector"
+        app:layout_constraintTop_toTopOf="@+id/AllButtonSelector" />
 
-            <Button
-                android:id="@+id/AllButtonSelector"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/range_15"
-                android:background="@drawable/button"
-                android:text="@string/txt_all" />
-
-            <Button
-                android:id="@+id/yourButtonSelector"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/range_15"
-                android:layout_marginStart="@dimen/range_15"
-                android:layout_toEndOf="@+id/AllButtonSelector"
-                android:background="@drawable/button"
-                android:text="@string/txt_add_by_me" />
-
-            <android.support.v4.widget.NestedScrollView
-                android:id="@+id/nested_scroll_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/yourButtonSelector"
-                android:fillViewport="true"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-                <LinearLayout
-                    android:id="@+id/linear_layout_android"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/image_data_shop_gridview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:numColumns="3" />
-                </LinearLayout>
-
-            </android.support.v4.widget.NestedScrollView>
-
-        </RelativeLayout>
-    </LinearLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="352dp"
+        android:layout_height="416dp"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintStart_toStartOf="@+id/AllButtonSelector"
+        app:layout_constraintTop_toTopOf="@+id/AllButtonSelector">
 
 
-</RelativeLayout>
+        <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/image_data_shop_gridview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:numColumns="3" />
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</android.support.constraint.ConstraintLayout>

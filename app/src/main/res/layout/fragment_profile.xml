@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView3"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="5dp">
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearLayoutCompat4"
+        android:layout_width="wrap_content"
+        android:layout_height="491dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <RelativeLayout
             android:id="@+id/profile_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/header_cover_image"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="245dp"
             android:background="@color/color_orange"
             android:elevation="4dp"
-            android:paddingBottom="24dp">
+            android:paddingBottom="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/profile_btn_logout"
+            app:layout_constraintTop_toBottomOf="@+id/btn_done">
 
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/img_profile2"
@@ -46,10 +51,14 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/relativeLayout7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@color/colorGray"
-            android:padding="@dimen/range_15">
+            android:padding="@dimen/range_15"
+            app:layout_constraintBottom_toTopOf="@+id/progressBar_profile"
+            app:layout_constraintStart_toStartOf="@+id/profile_layout"
+            app:layout_constraintTop_toBottomOf="@+id/profile_layout">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -64,8 +73,8 @@
                     android:layout_marginBottom="@dimen/range_12"
                     android:background="@color/color_white"
                     android:clickable="true"
-                    android:padding="@dimen/range_12"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:padding="@dimen/range_12">
 
                     <ImageView
                         android:id="@+id/ivContactItem1"
@@ -74,8 +83,8 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/range_12"
                         android:layout_marginRight="@dimen/range_12"
-                        android:src="@drawable/ic_email"
                         android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_email"
                         tools:ignore="RtlHardcoded" />
 
                     <TextView
@@ -101,8 +110,8 @@
                     android:layout_below="@+id/top"
                     android:background="@color/color_white"
                     android:clickable="true"
-                    android:padding="@dimen/range_12"
-                    android:focusable="true">
+                    android:focusable="true"
+                    android:padding="@dimen/range_12">
 
                     <ImageView
                         android:id="@+id/ivContactItem12"
@@ -135,54 +144,65 @@
 
         <ProgressBar
             android:id="@+id/progressBar_profile"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/display_uid"
-            android:layout_marginEnd="50dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:padding="5dp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/relativeLayout7"
+            app:layout_constraintTop_toBottomOf="@+id/relativeLayout7" />
 
         <Button
             android:id="@+id/profile_btn_logout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/custom_border_round"
             android:padding="12dp"
             android:paddingStart="16dp"
             android:text="@string/logout"
             android:textColor="@color/colorRed"
             android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/profile_layout"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/display_uid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/profile_btn_logout"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/profile_btn_logout" />
 
         <TextView
             android:id="@+id/display_reg_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:layout_marginTop="5dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/btn_done"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btn_done"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/display_uid"
-            android:layout_marginEnd="80dp"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:background="@drawable/custom_border_round"
             android:text="@string/btn_message_preferences"
             android:textColor="@color/color_pastel_blue"
-            android:visibility="gone" />
-    </android.support.v7.widget.LinearLayoutCompat>
-</ScrollView>
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/profile_layout"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/display_reg_date" />
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

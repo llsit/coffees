@@ -1,50 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".main.data_shop.FullImageActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_full_image"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/color_white">
-
-            <ImageView
-                android:id="@+id/full_image_back"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/range_12"
-                android:src="@drawable/ic_back" />
-
-            <ImageView
-                android:id="@+id/delete"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="300dp"
-                android:layout_marginEnd="@dimen/range_12"
-                android:src="@drawable/ic_delete_black" />
-
-        </android.support.v7.widget.Toolbar>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_full_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/color_white"
+        app:layout_constraintBottom_toTopOf="@+id/image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar_full_image"
-            android:background="@color/bpTransparent_black" />
+            android:id="@+id/full_image_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back" />
 
-        <TextView
-            android:id="@+id/test"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </RelativeLayout>
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete_black" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/bpTransparent_black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_full_image" />
+
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

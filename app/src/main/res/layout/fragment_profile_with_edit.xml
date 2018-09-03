@@ -1,6 +1,7 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -8,8 +9,8 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_profile_edit__title"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/colorWhite"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
@@ -17,15 +18,15 @@
 
         <ImageView
             android:id="@+id/profile_edit_img_pref"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_back"
-            android:contentDescription="@string/app_name" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_back" />
 
         <TextView
             android:id="@+id/profile_edit__title_txt"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="@string/pref_title_edit_profile"
             android:textSize="20sp"
@@ -33,7 +34,8 @@
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayoutCompat5"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="5dp">
@@ -42,8 +44,6 @@
             android:id="@+id/relativeLayout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:background="@color/colorWhite"
             android:padding="10dp"
             android:paddingBottom="15dp"
@@ -104,11 +104,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="15dp"
+                    android:inputType="textEmailAddress"
                     android:paddingLeft="16dp"
                     android:text="@string/txt_email_prompt"
                     android:textSize="20sp"
-                    tools:ignore="LabelFor,RtlSymmetry"
-                    android:inputType="textEmailAddress" />
+                    tools:ignore="LabelFor,RtlSymmetry" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -121,8 +121,8 @@
                 android:layout_marginTop="15dp"
                 android:paddingLeft="16dp"
                 android:text="@string/txt_birth_date_prompt"
-                android:textSize="20sp"
                 android:textColor="@color/color_black"
+                android:textSize="20sp"
                 tools:ignore="RtlSymmetry" />
 
             <ImageView
@@ -133,8 +133,8 @@
                 android:layout_marginLeft="@dimen/range_12"
                 android:layout_marginTop="@dimen/range_15"
                 android:layout_toEndOf="@+id/display_birth_date"
-                android:src="@drawable/ic_date"
-                android:contentDescription="@string/app_name" />
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_date" />
 
             <TextView
                 android:id="@+id/display_reg_date"
@@ -186,4 +186,4 @@
 
     </android.support.v7.widget.LinearLayoutCompat>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

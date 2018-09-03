@@ -1,18 +1,24 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.cmu.nuts.coffee9.main.fragment.HomeFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/fav_swipe_refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/fav_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@color/colorGray"
             android:clipToPadding="false"
             android:padding="5dp"
@@ -21,4 +27,4 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>
