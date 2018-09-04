@@ -54,7 +54,7 @@ public class EditDataShopActivity extends AppCompatActivity {
         Addressshop = findViewById(R.id.edit_data_address_shop);
         detail = findViewById(R.id.edit_data_detail);
 //        rating = findViewById(R.id.edit_data_rating);
-        radio_price = findViewById(R.id.edit_data_rdo_price);
+//        radio_price = findViewById(R.id.edit_data_radio_price);
         radio_price.check(R.id.rdo_min);
         btn_done = findViewById(R.id.edit_data_btn_done);
 

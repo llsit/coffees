@@ -8,81 +8,96 @@
     tools:context=".main.review.reviewDisplayFragment">
 
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/review_display"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/color_white"
-        android:padding="10dp">
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/display_review_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_alignParentTop="true"
             android:layout_marginEnd="18dp"
-            android:src="@drawable/ic_profile" />
+            android:src="@drawable/ic_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/display_review_name_reviewer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/display_review_image"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="18dp"
             android:paddingBottom="5dp"
             android:text="@string/app_name"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/display_review_image"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <RatingBar
             android:id="@+id/display_review_ratingBar"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/display_review_name_reviewer"
-            android:layout_toEndOf="@+id/display_review_image"
+            android:layout_marginStart="18dp"
             android:numStars="5"
             android:rating="3.0"
-            android:stepSize="1.0" />
+            android:stepSize="1.0"
+            app:layout_constraintStart_toEndOf="@+id/display_review_image"
+            app:layout_constraintTop_toBottomOf="@+id/display_review_name_reviewer" />
 
         <TextView
             android:id="@+id/display_review_datetime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/display_review_name_reviewer"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="20sp"
-            android:layout_toEndOf="@+id/display_review_ratingBar"
             android:text="@string/txt_example_date_time"
-            android:textColor="#8b8b8b" />
+            android:textColor="#8b8b8b"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/display_review_ratingBar"
+            app:layout_constraintTop_toBottomOf="@+id/display_review_name_reviewer" />
 
         <TextView
             android:id="@+id/display_review_description"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/display_review_ratingBar"
-            android:layout_marginBottom="10sp"
             android:layout_marginTop="16sp"
-            android:layout_toEndOf="@+id/display_review_image"
             android:text="@string/txt_detail"
-            android:textColor="#8b8b8b" />
+            android:textColor="#8b8b8b"
+            app:layout_constraintStart_toStartOf="@+id/display_review_ratingBar"
+            app:layout_constraintTop_toBottomOf="@+id/display_review_ratingBar" />
 
         <ImageView
             android:id="@+id/display_image_review"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/display_review_description"
-            android:layout_marginTop="@dimen/range_12"
+            android:layout_marginTop="10sp"
 
             android:contentDescription="@string/app_name"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/display_review_description" />
 
         <ListView
             android:id="@+id/list_image"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/display_review_description"
-            android:layout_toEndOf="@+id/display_review_image"
-            android:scrollbars="none" />
-    </RelativeLayout>
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="10sp"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/display_review_image"
+            app:layout_constraintTop_toBottomOf="@+id/display_review_description" />
+    </android.support.constraint.ConstraintLayout>
 
     <TextView
         android:id="@+id/comment"
@@ -90,13 +105,17 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:padding="@dimen/range_12"
-        android:text="@string/txt_no_comment" />
+        android:text="@string/txt_no_comment"
+        android:visibility="gone" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/comment_swipe_refresh_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible">
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/review_display">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/comment_recycler_view"

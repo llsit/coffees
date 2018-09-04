@@ -20,30 +20,22 @@
         android:id="@+id/yourButtonSelector"
         android:layout_width="88dp"
         android:layout_height="48dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/button"
         android:text="@string/txt_add_by_me"
-        app:layout_constraintStart_toStartOf="@+id/AllButtonSelector"
+        app:layout_constraintStart_toEndOf="@+id/AllButtonSelector"
         app:layout_constraintTop_toTopOf="@+id/AllButtonSelector" />
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nested_scroll_view"
-        android:layout_width="352dp"
-        android:layout_height="416dp"
-        android:fillViewport="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintStart_toStartOf="@+id/AllButtonSelector"
-        app:layout_constraintTop_toTopOf="@+id/AllButtonSelector">
+    <GridView
+        android:id="@+id/image_data_shop_gridview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
 
-
-        <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/image_data_shop_gridview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:numColumns="3" />
-
-
-    </android.support.v4.widget.NestedScrollView>
+        android:layout_marginTop="8dp"
+        android:numColumns="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yourButtonSelector" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -9,113 +9,119 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_language_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
         android:background="@color/colorWhite"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         tools:layout_conversion_absoluteHeight="56dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp"
         tools:layout_conversion_absoluteWidth="384dp">
 
         <ImageView
             android:id="@+id/language_img_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/ic_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             tools:layout_conversion_absoluteHeight="56dp"
-            tools:layout_editor_absoluteY="0dp"
+            tools:layout_conversion_absoluteWidth="50dp"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_conversion_absoluteWidth="50dp" />
+            tools:layout_editor_absoluteY="0dp" />
 
         <TextView
             android:id="@+id/language_title_txt"
-            android:text="@string/pref_title_language"
-            android:gravity="center_vertical"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/pref_title_language"
+            android:textSize="20sp"
+            android:textStyle="bold"
             tools:layout_conversion_absoluteHeight="56dp"
-            tools:layout_editor_absoluteY="0dp"
+            tools:layout_conversion_absoluteWidth="318dp"
             tools:layout_editor_absoluteX="66dp"
-            tools:layout_conversion_absoluteWidth="318dp" />
+            tools:layout_editor_absoluteY="0dp" />
     </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
         android:id="@+id/relative_language_th"
         android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
         android:background="@color/color_white"
-        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_language_title"
         tools:layout_conversion_absoluteHeight="70dp"
-        tools:layout_editor_absoluteY="63dp"
-        tools:layout_editor_absoluteX="2dp"
         tools:layout_conversion_absoluteWidth="380dp">
 
         <ImageView
             android:id="@+id/img_language_th"
             android:layout_width="70dp"
-            android:padding="12dp"
-            android:layout_alignParentStart="true"
             android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:padding="12dp"
             android:src="@drawable/img_thailand" />
 
         <TextView
             android:id="@+id/txt_language_th"
-            android:padding="8dp"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/txt_language_thailand"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/img_language_th" />
+            android:layout_toEndOf="@+id/img_language_th"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:text="@string/txt_language_thailand" />
 
         <ImageView
             android:id="@+id/img_language_th_next"
             android:layout_width="50dp"
-            android:padding="8dp"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_next"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_next" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/relative_language_en"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
         android:background="@color/color_white"
-        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relative_language_th"
         tools:layout_conversion_absoluteHeight="70dp"
-        tools:layout_editor_absoluteY="137dp"
-        tools:layout_editor_absoluteX="2dp"
         tools:layout_conversion_absoluteWidth="380dp">
 
         <ImageView
             android:id="@+id/img_language_en"
             android:layout_width="70dp"
-            android:padding="12dp"
-            android:layout_alignParentStart="true"
             android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:padding="12dp"
             android:src="@drawable/img_united_kingdom" />
 
         <TextView
             android:id="@+id/txt_language_en"
-            android:layout_toEndOf="@+id/img_language_en"
-            android:layout_toStartOf="@+id/img_language_en_next"
-            android:padding="8dp"
-            android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/img_language_en"
+            android:layout_toStartOf="@+id/img_language_en_next"
+            android:gravity="center_vertical"
+            android:padding="8dp"
             android:text="@string/txt_language_english" />
 
         <ImageView
             android:id="@+id/img_language_en_next"
             android:layout_width="50dp"
-            android:padding="8dp"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_next"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_next" />
     </RelativeLayout>
 
 

@@ -12,8 +12,8 @@
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/htab_appbar"
-        android:layout_width="384dp"
-        android:layout_height="256dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorOrange"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -22,7 +22,7 @@
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapse_toolbar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/color_orange"
@@ -48,8 +48,8 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
                 android:background="#00000000"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
@@ -93,7 +93,7 @@
 
     <com.facebook.share.widget.ShareButton
         android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="parent"
@@ -103,7 +103,7 @@
 
     <Button
         android:id="@+id/check"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/txt_check_in"
         android:visibility="gone"
