@@ -109,8 +109,8 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
         Addressshop = view.findViewById(R.id.edt_address_shop);
         detail = view.findViewById(R.id.edt_detail);
         open_hour = view.findViewById(R.id.edt_open_hour);
-//        radio_price = view.findViewById(R.id.rdo_price);
-        radio_price.check(R.id.rdo_min);
+//        radio_price = view.findViewById(R.id.rdo_min);
+//        radio_price.check(R.id.rdo_min);
         open_hour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

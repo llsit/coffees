@@ -84,17 +84,21 @@
             android:id="@+id/input_name_topic"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view"
+            app:layout_constraintVertical_bias="0.0"
             tools:layout_conversion_absoluteHeight="0dp"
-            tools:layout_conversion_absoluteWidth="0dp"
-            tools:layout_editor_absoluteY="208dp">
+            tools:layout_conversion_absoluteWidth="0dp">
 
             <EditText
                 android:id="@+id/edt_name_des"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/bpTransparent"
                 android:hint="What's good here"
@@ -115,26 +119,29 @@
             android:id="@+id/review_upload_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:background="@color/colorGray"
             android:src="@drawable/ic_add_a_photo"
+            app:layout_constraintEnd_toEndOf="@+id/stars_rating"
+            app:layout_constraintStart_toStartOf="@+id/stars_rating"
+            app:layout_constraintTop_toBottomOf="@+id/stars_rating"
             tools:layout_conversion_absoluteHeight="0dp"
-            tools:layout_conversion_absoluteWidth="0dp"
-            tools:layout_editor_absoluteX="211dp"
-            tools:layout_editor_absoluteY="140dp" />
+            tools:layout_conversion_absoluteWidth="0dp" />
 
 
         <TextView
             android:id="@+id/text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:text=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/review_upload_image"
             tools:layout_conversion_absoluteHeight="0dp"
-            tools:layout_conversion_absoluteWidth="0dp"
-            tools:layout_editor_absoluteY="172dp" />
+            tools:layout_conversion_absoluteWidth="0dp" />
 
 
         <ImageView

@@ -8,14 +8,14 @@
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/home_swipe_refresh_layout"
-        android:layout_width="384dp"
-        android:layout_height="511dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/home_recycler_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorGray"
             android:clipToPadding="false"
