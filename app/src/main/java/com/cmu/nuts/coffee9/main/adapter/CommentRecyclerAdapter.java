@@ -21,14 +21,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecyclerAdapter.CommentHolder> {
-    private List<Comment> comments;
+    private ArrayList<Comment> comments;
     private Context context;
     private DatabaseReference mDatabase;
 
-    public CommentRecyclerAdapter(List<Comment> comments, Context context) {
+    public CommentRecyclerAdapter(ArrayList<Comment> comments, Context context) {
         this.comments = comments;
         this.context = context;
     }
@@ -57,7 +58,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
                         .load(mem.getPhotoUrl())
                         .placeholder(R.drawable.img_user)
                         .error(R.drawable.img_user)
-                        .resize(200,200)
+                        .resize(200, 200)
                         .centerInside()
                         .into(holder.tv_image);
             }
@@ -88,11 +89,11 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
 
     class CommentHolder extends RecyclerView.ViewHolder {
 
-//        TextView tv_rid;
+        //        TextView tv_rid;
 //        TextView tv_cid;
         TextView tv_datetime;
         TextView tv_detail;
-//        TextView tv_uid;
+        //        TextView tv_uid;
         TextView tv_name;
         ImageView tv_image;
 

@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.adapter.CommentRecyclerAdapter;
+import com.cmu.nuts.coffee9.main.adapter.DataReviewRecyclerViewAdapter;
 import com.cmu.nuts.coffee9.main.adapter.ImageGridAdapter;
 import com.cmu.nuts.coffee9.model.Comment;
 import com.cmu.nuts.coffee9.model.Member;
@@ -41,6 +42,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class review_display_activity extends AppCompatActivity {
 
@@ -48,12 +50,6 @@ public class review_display_activity extends AppCompatActivity {
     private String review_ID;
     private DatabaseReference mDatabase;
     //review
-    private TextView reviewer;
-    private TextView datetime;
-    private TextView description;
-    private RatingBar star;
-    private ImageView review_image;
-    private ImageView image_review;
     private ImageView review_display_back;
     //comment
     private EditText add_comment;
@@ -61,10 +57,12 @@ public class review_display_activity extends AppCompatActivity {
     //display comment
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView RecyclerView;
-    private TextView data_shop_message;
+//    private TextView data_shop_message;
 
-    private ListView listView;
-    private GridView gridview;
+    private ArrayList<Comment> commentArrayList = new ArrayList<>();
+    private ArrayList<Review> reviewArrayList = new ArrayList<>();
+    private ArrayList<String> arrayList = new ArrayList<>();
+
     private int status = 1;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -74,29 +72,25 @@ public class review_display_activity extends AppCompatActivity {
         setContentView(R.layout.activity_review_display_activity);
         Toolbar toolbar = findViewById(R.id.toolbar_display_review);
         setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         Intent intent = getIntent();
         review_ID = intent.getStringExtra("reviewID");
         shop_ID = intent.getStringExtra("shopID");
 
-        reviewer = findViewById(R.id.display_review_name_reviewer);
-        datetime = findViewById(R.id.display_review_datetime);
-        description = findViewById(R.id.display_review_description);
-        star = findViewById(R.id.display_review_ratingBar);
-        review_image = findViewById(R.id.display_review_image);
-        image_review = findViewById(R.id.display_image_review);
         review_display_back = findViewById(R.id.review_display_back);
-        listView = findViewById(R.id.list_image);
-        gridview = findViewById(R.id.review_shop_gridview);
-        gridview.setOnTouchListener(new View.OnTouchListener(){
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return event.getAction() == MotionEvent.ACTION_MOVE;
-            }
-
-        });
+//        gridview = findViewById(R.id.review_shop_gridview);
+//        gridview.setOnTouchListener(new View.OnTouchListener() {
+//
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return event.getAction() == MotionEvent.ACTION_MOVE;
+//            }
+//
+//        });
         review_display_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,87 +99,52 @@ public class review_display_activity extends AppCompatActivity {
         });
 
         final BottomNavigationView BottomView = findViewById(R.id.bottom_nav_view);
-        BottomView.setVisibility(View.GONE);
-        ImageView comments = findViewById(R.id.comment_review);
-        comments.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (BottomView.isShown()) {
-                    BottomView.setVisibility(View.GONE);
-                } else {
-                    BottomView.setVisibility(View.VISIBLE);
-                }
-
-            }
-        });
-        getDataReview();
-        comment();
-        displayComment();
-    }
-
-    private void displayComment() {
+//        BottomView.setVisibility(View.GONE);
+//        ImageView comments = findViewById(R.id.comment_review);
+//        comments.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (BottomView.isShown()) {
+//                    BottomView.setVisibility(View.GONE);
+//                } else {
+//                    BottomView.setVisibility(View.VISIBLE);
+//                }
+//
+//            }
+//        });
         swipeRefreshLayout = findViewById(R.id.comment_swipe_refresh_layout);
-        RecyclerView = findViewById(R.id.comment_recycler_view);
-        data_shop_message = findViewById(R.id.comment);
-        getCommentDatabase();
+        RecyclerView = findViewById(R.id.recycler_view);
+//        data_shop_message = findViewById(R.id.comment);
+        add_comment = findViewById(R.id.add_comment);
+        send = findViewById(R.id.send);
+        getDataReview();
+//        comment();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getCommentDatabase();
+                commentArrayList.clear();
+                reviewArrayList.clear();
+                arrayList.clear();
+                getDataReview();
             }
         });
+
     }
 
-    private void getCommentDatabase() {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Comment.tag).child(shop_ID);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                List<Comment> comments = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Comment value = snapshot.getValue(Comment.class);
-                    if (value != null && value.getCid() != null) {
-                        comments.add(new Comment(value.getCid(),
-                                value.getUid(),
-                                value.getRid(),
-                                value.getDetail(),
-                                value.getDatetime()
-                        ));
-                    }
-                }
-                if (comments.size() > 0) {
-                    setRecyclerView(comments);
-                } else {
-                    RecyclerView.setVisibility(View.GONE);
-                    swipeRefreshLayout.setRefreshing(false);
-                    data_shop_message.setVisibility(View.VISIBLE);
-                }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("Review", "Failed to get database", databaseError.toException());
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-    }
-
-    private void setRecyclerView(List<Comment> comments) {
-        CommentRecyclerAdapter recyclerAdapter = new CommentRecyclerAdapter(comments, review_display_activity.this);
+    private void setRecyclerView(ArrayList<Review> reviewArrayList, ArrayList<Comment> commentArrayList, ArrayList<String> arrayList) {
+        DataReviewRecyclerViewAdapter dataReviewRecyclerViewAdapter = new DataReviewRecyclerViewAdapter(reviewArrayList, commentArrayList, arrayList, this);
         RecyclerView.LayoutManager recycle = new LinearLayoutManager(review_display_activity.this);
         RecyclerView.setLayoutManager(recycle);
         RecyclerView.setItemAnimator(new DefaultItemAnimator());
-        RecyclerView.setAdapter(recyclerAdapter);
+        RecyclerView.setAdapter(dataReviewRecyclerViewAdapter);
         RecyclerView.setVisibility(View.VISIBLE);
-        data_shop_message.setVisibility(View.GONE);
+//        data_shop_message.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
     }
 
 
     private void comment() {
-        add_comment = findViewById(R.id.add_comment);
-        send = findViewById(R.id.send);
-
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,53 +168,33 @@ public class review_display_activity extends AppCompatActivity {
 
     private void getDataReview() {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Review.tag).child(review_ID).child(shop_ID);
-        final DatabaseReference uDatabase = FirebaseDatabase.getInstance().getReference(Member.tag);
+
         final DatabaseReference imgDatabase = FirebaseDatabase.getInstance().getReference(Review_Image.tag);
+        final DatabaseReference Commentdatabase = FirebaseDatabase.getInstance().getReference(Comment.tag);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final Review review = dataSnapshot.getValue(Review.class);
                 if (review != null) {
-                    datetime.setText(review.getDatetime());
-                    description.setText(review.getDetail());
-                    star.setRating(Float.parseFloat(review.getStar()));
-                    imgDatabase.child(review.getRid()).addValueEventListener(new ValueEventListener() {
+                    reviewArrayList.add(review);
+                    Commentdatabase.child(review.getRid()).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            ArrayList<String> arrayList = new ArrayList<>();
-                            for (DataSnapshot item : dataSnapshot.getChildren()) {
-                                Review_Image ri = item.getValue(Review_Image.class);
-                                if (ri != null) {
-//                                    Picasso.get()
-//                                            .load(ri.getImage_url())
-//                                            .resize(200,200)
-//                                            .centerInside()
-//                                            .into(image_review);
-//                                    Toast.makeText(review_display_activity.this, ri.getImgid(), Toast.LENGTH_SHORT).show();
-                                    arrayList.add(ri.getImage_url());
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Comment value = snapshot.getValue(Comment.class);
+                                if (value != null && value.getCid() != null) {
+                                    commentArrayList.add(new Comment(value.getCid(),
+                                            value.getUid(),
+                                            value.getRid(),
+                                            value.getDetail(),
+                                            value.getDatetime()
+                                    ));
                                 }
                             }
-                            setAdapter(gridview, arrayList);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            Log.w("Review Image", "Failed to get database", databaseError.toException());
-                        }
-                    });
-                    uDatabase.child(review.getUid()).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            Member mem = dataSnapshot.getValue(Member.class);
-                            if (mem != null) {
-                                reviewer.setText(mem.getName());
-                                Picasso.get()
-                                        .load(mem.getPhotoUrl())
-                                        .placeholder(R.drawable.img_user)
-                                        .error(R.drawable.img_user)
-                                        .resize(200, 200)
-                                        .centerInside()
-                                        .into(review_image);
+                            if (commentArrayList.size() == 0) {
+                                RecyclerView.setVisibility(View.GONE);
+                                swipeRefreshLayout.setRefreshing(false);
+//                    data_shop_message.setVisibility(View.VISIBLE);
                             }
                         }
 
@@ -264,6 +203,24 @@ public class review_display_activity extends AppCompatActivity {
                             Log.w("Review Data", "Failed to get database", databaseError.toException());
                         }
                     });
+                    imgDatabase.child(review.getRid()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot item : dataSnapshot.getChildren()) {
+                                Review_Image ri = item.getValue(Review_Image.class);
+                                if (ri != null) {
+                                    arrayList.add(ri.getImage_url());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w("Review Image", "Failed to get database", databaseError.toException());
+                        }
+                    });
+
+                    setRecyclerView(reviewArrayList, commentArrayList, arrayList);
                 } else {
                     Toast.makeText(review_display_activity.this, "NuLL NULL", Toast.LENGTH_SHORT).show();
                 }
@@ -274,13 +231,6 @@ public class review_display_activity extends AppCompatActivity {
                 Log.w("Review Data", "Failed to get database", databaseError.toException());
             }
         });
-
-    }
-
-    private void setAdapter(GridView gridview, ArrayList<String> arrayList) {
-        Toast.makeText(this, "Refreshing . .",
-                Toast.LENGTH_LONG).show();
-        gridview.setAdapter(new ImageGridAdapter(this, arrayList, status));
     }
 
 }
