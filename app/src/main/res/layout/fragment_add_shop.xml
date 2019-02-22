@@ -34,7 +34,7 @@
         <com.google.android.gms.maps.MapView
             android:id="@+id/add_shp_map_view"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
@@ -135,6 +135,7 @@
             android:id="@+id/textInputLayout9"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/btn_add"
             app:layout_constraintEnd_toEndOf="@+id/textInputLayout8"
             app:layout_constraintStart_toStartOf="@+id/textInputLayout8"
@@ -178,7 +179,8 @@
         <Button
             android:id="@+id/btn_add"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:background="@color/colorAccent"
             android:drawableStart="@drawable/ic_add"
             android:padding="5dp"

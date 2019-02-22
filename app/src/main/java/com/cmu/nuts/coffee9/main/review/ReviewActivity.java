@@ -5,6 +5,10 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.adapter.ImageSelectedAdapter;
 import com.cmu.nuts.coffee9.model.Review;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.cmu.nuts.coffee9.utillity.ImageReview;
@@ -30,8 +35,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -45,8 +52,10 @@ public class ReviewActivity extends AppCompatActivity {
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private ImageButton add_a_photo;
 
-    private String uid, sid, detail, img_url, datetime, star;
+    private String uid, sid, detail, img_url, datetime, star = "0";
     private String rid = mDatabase.push().getKey();
+    private List<Image> imageList;
+    private RecyclerView recyclerView;
 
     int rate, counts;
 
@@ -58,7 +67,8 @@ public class ReviewActivity extends AppCompatActivity {
 
         Toolbar myToolbar = findViewById(R.id.toolbar_review);
         setSupportActionBar(myToolbar);
-
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+        recyclerView = findViewById(R.id.recyclerView2);
         Intent intent = getIntent();
         sid = intent.getStringExtra("shopID");
         rating();
@@ -84,25 +94,35 @@ public class ReviewActivity extends AppCompatActivity {
 
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             // Get a list of picked images
-            List<Image> images = ImagePicker.getImages(data);
-            upload_photo(images);
+            imageList = ImagePicker.getImages(data);
+
+//            ShowImageSelected();
+            upload_photo();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void upload_photo(List<Image> images) {
-        imageView = findViewById(R.id.show_photo);
-        TextView text_view = findViewById(R.id.text_view);
-        if (images == null) return;
+    private void ShowImageSelected() {
+    }
+
+    private void upload_photo() {
+//        TextView text_view = findViewById(R.id.text_view);
+        if (imageList == null) return;
 
         StringBuilder stringBuffer = new StringBuilder();
         ImageReview imageManager = new ImageReview(ReviewActivity.class, rid);
-        for (int i = 0, l = images.size(); i < l; i++) {
-            stringBuffer.append(images.get(i).getPath());
-            imageManager.uploadImage(rid, Uri.fromFile(new File(images.get(i).getPath())));
+        for (int i = 0, l = imageList.size(); i < l; i++) {
+            stringBuffer.append(imageList.get(i).getPath());
+            imageManager.uploadImage(rid, Uri.fromFile(new File(imageList.get(i).getPath())));
 
         }
-        text_view.setText(stringBuffer.toString());
+        ImageSelectedAdapter imageSelectedAdapter = new ImageSelectedAdapter(imageList, this);
+        RecyclerView.LayoutManager recycle = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(recycle);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(imageSelectedAdapter);
+        recyclerView.setVisibility(View.VISIBLE);
+//        text_view.setText(stringBuffer.toString());
     }
 
 
@@ -134,6 +154,7 @@ public class ReviewActivity extends AppCompatActivity {
                         break;
                     default:
                         star = "0";
+                        break;
                 }
             }
         });
@@ -155,7 +176,6 @@ public class ReviewActivity extends AppCompatActivity {
             case R.id.post:
                 int stars = Integer.parseInt(star);
                 rating(stars);
-
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -163,7 +183,6 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     private void rating(final int stars) {
-
         DatabaseReference rDatabase = FirebaseDatabase.getInstance().getReference(Review.tag).child(sid);
         rDatabase.addValueEventListener(new ValueEventListener() {
             @Override

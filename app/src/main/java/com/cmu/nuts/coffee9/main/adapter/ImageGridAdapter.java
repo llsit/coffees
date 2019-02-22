@@ -35,20 +35,21 @@ public class ImageGridAdapter extends ArrayAdapter {
         if (null == convertView) {
             convertView = inflater.inflate(R.layout.item_image, parent, false);
         }
-        if (status == 1){ //ImageDataShopFragment.java
+        ImageView img_del = convertView.findViewById(R.id.image_del);
+        img_del.setVisibility(View.GONE);
+        ImageView img = convertView.findViewById(R.id.Image_show);
+        img.setPadding(30, 20, 30, 20);
+        if (status == 1) { //ImageDataShopFragment.java
             Picasso.get()
                     .load(imageUrls.get(position))
                     .placeholder(R.drawable.img_preview)
-                    .fit().centerCrop()
-                    .error(R.drawable.img_preview)
-                    .into((ImageView) convertView);
-        }else{
+                    .into(img);
+        } else {
             Picasso.get()
                     .load(imageUrls.get(position))
                     .placeholder(R.drawable.img_preview)
                     .fit().centerInside()
-                    .error(R.drawable.img_preview)
-                    .into((ImageView) convertView);
+                    .into(img);
         }
 
         return convertView;

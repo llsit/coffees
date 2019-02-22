@@ -3,6 +3,7 @@ package com.cmu.nuts.coffee9.main.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -41,13 +42,13 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
     }
 
     @Override
-    public ReviewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ReviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_review, parent, false);
         return new ReviewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ReviewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull final ReviewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final Review review = reviews.get(position);
         holder.tv_sid.setText(review.getSid());
         holder.tv_rid.setText(review.getRid());

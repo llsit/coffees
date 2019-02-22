@@ -71,9 +71,9 @@ public class DataShopActivity extends AppCompatActivity {
 
         SectionsPageAdapter mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
         // Finding the facebook share button
-        shareButton = findViewById(R.id.button);
+//        shareButton = findViewById(R.id.button);
         // Sharing the content to facebook
-
+//
         // Set up the ViewPager with the sections adapter.
         ViewPager mViewPager = findViewById(R.id.htab_viewpager);
         setupViewPager(mViewPager);
@@ -83,7 +83,7 @@ public class DataShopActivity extends AppCompatActivity {
         Intent intent = getIntent();
         shop_ID = intent.getStringExtra("shopID");
 
-        final ImageView imageView = findViewById(R.id.image_header);
+        final ImageView imageView = findViewById(R.id.htab_image);
         DatabaseReference sDatabase = FirebaseDatabase.getInstance().getReference(Share.tag).child(shop_ID);
         sDatabase.limitToFirst(1).addValueEventListener(new ValueEventListener() {
             @Override
@@ -109,41 +109,41 @@ public class DataShopActivity extends AppCompatActivity {
             }
         });
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.htab_toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-        TabLayout tabLayout = findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.htab_tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        ImageView backdata = findViewById(R.id.data_shop_back);
-        backdata.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        final FabSpeedDial fab = findViewById(R.id.fab);
-        FabSpeedDialMenu menu = new FabSpeedDialMenu(this);
-        menu.add(getResources().getString(R.string.txt_shared_image)).setIcon(R.drawable.ic_add_a_photo);
-        menu.add(getResources().getString(R.string.txt_review)).setIcon(R.drawable.ic_edit_pen);
-        fab.setMenu(menu);
-        fab.addOnMenuItemClickListener(new FabSpeedDial.OnMenuItemClickListener() {
-            @Override
-            public void onMenuItemClick(android.support.design.widget.FloatingActionButton fab, @Nullable TextView label, int itemId) {
-                if (itemId == 1) {
-                    ImagePicker.create(DataShopActivity.this).folderMode(true)
-                            .toolbarFolderTitle("Folder").toolbarImageTitle("Tap to select")
-                            .toolbarArrowColor(Color.WHITE).multi().limit(10)
-                            .showCamera(true).imageDirectory("Camera").enableLog(true)
-                            .start();
-                } else if (itemId == 2) {
-                    Intent intent = new Intent(DataShopActivity.this, ReviewActivity.class);
-                    intent.putExtra("shopID", shop_ID);
-                    startActivity(intent);
-                }
-            }
-        });
+//        ImageView backdata = findViewById(R.id.data_shop_back);
+//        backdata.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
+//
+//        final FabSpeedDial fab = findViewById(R.id.fab);
+//        FabSpeedDialMenu menu = new FabSpeedDialMenu(this);
+//        menu.add(getResources().getString(R.string.txt_shared_image)).setIcon(R.drawable.ic_add_a_photo);
+//        menu.add(getResources().getString(R.string.txt_review)).setIcon(R.drawable.ic_edit_pen);
+//        fab.setMenu(menu);
+//        fab.addOnMenuItemClickListener(new FabSpeedDial.OnMenuItemClickListener() {
+//            @Override
+//            public void onMenuItemClick(android.support.design.widget.FloatingActionButton fab, @Nullable TextView label, int itemId) {
+//                if (itemId == 1) {
+//                    ImagePicker.create(DataShopActivity.this).folderMode(true)
+//                            .toolbarFolderTitle("Folder").toolbarImageTitle("Tap to select")
+//                            .toolbarArrowColor(Color.WHITE).multi().limit(10)
+//                            .showCamera(true).imageDirectory("Camera").enableLog(true)
+//                            .start();
+//                } else if (itemId == 2) {
+//                    Intent intent = new Intent(DataShopActivity.this, ReviewActivity.class);
+//                    intent.putExtra("shopID", shop_ID);
+//                    startActivity(intent);
+//                }
+//            }
+//        });
     }
 
     private void ShareDataShop() {
@@ -248,7 +248,6 @@ public class DataShopActivity extends AppCompatActivity {
                     fragment.setArguments(bundle3);
                     break;
                 default:
-                    fragment = null;
                     break;
             }
             return fragment;
@@ -313,11 +312,10 @@ public class DataShopActivity extends AppCompatActivity {
                 RdelDatabase.child(shop_ID).removeValue();
                 finish();
                 return true;
-
             case R.id.share:
                 // Code you want run when activity is clicked
                 ShareDataShop();
-                shareButton.performClick();
+//                shareButton.performClick();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
