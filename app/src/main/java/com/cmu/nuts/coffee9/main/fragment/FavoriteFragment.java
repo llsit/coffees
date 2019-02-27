@@ -38,6 +38,8 @@ public class FavoriteFragment extends Fragment {
     private Activity activity;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    FavoriteRecyclerAdapter recyclerAdapter;
+    List<Shop> shops = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -50,10 +52,12 @@ public class FavoriteFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                shops.clear();
                 getFavDatabase();
             }
         });
         getFavDatabase();
+
         return view;
     }
 
@@ -62,34 +66,34 @@ public class FavoriteFragment extends Fragment {
 
         if (user != null) {
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(user.getUid());
-            mDatabase.addValueEventListener(new ValueEventListener() {
+            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    final List<Shop> shops = new ArrayList<>();
-                    shops.clear();
-                    for (DataSnapshot item : dataSnapshot.getChildren()) {
-                        Favorite favorite = item.getValue(Favorite.class);
-                        DatabaseReference databaseReference = null;
-                        if (favorite != null) {
-                            databaseReference = FirebaseDatabase.getInstance().getReference(Shop.tag).child(favorite.getSid());
-                            databaseReference.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshotShop) {
-                                    if (dataSnapshotShop.getChildrenCount() > 0) {
-                                        Shop value = dataSnapshotShop.getValue(Shop.class);
-                                        shops.add(value);
-                                        setRecyclerView(shops);
+                    if (dataSnapshot.getChildrenCount() > 0) {
+                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            Favorite favorite = item.getValue(Favorite.class);
+                            DatabaseReference databaseReference = null;
+                            if (favorite != null) {
+                                databaseReference = FirebaseDatabase.getInstance().getReference(Shop.tag).child(favorite.getSid());
+                                databaseReference.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshotShop) {
+                                        if (dataSnapshotShop.getChildrenCount() > 0) {
+                                            Shop value = dataSnapshotShop.getValue(Shop.class);
+                                            shops.add(value);
+                                            setRecyclerView(shops);
+                                        }
                                     }
-                                }
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                    Log.w("Shop", "Failed to get database", databaseError.toException());
-                                }
-                            });
-                        } else {
-                            recyclerView.setVisibility(View.GONE);
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        Log.w("Shop", "Failed to get database", databaseError.toException());
+                                    }
+                                });
+                            }
                         }
+                    } else {
+                        recyclerView.setVisibility(View.GONE);
                     }
                     swipeRefreshLayout.setRefreshing(false);
                 }
@@ -107,10 +111,16 @@ public class FavoriteFragment extends Fragment {
     }
 
     private void setRecyclerView(List<Shop> shops) {
-        FavoriteRecyclerAdapter recyclerAdapter = new FavoriteRecyclerAdapter(shops, activity);
+        recyclerAdapter = new FavoriteRecyclerAdapter(shops, activity, FavoriteFragment.this);
         RecyclerView.LayoutManager recycle = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(recycle);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(recyclerAdapter);
+
+    }
+
+    public void refresh() {
+        shops.clear();
+        getFavDatabase();
     }
 }

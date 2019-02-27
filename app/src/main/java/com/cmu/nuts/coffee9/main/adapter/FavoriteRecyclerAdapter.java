@@ -3,6 +3,7 @@ package com.cmu.nuts.coffee9.main.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.data_shop.DataShopActivity;
+import com.cmu.nuts.coffee9.main.fragment.FavoriteFragment;
 import com.cmu.nuts.coffee9.model.Favorite;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,20 +33,23 @@ public class FavoriteRecyclerAdapter extends RecyclerView.Adapter<FavoriteRecycl
 
     private List<Shop> shops;
     private Context context;
+    private FavoriteFragment favoriteFragment;
 
-    public FavoriteRecyclerAdapter(List<Shop> shops, Context context) {
+    public FavoriteRecyclerAdapter(List<Shop> shops, Context context, FavoriteFragment favoriteFragment) {
         this.shops = shops;
         this.context = context;
+        this.favoriteFragment = favoriteFragment;
     }
 
+    @NonNull
     @Override
-    public FavHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FavHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_fav, parent, false);
         return new FavHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(FavHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull FavHolder holder, @SuppressLint("RecyclerView") final int position) {
         final Shop shop = shops.get(position);
         holder.tv_sid.setText(shop.getSid());
         holder.tv_name.setText(shop.getName());
@@ -72,6 +77,7 @@ public class FavoriteRecyclerAdapter extends RecyclerView.Adapter<FavoriteRecycl
                             if (fav != null) {
                                 if (shop.getSid().equals(fav.getSid())) {
                                     mDatabase.child(fav.getFid()).removeValue();
+                                    favoriteFragment.refresh();
                                     Toast.makeText(context, "Done", Toast.LENGTH_LONG).show();
                                 }
                             } else {

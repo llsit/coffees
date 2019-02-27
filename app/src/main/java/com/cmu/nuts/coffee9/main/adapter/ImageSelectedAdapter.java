@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.Interface.ReviewImageInterface;
 import com.cmu.nuts.coffee9.model.Review;
 import com.esafirm.imagepicker.model.Image;
 import com.squareup.picasso.Picasso;
@@ -22,10 +23,12 @@ import java.util.List;
 public class ImageSelectedAdapter extends RecyclerView.Adapter<ImageSelectedAdapter.ImageHolder> {
     private List<Image> images;
     private Context context;
+    private ReviewImageInterface reviewImageInterface;
 
-    public ImageSelectedAdapter(List<Image> image, Context context) {
-        images = image;
+    public ImageSelectedAdapter(List<Image> image, Context context, ReviewImageInterface reviewImageInterface) {
+        this.images = image;
         this.context = context;
+        this.reviewImageInterface = reviewImageInterface;
     }
 
     @NonNull
@@ -36,7 +39,13 @@ public class ImageSelectedAdapter extends RecyclerView.Adapter<ImageSelectedAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageSelectedAdapter.ImageHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ImageSelectedAdapter.ImageHolder holder, final int position) {
+        holder.imageDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reviewImageInterface.ItemOnRemove(view, position);
+            }
+        });
         Picasso.get().load(Uri.fromFile(new File(images.get(position).getPath()))).into(holder.imageView);
     }
 

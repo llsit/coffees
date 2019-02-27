@@ -1,24 +1,23 @@
-package com.cmu.nuts.coffee9.main.fragment;
-
+package com.cmu.nuts.coffee9.main;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -45,6 +44,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 import butterknife.ButterKnife;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
@@ -52,12 +52,7 @@ import io.nlopez.smartlocation.SmartLocation;
 import io.nlopez.smartlocation.location.config.LocationAccuracy;
 import io.nlopez.smartlocation.location.config.LocationParams;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class AddShopFragment extends Fragment implements OnLocationUpdatedListener {
-
+public class AddShopActivity extends AppCompatActivity implements OnLocationUpdatedListener {
     EditText nameshop, Addressshop, detail, location, open_hour;
     Button btn_add;
     RadioGroup radio_price;
@@ -73,21 +68,18 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
     private DatabaseReference mDatabase;
     FirebaseUser user;
 
-    public AddShopFragment() {
-        // Required empty public constructor
-    }
-
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_shop, container, false);
-        ButterKnife.bind(this, view);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_shop);
+
+        ButterKnife.bind(this);
         // Inflate the layout for this fragment
-        Toolbar toolbar = view.findViewById(R.id.toolbarAddShop);
+        Toolbar toolbar = findViewById(R.id.toolbarAddShop);
         toolbar.setTitle(getString(R.string.txt_add_coffee_shop));
-        assert getActivity() != null;
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        activity = AddShopActivity.this;
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,20 +87,19 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
                 onBackPressed();
             }
         });
-        activity = getActivity();
-        addShop(view);
-        setMaps(view, savedInstanceState);
-        return view;
+
+        addShop();
+        setMaps(savedInstanceState);
     }
 
     @SuppressLint("WrongViewCast")
-    private void addShop(final View view) {
-        location = view.findViewById(R.id.location);
+    private void addShop() {
+        location = findViewById(R.id.location);
         location.setEnabled(false);
-        nameshop = view.findViewById(R.id.edt_name_shop);
-        Addressshop = view.findViewById(R.id.edt_address_shop);
-        detail = view.findViewById(R.id.edt_detail);
-        open_hour = view.findViewById(R.id.edt_open_hour);
+        nameshop = findViewById(R.id.edt_name_shop);
+        Addressshop = findViewById(R.id.edt_address_shop);
+        detail = findViewById(R.id.edt_detail);
+        open_hour = findViewById(R.id.edt_open_hour);
 //        radio_price = view.findViewById(R.id.rdo_min);
 //        radio_price.check(R.id.rdo_min);
         open_hour.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +108,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
                 selecttime();
             }
         });
-        btn_add = view.findViewById(R.id.btn_add);
+        btn_add = findViewById(R.id.btn_add);
         user = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         btn_add.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +148,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
 
                 tDatebase.child(tsid).child(tsid).setValue(open);
 
-                Toast.makeText(getActivity(), "Add Success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddShopActivity.this, "Add Success", Toast.LENGTH_SHORT).show();
 
 
                 onBackPressed();
@@ -171,7 +162,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
             @Override
             public void onClick(View v) {
                 final AlertDialog.Builder builder =
-                        new AlertDialog.Builder(getContext());
+                        new AlertDialog.Builder(AddShopActivity.this);
                 LayoutInflater inflater = getLayoutInflater();
 
                 @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.dialog_addtime, null);
@@ -193,7 +184,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
                         int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                         int minute = mcurrentTime.get(Calendar.MINUTE);
                         TimePickerDialog mTimePicker;
-                        mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                        mTimePicker = new TimePickerDialog(AddShopActivity.this, new TimePickerDialog.OnTimeSetListener() {
                             @SuppressLint("SetTextI18n")
                             @Override
                             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
@@ -214,7 +205,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
                         int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                         int minute = mcurrentTime.get(Calendar.MINUTE);
                         TimePickerDialog mTimePicker;
-                        mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                        mTimePicker = new TimePickerDialog(AddShopActivity.this, new TimePickerDialog.OnTimeSetListener() {
                             @SuppressLint("SetTextI18n")
                             @Override
                             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
@@ -284,8 +275,8 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
         });
     }
 
-    private void setMaps(View view, Bundle savedInstanceState) {
-        mMapView = view.findViewById(R.id.add_shp_map_view);
+    private void setMaps(Bundle savedInstanceState) {
+        mMapView = findViewById(R.id.add_shp_map_view);
 
         try {
             mMapView.onCreate(savedInstanceState);
@@ -302,14 +293,18 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
         }
 
         mMapView.getMapAsync(new OnMapReadyCallback() {
+            @TargetApi(Build.VERSION_CODES.M)
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
 
                 int REQUEST_CODE_ASK_PERMISSIONS = 123;
                 if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            REQUEST_CODE_ASK_PERMISSIONS);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                REQUEST_CODE_ASK_PERMISSIONS);
+                    }
                     return;
                 }
 
@@ -337,6 +332,7 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
         location.setText(String.valueOf(latitude) + "|" + String.valueOf(longitude));
         location.setEnabled(false);
         mMapView.getMapAsync(new OnMapReadyCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
@@ -432,6 +428,6 @@ public class AddShopFragment extends Fragment implements OnLocationUpdatedListen
     }
 
     public void onBackPressed() {
-        getActivity().onBackPressed();
+        finish();
     }
 }

@@ -18,6 +18,7 @@ import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.model.Comment;
 import com.cmu.nuts.coffee9.model.Member;
 import com.cmu.nuts.coffee9.model.Review;
+import com.cmu.nuts.coffee9.model.Review_Image;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,16 +32,16 @@ import java.util.List;
 public class DataReviewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Review> reviews;
     private ArrayList<Comment> comments;
-    ArrayList<String> arrayList;
+    private ArrayList<String> arrayList;
     private Context context;
     private int ITEM_HEADER = 0;
     private int ITEM_COMMENT = 1;
 
-    public DataReviewRecyclerViewAdapter(ArrayList<Review> reviewArrayList, ArrayList<Comment> commentArrayList, ArrayList<String> arrayList, Context context) {
+    public DataReviewRecyclerViewAdapter(ArrayList<Review> reviewArrayList, ArrayList<Comment> commentArrayList, Context context) {
         this.reviews = reviewArrayList;
         this.comments = commentArrayList;
-        this.arrayList = arrayList;
         this.context = context;
+        arrayList = new ArrayList<>();
     }
 
     @NonNull
@@ -64,7 +65,6 @@ public class DataReviewRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
             headerViewHolder.tv_datetime.setText(review.getDatetime());
             headerViewHolder.tv_detail.setText(review.getDetail());
             headerViewHolder.tv_star.setRating(Float.valueOf(review.getStar()));
-//            Picasso.get().load(review.getImg_url()).into(headerViewHolder.tv_person);
             final DatabaseReference uDatabase = FirebaseDatabase.getInstance().getReference(Member.tag).child(review.getUid());
             uDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -85,9 +85,27 @@ public class DataReviewRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                     Log.w("Review Image", "Failed to get database", databaseError.toException());
                 }
             });
-            ImageGridAdapter imageGridAdapter = new ImageGridAdapter(context, arrayList, 2);
-            headerViewHolder.gridView.setAdapter(imageGridAdapter);
+            final DatabaseReference imgDatabase = FirebaseDatabase.getInstance().getReference(Review_Image.tag);
+            imgDatabase.child(review.getRid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getChildrenCount() > 0) {
+                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            Review_Image ri = item.getValue(Review_Image.class);
+                            if (ri != null) {
+                                arrayList.add(ri.getImage_url());
+                            }
+                        }
+                        ImageGridAdapter imageGridAdapter = new ImageGridAdapter(context, arrayList, 2);
+                        headerViewHolder.gridView.setAdapter(imageGridAdapter);
+                    }
+                }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.w("Review Image", "Failed to get database", databaseError.toException());
+                }
+            });
         } else if (holder instanceof CommentHolder) {
             final CommentHolder commentHolder = (CommentHolder) holder;
             Comment comment = comments.get(position - 1);

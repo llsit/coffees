@@ -36,7 +36,7 @@ public class FullImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_full_image);
         Toolbar toolbar = findViewById(R.id.toolbar_full_image);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+//        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
@@ -50,7 +50,6 @@ public class FullImageActivity extends AppCompatActivity {
         assert array != null;
         for (int i = 0; i < array.size(); i++) {
             url = array.get(i);
-
         }
 
         ImageView back = findViewById(R.id.full_image_back);

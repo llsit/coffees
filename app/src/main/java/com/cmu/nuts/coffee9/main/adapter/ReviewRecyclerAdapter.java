@@ -41,6 +41,7 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
         this.context = context;
     }
 
+    @NonNull
     @Override
     public ReviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_review, parent, false);
@@ -57,7 +58,7 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
         holder.tv_star.setRating(Float.parseFloat(review.getStar()));
         holder.tv_uid.setText(review.getUid());
         holder.tv_url.setText(review.getImg_url());
-          DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child(Member.tag).child(review.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -79,12 +80,13 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
                 Log.w("Shop", "Failed to get database", error.toException());
             }
         });
-        DatabaseReference countReference = FirebaseDatabase.getInstance().getReference(Comment.tag).child(review.getRid());
+        DatabaseReference countReference = FirebaseDatabase.getInstance().getReference(Comment.tag).child(review.getSid());
         countReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                int counts = Integer.parseInt(String.valueOf(dataSnapshot.getChildrenCount()));
-                holder.tv_count.setText(String.valueOf(counts));
+//                int counts = Integer.parseInt(String.valueOf(dataSnapshot.getChildrenCount()));
+//                System.out.println(counts);
+                holder.tv_count.setText(String.valueOf(dataSnapshot.getChildrenCount()));
             }
 
             @Override

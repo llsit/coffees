@@ -3,6 +3,7 @@ package com.cmu.nuts.coffee9.main.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,14 +46,15 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         this.context = context;
     }
 
+    @NonNull
     @Override
-    public ShopHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ShopHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_shop, parent, false);
         return new ShopHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ShopHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull final ShopHolder holder, @SuppressLint("RecyclerView") final int position) {
         final Shop shop = shops.get(position);
 
         holder.tv_sid.setText(shop.getSid());
@@ -72,6 +74,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     Favorite fav = item.getValue(Favorite.class);
+                    assert fav != null;
                     if (fav.getSid().equals(shop.getSid())) {
                         holder.tv_not_love.setVisibility(View.GONE);
                         holder.tv_love.setVisibility(View.VISIBLE);
@@ -101,23 +104,6 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
 
             }
         });
-        holder.tv_fav.setOnFavoriteChangeListener(
-                new MaterialFavoriteButton.OnFavoriteChangeListener() {
-                    @Override
-                    public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
-                        user = FirebaseAuth.getInstance().getCurrentUser();
-                        mDatabase = FirebaseDatabase.getInstance().getReference();
-                        String fid = mDatabase.push().getKey();
-                        String uid = user.getUid();
-                        String sid = shop.getSid();
-                        if (favorite) {
-                            Favorite fav = new Favorite(fid, uid, sid);
-                            mDatabase.child(Favorite.tag).child(uid).child(fid).setValue(fav);
-                            Toast.makeText(context, "love it", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }
-        );
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,7 +178,6 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         TextView tv_address;
         TextView tv_uid;
         TextView tv_location;
-        MaterialFavoriteButton tv_fav;
         ImageView tv_image;
         ImageView tv_love;
         ImageView tv_not_love;
@@ -209,7 +194,6 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
             tv_uid = itemView.findViewById(R.id.item_shop_uid);
             tv_location = itemView.findViewById(R.id.item_shop_location);
             cardView = itemView.findViewById(R.id.item_shop_card_view);
-            tv_fav = itemView.findViewById(R.id.love);
             tv_image = itemView.findViewById(R.id.item_shop_img);
             tv_love = itemView.findViewById(R.id.fav);
             tv_not_love = itemView.findViewById(R.id.not_fav);

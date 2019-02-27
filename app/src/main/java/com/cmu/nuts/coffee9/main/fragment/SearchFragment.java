@@ -3,6 +3,7 @@ package com.cmu.nuts.coffee9.main.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.AddShopActivity;
 import com.cmu.nuts.coffee9.main.adapter.ShopRecyclerAdapter;
 import com.cmu.nuts.coffee9.model.Open_Hour;
 import com.cmu.nuts.coffee9.model.Shop;
@@ -73,13 +75,15 @@ public class SearchFragment extends Fragment {
         addShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddShopFragment addShop = new AddShopFragment();
-                FragmentManager manager_addShop = getFragmentManager();
-                assert manager_addShop != null;
-                FragmentTransaction as = manager_addShop.beginTransaction();
-                as.add(R.id.Fragment, addShop);
-                as.addToBackStack(null);
-                as.commit();
+//                AddShopFragment addShop = new AddShopFragment();
+//                FragmentManager manager_addShop = getFragmentManager();
+//                assert manager_addShop != null;
+//                FragmentTransaction as = manager_addShop.beginTransaction();
+//                as.add(R.id.Fragment, addShop);
+//                as.addToBackStack(null);
+//                as.commit();
+                Intent intent = new Intent(getContext(), AddShopActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <ImageView
             android:id="@+id/cardview_image1"
             android:layout_width="56dp"
@@ -40,7 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/cardview_image1"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/rating" />
 
 
         <ImageView
@@ -101,12 +100,12 @@
             android:layout_height="56dp"
             android:layout_alignParentTop="true"
             android:src="@drawable/ic_clock"
-            app:layout_constraintBottom_toBottomOf="@+id/rating"
+            app:layout_constraintBottom_toBottomOf="@+id/datetime"
             app:layout_constraintStart_toStartOf="@+id/cardview_image3"
-            app:layout_constraintTop_toTopOf="@+id/rating" />
+            app:layout_constraintTop_toTopOf="@+id/datetime" />
 
         <TextView
-            android:id="@+id/rating"
+            android:id="@+id/datetime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -148,7 +147,34 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/cardview_image5"
-            app:layout_constraintTop_toBottomOf="@+id/rating" />
+            app:layout_constraintTop_toBottomOf="@+id/datetime" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_stars_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/rating"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rating" />
+
+
+        <RatingBar
+            android:id="@+id/rating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="3.0"
+            android:stepSize="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </android.support.constraint.ConstraintLayout>

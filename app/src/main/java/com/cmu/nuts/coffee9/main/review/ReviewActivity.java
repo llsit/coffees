@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.Interface.ReviewImageInterface;
 import com.cmu.nuts.coffee9.main.adapter.ImageSelectedAdapter;
 import com.cmu.nuts.coffee9.model.Review;
 import com.cmu.nuts.coffee9.model.Shop;
@@ -102,21 +103,23 @@ public class ReviewActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void ShowImageSelected() {
-    }
-
     private void upload_photo() {
 //        TextView text_view = findViewById(R.id.text_view);
         if (imageList == null) return;
 
-        StringBuilder stringBuffer = new StringBuilder();
-        ImageReview imageManager = new ImageReview(ReviewActivity.class, rid);
-        for (int i = 0, l = imageList.size(); i < l; i++) {
-            stringBuffer.append(imageList.get(i).getPath());
-            imageManager.uploadImage(rid, Uri.fromFile(new File(imageList.get(i).getPath())));
-
-        }
-        ImageSelectedAdapter imageSelectedAdapter = new ImageSelectedAdapter(imageList, this);
+//        StringBuilder stringBuffer = new StringBuilder();
+//        for (int i = 0, l = imageList.size(); i < l; i++) {
+//            stringBuffer.append(imageList.get(i).getPath());
+//            imageManager.uploadImage(rid, Uri.fromFile(new File(imageList.get(i).getPath())));
+//
+//        }
+        ImageSelectedAdapter imageSelectedAdapter = new ImageSelectedAdapter(imageList, this, new ReviewImageInterface() {
+            @Override
+            public void ItemOnRemove(View view, int postion) {
+                imageList.remove(postion);
+                upload_photo();
+            }
+        });
         RecyclerView.LayoutManager recycle = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(recycle);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -229,7 +232,10 @@ public class ReviewActivity extends AppCompatActivity {
             uid = FirebaseAuth.getInstance().getUid();
             detail = descript.getText().toString();
             img_url = "null";
-
+            ImageReview imageManager = new ImageReview(ReviewActivity.class, rid);
+            for (int i = 0; i < imageList.size(); i++) {
+                imageManager.uploadImage(rid, Uri.fromFile(new File(imageList.get(i).getPath())));
+            }
             DatabaseReference shopDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag);
             shopDatabase.child(sid).child("rating").setValue(String.valueOf(n));
             Review review = new Review(rid, uid, sid, detail, img_url, datetime, star);

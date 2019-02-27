@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,8 +27,8 @@ import java.util.ArrayList;
  */
 public class DetailDataShopFragment extends Fragment {
 
-    private TextView name,address,detail, openTime,price;
-
+    private TextView name, address, detail, openTime, price;
+    private RatingBar rating;
     private String shopID;
 
     public DetailDataShopFragment() {
@@ -41,20 +42,20 @@ public class DetailDataShopFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_data_shop, container, false);
 
-        if (getArguments() != null){
+        if (getArguments() != null) {
             shopID = getArguments().getString("shop_ID");
             name = view.findViewById(R.id.name);
             address = view.findViewById(R.id.location_shop);
             detail = view.findViewById(R.id.detail);
-            openTime = view.findViewById(R.id.rating);
+            openTime = view.findViewById(R.id.datetime);
             price = view.findViewById(R.id.price);
+            rating = view.findViewById(R.id.rating);
             getdatashop();
         }
         return view;
     }
 
-    public void getdatashop(){
-
+    public void getdatashop() {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
                 .child(Shop.tag).child(shopID);
         ValueEventListener listener = new ValueEventListener() {
@@ -67,6 +68,7 @@ public class DetailDataShopFragment extends Fragment {
                 detail.setText(shop.getDetail());
                 getTime(shop.getSid(), openTime);
                 price.setText(shop.getPrice());
+                rating.setRating(Integer.parseInt(shop.getRating()));
             }
 
             @Override
@@ -78,20 +80,20 @@ public class DetailDataShopFragment extends Fragment {
         databaseReference.addListenerForSingleValueEvent(listener);
     }
 
-    private void getTime(final String shopID, final TextView openTimeTv){
+    private void getTime(final String shopID, final TextView openTimeTv) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
                 .child("Open_Hour").child(shopID);
         final ArrayList<OpenTime> openTimes = new ArrayList<>();
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot :dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     OpenTime value = snapshot.getValue(OpenTime.class);
                     assert value != null;
-                    openTimeTv.setText(value.getDate() + " " + value.getTimestart() +" - "+ value.getTimeend());
+                    openTimeTv.setText(value.getDate() + " " + value.getTimestart() + " - " + value.getTimeend());
                 }
 
-                if (!dataSnapshot.exists()){
+                if (!dataSnapshot.exists()) {
                     openTimeTv.setText("Monday,Tuesday,Wednesday,Thursday,Friday \n 08:00 - 16:00");
                 }
             }

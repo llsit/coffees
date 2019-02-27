@@ -1,0 +1,187 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarAddShop"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarAddShop">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/linearLayoutCompat3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorWhite">
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/add_shp_map_view"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/add_shp_map_view"
+                app:layout_constraintStart_toStartOf="@+id/add_shp_map_view"
+                app:layout_constraintTop_toBottomOf="@+id/add_shp_map_view">
+
+                <EditText
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:hint="@string/txt_location"
+                    android:inputType="textLongMessage" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout4"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout4"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
+
+                <EditText
+                    android:id="@+id/edt_name_shop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name_shop"
+                    android:inputType="textLongMessage" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout5"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout5"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
+
+                <EditText
+                    android:id="@+id/edt_address_shop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/address"
+                    android:inputType="textLongMessage"
+                    android:minLines="2" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout6"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout6"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
+
+                <EditText
+                    android:id="@+id/edt_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/txt_detail"
+                    android:inputType="textLongMessage"
+                    android:minLines="2" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout7"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout7"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout7">
+
+                <EditText
+                    android:id="@+id/edt_open_hour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/txt_time_hour"
+                    android:inputType="textLongMessage" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayout9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout8"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout8"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout8">
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/txt_price"
+                    android:paddingStart="6sp"
+                    tools:ignore="RtlSymmetry" />
+
+
+                <RadioButton
+                    android:id="@+id/rdo_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:paddingEnd="12dp"
+                    android:text="@string/txt_rang_0_100" />
+
+                <RadioButton
+                    android:id="@+id/rdo_mid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:paddingEnd="15dp"
+                    android:text="@string/txt_rang_101_200" />
+
+                <RadioButton
+                    android:id="@+id/rdo_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/txt_rang_over_200" />
+
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorAccent"
+                android:drawableStart="@drawable/ic_add"
+                android:padding="5dp"
+                android:text="@string/txt_add"
+                android:theme="@style/PrimaryFlatButton"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout9"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout9" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
+
