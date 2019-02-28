@@ -100,7 +100,6 @@ public class review_display_activity extends AppCompatActivity {
         hm.commit();
     }
 
-
     private void comment() {
         send.setOnClickListener(new View.OnClickListener() {
             @Override

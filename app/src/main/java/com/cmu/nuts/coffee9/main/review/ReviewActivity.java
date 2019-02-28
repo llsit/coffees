@@ -96,23 +96,14 @@ public class ReviewActivity extends AppCompatActivity {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             // Get a list of picked images
             imageList = ImagePicker.getImages(data);
-
-//            ShowImageSelected();
             upload_photo();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void upload_photo() {
-//        TextView text_view = findViewById(R.id.text_view);
         if (imageList == null) return;
 
-//        StringBuilder stringBuffer = new StringBuilder();
-//        for (int i = 0, l = imageList.size(); i < l; i++) {
-//            stringBuffer.append(imageList.get(i).getPath());
-//            imageManager.uploadImage(rid, Uri.fromFile(new File(imageList.get(i).getPath())));
-//
-//        }
         ImageSelectedAdapter imageSelectedAdapter = new ImageSelectedAdapter(imageList, this, new ReviewImageInterface() {
             @Override
             public void ItemOnRemove(View view, int postion) {
@@ -125,7 +116,6 @@ public class ReviewActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(imageSelectedAdapter);
         recyclerView.setVisibility(View.VISIBLE);
-//        text_view.setText(stringBuffer.toString());
     }
 
 

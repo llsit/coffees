@@ -41,6 +41,15 @@
             app:layout_constraintStart_toEndOf="@+id/cardview_image1"
             app:layout_constraintTop_toBottomOf="@+id/rating" />
 
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView_data"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name" />
 
         <ImageView
             android:id="@+id/cardview_image2"
@@ -59,14 +68,14 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:text="Viral Android"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/cardview_image2"
-            app:layout_constraintTop_toBottomOf="@+id/name" />
+            app:layout_constraintTop_toBottomOf="@+id/mapView_data" />
 
         <ImageView
             android:id="@+id/cardview_image3"
@@ -162,20 +171,37 @@
 
         <RatingBar
             android:id="@+id/rating"
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="0dp"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
             android:isIndicator="true"
             android:numStars="5"
             android:rating="3.0"
-            android:stepSize="1"
+            android:stepSize="1.0"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <View
+            android:id="@+id/view_map"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/mapView_data"
+            app:layout_constraintEnd_toEndOf="@+id/mapView_data"
+            app:layout_constraintStart_toStartOf="@+id/mapView_data"
+            app:layout_constraintTop_toTopOf="@+id/mapView_data" />
 
+        <FrameLayout
+            android:id="@+id/view_map_shop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
+
 </android.support.v4.widget.NestedScrollView>
