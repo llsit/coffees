@@ -1,20 +1,17 @@
-package com.cmu.nuts.coffee9.main.data_shop;
-
+package com.cmu.nuts.coffee9.main;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.cmu.nuts.coffee9.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,36 +23,33 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class ViewMapShopFragment extends Fragment {
+public class ViewMapShopActivity extends AppCompatActivity {
     private MapView mapView_data;
     private GoogleMap googleMap;
     private Bundle bundle;
 
-    public ViewMapShopFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_view_map_shop, container, false);
-        mapView_data = view.findViewById(R.id.mapView_data);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_map_shop);
+
+        mapView_data = findViewById(R.id.mapView_data);
         bundle = savedInstanceState;
 
-        assert getArguments() != null;
-        String lat = getArguments().getString("Lat");
-        String Lng = getArguments().getString("Lng");
+        String lat = getIntent().getStringExtra("Lat");
+        String Lng = getIntent().getStringExtra("Lng");
 
         assert lat != null;
         assert Lng != null;
         setMaps(Double.valueOf(lat), Double.valueOf(Lng));
 
-        return view;
+        ImageView map_display_back = findViewById(R.id.map_display_back);
+        map_display_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @SuppressLint("SetTextI18n")
@@ -69,7 +63,7 @@ public class ViewMapShopFragment extends Fragment {
         }
 
         try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
+            MapsInitializer.initialize(this.getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -82,7 +76,7 @@ public class ViewMapShopFragment extends Fragment {
                 googleMap = mMap;
 
                 int REQUEST_CODE_ASK_PERMISSIONS = 123;
-                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(ViewMapShopActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                 REQUEST_CODE_ASK_PERMISSIONS);
@@ -90,7 +84,7 @@ public class ViewMapShopFragment extends Fragment {
                     return;
                 }
 
-                if (ActivityCompat.checkSelfPermission(getContext(),
+                if (ActivityCompat.checkSelfPermission(ViewMapShopActivity.this,
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                             REQUEST_CODE_ASK_PERMISSIONS);
@@ -100,12 +94,11 @@ public class ViewMapShopFragment extends Fragment {
                 googleMap.setMyLocationEnabled(true);
                 // For dropping a marker at a point on the Map
                 LatLng cmu = new LatLng(latitude, longitude);
-                googleMap.addMarker(new MarkerOptions().position(cmu).title("CMU").snippet("Computer Science"));
+                googleMap.addMarker(new MarkerOptions().position(cmu).title("Here").snippet(""));
                 // For zooming automatically to the location of the marker
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(17).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
     }
-
 }

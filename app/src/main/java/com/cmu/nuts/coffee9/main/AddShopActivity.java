@@ -78,13 +78,11 @@ public class AddShopActivity extends AppCompatActivity  {
             }
         });
 
-
         AddShopInFragment addShopInFragment = new AddShopInFragment();
         FragmentManager manager_home = getSupportFragmentManager();
         FragmentTransaction hm = manager_home.beginTransaction();
         hm.replace(R.id.myFragment2, addShopInFragment);
         hm.commit();
-
     }
 
     public void onBackPressed() {

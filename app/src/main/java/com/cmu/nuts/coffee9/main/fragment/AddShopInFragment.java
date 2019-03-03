@@ -7,6 +7,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -25,11 +26,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.AddShopActivity;
+import com.cmu.nuts.coffee9.main.addDateTimeActivity;
 import com.cmu.nuts.coffee9.model.Open_Hour;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -58,7 +61,8 @@ import io.nlopez.smartlocation.location.config.LocationParams;
  * A simple {@link Fragment} subclass.
  */
 public class AddShopInFragment extends Fragment implements OnLocationUpdatedListener {
-    EditText nameshop, Addressshop, detail, location, open_hour;
+    EditText nameshop, Addressshop, detail, location;
+    TextView open_hour;
     Button btn_add;
     RadioGroup radio_price;
     RadioButton min, mid, max;
@@ -68,8 +72,6 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
 
     private String coffee_ID, name, addressshop, Detail, authorID, locat, open, prices, rating;
 
-    private ArrayList<String> arrayList = new ArrayList<String>();
-    private StringBuffer result = new StringBuffer();
     private DatabaseReference mDatabase;
     FirebaseUser user;
 
@@ -100,6 +102,8 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
         btn_add = view.findViewById(R.id.btn_add);
         mMapView = view.findViewById(R.id.add_shp_map_view);
         activity = getActivity();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        coffee_ID = mDatabase.push().getKey();
 
         addShop();
         setMap(savedInstanceState);
@@ -108,16 +112,14 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
 
     private void addShop() {
         user = FirebaseAuth.getInstance().getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 name = nameshop.getText().toString();
                 addressshop = Addressshop.getText().toString();
                 Detail = detail.getText().toString();
                 authorID = user.getUid();
-                coffee_ID = mDatabase.push().getKey();
+
                 locat = location.getText().toString();
                 open = "0";
                 rating = "0";
@@ -136,15 +138,15 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
                 Shop shopData = new Shop(coffee_ID, name, addressshop, Detail, locat, open, prices, authorID);
                 mDatabase.child("coffee_shop").child(coffee_ID).setValue(shopData);
 
-                DatabaseReference tDatebase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag());
-                String tid = tDatebase.push().getKey();
-                String tsid = coffee_ID;
-                String date = result.toString();
-                String timestart = arrayList.get(1);
-                String timeend = arrayList.get(2);
-                Open_Hour open = new Open_Hour(tsid, tid, date, timestart, timeend);
-
-                tDatebase.child(tsid).child(tsid).setValue(open);
+//                DatabaseReference tDatebase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag());
+//                String tid = tDatebase.push().getKey();
+//                String tsid = coffee_ID;
+////                String date = result.toString();
+//                String timestart = arrayList.get(1);
+//                String timeend = arrayList.get(2);
+//                Open_Hour open = new Open_Hour(tsid, tid, "date", timestart, timeend);
+//
+//                tDatebase.child(tsid).child(tsid).setValue(open);
 
                 Toast.makeText(getContext(), "Add Success", Toast.LENGTH_SHORT).show();
 
@@ -153,122 +155,22 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101) {
+            Bundle bundle = data.getExtras();
+
+            ArrayList<Open_Hour> openHourArrayList = (ArrayList<Open_Hour>) data.getSerializableExtra("EXTRA_DATA");
+            System.out.println(openHourArrayList);
+//            openHourArrayList = (ArrayList<Open_Hour>)data.getSerializableExtra("MESSAGE");
+        }
+    }
+
     private void selecttime() {
-        open_hour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog.Builder builder =
-                        new AlertDialog.Builder(Objects.requireNonNull(getContext()));
-                LayoutInflater inflater = getLayoutInflater();
-
-                @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.dialog_addtime, null);
-                builder.setView(view);
-
-                final CheckBox day1 = view.findViewById(R.id.day1);
-                final CheckBox day2 = view.findViewById(R.id.day2);
-                final CheckBox day3 = view.findViewById(R.id.day3);
-                final CheckBox day4 = view.findViewById(R.id.day4);
-                final CheckBox day5 = view.findViewById(R.id.day5);
-                final CheckBox day6 = view.findViewById(R.id.day6);
-                final CheckBox day7 = view.findViewById(R.id.day7);
-                final EditText hr = view.findViewById(R.id.hr);
-                final EditText hr2 = view.findViewById(R.id.hr2);
-                hr.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Calendar mcurrentTime = Calendar.getInstance();
-                        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                        int minute = mcurrentTime.get(Calendar.MINUTE);
-                        TimePickerDialog mTimePicker;
-                        mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-                            @SuppressLint("SetTextI18n")
-                            @Override
-                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-
-                                hr.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
-//                                result.append("[").append(selectedHour).append(selectedMinute).append("]");
-                            }
-                        }, hour, minute, true);//Yes 24 hour time
-                        mTimePicker.setTitle("Select Time");
-                        mTimePicker.show();
-                    }
-                });
-
-                hr2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Calendar mcurrentTime = Calendar.getInstance();
-                        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                        int minute = mcurrentTime.get(Calendar.MINUTE);
-                        TimePickerDialog mTimePicker;
-                        mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-                            @SuppressLint("SetTextI18n")
-                            @Override
-                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                                hr2.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
-//                                result.append("[").append(selectedHour).append(selectedMinute).append("]");
-                            }
-                        }, hour, minute, true);//Yes 24 hour time
-                        mTimePicker.setTitle("Select Time");
-                        mTimePicker.show();
-                    }
-                });
-
-                builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Check username password
-
-                        if (day1.isChecked()) {
-                            result.append("Sunday");
-//                            arrayList.add("Sunday");
-                        }
-                        if (day2.isChecked()) {
-                            result.append("Monday");
-//                            arrayList.add("Monday");
-                        }
-                        if (day3.isChecked()) {
-                            result.append("Tuesday");
-//                            arrayList.add("Tuesday");
-                        }
-                        if (day4.isChecked()) {
-                            result.append("Wednesday");
-//                            arrayList.add("Wednesday");
-                        }
-                        if (day5.isChecked()) {
-                            result.append("Thursday");
-//                            arrayList.add("Thursday");
-                        }
-                        if (day6.isChecked()) {
-                            result.append("Friday");
-//                            arrayList.add("Friday");
-                        }
-                        if (day7.isChecked()) {
-                            result.append("Saturday");
-//                            arrayList.add("Saturday");
-                        }
-                        String time_start = hr.getText().toString();
-                        String time_end = hr2.getText().toString();
-                        arrayList.add(String.valueOf(result));
-                        arrayList.add(time_start);
-                        arrayList.add(time_end);
-
-                        open_hour.setText(result + time_start + time_end);
-//                        Toast.makeText(DateTimePickerActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-                builder.show();
-            }
-        });
+        Intent i = new Intent(getContext(), addDateTimeActivity.class);
+        i.putExtra("sid", coffee_ID);
+        startActivity(i);
     }
 
     private void setMap(Bundle savedInstanceState) {

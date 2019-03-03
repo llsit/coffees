@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".main.ViewMapShopActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".main.AddShopActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

@@ -4,6 +4,7 @@ package com.cmu.nuts.coffee9.main.data_shop;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,18 +12,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.ViewMapShopActivity;
 import com.cmu.nuts.coffee9.main.model.OpenTime;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -40,7 +39,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -103,20 +101,10 @@ public class DetailDataShopFragment extends Fragment {
                 view_map.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("Lat", latlong[0]);
-                        bundle.putString("Lng", latlong[1]);
-                        //set Fragmentclass Arguments
-
-                        ViewMapShopFragment viewMapShopFragment = new ViewMapShopFragment();
-                        FragmentManager manager_home = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-                        FragmentTransaction hm = manager_home.beginTransaction();
-                        hm.replace(R.id.view_map_shop, viewMapShopFragment);
-                        hm.commit();
-
-                        viewMapShopFragment.setArguments(bundle);
-//                        Toast.makeText(getActivity(), "View map!",
-//                                Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(getContext(), ViewMapShopActivity.class);
+                        i.putExtra("Lat", latlong[0]);
+                        i.putExtra("Lng", latlong[1]);
+                        startActivity(i);
                     }
                 });
             }
@@ -202,7 +190,7 @@ public class DetailDataShopFragment extends Fragment {
                 LatLng cmu = new LatLng(latitude, longitude);
                 googleMap.addMarker(new MarkerOptions().position(cmu).title("CMU").snippet("Computer Science"));
                 // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(17).build();
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(15).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });

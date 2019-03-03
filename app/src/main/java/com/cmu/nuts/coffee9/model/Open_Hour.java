@@ -1,7 +1,9 @@
 package com.cmu.nuts.coffee9.model;
 
 
-public class Open_Hour {
+import java.io.Serializable;
+
+public class Open_Hour implements Serializable {
     private String sid;
     private String tid;
     private String date;
