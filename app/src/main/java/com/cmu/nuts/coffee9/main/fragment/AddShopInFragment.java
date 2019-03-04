@@ -71,6 +71,7 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
     private Activity activity;
 
     private String coffee_ID, name, addressshop, Detail, authorID, locat, open, prices, rating;
+    ArrayList<Open_Hour> myobj = new ArrayList<>();
 
     private DatabaseReference mDatabase;
     FirebaseUser user;
@@ -138,19 +139,14 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
                 Shop shopData = new Shop(coffee_ID, name, addressshop, Detail, locat, open, prices, authorID);
                 mDatabase.child("coffee_shop").child(coffee_ID).setValue(shopData);
 
-//                DatabaseReference tDatebase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag());
-//                String tid = tDatebase.push().getKey();
-//                String tsid = coffee_ID;
-////                String date = result.toString();
-//                String timestart = arrayList.get(1);
-//                String timeend = arrayList.get(2);
-//                Open_Hour open = new Open_Hour(tsid, tid, "date", timestart, timeend);
-//
-//                tDatebase.child(tsid).child(tsid).setValue(open);
+                DatabaseReference tDatebase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag());
+                if (myobj.size() > 0) {
+                    for (int i = 0; i < myobj.size(); i++) {
+                        tDatebase.child(coffee_ID).child(myobj.get(i).getTid()).setValue(myobj.get(i));
+                    }
+                }
 
                 Toast.makeText(getContext(), "Add Success", Toast.LENGTH_SHORT).show();
-
-
             }
         });
     }
@@ -158,19 +154,20 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 101) {
-            Bundle bundle = data.getExtras();
-
+        if (resultCode == Activity.RESULT_OK) {
+            myobj.clear();
             ArrayList<Open_Hour> openHourArrayList = (ArrayList<Open_Hour>) data.getSerializableExtra("EXTRA_DATA");
-            System.out.println(openHourArrayList);
-//            openHourArrayList = (ArrayList<Open_Hour>)data.getSerializableExtra("MESSAGE");
+            myobj.addAll(openHourArrayList);
+            if (!myobj.isEmpty())
+                open_hour.setText(myobj.get(0).getDate() + myobj.get(0).getTimestart());
         }
     }
+
 
     private void selecttime() {
         Intent i = new Intent(getContext(), addDateTimeActivity.class);
         i.putExtra("sid", coffee_ID);
-        startActivity(i);
+        startActivityForResult(i, 1);
     }
 
     private void setMap(Bundle savedInstanceState) {

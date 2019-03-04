@@ -1,6 +1,7 @@
 package com.cmu.nuts.coffee9.main;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.main.Interface.AddTimeShopInterface;
 import com.cmu.nuts.coffee9.main.adapter.AddTimeShopAdapter;
 import com.cmu.nuts.coffee9.model.Open_Hour;
 import com.google.firebase.database.FirebaseDatabase;
@@ -56,14 +58,21 @@ public class addDateTimeActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(Activity.RESULT_OK, new Intent().putExtra(EXTRA_DATA, arrayList));
                 finish();
             }
         });
         recyclerView = findViewById(R.id.time_shop);
-        ImageView add_times = findViewById(R.id.add_times);
+        TextView clear_times = findViewById(R.id.clear_times);
         Intent i = getIntent();
         shopId = i.getStringExtra("sid");
-
+        clear_times.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                arrayList.clear();
+                setAdapter();
+            }
+        });
         setAdapter();
         Button add_time = findViewById(R.id.add_time);
         add_time.setOnClickListener(new View.OnClickListener() {
@@ -177,17 +186,16 @@ public class addDateTimeActivity extends AppCompatActivity {
                 builder.show();
             }
         });
-        add_times.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setResult(101, new Intent().putExtra(EXTRA_DATA, arrayList));
-                onBackPressed();
-            }
-        });
     }
 
     private void setAdapter() {
-        addTimeShopAdapter = new AddTimeShopAdapter(this, arrayList);
+        addTimeShopAdapter = new AddTimeShopAdapter(this, arrayList, new AddTimeShopInterface() {
+            @Override
+            public void TimeOnRemove(View view, int postion) {
+                arrayList.remove(postion);
+                setAdapter();
+            }
+        });
         RecyclerView.LayoutManager recycle = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(recycle);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -24,12 +24,15 @@
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="16dp" />
 
-        <ImageView
-            android:id="@+id/add_times"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+        <TextView
+            android:id="@+id/clear_times"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:src="@drawable/ic_check_light"
+            android:layout_marginEnd="8dp"
+            android:text="Clear"
+            android:textColor="@color/color_blue"
+            android:textSize="18sp"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="16dp" />
     </android.support.v7.widget.Toolbar>
