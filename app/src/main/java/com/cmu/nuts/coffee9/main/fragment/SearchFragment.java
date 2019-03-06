@@ -38,8 +38,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import butterknife.ButterKnife;
 
@@ -91,9 +93,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (shops != null && shops.size() > 0) {
-//                    onSearch(shops, newText);
-                }
+                onSearch(shops, newText);
                 return false;
             }
         });
@@ -145,7 +145,6 @@ public class SearchFragment extends Fragment {
         final ArrayList<String> arrayList2 = new ArrayList<>();
         final ArrayList<String> arrayList3 = new ArrayList<>();
         final boolean[] status = {false};
-        final boolean[] statuscheck = {false};
 
         Date currentTime = Calendar.getInstance().getTime();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("EEEE|HH:mm");
@@ -155,48 +154,37 @@ public class SearchFragment extends Fragment {
         arrayList3.clear();
         if (star5.isChecked()) {
             arrayList3.add("5");
-            statuscheck[0] = true;
         }
         if (star4.isChecked()) {
             arrayList3.add("4");
-            statuscheck[0] = true;
         }
         if (star3.isChecked()) {
             arrayList3.add("3");
-            statuscheck[0] = true;
         }
         if (star2.isChecked()) {
             arrayList3.add("2");
-            statuscheck[0] = true;
         }
         if (star1.isChecked()) {
             arrayList3.add("1");
-            statuscheck[0] = true;
         }
         if (price_max.isChecked()) {
             arrayList1.add("151-200");
-            statuscheck[0] = true;
         }
         if (price_mid.isChecked()) {
             arrayList1.add("101-150");
-            statuscheck[0] = true;
         }
         if (price_min.isChecked()) {
             arrayList1.add("0-100");
-            statuscheck[0] = true;
         }
         if (now.isChecked()) {
             nows = mdformat.format(currentTime);
             arrayList2.add(nows);
-            statuscheck[0] = true;
         }
         String day = null;
         int hrNow = 0;
         int minNow = 0;
         if (arrayList2.size() > 0) {
-            statuscheck[0] = true;
             String[] arrStr = null;
-
             for (int i = 0; i < arrayList2.size(); i++) {
                 String str = arrayList2.get(i);
                 arrStr = str.split("\\|");
@@ -212,38 +200,35 @@ public class SearchFragment extends Fragment {
         final String finalDay = day;
         final int finalHrNow = hrNow;
         final int finalMinNow = minNow;
+        shops.clear();
         shopDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    final Shop shops = item.getValue(Shop.class);
+                    final Shop shop = item.getValue(Shop.class);
                     if (arrayList1.size() > 0) {
                         status[0] = true;
                         for (int i = 0; i < arrayList1.size(); i++) {
-                            assert shops != null;
-                            if (shops.getPrice().equals(arrayList1.get(i))) {
-                                String id = shops.getSid();
-                                Distinct(id);
+                            assert shop != null;
+                            if (shop.getPrice().equals(arrayList1.get(i))) {
+                                shops.add(shop);
                             }
                         }
-
                     }
                     if (arrayList3.size() > 0) {
                         status[0] = true;
                         for (int i = 0; i < arrayList3.size(); i++) {
-                            assert shops != null;
-                            if (shops.getRating().equals(arrayList3.get(i))) {
-                                String id = shops.getSid();
-                                Distinct(id);
+                            assert shop != null;
+                            if (shop.getRating().equals(arrayList3.get(i))) {
+                                shops.add(shop);
                             }
                         }
-
                     }
 
                     if (arrayList2.size() > 0) {
                         assert shops != null;
                         status[0] = true;
-                        DatabaseReference tDatabase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag()).child(shops.getSid());
+                        DatabaseReference tDatabase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag()).child(shop.getSid());
                         tDatabase.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -269,11 +254,14 @@ public class SearchFragment extends Fragment {
                                             }
                                             if ((finalMinNow >= minStart) && (finalMinNow <= minEnd)) {
 //                                                Log.d("Search", "4 " + finalHrNow + " " + finalMinNow + " start = " + hrStart + " " + minStart + " End " + hrEnd + " " + minEnd);
-                                                Distinct(open.getSid());
+//                                                Distinct(open.getSid());
+                                                System.out.println(shops);
+                                                shops.add(shop);
                                             }
                                         }
                                     }
                                 }
+
                             }
 
                             @Override
@@ -284,6 +272,14 @@ public class SearchFragment extends Fragment {
 
                     }
                 }
+//                Set<Shop> abs_col = new HashSet<>(shops);
+//                ArrayList<Shop> arr = new ArrayList<>(abs_col.toArray();
+//                for (String element : unique) {
+//                    System.out.println(element);
+//                }
+//                System.out.println(shops);
+                printDistinct(shops);
+//                setRecyclerView(shops);
             }
 
             @Override
@@ -291,15 +287,18 @@ public class SearchFragment extends Fragment {
 
             }
         });
-        if (!statuscheck[0]) {
-            recyclerView.setVisibility(View.GONE);
-        } else {
-            if (!status[0]) {
-                recyclerView.setVisibility(View.VISIBLE);
-                System.out.println("true full");
-            } else {
-                recyclerView.setVisibility(View.GONE);
-                System.out.println("Empty");
+    }
+
+    static void printDistinct(List<Shop> shops) {
+        // Pick all elements one by one
+        for (int i = 0; i < shops.size(); i++) {
+            // Check if the picked element
+            // is already printed
+            int j;
+            for (j = 0; j < i; j++) {
+                System.out.print(shops.get(i).getSid() + " = " + shops.get(j).getSid());
+                if (shops.get(i).getSid().equals(shops.get(j).getSid()))
+                    System.out.print(shops.get(i).getName() + " ");
             }
         }
     }
@@ -327,16 +326,17 @@ public class SearchFragment extends Fragment {
         }
     }
 
-
     private void onSearch(List<Shop> list, String key) {
         List<Shop> new_shop = new ArrayList<>();
-        for (int i = 1; i < list.size(); i++) {
-            try {
-                if (list.get(i).getName().contains(key)) {
-                    new_shop.add(list.get(i));
+        if (list.size() > 0) {
+            for (int i = 1; i < list.size(); i++) {
+                try {
+                    if (list.get(i).getName().contains(key)) {
+                        new_shop.add(list.get(i));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
         setRecyclerView(new_shop);
@@ -365,11 +365,16 @@ public class SearchFragment extends Fragment {
     }
 
     private void setRecyclerView(List<Shop> list) {
-        ShopRecyclerAdapter recyclerAdapter = new ShopRecyclerAdapter(list, activity);
-        RecyclerView.LayoutManager recycle = new LinearLayoutManager(activity);
-        recyclerView.setLayoutManager(recycle);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(recyclerAdapter);
+        if (list.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            ShopRecyclerAdapter recyclerAdapter = new ShopRecyclerAdapter(list, activity);
+            RecyclerView.LayoutManager recycle = new LinearLayoutManager(activity);
+            recyclerView.setLayoutManager(recycle);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(recyclerAdapter);
+        }
     }
 
 }
