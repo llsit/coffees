@@ -272,14 +272,7 @@ public class SearchFragment extends Fragment {
 
                     }
                 }
-//                Set<Shop> abs_col = new HashSet<>(shops);
-//                ArrayList<Shop> arr = new ArrayList<>(abs_col.toArray();
-//                for (String element : unique) {
-//                    System.out.println(element);
-//                }
-//                System.out.println(shops);
-                printDistinct(shops);
-//                setRecyclerView(shops);
+                Distinct(shops);
             }
 
             @Override
@@ -289,41 +282,19 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    static void printDistinct(List<Shop> shops) {
-        // Pick all elements one by one
+    private void Distinct(List<Shop> shops) {
+        final ArrayList<Shop> arrayListAll = new ArrayList<>(shops);
+        final ArrayList<Shop> arrayResult = new ArrayList<>();
         for (int i = 0; i < shops.size(); i++) {
-            // Check if the picked element
-            // is already printed
-            int j;
-            for (j = 0; j < i; j++) {
-                System.out.print(shops.get(i).getSid() + " = " + shops.get(j).getSid());
-                if (shops.get(i).getSid().equals(shops.get(j).getSid()))
-                    System.out.print(shops.get(i).getName() + " ");
-            }
-        }
-    }
-
-    private void Distinct(String id) {
-        final ArrayList<String> arrayListAll = new ArrayList<String>();
-        arrayListAll.add(id);
-        final ArrayList<String> arrayResult = new ArrayList<String>();
-        for (int i = 0; i < arrayListAll.size(); i++) {
             int j;
             for (j = 0; j < i; j++)
-                if (arrayListAll.get(i).equals(arrayListAll.get(j)))
+                if (shops.get(i).equals(shops.get(j)))
                     break;
-
             if (i == j)
                 arrayResult.add(arrayListAll.get(i));
         }
-
-        if (arrayResult.size() > 0) {
-//            for (String a : arrayResult)
-//                getShopDatabase(a);
-        } else {
-            System.out.println("failed");
-
-        }
+//        System.out.println(arrayResult);
+        setRecyclerView(arrayResult);
     }
 
     private void onSearch(List<Shop> list, String key) {
