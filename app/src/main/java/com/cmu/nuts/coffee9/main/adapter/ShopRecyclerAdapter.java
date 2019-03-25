@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Jaylers on 07-Feb-18.
@@ -44,6 +47,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
     public ShopRecyclerAdapter(List<Shop> shops, Context context) {
         this.shops = shops;
         this.context = context;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     @NonNull
@@ -69,7 +73,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
 
         holder.tv_love.setVisibility(View.GONE);
         DatabaseReference fDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(user.getUid());
-        fDatabase.addValueEventListener(new ValueEventListener() {
+        fDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
@@ -91,17 +95,45 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
         holder.tv_not_love.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user = FirebaseAuth.getInstance().getCurrentUser();
-                mDatabase = FirebaseDatabase.getInstance().getReference();
                 String fid = mDatabase.push().getKey();
                 String uid = user.getUid();
                 String sid = shop.getSid();
-
+                System.out.println(fid);
                 Favorite fav = new Favorite(fid, uid, sid);
                 mDatabase.child(Favorite.tag).child(uid).child(fid).setValue(fav);
                 holder.tv_not_love.setVisibility(View.GONE);
+                holder.tv_love.setVisibility(View.VISIBLE);
                 Toast.makeText(context, "love it", Toast.LENGTH_LONG).show();
+            }
+        });
 
+        holder.tv_love.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(user.getUid());
+
+                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot item : dataSnapshot.getChildren()) {
+                            Favorite fav = item.getValue(Favorite.class);
+                            if (fav != null) {
+                                if (shop.getSid().equals(fav.getSid())) {
+                                    mDatabase.child(fav.getFid()).removeValue();
+                                    holder.tv_not_love.setVisibility(View.VISIBLE);
+                                    holder.tv_love.setVisibility(View.GONE);
+                                }
+                            } else {
+                                Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w("Shop", "Failed to get database", databaseError.toException());
+                    }
+                });
             }
         });
 
@@ -109,7 +141,6 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
             @Override
             public void onClick(View v) {
                 //open new Activity that show Shop content
-//                Toast.makeText(context, position + " name : " + shop.getSid(), Toast.LENGTH_LONG).show();
                 Intent i = new Intent(v.getContext(), DataShopActivity.class);
                 String shopID;
                 shopID = shop.getSid();
@@ -118,13 +149,14 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
             }
         });
 
-
         DatabaseReference iDatebase = FirebaseDatabase.getInstance().getReference(Share.tag).child(shop.getSid());
-        iDatebase.limitToFirst(1).addValueEventListener(new ValueEventListener() {
+        iDatebase.limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Share shares = dataSnapshot.getValue(Share.class);
-                assert shares != null;
+                if (shares != null && shares.getImg_url() != null) {
+                    Picasso.get().load(shares.getImg_url()).placeholder(R.drawable.ic_placeholder).error(R.drawable.ic_email).into(holder.tv_image);
+                }
             }
 
             @Override
@@ -132,25 +164,6 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
 
             }
         });
-    }
-
-    private String getImage(String sid) {
-        final String[] url = {null};
-        DatabaseReference iDatebase = FirebaseDatabase.getInstance().getReference(Share.tag).child(sid);
-        iDatebase.limitToFirst(1).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Share shares = dataSnapshot.getValue(Share.class);
-                assert shares != null;
-                url[0] = shares.getImg_url();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        return url[0];
     }
 
     @Override

@@ -16,9 +16,9 @@ public class Shop {
     String rating;
     String price;
     String uid;
+    String open_hour;
 
-
-    public Shop(String sid, String name, String address, String detail, String location, String rating, String price, String uid) {
+    public Shop(String sid, String name, String address, String detail, String location, String rating, String price, String uid, String open_hour) {
         this.sid = sid;
         this.name = name;
         this.address = address;
@@ -27,6 +27,7 @@ public class Shop {
         this.rating = rating;
         this.price = price;
         this.uid = uid;
+        this.open_hour = open_hour;
     }
 
     public static String tag = "coffee_shop";
@@ -100,5 +101,13 @@ public class Shop {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getOpen_hour() {
+        return open_hour;
+    }
+
+    public void setOpen_hour(String open_hour) {
+        this.open_hour = open_hour;
     }
 }

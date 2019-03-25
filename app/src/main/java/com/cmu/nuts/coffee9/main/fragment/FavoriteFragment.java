@@ -66,7 +66,7 @@ public class FavoriteFragment extends Fragment {
 
         if (user != null) {
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(user.getUid());
-            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getChildrenCount() > 0) {

@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -31,7 +32,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
-import com.cmu.nuts.coffee9.main.AddShopActivity;
 import com.cmu.nuts.coffee9.main.addDateTimeActivity;
 import com.cmu.nuts.coffee9.model.Open_Hour;
 import com.cmu.nuts.coffee9.model.Shop;
@@ -49,7 +49,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Objects;
 
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
@@ -79,7 +78,6 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
     public AddShopInFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -136,17 +134,22 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
                         break;
                 }
 
-                Shop shopData = new Shop(coffee_ID, name, addressshop, Detail, locat, open, prices, authorID);
+                Shop shopData = new Shop(coffee_ID, name, addressshop, Detail, locat, open, prices, authorID, Open_Hour.getTag());
                 mDatabase.child("coffee_shop").child(coffee_ID).setValue(shopData);
 
-                DatabaseReference tDatebase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag());
+//                DatabaseReference tDatebase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag());
                 if (myobj.size() > 0) {
                     for (int i = 0; i < myobj.size(); i++) {
-                        tDatebase.child(coffee_ID).child(myobj.get(i).getTid()).setValue(myobj.get(i));
+                        mDatabase.child("coffee_shop").child(coffee_ID).child(Open_Hour.getTag()).child(myobj.get(i).getTid()).setValue(myobj.get(i));
                     }
                 }
 
-                Toast.makeText(getContext(), "Add Success", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Add Success", Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar
+                        .make(Objects.requireNonNull(getView()), "Add Success", Snackbar.LENGTH_LONG);
+                snackbar.show();
+
+                Objects.requireNonNull(getActivity()).finish();
             }
         });
     }

@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
+import com.cmu.nuts.coffee9.model.Open_Hour;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -55,7 +56,7 @@ public class EditDataShopActivity extends AppCompatActivity {
         detail = findViewById(R.id.edit_data_detail);
 //        rating = findViewById(R.id.edit_data_rating);
 //        radio_price = findViewById(R.id.edit_data_radio_price);
-        radio_price.check(R.id.rdo_min);
+//        radio_price.check(R.id.rdo_min);
         btn_done = findViewById(R.id.edit_data_btn_done);
 
         getDataShop();
@@ -112,7 +113,7 @@ public class EditDataShopActivity extends AppCompatActivity {
                         break;
                 }
 
-                Shop shopData = new Shop(shop_id, name, addressshop, Detail, locat, rating, prices, authorID);
+                Shop shopData = new Shop(shop_id, name, addressshop, Detail, locat, rating, prices, authorID, Open_Hour.getTag());
                 mDatabase.child("coffee_shop").child(shop_id).setValue(shopData);
 
                 Toast.makeText(EditDataShopActivity.this, getResources().getString(R.string.txt_edit_success), Toast.LENGTH_SHORT).show();
