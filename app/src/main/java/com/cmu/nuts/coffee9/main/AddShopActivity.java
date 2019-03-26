@@ -36,7 +36,7 @@ public class AddShopActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_shop);
 
         // Inflate the layout for this fragment
-        Toolbar toolbar = findViewById(R.id.toolbarAddShop);
+        Toolbar toolbar = findViewById(R.id.toolbareditShop);
         toolbar.setTitle(getString(R.string.txt_add_coffee_shop));
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);

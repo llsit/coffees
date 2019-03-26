@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,14 +52,10 @@ public class FavoriteRecyclerAdapter extends RecyclerView.Adapter<FavoriteRecycl
     @Override
     public void onBindViewHolder(@NonNull FavHolder holder, @SuppressLint("RecyclerView") final int position) {
         final Shop shop = shops.get(position);
-        holder.tv_sid.setText(shop.getSid());
         holder.tv_name.setText(shop.getName());
         holder.tv_detail.setText(shop.getDetail());
-        holder.tv_rating.setText(shop.getRating());
+        holder.tv_rating.setRating(Integer.parseInt(shop.getRating()));
         holder.tv_price.setText(shop.getPrice());
-        holder.tv_location.setText(shop.getLocation());
-        holder.tv_uid.setText(shop.getUid());
-        holder.tv_address.setText(shop.getAddress());
 
         holder.close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +64,6 @@ public class FavoriteRecyclerAdapter extends RecyclerView.Adapter<FavoriteRecycl
                 assert user != null;
                 String uid = user.getUid();
                 final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(Favorite.tag).child(uid);
-//                Toast.makeText(context, "Very good!!!"  + mDatabase.child(uid).child(), Toast.LENGTH_LONG).show();
-
                 mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -104,7 +99,6 @@ public class FavoriteRecyclerAdapter extends RecyclerView.Adapter<FavoriteRecycl
                 shopID = shop.getSid();
                 i.putExtra("shopID", shopID);
                 v.getContext().startActivity(i);
-
             }
         });
     }
@@ -128,26 +122,18 @@ public class FavoriteRecyclerAdapter extends RecyclerView.Adapter<FavoriteRecycl
         CardView cardView;
         TextView tv_name;
         TextView tv_detail;
-        TextView tv_rating;
+        RatingBar tv_rating;
         TextView tv_price;
-        TextView tv_address;
-        TextView tv_uid;
-        TextView tv_location;
-        TextView tv_sid;
         ImageButton close;
 
         FavHolder(View itemView) {
             super(itemView);
-            tv_sid = itemView.findViewById(R.id.item_fav_sid);
             tv_name = itemView.findViewById(R.id.item_fav_name);
             tv_detail = itemView.findViewById(R.id.item_fav_detail);
-            tv_rating = itemView.findViewById(R.id.item_fav_rating);
             tv_price = itemView.findViewById(R.id.item_fav_price);
+            tv_rating = itemView.findViewById(R.id.item_fav_ratingbar);
             cardView = itemView.findViewById(R.id.item_fav_card_view);
             close = itemView.findViewById(R.id.close);
-            tv_address = itemView.findViewById(R.id.item_fav_address);
-            tv_location = itemView.findViewById(R.id.item_fav_location);
-            tv_uid = itemView.findViewById(R.id.item_fav_uid);
         }
     }
 }

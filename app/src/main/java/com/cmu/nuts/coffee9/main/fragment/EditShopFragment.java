@@ -1,38 +1,34 @@
 package com.cmu.nuts.coffee9.main.fragment;
 
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.addDateTimeActivity;
+import com.cmu.nuts.coffee9.main.data_shop.EditDataShopActivity;
 import com.cmu.nuts.coffee9.model.Open_Hour;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -45,45 +41,40 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
-import io.nlopez.smartlocation.SmartLocation;
-import io.nlopez.smartlocation.location.config.LocationAccuracy;
-import io.nlopez.smartlocation.location.config.LocationParams;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class AddShopInFragment extends Fragment implements OnLocationUpdatedListener {
-    EditText nameshop, Addressshop, detail, location;
-    TextView open_hour;
-    Button btn_add;
-    RadioGroup radio_price;
-    RadioButton min, mid, max;
-    MapView mMapView;
+public class EditShopFragment extends Fragment implements OnLocationUpdatedListener {
+    private EditText nameshop, Addressshop, detail, location;
+    private TextView open_hour;
+    private Button btn_edit;
+    private RadioGroup radio_price;
+    private MapView mMapView;
     private GoogleMap googleMap;
-    private Activity activity;
 
     private String coffee_ID, name, addressshop, Detail, authorID, locat, open, prices, rating;
-    ArrayList<Open_Hour> myobj = new ArrayList<>();
+    ArrayList<Open_Hour> myOh = new ArrayList<>();
 
     private DatabaseReference mDatabase;
     FirebaseUser user;
+    Activity activity;
 
-    public AddShopInFragment() {
-        // Required empty public constructor
+
+    public EditShopFragment() {
     }
 
+    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_shop_in, container, false);
+
         location = view.findViewById(R.id.location);
         location.setEnabled(false);
         nameshop = view.findViewById(R.id.edt_name_shop);
@@ -98,79 +89,110 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
                 selecttime();
             }
         });
-        btn_add = view.findViewById(R.id.btn_add);
+        btn_edit = view.findViewById(R.id.btn_add);
         mMapView = view.findViewById(R.id.add_shp_map_view);
+        mMapView.setClickable(false);
         activity = getActivity();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        coffee_ID = mDatabase.push().getKey();
 
-        addShop();
+        assert getArguments() != null;
+        coffee_ID = getArguments().getString("shop_id");
+        getDataShop();
+        editDataShop();
         setMap(savedInstanceState);
         return view;
     }
 
-    private void addShop() {
+    private void getDataShop() {
+        mDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(coffee_ID);
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Shop shops = dataSnapshot.getValue(Shop.class);
+                Toast.makeText(getContext(), "id = " + shops.getSid(), Toast.LENGTH_SHORT).show();
+                nameshop.setText(shops.getName());
+                Addressshop.setText(shops.getAddress());
+                detail.setText(shops.getDetail());
+                switch (shops.getPrice()) {
+                    case "0-100":
+                        radio_price.check(R.id.rdo_min);
+                        break;
+                    case "101-150":
+                        radio_price.check(R.id.rdo_mid);
+                        break;
+                    case "151-200":
+                        radio_price.check(R.id.rdo_max);
+                        break;
+                }
+                String[] words = shops.getLocation().split("\\|");
+                setMaps(Double.valueOf(words[0]), Double.valueOf(words[1]));
+                location.setText(shops.getLocation());
+                mDatabase.child(shops.getOpen_hour()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getChildrenCount() > 0) {
+//                            System.out.println(dataSnapshot.getValue(Open_Hour.class));
+                            for (DataSnapshot data : dataSnapshot.getChildren()) {
+                                Open_Hour open_hour = data.getValue(Open_Hour.class);
+                                myOh.add(open_hour);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void selecttime() {
+        Intent i = new Intent(getContext(), addDateTimeActivity.class);
+        i.putExtra("sid", coffee_ID);
+        startActivityForResult(i, 1);
+    }
+
+
+    private void editDataShop() {
+        System.out.println(myOh);
         user = FirebaseAuth.getInstance().getCurrentUser();
-        btn_add.setOnClickListener(new View.OnClickListener() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 name = nameshop.getText().toString();
                 addressshop = Addressshop.getText().toString();
                 Detail = detail.getText().toString();
                 authorID = user.getUid();
-
                 locat = location.getText().toString();
-                open = "0";
-                rating = "0";
+//                rating = rating.getText().toString();
+                rating = "12";
                 switch (radio_price.getCheckedRadioButtonId()) {
                     case R.id.rdo_min:
-                        prices = activity.getString(R.string.txt_rang_0_100);
+                        prices = getString(R.string.txt_rang_0_100);
                         break;
                     case R.id.rdo_mid:
-                        prices = activity.getString(R.string.txt_rang_101_200);
+                        prices = getString(R.string.txt_rang_101_200);
                         break;
                     case R.id.rdo_max:
-                        prices = activity.getString(R.string.txt_rang_over_200);
+                        prices = getString(R.string.txt_rang_over_200);
                         break;
                 }
 
-                Shop shopData = new Shop(coffee_ID, name, addressshop, Detail, locat, open, prices, authorID, Open_Hour.getTag());
-                mDatabase.child("coffee_shop").child(coffee_ID).setValue(shopData);
+                Shop shopData = new Shop(coffee_ID, name, addressshop, Detail, locat, rating, prices, authorID, Open_Hour.getTag());
+//                mDatabase.child("coffee_shop").child(shop_id).setValue(shopData);
+//
+//                Toast.makeText(EditDataShopActivity.this, getResources().getString(R.string.txt_edit_success), Toast.LENGTH_SHORT).show();
 
-//                DatabaseReference tDatebase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag());
-                if (myobj.size() > 0) {
-                    for (int i = 0; i < myobj.size(); i++) {
-                        mDatabase.child("coffee_shop").child(coffee_ID).child(Open_Hour.getTag()).child(myobj.get(i).getTid()).setValue(myobj.get(i));
-                    }
-                }
-
-//                Toast.makeText(getContext(), "Add Success", Toast.LENGTH_SHORT).show();
-                Snackbar snackbar = Snackbar
-                        .make(Objects.requireNonNull(getView()), "Add Success", Snackbar.LENGTH_LONG);
-                snackbar.show();
-
-                Objects.requireNonNull(getActivity()).finish();
             }
         });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            myobj.clear();
-            ArrayList<Open_Hour> openHourArrayList = (ArrayList<Open_Hour>) data.getSerializableExtra("EXTRA_DATA");
-            myobj.addAll(openHourArrayList);
-            if (!myobj.isEmpty())
-                open_hour.setText(myobj.get(0).getDate() + myobj.get(0).getTimestart());
-        }
-    }
-
-
-    private void selecttime() {
-        Intent i = new Intent(getContext(), addDateTimeActivity.class);
-        i.putExtra("sid", coffee_ID);
-        startActivityForResult(i, 1);
     }
 
     private void setMap(Bundle savedInstanceState) {
@@ -258,70 +280,8 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
         });
     }
 
-    private void locationServiceUnavailable() {
-        Toast.makeText(activity, "Location service unavailable, Please turn it on", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (SmartLocation.with(activity).location().state().locationServicesEnabled()) {
-            LocationParams params = new LocationParams.Builder()
-                    .setAccuracy(LocationAccuracy.HIGH)
-                    .setInterval(2500)
-                    .setDistance(10)
-                    .build();
-            SmartLocation.with(activity)
-                    .location()
-                    .config(params)
-                    .start(this);
-        } else {
-            locationServiceUnavailable();
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        SmartLocation.with(activity)
-                .location()
-                .stop();
-    }
-
     @Override
     public void onLocationUpdated(Location location) {
-        setMaps(location.getLatitude(), location.getLongitude());
+
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        SmartLocation.with(activity)
-                .location()
-                .start(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        SmartLocation.with(activity)
-                .location()
-                .stop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        SmartLocation.with(activity)
-                .location()
-                .stop();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mMapView.onLowMemory();
-    }
-
-
 }

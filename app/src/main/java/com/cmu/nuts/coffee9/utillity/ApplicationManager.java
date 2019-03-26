@@ -12,12 +12,9 @@ import com.cmu.nuts.coffee9.beforlogin.login;
 
 public class ApplicationManager {
     private Activity activity;
-    private Context context;
 
-    public ApplicationManager(Context context) {
-        this.context = context;
+    ApplicationManager(Context context) {
         this.activity = (Activity) context;
-
     }
 
     public void signOut(){
@@ -28,7 +25,7 @@ public class ApplicationManager {
 //        activity.finish();
     }
 
-    public void restartApplication(){
+    void restartApplication(){
         Intent intent = new Intent(activity, login.class);
         activity.startActivity(intent);
         activity.finish();

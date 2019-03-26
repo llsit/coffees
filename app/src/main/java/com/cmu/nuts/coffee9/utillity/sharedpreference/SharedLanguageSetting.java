@@ -12,12 +12,10 @@ import com.cmu.nuts.coffee9.utillity.sharedstring.SharedKey;
  */
 
 public class SharedLanguageSetting {
-    private Activity activity;
     private SharedPreferences setting;
     private SharedPreferences.Editor editor;
 
     public SharedLanguageSetting(Activity activity) {
-        this.activity = activity;
         setting = activity.getSharedPreferences(SharedKey.key_settings, Context.MODE_PRIVATE);
         editor = setting.edit();
     }

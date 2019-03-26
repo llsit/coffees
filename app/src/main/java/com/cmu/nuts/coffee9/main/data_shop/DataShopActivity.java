@@ -28,8 +28,6 @@ import com.cmu.nuts.coffee9.model.Shop;
 import com.cmu.nuts.coffee9.utillity.ImageShare;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -57,7 +55,7 @@ public class DataShopActivity extends AppCompatActivity {
     private MenuItem del;
 
     private FirebaseUser auth;
-    ShareButton shareButton;
+//    ShareButton shareButton;
 
     String name;
     String detail;
@@ -71,7 +69,7 @@ public class DataShopActivity extends AppCompatActivity {
 
         SectionsPageAdapter mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
         // Finding the facebook share button
-        shareButton = findViewById(R.id.button);
+//        shareButton = findViewById(R.id.button);
         // Sharing the content to facebook
 //
         // Set up the ViewPager with the sections adapter.
@@ -164,17 +162,17 @@ public class DataShopActivity extends AppCompatActivity {
 
             }
         });
-        ShareLinkContent content = new ShareLinkContent.Builder()
-                // Setting the title that will be shared
-                .setContentTitle(name)
-                // Setting the description that will be shared
-                .setContentDescription(detail)
-                // Setting the URL that will be shared
-                .setContentUrl(Uri.parse("http://www.cs.science.cmu.ac.th/"))
-                // Setting the image that will be shared
-                .setImageUrl(Uri.parse("https://cdn-images-1.medium.com/fit/t/800/240/1*jZ3a6rYqrslI83KJFhdvFg.jpeg"))
-                .build();
-        shareButton.setShareContent(content);
+//        ShareLinkContent content = new ShareLinkContent.Builder()
+//                // Setting the title that will be shared
+//                .setContentTitle(name)
+//                // Setting the description that will be shared
+//                .setContentDescription(detail)
+//                // Setting the URL that will be shared
+//                .setContentUrl(Uri.parse("http://www.cs.science.cmu.ac.th/"))
+//                // Setting the image that will be shared
+//                .setImageUrl(Uri.parse("https://cdn-images-1.medium.com/fit/t/800/240/1*jZ3a6rYqrslI83KJFhdvFg.jpeg"))
+//                .build();
+//        shareButton.setShareContent(content);
     }
 
     @Override
