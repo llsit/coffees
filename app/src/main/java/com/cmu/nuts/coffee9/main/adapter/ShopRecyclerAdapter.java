@@ -1,6 +1,7 @@
 package com.cmu.nuts.coffee9.main.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -33,6 +34,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.UUID;
 
+import static java.security.AccessController.getContext;
+
 /**
  * Created by Jaylers on 07-Feb-18.
  **/
@@ -40,20 +43,20 @@ import java.util.UUID;
 public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapter.ShopHolder> {
 
     private List<Shop> shops;
-    private Context context;
+    private Activity activity;
     private DatabaseReference mDatabase;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-    public ShopRecyclerAdapter(List<Shop> shops, Context context) {
+    public ShopRecyclerAdapter(List<Shop> shops, Activity activity) {
         this.shops = shops;
-        this.context = context;
+        this.activity = activity;
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
     @NonNull
     @Override
     public ShopHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_shop, parent, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.item_shop, parent, false);
         return new ShopHolder(view);
     }
 
@@ -103,7 +106,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
                 mDatabase.child(Favorite.tag).child(uid).child(fid).setValue(fav);
                 holder.tv_not_love.setVisibility(View.GONE);
                 holder.tv_love.setVisibility(View.VISIBLE);
-                Toast.makeText(context, "love it", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "love it", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -124,7 +127,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
                                     holder.tv_love.setVisibility(View.GONE);
                                 }
                             } else {
-                                Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
+                                Toast.makeText(activity, "Failed", Toast.LENGTH_LONG).show();
                             }
                         }
                     }
@@ -145,7 +148,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
                 String shopID;
                 shopID = shop.getSid();
                 i.putExtra("shopID", shopID);
-                v.getContext().startActivity(i);
+                activity.startActivityForResult(i, 1);
             }
         });
 

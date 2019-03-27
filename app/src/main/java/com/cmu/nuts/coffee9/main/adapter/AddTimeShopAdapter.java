@@ -50,9 +50,12 @@ public class AddTimeShopAdapter extends RecyclerView.Adapter<AddTimeShopAdapter.
 
     @Override
     public int getItemCount() {
-        return openHourArrayList.size();
+        if (openHourArrayList.isEmpty()) {
+            return 0;
+        } else {
+            return openHourArrayList.size();
+        }
     }
-
 
     class AddTimeHolder extends RecyclerView.ViewHolder {
         TextView time;

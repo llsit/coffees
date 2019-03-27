@@ -62,10 +62,12 @@ public class addDateTimeActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         recyclerView = findViewById(R.id.time_shop);
         TextView clear_times = findViewById(R.id.clear_times);
         Intent i = getIntent();
         shopId = i.getStringExtra("sid");
+        arrayList = (ArrayList<Open_Hour>) i.getExtras().getSerializable("arrayListTime");
         clear_times.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,7 +104,6 @@ public class addDateTimeActivity extends AppCompatActivity {
                             @SuppressLint("SetTextI18n")
                             @Override
                             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-
                                 hr.setText(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
 //                                result.append("[").append(selectedHour).append(selectedMinute).append("]");
                             }

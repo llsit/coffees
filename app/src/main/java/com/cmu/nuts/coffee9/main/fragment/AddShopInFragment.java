@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,6 +36,8 @@ import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.addDateTimeActivity;
 import com.cmu.nuts.coffee9.model.Open_Hour;
 import com.cmu.nuts.coffee9.model.Shop;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -42,7 +45,9 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -59,12 +64,12 @@ import io.nlopez.smartlocation.location.config.LocationParams;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddShopInFragment extends Fragment implements OnLocationUpdatedListener {
+public class AddShopInFragment extends Fragment implements OnLocationUpdatedListener, LocationListener, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener {
     EditText nameshop, Addressshop, detail, location;
     TextView open_hour;
-    Button btn_add;
+    Button btn_add, btn_update;
+
     RadioGroup radio_price;
-    RadioButton min, mid, max;
     MapView mMapView;
     private GoogleMap googleMap;
     private Activity activity;
@@ -103,9 +108,51 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
         activity = getActivity();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         coffee_ID = mDatabase.push().getKey();
+        btn_update = view.findViewById(R.id.btn_update);
+        btn_update.setVisibility(View.GONE);
 
         addShop();
-        setMap(savedInstanceState);
+
+        try {
+            mMapView.onCreate(savedInstanceState);
+            mMapView.onResume(); // needed to get the map to display immediately
+        } catch (Exception e) {
+            Log.e("Google maps error", "The error is " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        try {
+            MapsInitializer.initialize(activity.getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int REQUEST_CODE_ASK_PERMISSIONS = 123;
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_CODE_ASK_PERMISSIONS);
+        }
+
+        if (ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    REQUEST_CODE_ASK_PERMISSIONS);
+        }
+
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
+
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            setMaps(location.getLatitude(), location.getLongitude());
+                        }
+                    }
+                });
+
         return view;
     }
 
@@ -118,7 +165,6 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
                 addressshop = Addressshop.getText().toString();
                 Detail = detail.getText().toString();
                 authorID = user.getUid();
-
                 locat = location.getText().toString();
                 open = "0";
                 rating = "0";
@@ -137,13 +183,11 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
                 Shop shopData = new Shop(coffee_ID, name, addressshop, Detail, locat, open, prices, authorID, Open_Hour.getTag());
                 mDatabase.child("coffee_shop").child(coffee_ID).setValue(shopData);
 
-//                DatabaseReference tDatebase = FirebaseDatabase.getInstance().getReference(Open_Hour.getTag());
                 if (myobj.size() > 0) {
                     for (int i = 0; i < myobj.size(); i++) {
                         mDatabase.child("coffee_shop").child(coffee_ID).child(Open_Hour.getTag()).child(myobj.get(i).getTid()).setValue(myobj.get(i));
                     }
                 }
-
 //                Toast.makeText(getContext(), "Add Success", Toast.LENGTH_SHORT).show();
                 Snackbar snackbar = Snackbar
                         .make(Objects.requireNonNull(getView()), "Add Success", Snackbar.LENGTH_LONG);
@@ -170,56 +214,8 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
     private void selecttime() {
         Intent i = new Intent(getContext(), addDateTimeActivity.class);
         i.putExtra("sid", coffee_ID);
+        i.putExtra("arrayListTime", myobj);
         startActivityForResult(i, 1);
-    }
-
-    private void setMap(Bundle savedInstanceState) {
-        try {
-            mMapView.onCreate(savedInstanceState);
-            mMapView.onResume(); // needed to get the map to display immediately
-        } catch (Exception e) {
-            Log.e("Google maps error", "The error is " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        try {
-            MapsInitializer.initialize(activity.getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        mMapView.getMapAsync(new OnMapReadyCallback() {
-            @TargetApi(Build.VERSION_CODES.M)
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onMapReady(GoogleMap mMap) {
-                googleMap = mMap;
-
-                int REQUEST_CODE_ASK_PERMISSIONS = 123;
-                if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                REQUEST_CODE_ASK_PERMISSIONS);
-                    }
-                    return;
-                }
-
-                if (ActivityCompat.checkSelfPermission(activity,
-                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                            REQUEST_CODE_ASK_PERMISSIONS);
-                    return;
-                }
-
-                googleMap.setMyLocationEnabled(true);
-                // For dropping a marker at a point on the Map
-                LatLng cmu = new LatLng(18.8037401, 98.9525114);
-                googleMap.addMarker(new MarkerOptions().position(cmu).title("CMU").snippet("Computer Science"));
-                // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(17).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            }
-        });
     }
 
     @SuppressLint("SetTextI18n")
@@ -233,26 +229,11 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
 
-                int REQUEST_CODE_ASK_PERMISSIONS = 123;
-                if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            REQUEST_CODE_ASK_PERMISSIONS);
-                    return;
-                }
-
-                if (ActivityCompat.checkSelfPermission(activity,
-                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                            REQUEST_CODE_ASK_PERMISSIONS);
-                    return;
-                }
-
-                googleMap.setMyLocationEnabled(true);
                 // For dropping a marker at a point on the Map
-                LatLng cmu = new LatLng(latitude, longitude);
-                googleMap.addMarker(new MarkerOptions().position(cmu).title("Here").snippet("My location"));
+                LatLng position = new LatLng(latitude, longitude);
+                googleMap.addMarker(new MarkerOptions().position(position).title("Here").snippet("My location"));
                 // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(17).build();
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(position).zoom(17).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
@@ -324,4 +305,36 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
     }
 
 
+    @Override
+    public void onLocationChanged(Location location) {
+        setMaps(location.getLatitude(), location.getLongitude());
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+        Toast.makeText(getContext(), "MyLocation button clicked", Toast.LENGTH_SHORT).show();
+        // Return false so that we don't consume the event and the default behavior still occurs
+        // (the camera animates to the user's current position).
+        return false;
+    }
+
+    @Override
+    public void onMyLocationClick(@NonNull Location location) {
+        Toast.makeText(getContext(), "Current location:\n" + location, Toast.LENGTH_LONG).show();
+    }
 }

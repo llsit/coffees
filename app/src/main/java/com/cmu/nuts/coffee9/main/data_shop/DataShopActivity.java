@@ -1,10 +1,15 @@
 package com.cmu.nuts.coffee9.main.data_shop;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,16 +23,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.review.ReviewActivity;
+import com.cmu.nuts.coffee9.model.Open_Hour;
 import com.cmu.nuts.coffee9.model.Review;
 import com.cmu.nuts.coffee9.model.Share;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.cmu.nuts.coffee9.utillity.ImageShare;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -48,6 +57,7 @@ import io.github.kobakei.materialfabspeeddial.FabSpeedDialMenu;
 public class DataShopActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    public static final String EXTRA_DATA = "EXTRA_DATA";
 
     private String shop_ID;
 
@@ -55,8 +65,8 @@ public class DataShopActivity extends AppCompatActivity {
     private MenuItem del;
 
     private FirebaseUser auth;
-//    ShareButton shareButton;
-
+    ShareButton shareButton;
+    ViewPager mViewPager;
     String name;
     String detail;
 
@@ -67,13 +77,13 @@ public class DataShopActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: Starting.");
 
-        SectionsPageAdapter mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+//        SectionsPageAdapter mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
         // Finding the facebook share button
-//        shareButton = findViewById(R.id.button);
+        shareButton = findViewById(R.id.button);
         // Sharing the content to facebook
-//
+
         // Set up the ViewPager with the sections adapter.
-        ViewPager mViewPager = findViewById(R.id.htab_viewpager);
+        mViewPager = findViewById(R.id.htab_viewpager);
         setupViewPager(mViewPager);
 
         auth = FirebaseAuth.getInstance().getCurrentUser();
@@ -145,8 +155,6 @@ public class DataShopActivity extends AppCompatActivity {
     }
 
     private void ShareDataShop() {
-
-//        Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
         DatabaseReference shDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(shop_ID);
         shDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -162,34 +170,34 @@ public class DataShopActivity extends AppCompatActivity {
 
             }
         });
-//        ShareLinkContent content = new ShareLinkContent.Builder()
-//                // Setting the title that will be shared
-//                .setContentTitle(name)
-//                // Setting the description that will be shared
-//                .setContentDescription(detail)
-//                // Setting the URL that will be shared
-//                .setContentUrl(Uri.parse("http://www.cs.science.cmu.ac.th/"))
-//                // Setting the image that will be shared
-//                .setImageUrl(Uri.parse("https://cdn-images-1.medium.com/fit/t/800/240/1*jZ3a6rYqrslI83KJFhdvFg.jpeg"))
-//                .build();
-//        shareButton.setShareContent(content);
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                // Setting the title that will be shared
+                .setContentTitle(name)
+                // Setting the description that will be shared
+                .setContentDescription(detail)
+                // Setting the URL that will be shared
+                .setContentUrl(Uri.parse("http://www.cs.science.cmu.ac.th/"))
+                // Setting the image that will be shared
+                .setImageUrl(Uri.parse("https://cdn-images-1.medium.com/fit/t/800/240/1*jZ3a6rYqrslI83KJFhdvFg.jpeg"))
+                .build();
+        shareButton.setShareContent(content);
     }
 
     @Override
     protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
-
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
             // Get a list of picked images
             List<Image> images = ImagePicker.getImages(data);
             upload_photo(images);
         }
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            System.out.println("delete");
+        }
     }
 
     private void upload_photo(List<Image> images) {
-
         if (images == null) return;
-
         ImageShare imageManager = new ImageShare(DataShopActivity.class, shop_ID);
         for (int i = 0, l = images.size(); i < l; i++) {
             imageManager.uploadImage(shop_ID, Uri.fromFile(new File(images.get(i).getPath())));
@@ -270,14 +278,16 @@ public class DataShopActivity extends AppCompatActivity {
         eDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Shop shops = dataSnapshot.getValue(Shop.class);
-                assert shops != null;
-                if (shops.getUid().equals(auth.getUid())) {
-                    edit.setVisible(true);
-                    del.setVisible(true);
-                } else {
-                    edit.setVisible(false);
-                    del.setVisible(false);
+                if (dataSnapshot.getChildrenCount() > 0) {
+                    Shop shops = dataSnapshot.getValue(Shop.class);
+                    assert shops != null;
+                    if (shops.getUid().equals(auth.getUid())) {
+                        edit.setVisible(true);
+                        del.setVisible(true);
+                    } else {
+                        edit.setVisible(false);
+                        del.setVisible(false);
+                    }
                 }
             }
 
@@ -301,22 +311,51 @@ public class DataShopActivity extends AppCompatActivity {
                 return true;
             case R.id.delete_data_shop:
                 // Code you want run when activity is clicked
-                DatabaseReference delDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag).child(shop_ID);
-                DatabaseReference RdelDatabase = FirebaseDatabase.getInstance().getReference(Review.tag).child(shop_ID);
-                DatabaseReference SdelDatabase = FirebaseDatabase.getInstance().getReference(Share.tag).child(shop_ID);
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(this);
+                builder.setMessage("รับขนมจีบซาลาเปาเพิ่มมั้ยครับ?");
+                builder.setPositiveButton("ใช่", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteShop();
+                    }
+                });
+                builder.setNegativeButton("ไม่", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //dialog.dismiss();
+                    }
+                });
+                builder.show();
 
-                delDatabase.child(shop_ID).removeValue();
-                SdelDatabase.child(shop_ID).removeValue();
-                RdelDatabase.child(shop_ID).removeValue();
-                finish();
                 return true;
             case R.id.share:
                 // Code you want run when activity is clicked
                 ShareDataShop();
-//                shareButton.performClick();
+                shareButton.performClick();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void deleteShop() {
+
+        DatabaseReference delDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag);
+        DatabaseReference RdelDatabase = FirebaseDatabase.getInstance().getReference(Review.tag);
+        DatabaseReference SdelDatabase = FirebaseDatabase.getInstance().getReference(Share.tag);
+
+        delDatabase.child(shop_ID).removeValue();
+        SdelDatabase.child(shop_ID).removeValue();
+        RdelDatabase.child(shop_ID).removeValue();
+        Toast.makeText(this, "Delete Success", Toast.LENGTH_SHORT).show();
+        setResult(Activity.RESULT_OK, new Intent().putExtra(EXTRA_DATA, 1));
+        finish();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupViewPager(mViewPager);
     }
 }

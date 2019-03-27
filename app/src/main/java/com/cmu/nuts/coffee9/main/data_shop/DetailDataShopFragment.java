@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.ViewMapShopActivity;
-import com.cmu.nuts.coffee9.main.model.OpenTime;
+import com.cmu.nuts.coffee9.model.Open_Hour;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,24 +39,26 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DetailDataShopFragment extends Fragment {
 
-    private TextView name, address, detail, openTime, price;
+    private TextView name, address, detail, ShowTime, price;
     private RatingBar rating;
     private String shopID;
     private MapView mapView_data;
     private GoogleMap googleMap;
     private Bundle bundle;
     private View view_map;
+    private ArrayList<Open_Hour> openTimes = new ArrayList<>();
+    private String name_shop;
 
     public DetailDataShopFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -72,7 +74,7 @@ public class DetailDataShopFragment extends Fragment {
             name = view.findViewById(R.id.name);
             address = view.findViewById(R.id.location_shop);
             detail = view.findViewById(R.id.detail);
-            openTime = view.findViewById(R.id.datetime);
+            ShowTime = view.findViewById(R.id.datetime);
             price = view.findViewById(R.id.price);
             rating = view.findViewById(R.id.rating);
             getdatashop();
@@ -87,26 +89,28 @@ public class DetailDataShopFragment extends Fragment {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Shop shop = dataSnapshot.getValue(Shop.class);
-                assert shop != null;
-                name.setText(shop.getName());
-                address.setText(shop.getAddress());
-                detail.setText(shop.getDetail());
-                getTime(shop.getSid(), openTime);
-                price.setText(shop.getPrice());
-                rating.setRating(Integer.parseInt(shop.getRating()));
-                String location = shop.getLocation();
-                final String[] latlong = location.split("\\|");
-                setMaps(Double.valueOf(latlong[0]), Double.valueOf(latlong[1]));
-                view_map.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent i = new Intent(getContext(), ViewMapShopActivity.class);
-                        i.putExtra("Lat", latlong[0]);
-                        i.putExtra("Lng", latlong[1]);
-                        startActivity(i);
-                    }
-                });
+                if (dataSnapshot.getChildrenCount() > 0) {
+                    Shop shop = dataSnapshot.getValue(Shop.class);
+                    assert shop != null;
+                    name.setText(shop.getName());
+                    name_shop = shop.getName();
+                    address.setText(shop.getAddress());
+                    detail.setText(shop.getDetail());
+                    price.setText(shop.getPrice());
+                    rating.setRating(Integer.parseInt(shop.getRating()));
+                    String location = shop.getLocation();
+                    final String[] latlong = location.split("\\|");
+                    setMaps(Double.valueOf(latlong[0]), Double.valueOf(latlong[1]));
+                    view_map.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent i = new Intent(getContext(), ViewMapShopActivity.class);
+                            i.putExtra("Lat", latlong[0]);
+                            i.putExtra("Lng", latlong[1]);
+                            startActivity(i);
+                        }
+                    });
+                }
             }
 
             @Override
@@ -115,35 +119,32 @@ public class DetailDataShopFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
             }
         };
-        databaseReference.addListenerForSingleValueEvent(listener);
-    }
-
-    private void getTime(final String shopID, final TextView openTimeTv) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("Open_Hour").child(shopID);
-        final ArrayList<OpenTime> openTimes = new ArrayList<>();
-        ValueEventListener listener = new ValueEventListener() {
+        databaseReference.addValueEventListener(listener);
+        databaseReference.child(Open_Hour.tag).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    OpenTime value = snapshot.getValue(OpenTime.class);
-                    assert value != null;
-                    openTimeTv.setText(value.getDate() + " " + value.getTimestart() + " - " + value.getTimeend());
-                }
-
-                if (!dataSnapshot.exists()) {
-                    openTimeTv.setText("Monday,Tuesday,Wednesday,Thursday,Friday \n 08:00 - 16:00");
+                if (dataSnapshot.getChildrenCount() > 0) {
+                    for (DataSnapshot item : dataSnapshot.getChildren()) {
+                        Open_Hour open_hour = item.getValue(Open_Hour.class);
+                        openTimes.add(open_hour);
+                    }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                openTimeTv.setText("Unknown");
                 Toast.makeText(getActivity(), "Failed to load shop data!",
                         Toast.LENGTH_SHORT).show();
             }
-        };
-        databaseReference.addListenerForSingleValueEvent(listener);
+        });
+        ShowTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), ShowTimeActivity.class);
+                i.putExtra("openTimes", openTimes);
+                startActivityForResult(i, 1);
+            }
+        });
     }
 
     @SuppressLint("SetTextI18n")
@@ -157,7 +158,7 @@ public class DetailDataShopFragment extends Fragment {
         }
 
         try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
+            MapsInitializer.initialize(Objects.requireNonNull(getActivity()).getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -170,7 +171,7 @@ public class DetailDataShopFragment extends Fragment {
                 googleMap = mMap;
 
                 int REQUEST_CODE_ASK_PERMISSIONS = 123;
-                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                 REQUEST_CODE_ASK_PERMISSIONS);
@@ -187,10 +188,10 @@ public class DetailDataShopFragment extends Fragment {
 
                 googleMap.setMyLocationEnabled(true);
                 // For dropping a marker at a point on the Map
-                LatLng cmu = new LatLng(latitude, longitude);
-                googleMap.addMarker(new MarkerOptions().position(cmu).title("CMU").snippet("Computer Science"));
+                LatLng mylocation = new LatLng(latitude, longitude);
+                googleMap.addMarker(new MarkerOptions().position(mylocation).title("Here").snippet(name_shop));
                 // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(15).build();
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(mylocation).zoom(15).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });

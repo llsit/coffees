@@ -60,7 +60,7 @@ import static com.facebook.login.widget.ProfilePictureView.TAG;
 
 
 public class NearByFragment extends Fragment implements GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener,
-        OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
+        OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback, LocationListener {
 
 
     public NearByFragment() {
@@ -69,10 +69,8 @@ public class NearByFragment extends Fragment implements GoogleMap.OnMyLocationBu
 
     private GoogleMap googleMap;
     private Activity activity;
-    private Double lat, lng;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
-    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -117,10 +115,10 @@ public class NearByFragment extends Fragment implements GoogleMap.OnMyLocationBu
         });
 
         // For dropping a marker at a point on the Map
-        LatLng cmu = new LatLng(latitude, longitude);
-        googleMap.addMarker(new MarkerOptions().position(cmu).title("Here").snippet("Me"));
+        LatLng current = new LatLng(latitude, longitude);
+        googleMap.addMarker(new MarkerOptions().position(current).title("Here").snippet("Me"));
         // For zooming automatically to the location of the marker
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(cmu).zoom(16).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(current).zoom(16).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
@@ -163,20 +161,18 @@ public class NearByFragment extends Fragment implements GoogleMap.OnMyLocationBu
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setOnMyLocationClickListener(this);
         enableMyLocation();
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
 
         int REQUEST_CODE_ASK_PERMISSIONS = 123;
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_CODE_ASK_PERMISSIONS);
-
         }
 
         if (ActivityCompat.checkSelfPermission(activity,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     REQUEST_CODE_ASK_PERMISSIONS);
-
         }
         googleMap.setMyLocationEnabled(true);
         fusedLocationClient.getLastLocation()
@@ -203,7 +199,6 @@ public class NearByFragment extends Fragment implements GoogleMap.OnMyLocationBu
             googleMap.setMyLocationEnabled(true);
         }
     }
-
 
     private void showMissingPermissionError() {
         PermissionUtils.PermissionDeniedDialog
@@ -236,4 +231,23 @@ public class NearByFragment extends Fragment implements GoogleMap.OnMyLocationBu
         }
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        setMaps(location.getLatitude(), location.getLongitude());
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
 }
