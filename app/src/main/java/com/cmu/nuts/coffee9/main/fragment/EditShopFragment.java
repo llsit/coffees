@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -114,7 +115,7 @@ public class EditShopFragment extends Fragment implements OnLocationUpdatedListe
         assert getArguments() != null;
         coffee_ID = getArguments().getString("shop_id");
         getDataShop();
-        editDataShop();
+        editDataShop(view);
 
         return view;
     }
@@ -181,42 +182,53 @@ public class EditShopFragment extends Fragment implements OnLocationUpdatedListe
         Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
     }
 
-    private void editDataShop() {
+    private void editDataShop(final View views) {
         System.out.println(myOh);
         user = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        btn_edit.setOnClickListener(new View.OnClickListener() {
+        btn_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                name = nameshop.getText().toString();
-                addressshop = Addressshop.getText().toString();
-                Detail = detail.getText().toString();
-                authorID = user.getUid();
-                locat = location.getText().toString();
-//                rating = rating.getText().toString();
-                rating = "12";
-                switch (radio_price.getCheckedRadioButtonId()) {
-                    case R.id.rdo_min:
-                        prices = getString(R.string.txt_rang_0_100);
-                        break;
-                    case R.id.rdo_mid:
-                        prices = getString(R.string.txt_rang_101_200);
-                        break;
-                    case R.id.rdo_max:
-                        prices = getString(R.string.txt_rang_over_200);
-                        break;
-                }
-                Shop shopData = new Shop(coffee_ID, name, addressshop, Detail, locat, rating, prices, authorID, Open_Hour.tag);
-                mDatabase.child("coffee_shop").child(coffee_ID).setValue(shopData);
+                if (nameshop.getText().length() == 0) {
+                    TextInputLayout textInputLayout1 = views.findViewById(R.id.textInputLayout5);
+                    textInputLayout1.setError("กรุณากรอก ชื่อร้านกาแฟ");
+                } else if (Addressshop.getText().length() == 0) {
+                    TextInputLayout textInputLayout2 = views.findViewById(R.id.textInputLayout6);
+                    textInputLayout2.setError("กรุณากรอก ที่อยู่ร้านกาแฟ");
+                } else if (detail.getText().length() == 0) {
+                    TextInputLayout textInputLayout2 = views.findViewById(R.id.textInputLayout7);
+                    textInputLayout2.setError("กรุณากรอก รายละเอียดร้านกาแฟ");
+                } else {
+                    name = nameshop.getText().toString();
+                    addressshop = Addressshop.getText().toString();
+                    Detail = detail.getText().toString();
+                    authorID = user.getUid();
+                    locat = location.getText().toString();
+//                  rating = rating.getText().toString();
+                    rating = "12";
+                    switch (radio_price.getCheckedRadioButtonId()) {
+                        case R.id.rdo_min:
+                            prices = getString(R.string.txt_rang_0_100);
+                            break;
+                        case R.id.rdo_mid:
+                            prices = getString(R.string.txt_rang_101_200);
+                            break;
+                        case R.id.rdo_max:
+                            prices = getString(R.string.txt_rang_over_200);
+                            break;
+                    }
+                    Shop shopData = new Shop(coffee_ID, name, addressshop, Detail, locat, rating, prices, authorID, Open_Hour.tag);
+                    mDatabase.child("coffee_shop").child(coffee_ID).setValue(shopData);
 
-                for (int i = 0; i < myOh.size(); i++) {
-                    mDatabase.child("coffee_shop").child(coffee_ID).child(Open_Hour.tag).child(myOh.get(i).getTid()).setValue(shopData);
+                    for (int i = 0; i < myOh.size(); i++) {
+                        mDatabase.child("coffee_shop").child(coffee_ID).child(Open_Hour.tag).child(myOh.get(i).getTid()).setValue(shopData);
+                    }
+                    Snackbar snackbar = Snackbar
+                            .make(Objects.requireNonNull(getView()), "Update Success", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    Objects.requireNonNull(getActivity()).finish();
+                    Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
                 }
-                Snackbar snackbar = Snackbar
-                        .make(Objects.requireNonNull(getView()), "Update Success", Snackbar.LENGTH_LONG);
-                snackbar.show();
-                Objects.requireNonNull(getActivity()).finish();
-                Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
             }
         });
     }

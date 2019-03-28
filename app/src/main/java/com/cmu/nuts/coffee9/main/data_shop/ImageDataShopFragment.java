@@ -53,11 +53,8 @@ public class ImageDataShopFragment extends Fragment {
         if (getArguments() != null) {
             shopID = getArguments().getString("shop_ID");
         }
-
         mDatabase = FirebaseDatabase.getInstance().getReference(Share.tag);
-
         getImage();
-
         all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

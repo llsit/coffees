@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -231,7 +233,8 @@ public class ReviewActivity extends AppCompatActivity {
             Toast.makeText(this, "Your Review is now published" + sid, Toast.LENGTH_SHORT).show();
             finish();
         } else {
-            descript.setError("Your review is too shot");
+            TextInputLayout textInputLayout = findViewById(R.id.input_name_topic);
+            textInputLayout.setError("Your review is too shot");
         }
     }
 

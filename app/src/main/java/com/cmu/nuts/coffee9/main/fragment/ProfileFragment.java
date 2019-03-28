@@ -142,7 +142,6 @@ public class ProfileFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
             }
         };
-
         databaseReference.addListenerForSingleValueEvent(listener);
         valueEventListener = listener;
     }

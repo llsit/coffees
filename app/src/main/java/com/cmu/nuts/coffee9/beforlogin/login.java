@@ -120,7 +120,6 @@ public class login extends AppCompatActivity {
             inputEmail.setError(getString(R.string.err_email_invalid));
             return;
         }
-
         if (TextUtils.isEmpty(password)) {
             inputPassword.setError(getString(R.string.err_pass_require));
             //Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
@@ -129,9 +128,7 @@ public class login extends AppCompatActivity {
             inputPassword.setError(getString(R.string.err_pass_too_short));
             return;
         }
-
         progressDialog.show();
-
         //authenticate user
         try {
             auth.signInWithEmailAndPassword(email, password)

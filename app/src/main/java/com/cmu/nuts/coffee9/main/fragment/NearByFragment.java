@@ -48,6 +48,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 
@@ -71,6 +72,7 @@ public class NearByFragment extends Fragment implements GoogleMap.OnMyLocationBu
     private Activity activity;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
+    private ArrayList<Shop> shopArrayList = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -84,7 +86,6 @@ public class NearByFragment extends Fragment implements GoogleMap.OnMyLocationBu
         mapFragment.getMapAsync(this);
 
         activity = getActivity();
-
         return view;
     }
 
@@ -94,17 +95,10 @@ public class NearByFragment extends Fragment implements GoogleMap.OnMyLocationBu
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    Shop shop = item.getValue(Shop.class);
+                    final Shop shop = item.getValue(Shop.class);
                     assert shop != null;
-                    String locals = shop.getLocation();
-                    String separated[] = locals.split("\\|");
-                    String lat = "18.7990956";
-                    String longs = "98.9621415";
-                    if (separated.length >= 2) {
-                        lat = separated[0];
-                        longs = separated[1];
-                    }
-                    showLocation(lat, longs, shop.getName(), shop.getSid());
+                    shopArrayList.add(shop);
+                    showLocation();
                 }
             }
 
@@ -122,24 +116,30 @@ public class NearByFragment extends Fragment implements GoogleMap.OnMyLocationBu
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
-    public void showLocation(String lat, String longs, final String name, final String uid) {
-        final LatLng latLng = new LatLng(Double.valueOf(lat), Double.valueOf(longs));
-        MarkerOptions marker = new MarkerOptions().position(latLng).title(name).snippet("Coffee cafe'");
-        BitmapDrawable icon = (BitmapDrawable) getResources().getDrawable(R.drawable.img_cafe_location);
-        Bitmap bitmap = icon.getBitmap();
-        Bitmap smallMarker = Bitmap.createScaledBitmap(bitmap, 100, 100, false);
-        marker.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
-        googleMap.addMarker(marker);
-        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                Intent intent = new Intent(getActivity(), DataShopActivity.class);
-                intent.putExtra("shopID", uid);
-                startActivity(intent);
-                Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
-                return true;
-            }
-        });
+    public void showLocation() {
+        for (int i = 0; i < shopArrayList.size(); i++) {
+            String locals = shopArrayList.get(i).getLocation();
+            final String separated[] = locals.split("\\|");
+            final LatLng latLng = new LatLng(Double.valueOf(separated[0]), Double.valueOf(separated[1]));
+            MarkerOptions marker = new MarkerOptions().position(latLng).title(shopArrayList.get(i).getName()).snippet("Coffee cafe'");
+            BitmapDrawable icon = (BitmapDrawable) getResources().getDrawable(R.drawable.img_cafe_location);
+            Bitmap bitmap = icon.getBitmap();
+            Bitmap smallMarker = Bitmap.createScaledBitmap(bitmap, 100, 100, false);
+            marker.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+            Marker markers = googleMap.addMarker(marker);
+            final String shopid = shopArrayList.get(i).getSid();
+            markers.setTag(shopid);
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    Intent intent = new Intent(getActivity(), DataShopActivity.class);
+                    intent.putExtra("shopID", Objects.requireNonNull(marker.getTag()).toString());
+                    startActivity(intent);
+                    Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
+                    return false;
+                }
+            });
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -81,11 +82,12 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
     private SimpleDateFormat simpleDateFormat;
     private ImageView date;
     private String birthdate = null;
+    private View view;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile_with_edit, container, false);
+        view = inflater.inflate(R.layout.fragment_profile_with_edit, container, false);
         ButterKnife.bind(this, view);
 
         activity = getActivity();
@@ -130,11 +132,6 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
                         } else {
                             showDate(Integer.parseInt(member.getBirthDate().substring(10, 14)), Integer.parseInt(member.getBirthDate().substring(5, 7)), Integer.parseInt(member.getBirthDate().substring(0, 2)));
                         }
-//                        if (!member.getBirthDate().equals(" ") || !birthdate.isEmpty()) {
-//                            showDate(Integer.parseInt(member.getBirthDate().substring(10, 14)), Integer.parseInt(member.getBirthDate().substring(5, 7)), Integer.parseInt(member.getBirthDate().substring(0, 2)), R.style.DatePickerSpinner);
-//                        } else {
-//                            showDate(2000, 01, 01, R.style.DatePickerSpinner);
-//                        }
                     }
                 });
             }
@@ -208,24 +205,33 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
 
     @OnClick(R.id.btn_edit_done)
     public void updateProfile() {
-        String name = display_name.getText().toString();
-        String email = display_email.getText().toString();
-        String personId = currentUser.getUid();
-        databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child(Member.tag).child(personId);
-        databaseReference.child("name").setValue(name);
-        databaseReference.child("email").setValue(email);
-        if (birthdate != null) {
-            databaseReference.child("birthDate").setValue(birthdate);
-        }
 
-        Toast.makeText(activity, "Update Successfully!", Toast.LENGTH_SHORT).show();
-        PreferencesFragment preferencesFragment = new PreferencesFragment();
-        FragmentManager manager = getFragmentManager();
-        assert manager != null;
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.pref_container, preferencesFragment);
-        transaction.commit();
+        if (display_name.getText().length() == 0) {
+            TextInputLayout textInputLayout1 = view.findViewById(R.id.input_layout_name);
+            textInputLayout1.setError("กรุณากรอกชื่อ");
+        } else if (display_email.getText().length() == 0) {
+            TextInputLayout textInputLayout1 = view.findViewById(R.id.input_layout_email);
+            textInputLayout1.setError("กรุณากรอกอีเมล");
+        } else {
+            String name = display_name.getText().toString();
+            String email = display_email.getText().toString();
+            String personId = currentUser.getUid();
+            databaseReference = FirebaseDatabase.getInstance().getReference()
+                    .child(Member.tag).child(personId);
+            databaseReference.child("name").setValue(name);
+            databaseReference.child("email").setValue(email);
+            if (birthdate != null) {
+                databaseReference.child("birthDate").setValue(birthdate);
+            }
+
+            Toast.makeText(activity, "Update Successfully!", Toast.LENGTH_SHORT).show();
+            PreferencesFragment preferencesFragment = new PreferencesFragment();
+            FragmentManager manager = getFragmentManager();
+            assert manager != null;
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.pref_container, preferencesFragment);
+            transaction.commit();
+        }
     }
 
     @SuppressLint("SetTextI18n")

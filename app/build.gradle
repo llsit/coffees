@@ -89,6 +89,7 @@ def library = dependence {
     }
     annotationProcessor 'org.parceler:parceler:1.1.9'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.github.HITGIF:TextFieldBoxes:1.4.4'
 }
 
 def image = dependence {
