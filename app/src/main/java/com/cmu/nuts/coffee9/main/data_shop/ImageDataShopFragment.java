@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -123,7 +124,6 @@ public class ImageDataShopFragment extends Fragment {
 
     private void setAdapter(GridView gridView, final ArrayList<String> arrayList) {
         gridView.setAdapter(new ImageGridAdapter(getActivity(), arrayList, 1));
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
@@ -131,7 +131,7 @@ public class ImageDataShopFragment extends Fragment {
                 intent.putExtra("mylist", arrayList);
                 intent.putExtra("shopid", shopID);
                 startActivity(intent);
-
+                Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
             }
         });
     }

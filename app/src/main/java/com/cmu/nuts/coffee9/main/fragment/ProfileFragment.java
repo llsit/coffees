@@ -7,6 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +21,9 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.beforlogin.login;
+import com.cmu.nuts.coffee9.main.adapter.ShopRecyclerAdapter;
 import com.cmu.nuts.coffee9.model.Member;
+import com.cmu.nuts.coffee9.model.Shop;
 import com.cmu.nuts.coffee9.preferences.PreferencesActivity;
 import com.cmu.nuts.coffee9.utillity.TimeManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +34,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,71 +58,75 @@ public class ProfileFragment extends Fragment {
     TextView display_email;
     @BindView(R.id.display_name)
     TextView display_name;
-    @BindView(R.id.display_uid)
-    TextView display_uid;
-    @BindView(R.id.display_reg_date)
-    TextView display_reg;
     @BindView(R.id.display_birth_date)
     TextView display_birth_date;
-    @BindView(R.id.btn_done)
-    Button btn_settings;
     @BindView(R.id.progressBar_profile)
     ProgressBar progressBar;
-    @BindView(R.id.img_profile2) CircleImageView img_profile;
-
+    @BindView(R.id.img_profile2)
+    CircleImageView img_profile;
+    private RecyclerView recyclerView;
+    private ArrayList<Shop> arrayList = new ArrayList<>();
+    FirebaseUser currentUser;
 
     @SuppressLint("SetTextI18n")
     @Override
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
         activity = getActivity();
-
-        btn_settings.setVisibility(View.INVISIBLE);
+        recyclerView = view.findViewById(R.id.recycler_coffee_list);
+        recyclerView.setNestedScrollingEnabled(false);
         auth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = auth.getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child(Member.tag).child(currentUser.getUid());
+        currentUser = auth.getCurrentUser();
+        assert currentUser != null;
+        databaseReference = FirebaseDatabase.getInstance().getReference(Member.tag).child(currentUser.getUid());
 
-        Button profile_btn_logout = view.findViewById(R.id.profile_btn_logout);
-
-        profile_btn_logout.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Code here executes on main thread after user presses button
-                auth.signOut();
-                Intent intent = new Intent(activity, login.class);
-                startActivity(intent);
-            }
-        });
-
+        getOwnlist();
         return view;
     }
 
-    @OnClick(R.id.btn_done)
-    public void settings() {
-        Intent intent = new Intent(activity, PreferencesActivity.class);
-        startActivity(intent);
-    }
+    private void getOwnlist() {
+        DatabaseReference OwndatabaseReference = FirebaseDatabase.getInstance().getReference(Shop.tag);
+        OwndatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() > 0) {
+                    for (DataSnapshot item : dataSnapshot.getChildren()) {
+                        Shop shops = item.getValue(Shop.class);
+                        assert shops != null;
+                        if (shops.getUid().equals(currentUser.getUid())) {
+                            arrayList.add(shops);
+                        }
+                    }
+                    ShopRecyclerAdapter shopRecyclerAdapter = new ShopRecyclerAdapter(arrayList, getActivity());
+                    RecyclerView.LayoutManager recycle = new LinearLayoutManager(getActivity());
+                    recyclerView.setLayoutManager(recycle);
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    recyclerView.setAdapter(shopRecyclerAdapter);
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     @Override
     public void onStart() {
         super.onStart();
-
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                btn_settings.setVisibility(View.INVISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
                 TimeManager timeManager = new TimeManager();
                 Member member = dataSnapshot.getValue(Member.class);
                 assert member != null;
                 display_email.setText(member.getEmail());
                 display_name.setText(member.getName());
-                display_reg.setText(activity.getString(R.string.txt_reg_prompt).concat(timeManager.epochConverter(Long.valueOf(member.getRegDate()))));
-                display_uid.setText(activity.getString(R.string.txt_uid_prompt).concat(member.getUid()));
                 display_birth_date.setText(member.getBirthDate());
                 Picasso.get()
                         .load(member.getPhotoUrl())
@@ -133,7 +146,6 @@ public class ProfileFragment extends Fragment {
         databaseReference.addListenerForSingleValueEvent(listener);
         valueEventListener = listener;
     }
-
 
     @Override
     public void onStop() {

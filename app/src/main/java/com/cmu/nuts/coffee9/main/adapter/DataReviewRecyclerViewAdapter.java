@@ -151,7 +151,6 @@ public class DataReviewRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         } else {
             return 1;
         }
-
     }
 
     class HeaderViewHolder extends RecyclerView.ViewHolder {

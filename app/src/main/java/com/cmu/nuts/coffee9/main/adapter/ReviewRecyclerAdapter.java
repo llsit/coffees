@@ -1,6 +1,7 @@
 package com.cmu.nuts.coffee9.main.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -27,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by nuts on 3/23/2018.
@@ -34,17 +36,17 @@ import java.util.List;
 
 public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAdapter.ReviewHolder> {
     private List<Review> reviews;
-    private Context context;
+    private Activity activity;
 
-    public ReviewRecyclerAdapter(List<Review> reviews, Context context) {
+    public ReviewRecyclerAdapter(List<Review> reviews, Activity activity) {
         this.reviews = reviews;
-        this.context = context;
+        this.activity = activity;
     }
 
     @NonNull
     @Override
     public ReviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_review, parent, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.item_review, parent, false);
         return new ReviewHolder(view);
     }
 
@@ -103,7 +105,8 @@ public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAd
                 Intent i = new Intent(v.getContext(), review_display_activity.class);
                 i.putExtra("reviewID", reviewID);
                 i.putExtra("shopID", shopID);
-                v.getContext().startActivity(i);
+                activity.startActivity(i);
+                activity.overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
             }
         });
     }

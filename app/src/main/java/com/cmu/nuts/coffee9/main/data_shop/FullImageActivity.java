@@ -80,9 +80,9 @@ public class FullImageActivity extends AppCompatActivity {
                     Share shares = item.getValue(Share.class);
                     assert shares != null;
                     if (shares.getImg_url().equals(finalUrl)) {
-                        if (shares.getUid().equals(auth.getUid())){
+                        if (shares.getUid().equals(auth.getUid())) {
                             DelImgview.setVisibility(View.VISIBLE);
-                        }else{
+                        } else {
                             DelImgview.setVisibility(View.GONE);
                         }
                     }
@@ -135,6 +135,7 @@ public class FullImageActivity extends AppCompatActivity {
         Img_del.removeValue();
         Toast.makeText(FullImageActivity.this, "done", Toast.LENGTH_LONG).show();
         finish();
+        overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
 
 }

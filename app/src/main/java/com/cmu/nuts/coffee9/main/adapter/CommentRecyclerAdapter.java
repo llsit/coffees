@@ -88,26 +88,18 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
     }
 
     class CommentHolder extends RecyclerView.ViewHolder {
-
-        //        TextView tv_rid;
-//        TextView tv_cid;
         TextView tv_datetime;
         TextView tv_detail;
-        //        TextView tv_uid;
         TextView tv_name;
         ImageView tv_image;
 
         @SuppressLint("WrongViewCast")
         CommentHolder(View itemView) {
             super(itemView);
-//            tv_cid = itemView.findViewById(R.id.item_review_sid);
             tv_datetime = itemView.findViewById(R.id.item_comment_datetime);
             tv_detail = itemView.findViewById(R.id.item_comment_description);
-//            tv_uid = itemView.findViewById(R.id.item_review_uid);
-//            tv_rid = itemView.findViewById(R.id.item_review_rid);
             tv_name = itemView.findViewById(R.id.item_comment_name);
             tv_image = itemView.findViewById(R.id.item_comment_image);
-
         }
     }
 }

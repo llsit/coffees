@@ -81,6 +81,7 @@ public class review_display_activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                overridePendingTransition(R.anim.fade_in, R.anim.slide_out_to_right);
             }
         });
 

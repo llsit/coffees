@@ -194,6 +194,7 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
                 snackbar.show();
 
                 Objects.requireNonNull(getActivity()).finish();
+                Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
             }
         });
     }
@@ -216,6 +217,7 @@ public class AddShopInFragment extends Fragment implements OnLocationUpdatedList
         i.putExtra("sid", coffee_ID);
         i.putExtra("arrayListTime", myobj);
         startActivityForResult(i, 1);
+        Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
     }
 
     @SuppressLint("SetTextI18n")

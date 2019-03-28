@@ -55,7 +55,7 @@ public class SearchFragment extends Fragment {
     private Activity activity;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
-    private List<Shop> shops = new ArrayList<>();
+    private ArrayList<Shop> shops = new ArrayList<>();
     private RecyclerView recyclerView;
     private ImageView filter;
     private CheckBox price_max, price_mid, price_min, star5, star4, star3, star2, star1, now;
@@ -79,6 +79,7 @@ public class SearchFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), AddShopActivity.class);
                 startActivity(intent);
+                Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
             }
         });
 
@@ -298,7 +299,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void onSearch(List<Shop> list, String key) {
-        List<Shop> new_shop = new ArrayList<>();
+        ArrayList<Shop> new_shop = new ArrayList<>();
         if (list.size() > 0) {
             for (int i = 1; i < list.size(); i++) {
                 try {
@@ -335,7 +336,7 @@ public class SearchFragment extends Fragment {
 
     }
 
-    private void setRecyclerView(List<Shop> list) {
+    private void setRecyclerView(ArrayList<Shop> list) {
         if (list.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
         } else {

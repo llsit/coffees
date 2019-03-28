@@ -46,12 +46,9 @@ import butterknife.OnClick;
 
 public class ReviewActivity extends AppCompatActivity {
 
-    private MenuItem post;
     private ImageView back, imageView;
-    private TextView descript;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-    private ImageButton add_a_photo;
 
     private String uid, sid, detail, img_url, datetime, star = "0";
     private String rid = mDatabase.push().getKey();
@@ -77,7 +74,7 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     private void addImage() {
-        add_a_photo = findViewById(R.id.review_upload_image);
+        ImageButton add_a_photo = findViewById(R.id.review_upload_image);
         add_a_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +119,7 @@ public class ReviewActivity extends AppCompatActivity {
     @OnClick(R.id.review_back)
     public void onBack() {
         finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.slide_out_to_right);
     }
 
     private void rating() {
@@ -157,7 +155,7 @@ public class ReviewActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_review, menu);
-        post = menu.findItem(R.id.post);
+        MenuItem post = menu.findItem(R.id.post);
         post.setVisible(true);
         return true;
     }
@@ -216,7 +214,7 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     public void addReview(int n) {
-        descript = findViewById(R.id.edt_name_des);
+        TextView descript = findViewById(R.id.edt_name_des);
         if (descript.getText().length() > 10) {
             datetime = DateFormat.getDateTimeInstance().format(new Date());
             uid = FirebaseAuth.getInstance().getUid();

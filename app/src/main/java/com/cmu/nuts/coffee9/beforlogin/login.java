@@ -40,11 +40,8 @@ public class login extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private EditText inputEmail, inputPassword;
-    private Button btnLogin;
-    private TextView link_signup;
     private CallbackManager mCallbackManager;
     private ProgressDialog progressDialog;
-    private LanguageManager languageManager;
     private DatabaseReference mDatabase;
 
     private static final String TAG = "FacebookLogin";
@@ -53,14 +50,14 @@ public class login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        languageManager = new LanguageManager(this);
+        LanguageManager languageManager = new LanguageManager(this);
         languageManager.setApplicationLanguage();
         progressDialog = ProgressDialog.show(this, "", getResources().getString(R.string.txt_please_waite), true, false);
 
         inputEmail = findViewById(R.id.email);
         inputPassword = findViewById(R.id.password);
-        link_signup = findViewById(R.id.link_signup);
-        btnLogin = findViewById(R.id.btn_login);
+        TextView link_signup = findViewById(R.id.link_signup);
+        Button btnLogin = findViewById(R.id.btn_login);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         auth = FirebaseAuth.getInstance();
@@ -110,9 +107,6 @@ public class login extends AppCompatActivity {
                 // [END_EXCLUDE]
             }
         });
-
-// ...
-
     }
 
     private void signIn(EditText inputEmail, final EditText inputPassword) {
@@ -224,7 +218,6 @@ public class login extends AppCompatActivity {
         Member member = new Member(uid, name, email, photoUrl, provider, birthdate, regDate);
 
         mDatabase.child(Member.tag).child(uid).setValue(member);
-
     }
 
     private void updateUI(FirebaseUser user) {
@@ -232,6 +225,7 @@ public class login extends AppCompatActivity {
         if (user != null) {
             Intent intent = new Intent(login.this, main.class);
             startActivity(intent);
+            Objects.requireNonNull(this).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             finish();
         }
     }

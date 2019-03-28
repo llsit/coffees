@@ -31,7 +31,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import static java.security.AccessController.getContext;
@@ -42,12 +44,12 @@ import static java.security.AccessController.getContext;
 
 public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapter.ShopHolder> {
 
-    private List<Shop> shops;
+    private ArrayList<Shop> shops;
     private Activity activity;
     private DatabaseReference mDatabase;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-    public ShopRecyclerAdapter(List<Shop> shops, Activity activity) {
+    public ShopRecyclerAdapter(ArrayList<Shop> shops, Activity activity) {
         this.shops = shops;
         this.activity = activity;
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -149,6 +151,7 @@ public class ShopRecyclerAdapter extends RecyclerView.Adapter<ShopRecyclerAdapte
                 shopID = shop.getSid();
                 i.putExtra("shopID", shopID);
                 activity.startActivityForResult(i, 1);
+                activity.overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
             }
         });
 

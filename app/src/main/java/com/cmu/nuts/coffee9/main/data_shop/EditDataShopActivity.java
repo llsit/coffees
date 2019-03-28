@@ -20,8 +20,6 @@ public class EditDataShopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_data_shop);
         Toolbar toolbar = findViewById(R.id.toolbareditShop);
-
-        toolbar.setTitle(getString(R.string.txt_add_coffee_shop));
         setSupportActionBar(toolbar);
         toolbar.setTitle("Edit Coffee Shop");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -49,5 +47,7 @@ public class EditDataShopActivity extends AppCompatActivity {
 
     public void onBackPressed() {
         finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.slide_out_to_right);
     }
+
 }

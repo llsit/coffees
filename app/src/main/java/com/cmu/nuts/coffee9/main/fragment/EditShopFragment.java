@@ -178,6 +178,7 @@ public class EditShopFragment extends Fragment implements OnLocationUpdatedListe
         i.putExtra("sid", coffee_ID);
         i.putExtra("arrayListTime", myOh);
         startActivityForResult(i, 1);
+        Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
     }
 
     private void editDataShop() {
@@ -214,8 +215,8 @@ public class EditShopFragment extends Fragment implements OnLocationUpdatedListe
                 Snackbar snackbar = Snackbar
                         .make(Objects.requireNonNull(getView()), "Update Success", Snackbar.LENGTH_LONG);
                 snackbar.show();
-
                 Objects.requireNonNull(getActivity()).finish();
+                Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
             }
         });
     }

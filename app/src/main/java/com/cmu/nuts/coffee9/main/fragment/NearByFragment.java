@@ -136,6 +136,7 @@ public class NearByFragment extends Fragment implements GoogleMap.OnMyLocationBu
                 Intent intent = new Intent(getActivity(), DataShopActivity.class);
                 intent.putExtra("shopID", uid);
                 startActivity(intent);
+                Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
                 return true;
             }
         });

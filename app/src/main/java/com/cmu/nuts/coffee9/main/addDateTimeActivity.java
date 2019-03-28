@@ -49,7 +49,6 @@ public class addDateTimeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_add_date_time);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,6 +59,7 @@ public class addDateTimeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 setResult(Activity.RESULT_OK, new Intent().putExtra(EXTRA_DATA, arrayList));
                 finish();
+                overridePendingTransition(R.anim.fade_in, R.anim.slide_out_to_right);
             }
         });
 
@@ -207,5 +207,6 @@ public class addDateTimeActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.slide_out_to_right);
     }
 }

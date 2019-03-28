@@ -101,7 +101,7 @@ public class register extends AppCompatActivity {
     private void newMember(FirebaseUser mid) {
         Member user = new Member(mid.getUid(), name, mid.getEmail(),
                 String.valueOf(mid.getPhotoUrl()), String.valueOf(mid.getProviders()),
-                " ", mid.getMetadata().getCreationTimestamp());
+                "", mid.getMetadata().getCreationTimestamp());
 
         mDatabase.child(Member.tag).child(mid.getUid()).setValue(user);
 

@@ -125,11 +125,16 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
                 date.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (!member.getBirthDate().equals("") || !birthdate.isEmpty()) {
-                            showDate(Integer.parseInt(member.getBirthDate().substring(10, 14)), Integer.parseInt(member.getBirthDate().substring(5, 7)), Integer.parseInt(member.getBirthDate().substring(0, 2)), R.style.DatePickerSpinner);
+                        if (birthdate.equals("")) {
+                            showDate(2000, 01, 01);
                         } else {
-                            showDate(2000, 01, 01, R.style.DatePickerSpinner);
+                            showDate(Integer.parseInt(member.getBirthDate().substring(10, 14)), Integer.parseInt(member.getBirthDate().substring(5, 7)), Integer.parseInt(member.getBirthDate().substring(0, 2)));
                         }
+//                        if (!member.getBirthDate().equals(" ") || !birthdate.isEmpty()) {
+//                            showDate(Integer.parseInt(member.getBirthDate().substring(10, 14)), Integer.parseInt(member.getBirthDate().substring(5, 7)), Integer.parseInt(member.getBirthDate().substring(0, 2)), R.style.DatePickerSpinner);
+//                        } else {
+//                            showDate(2000, 01, 01, R.style.DatePickerSpinner);
+//                        }
                     }
                 });
             }
@@ -145,13 +150,13 @@ public class ProfileWithEditFragment extends Fragment implements DatePickerDialo
 
 
     //    @VisibleForTesting
-    void showDate(int year, int monthOfYear, int dayOfMonth, int spinnerTheme) {
-        Toast.makeText(activity, "year = " + year + "month = " + monthOfYear + " day = " + dayOfMonth + " spinner = " + spinnerTheme, Toast.LENGTH_SHORT).show();
+    void showDate(int year, int monthOfYear, int dayOfMonth) {
+        Toast.makeText(activity, "year = " + year + "month = " + monthOfYear + " day = " + dayOfMonth + " spinner = " + R.style.DatePickerSpinner, Toast.LENGTH_SHORT).show();
         new SpinnerDatePickerDialogBuilder()
                 .context(getActivity())
                 .callback(ProfileWithEditFragment.this)
-                .spinnerTheme(spinnerTheme)
-                .defaultDate(year, monthOfYear, dayOfMonth)
+                .spinnerTheme(R.style.DatePickerSpinner)
+                .defaultDate(year, monthOfYear - 1, dayOfMonth)
                 .minDate(1940, 0, 1)
                 .maxDate(2018, 0, 1)
                 .build()

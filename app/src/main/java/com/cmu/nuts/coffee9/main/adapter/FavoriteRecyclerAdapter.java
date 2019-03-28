@@ -1,6 +1,7 @@
 package com.cmu.nuts.coffee9.main.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -29,23 +30,24 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
+import java.util.Objects;
 
 public class FavoriteRecyclerAdapter extends RecyclerView.Adapter<FavoriteRecyclerAdapter.FavHolder> {
 
     private List<Shop> shops;
-    private Context context;
+    private Activity activity;
     private FavoriteFragment favoriteFragment;
 
-    public FavoriteRecyclerAdapter(List<Shop> shops, Context context, FavoriteFragment favoriteFragment) {
+    public FavoriteRecyclerAdapter(List<Shop> shops, Activity activity, FavoriteFragment favoriteFragment) {
         this.shops = shops;
-        this.context = context;
+        this.activity = activity;
         this.favoriteFragment = favoriteFragment;
     }
 
     @NonNull
     @Override
     public FavHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_fav, parent, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.item_fav, parent, false);
         return new FavHolder(view);
     }
 
@@ -73,10 +75,10 @@ public class FavoriteRecyclerAdapter extends RecyclerView.Adapter<FavoriteRecycl
                                 if (shop.getSid().equals(fav.getSid())) {
                                     mDatabase.child(fav.getFid()).removeValue();
                                     favoriteFragment.refresh();
-                                    Toast.makeText(context, "Done", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(activity, "Done", Toast.LENGTH_LONG).show();
                                 }
                             } else {
-                                Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
+                                Toast.makeText(activity, "Failed", Toast.LENGTH_LONG).show();
                             }
                         }
                     }
@@ -93,12 +95,13 @@ public class FavoriteRecyclerAdapter extends RecyclerView.Adapter<FavoriteRecycl
             @Override
             public void onClick(View v) {
                 //open new Activity that show Shop content
-                Toast.makeText(context, position + " name : " + shop.getSid(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(activity, position + " name : " + shop.getSid(), Toast.LENGTH_LONG).show();
                 Intent i = new Intent(v.getContext(), DataShopActivity.class);
                 String shopID;
                 shopID = shop.getSid();
                 i.putExtra("shopID", shopID);
-                v.getContext().startActivity(i);
+                activity.startActivity(i);
+                activity.overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
             }
         });
     }

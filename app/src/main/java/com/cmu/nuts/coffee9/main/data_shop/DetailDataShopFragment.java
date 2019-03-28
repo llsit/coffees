@@ -108,6 +108,7 @@ public class DetailDataShopFragment extends Fragment {
                             i.putExtra("Lat", latlong[0]);
                             i.putExtra("Lng", latlong[1]);
                             startActivity(i);
+                            Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
                         }
                     });
                 }
@@ -143,6 +144,7 @@ public class DetailDataShopFragment extends Fragment {
                 Intent i = new Intent(getContext(), ShowTimeActivity.class);
                 i.putExtra("openTimes", openTimes);
                 startActivityForResult(i, 1);
+                Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
             }
         });
     }

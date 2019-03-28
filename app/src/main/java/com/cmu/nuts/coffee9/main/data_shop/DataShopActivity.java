@@ -128,6 +128,7 @@ public class DataShopActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                overridePendingTransition(R.anim.fade_in, R.anim.slide_out_to_right);
             }
         });
 
@@ -149,6 +150,7 @@ public class DataShopActivity extends AppCompatActivity {
                     Intent intent = new Intent(DataShopActivity.this, ReviewActivity.class);
                     intent.putExtra("shopID", shop_ID);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
                 }
             }
         });
@@ -308,12 +310,13 @@ public class DataShopActivity extends AppCompatActivity {
                 Intent intent = new Intent(DataShopActivity.this, EditDataShopActivity.class);
                 intent.putExtra("shopid", shop_ID);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_from_right, R.anim.fade_out);
                 return true;
             case R.id.delete_data_shop:
                 // Code you want run when activity is clicked
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(this);
-                builder.setMessage("รับขนมจีบซาลาเปาเพิ่มมั้ยครับ?");
+                builder.setMessage("คุณต้องการจะลบจริงหรือไม่?");
                 builder.setPositiveButton("ใช่", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         deleteShop();
@@ -339,7 +342,6 @@ public class DataShopActivity extends AppCompatActivity {
     }
 
     private void deleteShop() {
-
         DatabaseReference delDatabase = FirebaseDatabase.getInstance().getReference(Shop.tag);
         DatabaseReference RdelDatabase = FirebaseDatabase.getInstance().getReference(Review.tag);
         DatabaseReference SdelDatabase = FirebaseDatabase.getInstance().getReference(Share.tag);
@@ -350,8 +352,8 @@ public class DataShopActivity extends AppCompatActivity {
         Toast.makeText(this, "Delete Success", Toast.LENGTH_SHORT).show();
         setResult(Activity.RESULT_OK, new Intent().putExtra(EXTRA_DATA, 1));
         finish();
+        overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
-
 
     @Override
     protected void onResume() {
