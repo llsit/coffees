@@ -26,19 +26,13 @@
 ## Screenshots
 ### login
 <p align="center">
-  <img src="https://github.com/llsit/coffees/blob/master/screenshots/login.png">
+  <img src="https://github.com/llsit/coffees/blob/master/screenshot/2019-03-26_16-13-51.png">
 </p>
 <p align="center">
-  <img src="https://github.com/llsit/coffees/blob/master/screenshots/register.png">
+  <img src="https://github.com/llsit/coffees/blob/master/screenshot/2019-03-26_16-15-39.png">
 </p>
 <p align="center">
-  <img src="https://github.com/llsit/coffees/blob/master/screenshots/home.png">
-</p>
-<p align="center">
-  <img src="https://github.com/llsit/coffees/blob/master/screenshots/search.png">
-</p>
-<p align="center">
-  <img src="https://github.com/llsit/coffees/blob/master/screenshots/datashop.png">
+  <img src="https://github.com/llsit/coffees/blob/master/screenshot/2019-03-26_16-15-59.png">
 </p>
 
 ## Libralies
