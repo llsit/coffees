@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.cmu.nuts.coffee9.R;
 import com.cmu.nuts.coffee9.main.data_shop.DataShopActivity;
+import com.cmu.nuts.coffee9.main.retrofit.DistanceService;
 import com.cmu.nuts.coffee9.model.Shop;
 import com.cmu.nuts.coffee9.utillity.PermissionUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -48,7 +49,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 
@@ -56,6 +59,13 @@ import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
 import io.nlopez.smartlocation.location.config.LocationAccuracy;
 import io.nlopez.smartlocation.location.config.LocationParams;
+import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 import static com.facebook.login.widget.ProfilePictureView.TAG;
 
@@ -72,7 +82,6 @@ public class NearByFragment extends Fragment implements GoogleMap.OnMyLocationBu
     private Activity activity;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
-    private ArrayList<Shop> shopArrayList = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -90,44 +99,48 @@ public class NearByFragment extends Fragment implements GoogleMap.OnMyLocationBu
     }
 
     private void setMaps(final double latitude, final double longitude) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Shop.tag);
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    final Shop shop = item.getValue(Shop.class);
-                    assert shop != null;
-                    shopArrayList.add(shop);
-                    showLocation();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), "Error while getting coffee shop's location cause by : ".concat(databaseError.getMessage()), Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        findnearby(latitude, longitude);
         // For dropping a marker at a point on the Map
         LatLng current = new LatLng(latitude, longitude);
-        googleMap.addMarker(new MarkerOptions().position(current).title("Here").snippet("Me"));
+//        googleMap.addMarker(new MarkerOptions().position(current).title("Here").snippet("Me"));
         // For zooming automatically to the location of the marker
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(current).zoom(16).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(current).zoom(15).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
-    public void showLocation() {
-        for (int i = 0; i < shopArrayList.size(); i++) {
-            String locals = shopArrayList.get(i).getLocation();
+    private void findnearby(double latitude, double longitude) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://coffee9.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        DistanceService service = retrofit.create(DistanceService.class);
+        Call<List<Shop>> repos = service.NearbyShop(latitude, longitude);
+        repos.enqueue(new Callback<List<Shop>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Shop>> call, @NonNull Response<List<Shop>> response) {
+                List<Shop> list = response.body();
+                showLocation(list);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Shop>> call, @NonNull Throwable t) {
+                Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showLocation(List<Shop> list) {
+        for (int i = 0; i < list.size(); i++) {
+            String locals = list.get(i).getLocation();
             final String separated[] = locals.split("\\|");
             final LatLng latLng = new LatLng(Double.valueOf(separated[0]), Double.valueOf(separated[1]));
-            MarkerOptions marker = new MarkerOptions().position(latLng).title(shopArrayList.get(i).getName()).snippet("Coffee cafe'");
+            MarkerOptions marker = new MarkerOptions().position(latLng).title(list.get(i).getName()).snippet("Coffee cafe'");
             BitmapDrawable icon = (BitmapDrawable) getResources().getDrawable(R.drawable.img_cafe_location);
             Bitmap bitmap = icon.getBitmap();
             Bitmap smallMarker = Bitmap.createScaledBitmap(bitmap, 100, 100, false);
             marker.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
             Marker markers = googleMap.addMarker(marker);
-            final String shopid = shopArrayList.get(i).getSid();
+            final String shopid = list.get(i).getSid();
             markers.setTag(shopid);
             googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
